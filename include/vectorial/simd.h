@@ -28,7 +28,7 @@ namespace vectorial {
     class simd4f {
     public:
 
-        #ifdef VECTORIAL_GCC
+        #ifdef VECTORIAL_GNU
             typedef float v4f __attribute__ ((vector_size (16)));
         #endif
         

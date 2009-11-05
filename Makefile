@@ -12,8 +12,30 @@ CC=g++
 SPEC_SRC = $(wildcard spec/*.cpp)
 SPEC_OBJ = $(SPEC_SRC:.cpp=.o)
 
+SUFFIX=
+
 DEFAULT_CC=1
 
+ifeq ($(FORCE_SCALAR),1)
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SCALAR 
+	SUFFIX=-scalar
+endif
+
+ifeq ($(FORCE_SSE),1)
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE 
+	SUFFIX=-sse
+endif
+
+ifeq ($(FORCE_GNU),1)
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_GNU 
+	SUFFIX=-gnu
+endif
+
+ifeq ($(FORCE_NEON),1)
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_NEON
+	SUFFIX=-neon
+	ARM=1
+endif
 
 
 ifeq ($(ARM),1)
@@ -41,20 +63,33 @@ endif
 
 
 
-all: specsuite
-	./specsuite
+all: specsuite$(SUFFIX)
+	./specsuite$(SUFFIX)
 
 
-specsuite: $(SPEC_OBJ)
+full:
+	FORCE_SCALAR=1 $(MAKE) clean specsuite-scalar
+	FORCE_GNU=1 $(MAKE) clean specsuite-gnu
+	FORCE_SSE=1 $(MAKE) clean specsuite-sse
+	FORCE_NEON=1 $(MAKE) clean specsuite-neon
+	./specsuite-scalar
+	./specsuite-sse
+	./specsuite-gnu
+
+specsuite$(SUFFIX): $(SPEC_OBJ)
 	$(CXX) $(SPEC_OBJ) -o $@
 
 depend:
 	@echo DEP
-	@makedepend -Y -- $(CXXFLAGS) -- $(SRCS) $(SPEC_SRC)  > /dev/null 2>&1 
+	@makedepend -Y -- $(CXXFLAGS) -- $(SPEC_SRC)  > /dev/null 2>&1 
 	@$(RM) Makefile.bak
 
 clean:
-	rm -f specsuite $(SPEC_OBJ)
+	rm -f $(SPEC_OBJ)
+
+realclean: clean
+	rm -f specsuite*
+
 
 # DO NOT DELETE
 
