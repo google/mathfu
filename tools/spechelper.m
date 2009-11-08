@@ -2,9 +2,9 @@
 
 1;
 
-function spec_vec3 (val)
+function spec_vec4 (val)
 
-    printf("        should_be_equal_vec3(x, vec3f(%f, %f, %f, %f) );", val(1), val(2), val(3), val(4));
+    printf("        should_be_equal_vec3(x, vec4f(%f, %f, %f, %f), epsilon );", val(1), val(2), val(3), val(4));
 
 endfunction
 
