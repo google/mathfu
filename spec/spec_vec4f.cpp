@@ -21,7 +21,7 @@ describe(vec4f, "arithmetics") {
         vec4f x = a + b;
         
         // octave vec4: [1,2,3,4] + [2,3,4,5]
-        should_be_equal_vec3(x, vec4f(3.000000, 5.000000, 7.000000, 9.000000), epsilon );
+        should_be_equal_vec4f(x, vec4f(3.000000, 5.000000, 7.000000, 9.000000), epsilon );
         
     }
     
