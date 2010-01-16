@@ -5,8 +5,8 @@
 #include <iostream>
 #include "vectorial/vec4f.h"
 
-#define NUM (8192)
-#define ITER 10
+#define NUM (81920)
+#define ITER 100
 using namespace vectorial;
 
 vec4f* alloc_vec4f(size_t n) {

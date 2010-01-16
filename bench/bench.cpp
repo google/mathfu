@@ -1,6 +1,7 @@
 #include "bench.h"
 #include <sstream>
 #include <iostream>
+#include "vectorial/config.h"
 
 namespace profiler {
 
@@ -71,7 +72,7 @@ void profile(void (*func)(), int iterations, int elements) {
     }
     profiler::time_t end = profiler::now();
     
-    
+    std::cout << "Using simd: " << VECTORIAL_SIMD_TYPE << std::endl;
     std::cout << "Duration " << formatTime(profiler::diffTime(start,end)) << std::endl;
     std::cout << "Per iter " << formatTime(profiler::diffTime(start,end) / iterations) << std::endl;
     std::cout << "Per item " << formatTime(profiler::diffTime(start,end) / iterations / elements) << std::endl;

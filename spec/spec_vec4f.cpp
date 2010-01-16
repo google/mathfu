@@ -1,62 +1,38 @@
 #include "spec_helper.h"
 #include <iostream>
 using vectorial::vec4f;
+using vectorial::simd4f;
 
 const float epsilon = 0.00001f;
 
-describe(vec4f, "sanity") {
-    it("has simd-type") {
-        std::cout << "Using simd: " << VECTORIAL_SIMD_TYPE << std::endl;
-    }
-}
 
-describe(vec4f, "arithmetics with other vec4f") {
-    
-    
-    it("should component-wise add") {
-        vec4f a(1,2,3,4);
-        vec4f b(2,3,4,5);
-        
-        vec4f x = a + b;
-        
-        // octave vec4: [1,2,3,4] + [2,3,4,5]
-        should_be_equal_vec4f(x, vec4f(3.000000, 5.000000, 7.000000, 9.000000), epsilon );
-        
-    }
-    
-    it("should component-wise multiply") {
-        vec4f a(1,2,3,4);
-        vec4f b(2,3,4,5);
-        
-        vec4f x = a * b;
-        
-        // octave vec4: [1,2,3,4] .* [2,3,4,5]
-        should_be_equal_vec4f(x, vec4f(2.000000, 6.000000, 12.000000, 20.000000), epsilon );
-    }
-     
-}
 
-describe(vec4f, "arithmetics with other scalar") {
-
-    it("should add") {
+describe(vec4f, "vector ops") {
+    it("should have length_squared function") {
         vec4f a(1,2,3,4);
-        float b = 2.2f;
+        float x = vectorial::length_squared(a);
         
-        vec4f x = a + b;
+        // octave: dot([1,2,3,4],[1,2,3,4])
+        should_be_close_to(x, 30.000000, epsilon );
+    }
+
+    it("should have length function") {
+        vec4f a(1,2,3,4);
+        float x = vectorial::length(a);
         
-        // octave vec4: [1,2,3,4] + 2.2
-        should_be_equal_vec4f(x, vec4f(3.200000, 4.200000, 5.200000, 6.200000), epsilon );
-        
+        // octave: sqrt(dot([1,2,3,4],[1,2,3,4]))
+        should_be_close_to(x, 5.477226, epsilon );
     }
     
-    it("should multiply") {
+    it("should have dot function") {
         vec4f a(1,2,3,4);
-        float b = 2.2f;
+        vec4f b(6,7,8,9);
+        float x = vectorial::dot(a,b);
         
-        vec4f x = a * b;
-        
-        // octave vec4: [1,2,3,4] .* 2.2
-        should_be_equal_vec4f(x, vec4f(2.200000, 4.400000, 6.600000, 8.800000), epsilon );
+        // octave: dot([1,2,3,4],[6,7,8,9])
+        should_be_close_to(x, 80.000000, epsilon );
     }
 
 }
+
+

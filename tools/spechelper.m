@@ -2,9 +2,18 @@
 
 1;
 
-function spec_vec4 (val)
+function spec_formatter (val)
 
-    printf("        should_be_equal_vec4f(x, vec4f(%f, %f, %f, %f), epsilon );", val(1), val(2), val(3), val(4));
+    if( isscalar(val) == 1 ) 
+        printf("        should_be_close_to(x, %f, epsilon );", val);
+        return;
+    endif
+
+
+    if( size(val) == [1,4] ) 
+        printf("        should_be_equal_simd4f(x, simd4f(%f, %f, %f, %f), epsilon );", val(1), val(2), val(3), val(4));
+        return;
+    endif
 
 endfunction
 

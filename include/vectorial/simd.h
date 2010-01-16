@@ -23,24 +23,25 @@
 #else
 
 #include <cstdlib> // size_t .. 
-
+#include <cmath>
 
 namespace vectorial {
+
+    #ifdef VECTORIAL_GNU
+        typedef float v4f __attribute__ ((vector_size (16)));
+    #endif
+    
+    #ifdef VECTORIAL_SSE
+        typedef __m128 v4f;
+    #endif
+
+    #ifdef VECTORIAL_NEON
+        typedef float32x4_t v4f;
+    #endif
     
     class simd4f {
     public:
 
-        #ifdef VECTORIAL_GNU
-            typedef float v4f __attribute__ ((vector_size (16)));
-        #endif
-        
-        #ifdef VECTORIAL_SSE
-            typedef __m128 v4f;
-        #endif
-
-        #ifdef VECTORIAL_NEON
-            typedef float32x4_t v4f;
-        #endif
         
     
         union simd_value {
@@ -57,29 +58,6 @@ namespace vectorial {
         vectorial_inline simd4f(float x, float y, float z, float w) { v4f v = {x,y,z,w}; value.v=v; }
         vectorial_inline simd4f(float fv[4]) { v4f v = {fv[0],fv[1],fv[2],fv[3]}; value.v=v; }
 
-        vectorial_inline simd4f operator+(const simd4f& other) const { 
-            simd4f ret; ret.value.v = value.v + other.value.v;
-            return ret; 
-        }
-
-        vectorial_inline simd4f operator*(const simd4f& other) const { 
-            simd4f ret; ret.value.v=(value.v * other.value.v); 
-            return ret;
-        }
-
-
-        vectorial_inline simd4f operator+(float other) const { 
-            v4f o = {other, other, other, other};
-            simd4f ret; ret.value.v = (value.v + o);
-            return ret;
-        }
-
-        vectorial_inline simd4f operator*(float other) const { 
-            v4f o = {other, other, other, other};
-            simd4f ret; ret.value.v = (value.v * o); 
-            return ret;
-        }
-        
         
 //        vectorial_inline const float& operator[](size_t i) const { return value.f[i]; }
 //        vectorial_inline float& operator[](size_t i) { return value.f[i]; }
@@ -92,6 +70,34 @@ namespace vectorial {
 
     
     };
+
+
+    static simd4f operator+(const simd4f& lhs, const simd4f& rhs) { 
+        simd4f ret; ret.value.v = lhs.value.v + rhs.value.v;
+        return ret; 
+    }
+
+    static simd4f operator*(const simd4f& lhs, const simd4f& rhs) { 
+        simd4f ret; ret.value.v=(lhs.value.v * rhs.value.v); 
+        return ret;
+    }
+
+
+    static simd4f operator+(const simd4f& lhs, float rhs) { 
+        v4f o = {rhs, rhs, rhs, rhs};
+        simd4f ret; ret.value.v = (lhs.value.v + o);
+        return ret;
+    }
+
+    static simd4f operator*(const simd4f& lhs, float rhs) { 
+        v4f o = {rhs, rhs, rhs, rhs};
+        simd4f ret; ret.value.v = (lhs.value.v * o); 
+        return ret;
+    }
+
+    
+    
+
 
 }
 

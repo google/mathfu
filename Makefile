@@ -76,10 +76,14 @@ all: specsuite$(SUFFIX)
 
 
 full:
-	FORCE_SCALAR=1 $(MAKE) clean specsuite-scalar
-	FORCE_GNU=1 $(MAKE) clean specsuite-gnu
-	FORCE_SSE=1 $(MAKE) clean specsuite-sse
-	FORCE_NEON=1 $(MAKE) clean specsuite-neon
+	FORCE_SCALAR=1 $(MAKE) clean 
+	FORCE_SCALAR=1 $(MAKE) specsuite-scalar
+	FORCE_GNU=1 $(MAKE) clean 
+	FORCE_GNU=1 $(MAKE) specsuite-gnu
+	FORCE_SSE=1 $(MAKE) clean 
+	FORCE_SSE=1 $(MAKE) specsuite-sse
+	FORCE_NEON=1 $(MAKE) clean 
+	FORCE_NEON=1 $(MAKE) specsuite-neon
 	./specsuite-scalar
 	./specsuite-sse
 	./specsuite-gnu
@@ -97,10 +101,14 @@ benchmark$(SUFFIX): $(BENCH_OBJ)
 	$(CXX) $^ -o $@
 
 bench-full:
-	FORCE_SCALAR=1 $(MAKE) clean benchmark-scalar
-	FORCE_GNU=1 $(MAKE) clean benchmark-gnu
-	FORCE_SSE=1 $(MAKE) clean benchmark-sse
-	FORCE_NEON=1 $(MAKE) clean benchmark-neon
+	FORCE_SCALAR=1 $(MAKE) clean 
+	FORCE_SCALAR=1 $(MAKE) benchmark-scalar
+	FORCE_GNU=1 $(MAKE) clean 
+	FORCE_GNU=1 $(MAKE) benchmark-gnu
+	FORCE_SSE=1 $(MAKE) clean 
+	FORCE_SSE=1 $(MAKE) benchmark-sse
+	FORCE_NEON=1 $(MAKE) clean 
+	FORCE_NEON=1 $(MAKE) benchmark-neon
 	./benchmark-scalar
 	./benchmark-sse
 	./benchmark-gnu
@@ -116,8 +124,10 @@ realclean: clean
 
 spec/spec.o: spec/spec.h
 spec/spec_main.o: spec/spec.h
+spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h include/vectorial/vec4f.h
+spec/spec_simd4f.o: include/vectorial/simd.h include/vectorial/config.h
 spec/spec_vec4f.o: spec/spec_helper.h spec/spec.h include/vectorial/vec4f.h
 spec/spec_vec4f.o: include/vectorial/simd.h include/vectorial/config.h
 bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
 bench/add_bench.o: include/vectorial/simd.h include/vectorial/config.h
-bench/bench.o: bench/bench.h
+bench/bench.o: bench/bench.h include/vectorial/config.h

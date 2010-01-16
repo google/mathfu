@@ -2,36 +2,19 @@
 #define VECTORIAL_SIMD_SCALAR_H
 
 #include <cstdlib> // size_t .. 
+#include <cmath>
 
 namespace vectorial {
     
     class simd4f {
-
-    private:
-        float f[4];
-
     public:
+        float f[4];
 
     
         vectorial_inline simd4f() {}
         vectorial_inline simd4f(const simd4f& v) { f[0] = v.f[0]; f[1] = v.f[1]; f[2] = v.f[2]; f[3] = v.f[3]; }
         vectorial_inline simd4f(float x_, float y_, float z_, float w_) { f[0]=x_; f[1]=y_; f[2]=z_; f[3]=w_; }
 
-        vectorial_inline simd4f operator+(const simd4f& other) const { 
-            return simd4f(f[0]+other.f[0], f[1]+other.f[1], f[2]+other.f[2], f[3]+other.f[3]); 
-        }
-
-        vectorial_inline simd4f operator*(const simd4f& other) const { 
-            return simd4f(f[0]*other.f[0], f[1]*other.f[1], f[2]*other.f[2], f[3]*other.f[3]); 
-        }
-
-        vectorial_inline simd4f operator+(float other) const { 
-            return simd4f(f[0]+other, f[1]+other, f[2]+other, f[3]+other); 
-        }
-
-        vectorial_inline simd4f operator*(float other) const { 
-            return simd4f(f[0]*other, f[1]*other, f[2]*other, f[3]*other); 
-        }
 
         
         vectorial_inline const float& operator [] (size_t i) const { return f[i]; }
@@ -43,6 +26,25 @@ namespace vectorial {
         vectorial_inline const float& w() const { return f[3]; }
     
     };
+
+
+    static simd4f operator+(const simd4f& lhs, const simd4f& rhs) { 
+        return simd4f(lhs.f[0]+rhs.f[0], lhs.f[1]+rhs.f[1], lhs.f[2]+rhs.f[2], lhs.f[3]+rhs.f[3]); 
+    }
+
+    static simd4f operator*(const simd4f& lhs, const simd4f& rhs) { 
+        return simd4f(lhs.f[0]*rhs.f[0], lhs.f[1]*rhs.f[1], lhs.f[2]*rhs.f[2], lhs.f[3]*rhs.f[3]); 
+    }
+
+    static simd4f operator+(const simd4f& lhs, float rhs) { 
+        return simd4f(lhs.f[0]+rhs, lhs.f[1]+rhs, lhs.f[2]+rhs, lhs.f[3]+rhs); 
+    }
+
+    static simd4f operator*(const simd4f& lhs, float rhs) { 
+        return simd4f(lhs.f[0]*rhs, lhs.f[1]*rhs, lhs.f[2]*rhs, lhs.f[3]*rhs); 
+    }
+
+
 
 }
 
