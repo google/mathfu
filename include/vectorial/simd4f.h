@@ -82,6 +82,11 @@ namespace vectorial {
         return ret;
     }
 
+    static simd4f operator/(const simd4f& lhs, const simd4f& rhs) { 
+        simd4f ret; ret.value.v=(lhs.value.v / rhs.value.v); 
+        return ret;
+    }
+
 
     static simd4f operator+(const simd4f& lhs, float rhs) { 
         v4f o = {rhs, rhs, rhs, rhs};
@@ -95,10 +100,73 @@ namespace vectorial {
         return ret;
     }
 
+    static simd4f operator/(const simd4f& lhs, float rhs) { 
+        v4f o = {rhs, rhs, rhs, rhs};
+        simd4f ret; ret.value.v = (lhs.value.v / o); 
+        return ret;
+    }
+
+    static simd4f operator+(float lhs, const simd4f& rhs) { 
+        v4f o = {lhs, lhs, lhs, lhs};
+        simd4f ret; ret.value.v = (o + rhs.value.v);
+        return ret;
+    }
+
+    static simd4f operator*(float lhs, const simd4f& rhs) { 
+        v4f o = {lhs, lhs, lhs, lhs};
+        simd4f ret; ret.value.v = (o * rhs.value.v); 
+        return ret;
+    }
+
+    static simd4f operator/(float lhs, const simd4f& rhs) { 
+        v4f o = {lhs, lhs, lhs, lhs};
+        simd4f ret; ret.value.v = (o / rhs.value.v); 
+        return ret;
+    }
+
+
     static simd4f sin(const simd4f& v) {
         // TODO:
         return simd4f(sinf(v.x()), sinf(v.y()), sinf(v.z()), sinf(v.w()));
     }
+
+    static simd4f cos(const simd4f& v) {
+        // TODO:
+        return simd4f(cosf(v.x()), cosf(v.y()), cosf(v.z()), cosf(v.w()));
+    }
+    
+    static simd4f tan(const simd4f& v) {
+        // TODO:
+        return simd4f(tanf(v.x()), tanf(v.y()), tanf(v.z()), tanf(v.w()));
+    }
+
+
+    static simd4f asin(const simd4f& v) {
+        // TODO:
+        return simd4f(asinf(v.x()), asinf(v.y()), asinf(v.z()), asinf(v.w()));
+    }
+
+    static simd4f acos(const simd4f& v) {
+        // TODO:
+        return simd4f(acosf(v.x()), acosf(v.y()), acosf(v.z()), acosf(v.w()));
+    }
+    
+    static simd4f atan(const simd4f& v) {
+        // TODO:
+        return simd4f(atanf(v.x()), atanf(v.y()), atanf(v.z()), atanf(v.w()));
+    }
+
+    static simd4f atan2(const simd4f& v, const simd4f& u) {
+        // TODO:
+        return simd4f(atan2f(v.x(), u.x()), atan2f(v.y(), u.y()), atan2f(v.z(), u.z()), atan2f(v.w(), u.w()));
+    }
+    
+    
+    static simd4f sqrt(const simd4f& v) {
+        // TODO:
+        return simd4f(sqrtf(v.x()), sqrtf(v.y()), sqrtf(v.z()), sqrtf(v.w()));
+    }
+    
     
 
 
