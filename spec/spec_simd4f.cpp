@@ -152,12 +152,34 @@ describe(simd4f, "trig functions") {
 
 }
 
-describe(simd4f, "functions") {
+describe(simd4f, "common functions") {
     it("should have sqrt function") {
         simd4f a(1,2,3,4);
         simd4f x = vectorial::sqrt(a);
         // octave: sqrt([1,2,3,4])
         should_be_equal_simd4f(x, simd4f(1.000000, 1.414214, 1.732051, 2.000000), epsilon );
     }
+
+    it("should have inversesqrt function") {
+        simd4f a(1,2,3,4);
+        simd4f x = 1.0f/vectorial::sqrt(a);
+        // octave: 1.0./sqrt([1,2,3,4])
+        should_be_equal_simd4f(x, simd4f(1.000000, 0.707107, 0.577350, 0.500000), epsilon );
+    }
+    
+    it("should have abs function") {
+        simd4f a(1,-2,3,-4);
+        simd4f x = vectorial::abs(a);
+        // octave: abs([1,-2,3,-4])
+        should_be_equal_simd4f(x, simd4f(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+    }
+
+    it("should have sign function") {
+        simd4f a(1,-2,3,-4);
+        simd4f x = vectorial::sign(a);
+        // octave: sign([1,-2,3,-4])
+        should_be_equal_simd4f(x, simd4f(1.000000, -1.000000, 1.000000, -1.000000), epsilon );
+    }
+
 }
 

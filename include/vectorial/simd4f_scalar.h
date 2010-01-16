@@ -102,6 +102,26 @@ namespace vectorial {
         return simd4f(sqrtf(v.x()), sqrtf(v.y()), sqrtf(v.z()), sqrtf(v.w()));
     }
 
+    static simd4f inversesqrt(const simd4f& v) {
+        return 1.0f/sqrt(v);
+    }
+
+    static simd4f abs(const simd4f& v) {
+        return simd4f(fabsf(v.x()), fabsf(v.y()), fabsf(v.z()), fabsf(v.w()));        
+    }
+
+    namespace impl {
+        static float sign(float f) {
+            if(f < 0.0f) return -1.0f;
+            if(f > 0.0f) return 1.0f;
+            return 0.0f;
+        }
+    }
+
+    static simd4f sign(const simd4f& v) {
+        return simd4f(impl::sign(v.x()),impl::sign(v.y()),impl::sign(v.z()),impl::sign(v.w()) );
+    }
+
 
 }
 
