@@ -1,5 +1,5 @@
-#ifndef VECTORIAL_SIMD_H
-#define VECTORIAL_SIMD_H
+#ifndef VECTORIAL_SIMD4F_H
+#define VECTORIAL_SIMD4F_H
 
 
 #ifndef VECTORIAL_CONFIG_H
@@ -19,7 +19,7 @@
 
 
 #ifdef VECTORIAL_SCALAR
-  #include "simd_scalar.h"
+  #include "simd4f_scalar.h"
 #else
 
 #include <cstdlib> // size_t .. 
@@ -95,7 +95,10 @@ namespace vectorial {
         return ret;
     }
 
-    
+    static simd4f sin(const simd4f& v) {
+        // TODO:
+        return simd4f(sinf(v.x()), sinf(v.y()), sinf(v.z()), sinf(v.w()));
+    }
     
 
 

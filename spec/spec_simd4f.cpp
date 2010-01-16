@@ -61,3 +61,11 @@ describe(simd4f, "arithmetics with other scalar") {
 
 }
 
+describe(simd4f, "trig functions") {
+    it("should have sin function") {
+        simd4f a(1,2,3,4);
+        simd4f x = vectorial::sin(a);
+        // octave: sin([1,2,3,4])
+        should_be_equal_simd4f(x, simd4f(0.841471, 0.909297, 0.141120, -0.756802), epsilon );
+    }
+}

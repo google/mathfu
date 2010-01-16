@@ -125,9 +125,6 @@ realclean: clean
 spec/spec.o: spec/spec.h
 spec/spec_main.o: spec/spec.h
 spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h include/vectorial/vec4f.h
-spec/spec_simd4f.o: include/vectorial/simd.h include/vectorial/config.h
 spec/spec_vec4f.o: spec/spec_helper.h spec/spec.h include/vectorial/vec4f.h
-spec/spec_vec4f.o: include/vectorial/simd.h include/vectorial/config.h
 bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
-bench/add_bench.o: include/vectorial/simd.h include/vectorial/config.h
 bench/bench.o: bench/bench.h include/vectorial/config.h

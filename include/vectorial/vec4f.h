@@ -1,7 +1,7 @@
 #ifndef VECTORIAL_VEC_H
 
-#ifndef VECTORIAL_SIMD_H
-  #include "vectorial/simd.h"
+#ifndef VECTORIAL_SIMD4F_H
+  #include "vectorial/simd4f.h"
 #endif
 
 
@@ -23,11 +23,11 @@ namespace vectorial {
 
     #ifdef VECTORIAL_SCALAR
 
-    static float dot(const vec4f& v) {
-        return v.f[0]*v.f[0] + 
-               v.f[1]*v.f[1] + 
-               v.f[2]*v.f[2] + 
-               v.f[3]*v.f[3]; 
+    static float dot(const vec4f& lhs, const vec4f& rhs) {
+        return lhs.f[0]*rhs.f[0] + 
+               lhs.f[1]*rhs.f[1] + 
+               lhs.f[2]*rhs.f[2] + 
+               lhs.f[3]*rhs.f[3]; 
     }
 
 
