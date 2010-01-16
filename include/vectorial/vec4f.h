@@ -29,10 +29,10 @@ namespace vectorial {
 #include <ostream>
 
 std::ostream& operator<<(std::ostream& os, const vectorial::vec4f& v) {
-    os << "[ " << v[0] << ", "
-               << v[1] << ", "
-               << v[2] << ", "
-               << v[3] << " ]";
+    os << "[ " << v.x() << ", "
+               << v.y() << ", "
+               << v.z() << ", "
+               << v.w() << " ]";
     return os;
 }
 #endif

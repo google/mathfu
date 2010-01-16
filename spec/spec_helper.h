@@ -13,10 +13,10 @@
 void should_be_equal_vec4f_(specific::SpecBase *spec, const vectorial::vec4f& a, const vectorial::vec4f& b, float tolerance, const char *file, int line) {
     
     bool equal=true;
-    if( fabs(b[0]-a[0]) > tolerance ) equal = false;
-    if( fabs(b[1]-a[1]) > tolerance ) equal = false;
-    if( fabs(b[2]-a[2]) > tolerance ) equal = false;
-    if( fabs(b[3]-a[3]) > tolerance ) equal = false;
+    if( fabs(b.x()-a.x()) > tolerance ) equal = false;
+    if( fabs(b.y()-a.y()) > tolerance ) equal = false;
+    if( fabs(b.z()-a.z()) > tolerance ) equal = false;
+    if( fabs(b.w()-a.w()) > tolerance ) equal = false;
     
     std::stringstream ss;
     ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
