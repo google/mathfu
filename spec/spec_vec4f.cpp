@@ -32,6 +32,13 @@ describe(vec4f, "vector ops") {
         // octave: dot([1,2,3,4],[6,7,8,9])
         should_be_close_to(x, 80.000000, epsilon );
     }
+    
+    it("should have normalize function") {
+        vec4f a(1,2,3,4);
+        vec4f x = vectorial::normalize(a);
+        // octave: [1,2,3,4] / sqrt(dot([1,2,3,4],[1,2,3,4]))
+        should_be_equal_simd4f(x, simd4f(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
+    }
 
 }
 

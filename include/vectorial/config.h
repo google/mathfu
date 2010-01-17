@@ -43,12 +43,17 @@
 
 
 #if defined(VECTORIAL_FORCED) && !defined(VECTORIAL_SIMD_TYPE)
-  #error VECTORIAL_FORCED set but no simd-type found, try f.ex. VECTORIAL_SCALAR
+    #error VECTORIAL_FORCED set but no simd-type found, try f.ex. VECTORIAL_SCALAR
 #endif
 
 
 #define vectorial_inline    inline
 #define vectorial_restrict  restrict
 
+#ifdef __GNUC__
+    #define vectorial_pure __attribute__((pure))
+#else
+    #define vectorial_pure
+#endif
 
 #endif

@@ -21,51 +21,25 @@ namespace vectorial {
     };
 
 
-    #ifdef VECTORIAL_SCALAR
-
     static float dot(const vec4f& lhs, const vec4f& rhs) {
-        return lhs.f[0]*rhs.f[0] + 
-               lhs.f[1]*rhs.f[1] + 
-               lhs.f[2]*rhs.f[2] + 
-               lhs.f[3]*rhs.f[3]; 
+        const simd4f m = lhs * rhs;
+        return m.x() + m.y() + m.z() + m.w(); 
     }
 
 
     static float length_squared(const vec4f& v) {
-        return v.f[0]*v.f[0] + 
-               v.f[1]*v.f[1] + 
-               v.f[2]*v.f[2] + 
-               v.f[3]*v.f[3]; 
+        return dot(v,v); 
     }
     
     static float length(const vec4f& v) {
         return sqrtf(length_squared(v));
     }
-    
-    #else
 
-    static float length_squared(const simd4f& v) {
-        // TODO:
-        return v.value.f[0]*v.value.f[0] + 
-               v.value.f[1]*v.value.f[1] + 
-               v.value.f[2]*v.value.f[2] + 
-               v.value.f[3]*v.value.f[3]; 
-    }
-    
-    static float length(const simd4f& v) {
-        // TODO:
-        return sqrtf(length_squared(v));
-    }
-    
-    static float dot(const simd4f& lhs, const simd4f& rhs) {
-        return lhs.value.f[0]*rhs.value.f[0] + 
-               lhs.value.f[1]*rhs.value.f[1] + 
-               lhs.value.f[2]*rhs.value.f[2] + 
-               lhs.value.f[3]*rhs.value.f[3]; 
-    }
-    
-    #endif
 
+    static vec4f normalize(const vec4f& v) {
+        float invlen = 1.0f / length(v);
+        return v * invlen;
+    }
 
 
 
