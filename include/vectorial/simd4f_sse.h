@@ -1,5 +1,5 @@
-#ifndef VECTORIAL_SIMD4F_SCALAR_H
-#define VECTORIAL_SIMD4F_SCALAR_H
+#ifndef VECTORIAL_SIMD4F_SSE_H
+#define VECTORIAL_SIMD4F_SSE_H
 
 #include <xmmintrin.h>
 
@@ -8,33 +8,25 @@ extern "C" {
 #endif
 
 
+typedef __m128 simd4f; 
 
-union simd4f { 
-    __m128 v;
-    float c[4];
+union _simd4f_union {
+    simd4f s ;
+    float f[4];
 };
 
+
+
 static simd4f simd4f_create(float x, float y, float z, float w) {
-    simd4f s = {{ x, y, z, w }};
+    simd4f s = { x, y, z, w };
     return s;
 }
 
-static float simd4f_getX(simd4f s) { return s.c[0]; }
-static float simd4f_getY(simd4f s) { return s.c[1]; }
-static float simd4f_getZ(simd4f s) { return s.c[2]; }
-static float simd4f_getW(simd4f s) { return s.c[3]; }
+static float simd4f_getX(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
+static float simd4f_getY(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
+static float simd4f_getZ(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
+static float simd4f_getW(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
 
-/*
-
-simd4f simd4f_add(simd4f, simd4f);
-
-
-simd4f simd4f_dot4(simd4f, simd4f);
-simd4f simd4f_dot3(simd4f, simd4f);
-
-float simd4f_dot4_float(simd4f, simd4f);
-float simd4f_dot3_float(simd4f, simd4f);
-*/
 
 #ifdef __cplusplus
 }

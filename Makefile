@@ -1,13 +1,14 @@
 
-IPHONE_PLATFORM_PATH = /Developer/Platforms/iPhoneOS.platform/Developer
+CXX=g++
+CLANG_CC=clang
+CLANG_CXX=clang++
+
+IPHONE_PLATFORM_PATH = /Developer3.2b/Platforms/iPhoneOS.platform/Developer
 IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS3.1.2.sdk/
-IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
+IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/$(CXX) -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
 # -mfloat-abi=softfp -mfpu=neon  
 
-CLANG_CC=clang
-
 CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -ffast-math 
-CC=g++
 
 SPEC_SRC = $(wildcard spec/*.cpp)
 SPEC_OBJ = $(SPEC_SRC:.cpp=.o)
@@ -54,7 +55,7 @@ endif
 
 ifeq ($(CLANG),1)
 	CC=$(CLANG_CC)
-	CXX=$(CLANG_CC)
+	CXX=$(CLANG_CXX)
 	DEFAULT_CC=0
 endif
 

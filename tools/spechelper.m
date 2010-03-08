@@ -11,7 +11,7 @@ function spec_formatter (val)
 
 
     if( size(val) == [1,4] ) 
-        printf("        should_be_equal_simd4f(x, simd4f(%f, %f, %f, %f), epsilon );", val(1), val(2), val(3), val(4));
+        printf("        should_be_equal_simd4f(x, simd4f_create(%f, %f, %f, %f), epsilon );", val(1), val(2), val(3), val(4));
         return;
     endif
 
