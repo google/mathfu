@@ -1,27 +1,28 @@
 #ifndef VECTORIAL_SIMD4F_SCALAR_H
 #define VECTORIAL_SIMD4F_SCALAR_H
 
+#include <arm_neon.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-struct simd4f { 
-    float x;
-    float y; 
-    float z; 
-    float w;
+
+union simd4f { 
+    float32x4_t v;
+    float c[4];
 };
 
 static simd4f simd4f_create(float x, float y, float z, float w) {
-    simd4f s = { x, y, z, w };
+    simd4f s = {{ x, y, z, w }};
     return s;
 }
 
-static float simd4f_getX(simd4f s) { return s.x; }
-static float simd4f_getY(simd4f s) { return s.y; }
-static float simd4f_getZ(simd4f s) { return s.z; }
-static float simd4f_getW(simd4f s) { return s.w; }
+static float simd4f_getX(simd4f s) { return s.c[0]; }
+static float simd4f_getY(simd4f s) { return s.c[1]; }
+static float simd4f_getZ(simd4f s) { return s.c[2]; }
+static float simd4f_getW(simd4f s) { return s.c[3]; }
 
 /*
 
