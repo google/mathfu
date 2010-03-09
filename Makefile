@@ -5,7 +5,7 @@ CLANG_CXX=clang++
 
 IPHONE_PLATFORM_PATH = /Developer3.2b/Platforms/iPhoneOS.platform/Developer
 IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS3.1.2.sdk/
-IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/$(CXX) -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
+IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
 # -mfloat-abi=softfp -mfpu=neon  
 
 CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -ffast-math 
@@ -126,7 +126,6 @@ realclean: clean
 spec/spec.o: spec/spec.h
 spec/spec_main.o: spec/spec.h
 spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
-spec/spec_simd4f.o: include/vectorial/config.h
-bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
-bench/add_bench.o: include/vectorial/simd4f.h include/vectorial/config.h
+spec/spec_simd4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
+bench/add_bench.o: bench/bench.h
 bench/bench.o: bench/bench.h include/vectorial/config.h

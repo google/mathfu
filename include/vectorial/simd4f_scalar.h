@@ -22,6 +22,12 @@ static simd4f simd4f_create(float x, float y, float z, float w) {
     return s;
 }
 
+static simd4f simd4f_splat(float v) { 
+    simd4f s = { v, v, v, v }; 
+    return s;
+}
+
+
 static float simd4f_getX(simd4f s) { return s.x; }
 static float simd4f_getY(simd4f s) { return s.y; }
 static float simd4f_getZ(simd4f s) { return s.z; }
