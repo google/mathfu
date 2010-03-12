@@ -35,6 +35,9 @@ namespace vectorial {
         return vec4f( simd4f_add(lhs.value, rhs.value) );
     }
 
+    vectorial_inline vec4f operator-(const vec4f& lhs, const vec4f& rhs) {
+        return vec4f( simd4f_sub(lhs.value, rhs.value) );
+    }
 
 }
 
