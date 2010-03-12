@@ -29,9 +29,9 @@ describe(simd4f, "creating") {
     
 }
 
-describe(simd4f, "arithmetic") {
+describe(simd4f, "arithmetic with another simd4f") {
 
-    it("should have simd4f_add for addition with another simd4f") {
+    it("should have simd4f_add for component-wise addition") {
         simd4f a = simd4f_create(1,2,3,4);
         simd4f b = simd4f_create(10,20,30,40);
         
@@ -40,13 +40,31 @@ describe(simd4f, "arithmetic") {
         should_be_equal_simd4f(x, simd4f_create(11.000000, 22.000000, 33.000000, 44.000000), epsilon );
     }
 
-    it("should have simd4f_sub for substraction with another simd4f") {
+    it("should have simd4f_sub for component-wise subtraction") {
         simd4f a = simd4f_create(1,2,3,4);
         simd4f b = simd4f_create(10,20,30,40);
         
         simd4f x = simd4f_sub(b,a);
         // octave simd4f: [10,20,30,40] - [1,2,3,4] 
         should_be_equal_simd4f(x, simd4f_create(9.000000, 18.000000, 27.000000, 36.000000), epsilon );
+    }
+
+    it("should have simd4f_mul for component-wise multiply") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f b = simd4f_create(10,20,30,40);
+        
+        simd4f x = simd4f_mul(a,b);
+        // octave simd4f: [1,2,3,4] .* [10,20,30,40]
+        should_be_equal_simd4f(x, simd4f_create(10.000000, 40.000000, 90.000000, 160.000000), epsilon );
+    }
+
+    it("should have simd4f_mul for component-wise division") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f b = simd4f_create(10,20,30,40);
+        
+        simd4f x = simd4f_div(b,a);
+        // octave simd4f: [10,20,30,40] ./ [1,2,3,4] 
+        should_be_equal_simd4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
     }
 
 }

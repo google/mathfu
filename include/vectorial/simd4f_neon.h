@@ -23,7 +23,7 @@ vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
 }
 
 vectorial_inline simd4f simd4f_splat(float v) { 
-    simd4f s = { v, v, v, v }; 
+    simd4f s = vdupq_n_f32(v);
     return s;
 }
 
@@ -34,6 +34,17 @@ vectorial_inline simd4f simd4f_add(simd4f lhs, simd4f rhs) {
 
 vectorial_inline simd4f simd4f_sub(simd4f lhs, simd4f rhs) {
     simd4f ret = vsubq_f32(lhs, rhs);
+    return ret;
+}
+
+vectorial_inline simd4f simd4f_mul(simd4f lhs, simd4f rhs) {
+    simd4f ret = vmulq_f32(lhs, rhs);
+    return ret;
+}
+
+vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
+    simd4f recip = vrecpsq_f32( simd4f_create(1.0f, 1.0f, 1.0f, 1.0f), rhs );
+    simd4f ret = vmulq_f32(lhs, recip);
     return ret;
 }
 
