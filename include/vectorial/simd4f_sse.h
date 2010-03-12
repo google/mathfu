@@ -23,7 +23,7 @@ vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
 }
 
 vectorial_inline simd4f simd4f_splat(float v) { 
-    simd4f s = _mm_load1_ps(&v); 
+    simd4f s = _mm_set1_ps(v); 
     return s;
 }
 

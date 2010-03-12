@@ -27,9 +27,14 @@ static vec4f * c;
 
 
 void add_func() {
+    
+    vec4f* vectorial_restrict aa = a;
+    vec4f* vectorial_restrict bb = b;
+    vec4f* vectorial_restrict cc = c;
+    
     for(size_t i = 0; i < NUM; ++i)
     {
-        c[i] = a[i] + b[i];
+        cc[i] = aa[i] + bb[i];
     }    
 }
 

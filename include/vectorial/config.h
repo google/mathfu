@@ -48,7 +48,15 @@
 
 
 #define vectorial_inline    static inline
-#define vectorial_restrict  restrict
+
+#if defined(__GNUC__) 
+  #if defined(__cplusplus)
+    #define vectorial_restrict  __restrict
+  #endif
+#else
+  #define vectorial_restrict  restrict
+#endif
+// #define vectorial_restrict
 
 #ifdef __GNUC__
     #define vectorial_pure __attribute__((pure))
