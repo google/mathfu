@@ -27,6 +27,11 @@ static simd4f simd4f_splat(float v) {
     return s;
 }
 
+static simd4f simd4f_add(simd4f lhs, simd4f rhs) {
+    simd4f ret = vaddq_f32(lhs, rhs);
+    return ret;
+}
+
 
 static float simd4f_getX(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
 static float simd4f_getY(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
