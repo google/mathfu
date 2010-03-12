@@ -121,6 +121,9 @@ realclean: clean
 	rm -f specsuite*
 
 
+update_spec:
+	./tools/update_spec.rb spec/spec_*.cpp
+
 # DO NOT DELETE
 
 spec/spec.o: spec/spec.h

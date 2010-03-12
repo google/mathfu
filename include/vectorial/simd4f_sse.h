@@ -17,27 +17,26 @@ union _simd4f_union {
 
 
 
-static simd4f simd4f_create(float x, float y, float z, float w) {
+vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
     simd4f s = { x, y, z, w };
     return s;
 }
 
-static simd4f simd4f_splat(float v) { 
+vectorial_inline simd4f simd4f_splat(float v) { 
     simd4f s = { v, v, v, v }; 
     return s;
 }
 
-static simd4f simd4f_add(simd4f lhs, simd4f rhs) {
+vectorial_inline simd4f simd4f_add(simd4f lhs, simd4f rhs) {
     simd4f ret = _mm_add_ps(lhs, rhs);
     return ret;
 }
 
 
-
-static float simd4f_getX(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
-static float simd4f_getY(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
-static float simd4f_getZ(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
-static float simd4f_getW(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
+vectorial_inline float simd4f_getX(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
+vectorial_inline float simd4f_getY(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
+vectorial_inline float simd4f_getZ(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
+vectorial_inline float simd4f_getW(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
 
 
 #ifdef __cplusplus

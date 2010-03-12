@@ -47,7 +47,7 @@
 #endif
 
 
-#define vectorial_inline    inline
+#define vectorial_inline    static inline
 #define vectorial_restrict  restrict
 
 #ifdef __GNUC__

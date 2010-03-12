@@ -1,19 +1,22 @@
-
+#!/usr/bin/env ruby
 
 SPECHELPER = File.join(File.dirname(__FILE__), "spechelper.m")
-def octave_eval(str)
-  puts "evalling #{str}"
-  `octave --quiet --eval 'source("#{SPECHELPER}"); spec_formatter(#{str})'`
+def octave_eval(str, type)
+  puts "evalling (#{type}): #{str}"
+  `octave --quiet --eval 'source("#{SPECHELPER}"); spec_formatter(#{str}, "#{type}")'`
 end
 
 
-str = File.read(ARGV[0])
-str.gsub!(%r{(// octave(?: \w+)?:)(.*?)\n(.*?\n)}) do |match|
-  e = octave_eval($2)
+ARGV.each do |fn|
+  str = File.read(fn)
+  str.gsub!(%r{(// octave (\w+):)(.*?)\n(.*?\n)}) do |match|
+    e = octave_eval($3, $2)
 
-  [$1, $2, "\n", e, "\n"].join
+    [$1, $3, "\n", e, "\n"].join
+  end
+  File.open(fn, "w") do |f|
+    f.write str
+  end
+
 end
 
-File.open(ARGV[0], "w") do |f|
-  f.write str
-end

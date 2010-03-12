@@ -2,7 +2,7 @@
 
 1;
 
-function spec_formatter (val)
+function spec_formatter (val,type)
 
     if( isscalar(val) == 1 ) 
         printf("        should_be_close_to(x, %f, epsilon );", val);
@@ -11,7 +11,7 @@ function spec_formatter (val)
 
 
     if( size(val) == [1,4] ) 
-        printf("        should_be_equal_simd4f(x, simd4f_create(%f, %f, %f, %f), epsilon );", val(1), val(2), val(3), val(4));
+        printf("        should_be_equal_%s(x, simd4f_create(%f, %f, %f, %f), epsilon );",type, val(1), val(2), val(3), val(4));
         return;
     endif
 
