@@ -27,6 +27,35 @@ vectorial_inline simd4f simd4f_splat(float v) {
     return s;
 }
 
+// todo: or is simd4f_splat(simd4f_getX(v))  better?
+
+vectorial_inline simd4f simd4f_splat_x(simd4f v) {
+    float32x2_t low = vget_low_f32(v);
+    simd4f ret = vdupq_lane_f32(low, 0);
+    return ret;
+}
+
+vectorial_inline simd4f simd4f_splat_y(simd4f v) { 
+    float32x2_t low = vget_low_f32(v);
+    simd4f ret = vdupq_lane_f32(low, 1);
+    return ret;
+}
+
+vectorial_inline simd4f simd4f_splat_z(simd4f v) { 
+    float32x2_t high = vget_high_f32(v);
+    simd4f ret = vdupq_lane_f32(high, 0);
+    return ret;
+}
+
+vectorial_inline simd4f simd4f_splat_w(simd4f v) { 
+    float32x2_t high = vget_high_f32(v);
+    simd4f ret = vdupq_lane_f32(high, 1);
+    return ret;
+}
+
+
+// arithmetics
+
 vectorial_inline simd4f simd4f_add(simd4f lhs, simd4f rhs) {
     simd4f ret = vaddq_f32(lhs, rhs);
     return ret;
@@ -50,10 +79,10 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
 
 
 
-vectorial_inline float simd4f_getX(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
-vectorial_inline float simd4f_getY(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
-vectorial_inline float simd4f_getZ(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
-vectorial_inline float simd4f_getW(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
+vectorial_inline float simd4f_getX(simd4f s) { return vgetq_lane_f32(s, 0); }
+vectorial_inline float simd4f_getY(simd4f s) { return vgetq_lane_f32(s, 1); }
+vectorial_inline float simd4f_getZ(simd4f s) { return vgetq_lane_f32(s, 2); }
+vectorial_inline float simd4f_getW(simd4f s) { return vgetq_lane_f32(s, 3); }
 
 
 #ifdef __cplusplus

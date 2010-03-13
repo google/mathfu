@@ -16,36 +16,35 @@ namespace {
     //    if( e == EINVAL ) printf("EINVAL posix_memalign\n");
     //    if( e == ENOMEM ) printf("ENOMEM posix_memalign\n");
         return static_cast<vec4f*>(ptr);
-    }
-    
+    }    
 }
 
 
 
 static vec4f * a;
 static vec4f * b;
-static vec4f * c;
+static float * c;
 
 
 
 
-void add_func() {
+void dot_func() {
     
     vec4f* vectorial_restrict aa = a;
     vec4f* vectorial_restrict bb = b;
-    vec4f* vectorial_restrict cc = c;
+    float* vectorial_restrict cc = c;
     
     for(size_t i = 0; i < NUM; ++i)
     {
-        cc[i] = aa[i] + bb[i];
+        cc[i] = dot(aa[i], bb[i]);
     }    
 }
 
-void add_bench() {
+void dot_bench() {
 
     a = alloc_vec4f(NUM);
     b = alloc_vec4f(NUM);
-    c = alloc_vec4f(NUM);
+    c = static_cast<float*>(malloc(NUM * sizeof(float)));
 
 
     for(size_t i = 0; i < NUM; ++i)
@@ -54,7 +53,7 @@ void add_bench() {
         b[i]=vec4f(NUM-i, NUM-i, NUM-i, NUM-i);
     }
         
-    profile("add", add_func, ITER, NUM);
+    profile("dot", dot_func, ITER, NUM);
 
     free(a);
     free(b);

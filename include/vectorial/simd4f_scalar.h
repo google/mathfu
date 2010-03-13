@@ -22,10 +22,36 @@ vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
     return s;
 }
 
+
+// utilities
 vectorial_inline simd4f simd4f_splat(float v) { 
     simd4f s = { v, v, v, v }; 
     return s;
 }
+
+vectorial_inline simd4f simd4f_splat_x(simd4f v) { 
+    simd4f s = { v.x, v.x, v.x, v.x }; 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_splat_y(simd4f v) { 
+    simd4f s = { v.y, v.y, v.y, v.y }; 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_splat_z(simd4f v) { 
+    simd4f s = { v.z, v.z, v.z, v.z }; 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_splat_w(simd4f v) { 
+    simd4f s = { v.w, v.w, v.w, v.w }; 
+    return s;
+}
+
+
+
+// arithmetic
 
 vectorial_inline simd4f simd4f_add(simd4f lhs, simd4f rhs) {
     simd4f ret = { lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w };
@@ -46,6 +72,8 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
     simd4f ret = { lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z, lhs.w / rhs.w };
     return ret;
 }
+
+
 
 
 

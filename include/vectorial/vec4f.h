@@ -18,7 +18,7 @@ namespace vectorial {
     //    vec4(const vec4& v) : simd4f(v) {}
         inline vec4f(const simd4f& v) : value(v) {}
         inline vec4f(float x, float y, float z, float w) : value( simd4f_create(x,y,z,w) ) {}
-    
+            
         inline float x() const { return simd4f_getX(value); }
         inline float y() const { return simd4f_getY(value); }
         inline float z() const { return simd4f_getZ(value); }
@@ -81,6 +81,11 @@ namespace vectorial {
         return vec4f( simd4f_div(simd4f_splat(lhs), rhs.value) );
     }
 
+
+
+    vectorial_inline float dot(const vec4f& lhs, const vec4f& rhs) {
+        return simd4f_getX( simd4f_dot4(lhs.value, rhs.value) );
+    }
 
 }
 

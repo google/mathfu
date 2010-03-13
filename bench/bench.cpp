@@ -62,7 +62,7 @@ std::string formatTime(double d, double relative ) {
     return ss.str();
 }
 
-void profile(void (*func)(), int iterations, int elements) {
+void profile(const char* name, void (*func)(), int iterations, int elements) {
     
     profiler::init();
     profiler::time_t start = profiler::now();
@@ -73,6 +73,7 @@ void profile(void (*func)(), int iterations, int elements) {
     profiler::time_t end = profiler::now();
     
     std::cout << "Using simd: " << VECTORIAL_SIMD_TYPE << std::endl;
+    std::cout << "Testing: " << name << std::endl;
     std::cout << "Duration " << formatTime(profiler::diffTime(start,end)) << std::endl;
     std::cout << "Per iter " << formatTime(profiler::diffTime(start,end) / iterations) << std::endl;
     std::cout << "Per item " << formatTime(profiler::diffTime(start,end) / iterations / elements) << std::endl;
@@ -81,9 +82,11 @@ void profile(void (*func)(), int iterations, int elements) {
 }
 
 void add_bench();
+void dot_bench();
 int main() {
     
-    add_bench();
+//    add_bench();
+    dot_bench();
 
     return 0;
 }

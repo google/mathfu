@@ -30,7 +30,7 @@ namespace profiler {
 }
 
 std::string formatTime(double d, double relative=-1);
-void profile(void (*func)(), int iterations, int elements);
+void profile(const char* name, void (*func)(), int iterations, int elements);
 
 
 #endif

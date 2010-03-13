@@ -18,7 +18,7 @@
     #error No implementation defined
 #endif
 
-
+#include "simd4f_common.h"
 
 
 

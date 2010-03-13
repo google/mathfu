@@ -148,9 +148,12 @@ spec/spec.o: spec/spec.h
 spec/spec_main.o: spec/spec.h
 spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
 spec/spec_simd4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
+spec/spec_simd4f.o: include/vectorial/simd4f_common.h
 spec/spec_simd4f.o: include/vectorial/vec4f.h
 spec/spec_vec4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
 spec/spec_vec4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
+spec/spec_vec4f.o: include/vectorial/simd4f_common.h
 spec/spec_vec4f.o: include/vectorial/vec4f.h
 bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
 bench/bench.o: bench/bench.h include/vectorial/config.h
+bench/dot_bench.o: bench/bench.h include/vectorial/vec4f.h

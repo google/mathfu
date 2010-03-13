@@ -19,14 +19,47 @@ describe(simd4f, "creating") {
         
     }
     
-    it("should have splatting") {
-        
+    
+}
+
+describe(simd4f, "utilities") {
+
+    it("should have simd4f_splat that expands a single scalar to all elements") {
         simd4f x = simd4f_splat(42);
         // octave simd4f: [42,42,42,42]
         should_be_equal_simd4f(x, simd4f_create(42.000000, 42.000000, 42.000000, 42.000000), epsilon );
+    }
+
+    it("should have simd4f_splat_x,y,z,w splatting of an element") {
+        simd4f a = simd4f_create(1,2,3,4);
+
+        simd4f x;
         
+        x = simd4f_splat_x(a);
+        // octave simd4f: [1,1,1,1]
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 1.000000, 1.000000, 1.000000), epsilon );
+
+        x = simd4f_splat_y(a);
+        // octave simd4f: [2,2,2,2]
+        should_be_equal_simd4f(x, simd4f_create(2.000000, 2.000000, 2.000000, 2.000000), epsilon );
+
+        x = simd4f_splat_z(a);
+        // octave simd4f: [3,3,3,3]
+        should_be_equal_simd4f(x, simd4f_create(3.000000, 3.000000, 3.000000, 3.000000), epsilon );
+
+        x = simd4f_splat_w(a);
+        // octave simd4f: [4,4,4,4]
+        should_be_equal_simd4f(x, simd4f_create(4.000000, 4.000000, 4.000000, 4.000000), epsilon );
     }
     
+    it("should have simd4f_sum that adds elements") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_sum(a);
+        // octave simd4f: [sum([1,2,3,4]), sum([1,2,3,4]), sum([1,2,3,4]), sum([1,2,3,4])]
+        should_be_equal_simd4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
+        
+    }
+
 }
 
 describe(simd4f, "arithmetic with another simd4f") {
@@ -70,6 +103,26 @@ describe(simd4f, "arithmetic with another simd4f") {
 }
 
 
+describe(simd4f, "vector math") {
+    
+    it("should have simd4f_dot4 for four component dot product") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f b = simd4f_create(10,20,30,40);
+        
+        simd4f x = simd4f_dot4(a,b);
+        // octave simd4f: [dot([1, 2, 3, 4], [10, 20, 30, 40]),dot([1, 2, 3, 4], [10, 20, 30, 40]),dot([1, 2, 3, 4], [10, 20, 30, 40]),dot([1, 2, 3, 4], [10, 20, 30, 40])]
+        should_be_equal_simd4f(x, simd4f_create(300.000000, 300.000000, 300.000000, 300.000000), epsilon );
+    }
 
+    it("should have simd4f_dot3 for three component dot product") {
+        simd4f a = simd4f_create(1,2,3,9999);
+        simd4f b = simd4f_create(10,20,30,-9990);
+        
+        simd4f x = simd4f_dot3(a,b);
+        // octave simd4f: [dot([1, 2, 3, 0], [10, 20, 30, 0]),dot([1, 2, 3, 0], [10, 20, 30, 0]),dot([1, 2, 3, 0], [10, 20, 30, 0]),dot([1, 2, 3, 0], [10, 20, 30, 0])]
+        should_be_equal_simd4f(x, simd4f_create(140.000000, 140.000000, 140.000000, 140.000000), epsilon );
+    }
+    
+}
 
 
