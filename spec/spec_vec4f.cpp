@@ -58,6 +58,87 @@ describe(vec4f, "arithmetic with another vec4f") {
     
 }
 
+
+describe(vec4f, "arithmetic with scalar") {
+    
+    it("should have operator+ for component-wise addition") {
+        vec4f a(1,2,3,4);
+        float b=10;
+        vec4f x = a + b;
+        // octave vec4f: [1,2,3,4] + 10
+        should_be_equal_vec4f(x, simd4f_create(11.000000, 12.000000, 13.000000, 14.000000), epsilon );
+
+    }
+
+    it("should have operator- for component-wise subtraction") {
+        float a=10;
+        vec4f b(10,20,30,40);
+        vec4f x = b - a;
+        // octave vec4f:  [10,20,30,40] - 10
+        should_be_equal_vec4f(x, simd4f_create(0.000000, 10.000000, 20.000000, 30.000000), epsilon );
+
+    }
+
+    it("should have operator* for component-wise multiplication") {
+        vec4f a(1,2,3,4);
+        float b=10;
+        vec4f x = a * b;
+        // octave vec4f: [1,2,3,4] .* 10
+        should_be_equal_vec4f(x, simd4f_create(10.000000, 20.000000, 30.000000, 40.000000), epsilon );
+
+    }
+
+    it("should have operator/ for component-wise division") {
+        vec4f a(10,20,30,40);
+        float b=10;
+        vec4f x = a / b;
+        // octave vec4f: [10,20,30,40] ./ 10
+        should_be_equal_vec4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+
+    }
+
+
+
+    it("should have operator+ for component-wise addition (float as lhs)") {
+        vec4f b(1,2,3,4);
+        float a=10;
+        vec4f x = a + b;
+        // octave vec4f: 10 + [1,2,3,4]
+        should_be_equal_vec4f(x, simd4f_create(11.000000, 12.000000, 13.000000, 14.000000), epsilon );
+
+    }
+
+    it("should have operator- for component-wise subtraction (float as lhs)") {
+        float b=50;
+        vec4f a(10,20,30,40);
+        vec4f x = b - a;
+        // octave vec4f:  50 - [10,20,30,40]
+        should_be_equal_vec4f(x, simd4f_create(40.000000, 30.000000, 20.000000, 10.000000), epsilon );
+
+    }
+
+    it("should have operator* for component-wise multiplication (float as lhs)") {
+        vec4f b(1,2,3,4);
+        float a=10;
+        vec4f x = a * b;
+        // octave vec4f: 10 .* [1,2,3,4] 
+        should_be_equal_vec4f(x, simd4f_create(10.000000, 20.000000, 30.000000, 40.000000), epsilon );
+
+    }
+
+    it("should have operator* for component-wise multiplication (float as lhs)") {
+        vec4f b(10,20,30,40);
+        float a=40;
+        vec4f x = a / b;
+        // octave vec4f: 40 ./ [10,20,30,40] 
+        should_be_equal_vec4f(x, simd4f_create(4.000000, 2.000000, 1.333333, 1.000000), epsilon );
+
+    }
+
+    
+}
+
+
 /*
 describe(vec4f, "vector ops") {
     it("should have length_squared function") {

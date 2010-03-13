@@ -58,7 +58,7 @@ describe(simd4f, "arithmetic with another simd4f") {
         should_be_equal_simd4f(x, simd4f_create(10.000000, 40.000000, 90.000000, 160.000000), epsilon );
     }
 
-    it("should have simd4f_mul for component-wise division") {
+    it("should have simd4f_div for component-wise division") {
         simd4f a = simd4f_create(1,2,3,4);
         simd4f b = simd4f_create(10,20,30,40);
         
@@ -68,3 +68,8 @@ describe(simd4f, "arithmetic with another simd4f") {
     }
 
 }
+
+
+
+
+
