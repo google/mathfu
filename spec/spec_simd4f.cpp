@@ -143,9 +143,69 @@ describe(simd4f, "vector math") {
         simd4f b = simd4f_create(10,20,30,-9990);
         
         simd4f x = simd4f_dot3(a,b);
-        // octave simd4f: [dot([1, 2, 3, 0], [10, 20, 30, 0]),dot([1, 2, 3, 0], [10, 20, 30, 0]),dot([1, 2, 3, 0], [10, 20, 30, 0]),dot([1, 2, 3, 0], [10, 20, 30, 0])]
+        // octave simd4f: [dot([1, 2, 3], [10, 20, 30]),dot([1, 2, 3], [10, 20, 30]),dot([1, 2, 3], [10, 20, 30]),dot([1, 2, 3], [10, 20, 30])]
         should_be_equal_simd4f(x, simd4f_create(140.000000, 140.000000, 140.000000, 140.000000), epsilon );
     }
+
+    it("should have simd4f_dot2 for two component dot product") {
+        simd4f a = simd4f_create(1,2,3,9999);
+        simd4f b = simd4f_create(10,20,30,-9990);
+        
+        simd4f x = simd4f_dot2(a,b);
+        // octave simd4f: [dot([1, 2], [10, 20]),dot([1, 2], [10, 20]),dot([1, 2], [10, 20]),dot([1, 2], [10, 20])]
+        should_be_equal_simd4f(x, simd4f_create(50.000000, 50.000000, 50.000000, 50.000000), epsilon );
+    }
+    
+    it("should have simd4f_length4 for four component vector length") {
+        simd4f a = simd4f_create(1,2,-3,9999);
+        simd4f x = simd4f_length4(a);
+        // octave simd4f: sqrt([dot([1,2,-3,9999], [1,2,-3,9999]), dot([1,2,-3,9999], [1,2,-3,9999]), dot([1,2,-3,9999], [1,2,-3,9999]), dot([1,2,-3,9999], [1,2,-3,9999])])
+        should_be_equal_simd4f(x, simd4f_create(9999.000700, 9999.000700, 9999.000700, 9999.000700), epsilon );
+
+    }
+
+    it("should have simd4f_length3 for three component vector length") {
+        simd4f a = simd4f_create(1,2,-3,9999);
+        simd4f x = simd4f_length3(a);
+        // octave simd4f: sqrt([dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3])])
+        should_be_equal_simd4f(x, simd4f_create(3.741657, 3.741657, 3.741657, 3.741657), epsilon );
+
+    }
+
+    it("should have simd4f_length2 for two component vector length") {
+        simd4f a = simd4f_create(1,2,-3,9999);
+        simd4f x = simd4f_length2(a);
+        // octave simd4f: sqrt([dot([1,2], [1,2]), dot([1,2], [1,2]), dot([1,2], [1,2]), dot([1,2], [1,2])])
+        should_be_equal_simd4f(x, simd4f_create(2.236068, 2.236068, 2.236068, 2.236068), epsilon );
+
+    }
+
+
+    it("should have simd4f_length4_squared for four component squared vector length") {
+        simd4f a = simd4f_create(1,2,-3,9999);
+        simd4f x = simd4f_length4(a);
+        // octave simd4f: ([dot([1,2,-3,9999], [1,2,-3,9999]), dot([1,2,-3,9999], [1,2,-3,9999]), dot([1,2,-3,9999], [1,2,-3,9999]), dot([1,2,-3,9999], [1,2,-3,9999])])
+        should_be_equal_simd4f(x, simd4f_create(99980015.000000, 99980015.000000, 99980015.000000, 99980015.000000), epsilon );
+
+    }
+
+    it("should have simd4f_length3_squared for three component squared vector length") {
+        simd4f a = simd4f_create(1,2,-3,9999);
+        simd4f x = simd4f_length3(a);
+        // octave simd4f: ([dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3])])
+        should_be_equal_simd4f(x, simd4f_create(14.000000, 14.000000, 14.000000, 14.000000), epsilon );
+
+    }
+
+    it("should have simd4f_length2_squared for two component squared vector length") {
+        simd4f a = simd4f_create(1,2,-3,9999);
+        simd4f x = simd4f_length2(a);
+        // octave simd4f: ([dot([1,2], [1,2]), dot([1,2], [1,2]), dot([1,2], [1,2]), dot([1,2], [1,2])])
+        should_be_equal_simd4f(x, simd4f_create(5.000000, 5.000000, 5.000000, 5.000000), epsilon );
+
+    }
+
+
     
 }
 

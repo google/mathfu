@@ -20,6 +20,36 @@ vectorial_inline simd4f simd4f_dot3(simd4f lhs, simd4f rhs) {
     return s2;
 }
 
+vectorial_inline simd4f simd4f_dot2(simd4f lhs, simd4f rhs) {
+    const simd4f m = simd4f_mul(lhs, rhs);
+    const simd4f s1 = simd4f_add(simd4f_splat_x(m), simd4f_splat_y(m));
+    return s1;
+}
+
+
+vectorial_inline simd4f simd4f_length4(simd4f v) {
+    return simd4f_sqrt( simd4f_dot4(v,v) );
+}
+
+vectorial_inline simd4f simd4f_length3(simd4f v) {
+    return simd4f_sqrt( simd4f_dot3(v,v) );
+}
+
+vectorial_inline simd4f simd4f_length2(simd4f v) {
+    return simd4f_sqrt( simd4f_dot2(v,v) );
+}
+
+vectorial_inline simd4f simd4f_length4_squared(simd4f v) {
+    return simd4f_dot4(v,v);
+}
+
+vectorial_inline simd4f simd4f_length3_squared(simd4f v) {
+    return simd4f_dot3(v,v);
+}
+
+vectorial_inline simd4f simd4f_length2_squared(simd4f v) {
+    return simd4f_dot2(v,v);
+}
 
 
 #endif
