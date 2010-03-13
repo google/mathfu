@@ -50,6 +50,21 @@ vectorial_inline simd4f simd4f_splat_w(simd4f v) {
     return s;
 }
 
+vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
+    simd4f s = _mm_rcp_ps(v); 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
+    simd4f s = _mm_sqrt_ps(v); 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
+    simd4f s = _mm_rsqrt_ps(v); 
+    return s;
+}
+
 
 // arithmetic
 

@@ -1,6 +1,7 @@
 #ifndef VECTORIAL_SIMD4F_GNU_H
 #define VECTORIAL_SIMD4F_GNU_H
 
+#include <math.h>
 
 
 #ifdef __cplusplus
@@ -55,6 +56,18 @@ vectorial_inline simd4f simd4f_splat_w(simd4f v) {
     return ret;
 }
 
+vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
+    return simd4f_splat(1.0f) / v;
+}
+
+vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
+    simd4f ret = { sqrtf(simd4f_getX(v)), sqrtf(simd4f_getY(v)), sqrtf(simd4f_getZ(v)), sqrtf(simd4f_getW(v)) };
+    return ret;
+}
+
+vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
+    return simd4f_splat(1.0f) / simd4f_sqrt(v);
+}
 
 
 

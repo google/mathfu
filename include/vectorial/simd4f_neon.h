@@ -53,6 +53,20 @@ vectorial_inline simd4f simd4f_splat_w(simd4f v) {
     return ret;
 }
 
+vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
+//    return vrecpsq_f32(..,v);
+    return vrecpeq_f32(v);
+}
+
+vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
+    return simd4f_reciprocal(vrsqrteq_f32(v));
+}
+
+vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
+    return vrsqrteq_f32(v);
+}
+
+
 
 // arithmetics
 

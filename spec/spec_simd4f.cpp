@@ -59,6 +59,30 @@ describe(simd4f, "utilities") {
         should_be_equal_simd4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
         
     }
+        
+    it("should have simd4f_reciprocal") {
+        simd4f a = simd4f_create(1.0f,2,3,9999);
+        simd4f x = simd4f_reciprocal(a);
+        const float epsilon = 0.001f;
+        // octave simd4f: 1 ./ [1,2,3,9999]
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 0.500000, 0.333333, 0.000100), epsilon );
+    }
+
+    it("should have simd4f_sqrt") {
+        simd4f a = simd4f_create(1.0f,2,3,9999);
+        simd4f x = simd4f_sqrt(a);
+        const float epsilon = 0.001f;
+        // octave simd4f:  sqrt([1,2,3,9999])
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 1.414214, 1.732051, 99.995000), epsilon );
+    }
+
+    it("should have simd4f_rsqrt for reciprocal of square-root") {
+        simd4f a = simd4f_create(1.0f,2,3,9999);
+        simd4f x = simd4f_rsqrt(a);
+        const float epsilon = 0.001f;
+        // octave simd4f:  1 ./ sqrt([1,2,3,9999])
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 0.707107, 0.577350, 0.010001), epsilon );
+    }
 
 }
 

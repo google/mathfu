@@ -1,7 +1,7 @@
 #ifndef VECTORIAL_SIMD4F_SCALAR_H
 #define VECTORIAL_SIMD4F_SCALAR_H
 
-
+#include <math.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,6 +49,20 @@ vectorial_inline simd4f simd4f_splat_w(simd4f v) {
     return s;
 }
 
+vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
+    simd4f s = { 1.0f/v.x, 1.0f/v.y, 1.0f/v.z, 1.0f/v.w }; 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
+    simd4f s = { sqrtf(v.x), sqrtf(v.y), sqrtf(v.z), sqrtf(v.w) }; 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
+    simd4f s = { 1.0f/sqrtf(v.x), 1.0f/sqrtf(v.y), 1.0f/sqrtf(v.z), 1.0f/sqrtf(v.w) }; 
+    return s;
+}
 
 
 // arithmetic
