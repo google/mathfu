@@ -18,7 +18,8 @@ union _simd4f_union {
 
 
 vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
-    simd4f s = { x, y, z, w };
+    const float32_t d[4] = { x,y,z,w };
+    simd4f s = vld1q_f32((const float32_t*)&d);
     return s;
 }
 
@@ -30,40 +31,49 @@ vectorial_inline simd4f simd4f_splat(float v) {
 // todo: or is simd4f_splat(simd4f_getX(v))  better?
 
 vectorial_inline simd4f simd4f_splat_x(simd4f v) {
-    float32x2_t low = vget_low_f32(v);
-    simd4f ret = vdupq_lane_f32(low, 0);
+    float32x2_t o = vget_low_f32(v);
+    simd4f ret = vdupq_lane_f32(o, 0);
     return ret;
 }
 
 vectorial_inline simd4f simd4f_splat_y(simd4f v) { 
-    float32x2_t low = vget_low_f32(v);
-    simd4f ret = vdupq_lane_f32(low, 1);
+    float32x2_t o = vget_low_f32(v);
+    simd4f ret = vdupq_lane_f32(o, 1);
     return ret;
 }
 
 vectorial_inline simd4f simd4f_splat_z(simd4f v) { 
-    float32x2_t high = vget_high_f32(v);
-    simd4f ret = vdupq_lane_f32(high, 0);
+    float32x2_t o = vget_high_f32(v);
+    simd4f ret = vdupq_lane_f32(o, 0);
     return ret;
 }
 
 vectorial_inline simd4f simd4f_splat_w(simd4f v) { 
-    float32x2_t high = vget_high_f32(v);
-    simd4f ret = vdupq_lane_f32(high, 1);
+    float32x2_t o = vget_high_f32(v);
+    simd4f ret = vdupq_lane_f32(o, 1);
     return ret;
 }
 
 vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
-//    return vrecpsq_f32(..,v);
-    return vrecpeq_f32(v);
-}
-
-vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
-    return simd4f_reciprocal(vrsqrteq_f32(v));
+    simd4f estimate = vrecpeq_f32(v);
+    estimate = vmulq_f32(vrecpsq_f32(estimate, v), estimate);
+    estimate = vmulq_f32(vrecpsq_f32(estimate, v), estimate);
+    return estimate;
 }
 
 vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
-    return vrsqrteq_f32(v);
+    simd4f estimate = vrsqrteq_f32(v);
+    simd4f estimate2 = vmulq_f32(estimate, v);
+    estimate = vmulq_f32(estimate, vrsqrtsq_f32(estimate2, estimate));
+    estimate2 = vmulq_f32(estimate, v);
+    estimate = vmulq_f32(estimate, vrsqrtsq_f32(estimate2, estimate));
+    estimate2 = vmulq_f32(estimate, v);
+    estimate = vmulq_f32(estimate, vrsqrtsq_f32(estimate2, estimate));
+    return estimate;
+}
+
+vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
+    return simd4f_reciprocal(simd4f_rsqrt(v));
 }
 
 
@@ -86,7 +96,7 @@ vectorial_inline simd4f simd4f_mul(simd4f lhs, simd4f rhs) {
 }
 
 vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
-    simd4f recip = vrecpsq_f32( simd4f_create(1.0f, 1.0f, 1.0f, 1.0f), rhs );
+    simd4f recip = simd4f_reciprocal( rhs );
     simd4f ret = vmulq_f32(lhs, recip);
     return ret;
 }
