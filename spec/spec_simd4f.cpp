@@ -216,6 +216,14 @@ describe(simd4f, "vector math") {
         should_be_equal_simd4f(x, simd4f_create(-222.000000, 32.000000, -54.000000, 0.000000), epsilon );
 
     }
+    
+    it("should have simd4f_normalize4 for normalizing 4 values to unit length") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_normalize4(a);
+        // octave simd4f: [1,2,3,4] / norm([1,2,3,4])
+        const float epsilon = 0.001f;
+        should_be_equal_simd4f(x, simd4f_create(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
+    }
 
 
     

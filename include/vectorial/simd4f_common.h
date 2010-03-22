@@ -52,4 +52,10 @@ vectorial_inline simd4f simd4f_length2_squared(simd4f v) {
 }
 
 
+vectorial_inline simd4f simd4f_normalize4(simd4f a) {
+    simd4f invlen = simd4f_rsqrt( simd4f_dot4(a,a) );
+    return simd4f_mul(a, invlen);    
+}
+
+
 #endif
