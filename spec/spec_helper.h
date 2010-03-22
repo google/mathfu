@@ -9,13 +9,13 @@
 
 #include <iostream>
 #include "vectorial/vec4f.h"
-/*
 #include "vectorial/vec3f.h"
-*/
+
 
 #define should_be_close_to(a,b,tolerance) should_be_close_to_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_simd4f( a, b, tolerance) should_be_equal_simd4f_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_vec4f( a, b, tolerance) should_be_equal_vec4f_(this, a,b,tolerance,__FILE__,__LINE__)
+#define should_be_equal_vec3f( a, b, tolerance) should_be_equal_vec3f_(this, a,b,tolerance,__FILE__,__LINE__)
 
 
 
@@ -58,6 +58,20 @@ static void should_be_equal_vec4f_(specific::SpecBase *spec, const vectorial::ve
     if( fabs( b.z() - a.z()) > tolerance ) equal = false;
 //    if(A::elements > 3 && B::elements > 3)
         if( fabs( b.w() - a.w()) > tolerance ) equal = false;
+    
+    std::stringstream ss;
+    ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
+    spec->should_test(equal, ss.str().c_str(), file, line);
+    
+    
+}
+
+static void should_be_equal_vec3f_(specific::SpecBase *spec, const vectorial::vec3f& a, const vectorial::vec3f& b, float tolerance, const char *file, int line) {
+    
+    bool equal=true;
+    if( fabs( b.x() - a.x()) > tolerance ) equal = false;
+    if( fabs( b.y() - a.y()) > tolerance ) equal = false;
+    if( fabs( b.z() - a.z()) > tolerance ) equal = false;
     
     std::stringstream ss;
     ss << a << " == " << b << " (with tolerance of " << tolerance << ")";

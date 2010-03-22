@@ -1,0 +1,125 @@
+#ifndef VECTORIAL_VEC_H
+
+#ifndef VECTORIAL_SIMD4F_H
+  #include "vectorial/simd4f.h"
+#endif
+
+
+
+namespace vectorial {
+    
+
+    class vec3f {
+    public:
+
+        simd4f value;
+    
+        inline vec3f() {}
+    //    vec4(const vec4& v) : simd4f(v) {}
+        inline vec3f(const simd4f& v) : value(v) {}
+        inline vec3f(float x, float y, float z) : value( simd4f_create(x,y,z,0) ) {}
+            
+        inline float x() const { return simd4f_getX(value); }
+        inline float y() const { return simd4f_getY(value); }
+        inline float z() const { return simd4f_getZ(value); }
+
+    
+        enum { elements = 3 };
+
+
+    };
+
+
+    vectorial_inline vec3f operator+(const vec3f& lhs, const vec3f& rhs) {
+        return vec3f( simd4f_add(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f operator-(const vec3f& lhs, const vec3f& rhs) {
+        return vec3f( simd4f_sub(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f operator*(const vec3f& lhs, const vec3f& rhs) {
+        return vec3f( simd4f_mul(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f operator/(const vec3f& lhs, const vec3f& rhs) {
+        return vec3f( simd4f_div(lhs.value, rhs.value) );
+    }
+
+
+
+    vectorial_inline vec3f operator+(const vec3f& lhs, float rhs) {
+        return vec3f( simd4f_add(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec3f operator-(const vec3f& lhs, float rhs) {
+        return vec3f( simd4f_sub(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec3f operator*(const vec3f& lhs, float rhs) {
+        return vec3f( simd4f_mul(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec3f operator/(const vec3f& lhs, float rhs) {
+        return vec3f( simd4f_div(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec3f operator+(float lhs, const vec3f& rhs) {
+        return vec3f( simd4f_add(simd4f_splat(lhs), rhs.value) );
+    }
+
+    vectorial_inline vec3f operator-(float lhs, const vec3f& rhs) {
+        return vec3f( simd4f_sub(simd4f_splat(lhs), rhs.value) );
+    }
+
+    vectorial_inline vec3f operator*(float lhs, const vec3f& rhs) {
+        return vec3f( simd4f_mul(simd4f_splat(lhs), rhs.value) );
+    }
+
+    vectorial_inline vec3f operator/(float lhs, const vec3f& rhs) {
+        return vec3f( simd4f_div(simd4f_splat(lhs), rhs.value) );
+    }
+
+
+
+    vectorial_inline float dot(const vec3f& lhs, const vec3f& rhs) {
+        return simd4f_getX( simd4f_dot3(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f cross(const vec3f& lhs, const vec3f& rhs) {
+        return simd4f_cross3(lhs.value, rhs.value);
+    }
+    
+    
+    vectorial_inline float length(const vec3f& v) {
+        return simd4f_getX( simd4f_length3(v.value) );
+    }
+
+    vectorial_inline float length_squared(const vec3f& v) {
+        return simd4f_getX( simd4f_length3_squared(v.value) );
+    }
+
+    vectorial_inline vec3f normalize(const vec3f& v) {
+        return vec3f( simd4f_normalize3(v.value) );
+    }
+
+
+}
+
+
+
+#ifdef VECTORIAL_OSTREAM
+#include <ostream>
+
+static std::ostream& operator<<(std::ostream& os, const vectorial::vec3f& v) {
+    os << "[ " << v.x() << ", "
+               << v.y() << ", "
+               << v.z() << " ]";
+    return os;
+}
+#endif
+
+
+
+
+#endif
