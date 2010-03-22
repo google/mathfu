@@ -151,11 +151,11 @@ describe(vec4f, "vector math") {
         should_be_close_to(x, 80.000000, epsilon );
     }
 
-/*    it("should have length_squared function") {
+    it("should have length_squared function") {
         vec4f a(1,2,3,4);
         float x = vectorial::length_squared(a);
         
-        // octave: dot([1,2,3,4],[1,2,3,4])
+        // octave vec4f: dot([1,2,3,4],[1,2,3,4])
         should_be_close_to(x, 30.000000, epsilon );
     }
 
@@ -163,7 +163,7 @@ describe(vec4f, "vector math") {
         vec4f a(1,2,3,4);
         float x = vectorial::length(a);
         
-        // octave: sqrt(dot([1,2,3,4],[1,2,3,4]))
+        // octave vec4f: norm([1,2,3,4])
         should_be_close_to(x, 5.477226, epsilon );
     }
     
@@ -171,10 +171,11 @@ describe(vec4f, "vector math") {
     it("should have normalize function") {
         vec4f a(1,2,3,4);
         vec4f x = vectorial::normalize(a);
-        // octave: [1,2,3,4] / sqrt(dot([1,2,3,4],[1,2,3,4]))
-        should_be_equal_simd4f(x, simd4f(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
+        const float epsilon = 0.001f;
+        // octave vec4f: [1,2,3,4] / norm([1,2,3,4])
+        should_be_equal_vec4f(x, simd4f_create(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
     }
-*/
+
 }
 
 

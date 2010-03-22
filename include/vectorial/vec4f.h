@@ -86,6 +86,20 @@ namespace vectorial {
     vectorial_inline float dot(const vec4f& lhs, const vec4f& rhs) {
         return simd4f_getX( simd4f_dot4(lhs.value, rhs.value) );
     }
+    
+    
+    vectorial_inline float length(const vec4f& v) {
+        return simd4f_getX( simd4f_length4(v.value) );
+    }
+
+    vectorial_inline float length_squared(const vec4f& v) {
+        return simd4f_getX( simd4f_length4_squared(v.value) );
+    }
+
+    vectorial_inline vec4f normalize(const vec4f& v) {
+        return vec4f( simd4f_normalize4(v.value) );
+    }
+
 
 }
 
