@@ -89,6 +89,17 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
 }
 
 
+vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
+    
+    const simd4f lyzx = _mm_shuffle_ps(lhs, lhs, _MM_SHUFFLE(3,0,2,1));
+    const simd4f lzxy = _mm_shuffle_ps(lhs, lhs, _MM_SHUFFLE(3,1,0,2));
+
+    const simd4f ryzx = _mm_shuffle_ps(rhs, rhs, _MM_SHUFFLE(3,0,2,1));
+    const simd4f rzxy = _mm_shuffle_ps(rhs, rhs, _MM_SHUFFLE(3,1,0,2));
+
+    return _mm_sub_ps(_mm_mul_ps(lyzx, rzxy), _mm_mul_ps(lzxy, ryzx));
+
+}
 
 
 

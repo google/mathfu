@@ -92,6 +92,14 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
 }
 
 
+vectorial_inline simd4f simd4f_cross3(simd4f l, simd4f r) {
+    _simd4f_union lhs = {l};
+    _simd4f_union rhs = {r};
+    
+    return simd4f_create( lhs.f[1] * rhs.f[2] - lhs.f[2] * rhs.f[1],
+                          lhs.f[2] * rhs.f[0] - lhs.f[0] * rhs.f[2],
+                          lhs.f[0] * rhs.f[1] - lhs.f[1] * rhs.f[0], 0);
+}
 
 
 

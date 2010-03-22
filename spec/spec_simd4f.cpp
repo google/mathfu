@@ -204,6 +204,18 @@ describe(simd4f, "vector math") {
         should_be_equal_simd4f(x, simd4f_create(5.000000, 5.000000, 5.000000, 5.000000), epsilon );
 
     }
+    
+    
+    
+    it("should have simd4f_cross3 for cross product") {
+        simd4f a = simd4f_create(1,12,3,-9999);
+        simd4f b = simd4f_create(5,6,-17, 9999);
+
+        simd4f x = simd4f_cross3(a,b);
+        // octave simd4f: horzcat(  cross( [1,12,3], [5,6,-17] )  , [0] )
+        should_be_equal_simd4f(x, simd4f_create(-222.000000, 32.000000, -54.000000, 0.000000), epsilon );
+
+    }
 
 
     

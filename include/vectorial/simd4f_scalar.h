@@ -88,7 +88,11 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
 }
 
 
-
+vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
+    return simd4f_create( lhs.y * rhs.z - lhs.z * rhs.y,
+                          lhs.z * rhs.x - lhs.x * rhs.z,
+                          lhs.x * rhs.y - lhs.y * rhs.x, 0);
+}
 
 
 vectorial_inline float simd4f_getX(simd4f s) { return s.x; }

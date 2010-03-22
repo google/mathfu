@@ -3,7 +3,9 @@
 SPECHELPER = File.join(File.dirname(__FILE__), "spechelper.m")
 def octave_eval(str, type)
   puts "evalling (#{type}): #{str}"
-  `octave --quiet --eval 'source("#{SPECHELPER}"); spec_formatter(#{str}, "#{type}")'`
+  ret = `octave --quiet --eval 'source("#{SPECHELPER}"); spec_formatter(#{str}, "#{type}")'`
+  puts "    = #{ret.strip}"
+  ret
 end
 
 

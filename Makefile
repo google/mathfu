@@ -142,6 +142,13 @@ update_spec:
 	./tools/update_spec.rb spec/spec_*.cpp
 
 
+
+include/vectorial/simd4f.h: include/vectorial/simd4f_scalar.h
+include/vectorial/simd4f.h: include/vectorial/simd4f_neon.h
+include/vectorial/simd4f.h: include/vectorial/simd4f_gnu.h
+include/vectorial/simd4f.h: include/vectorial/simd4f_sse.h
+include/vectorial/simd4f.h: include/vectorial/simd4f_scalar.h
+
 # DO NOT DELETE
 
 spec/spec.o: spec/spec.h
