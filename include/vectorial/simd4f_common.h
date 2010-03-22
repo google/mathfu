@@ -57,5 +57,15 @@ vectorial_inline simd4f simd4f_normalize4(simd4f a) {
     return simd4f_mul(a, invlen);    
 }
 
+vectorial_inline simd4f simd4f_normalize3(simd4f a) {
+    simd4f invlen = simd4f_rsqrt( simd4f_dot3(a,a) );
+    return simd4f_mul(a, invlen);    
+}
+
+vectorial_inline simd4f simd4f_normalize2(simd4f a) {
+    simd4f invlen = simd4f_rsqrt( simd4f_dot2(a,a) );
+    return simd4f_mul(a, invlen);    
+}
+
 
 #endif

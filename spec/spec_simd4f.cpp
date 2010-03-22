@@ -217,14 +217,29 @@ describe(simd4f, "vector math") {
 
     }
     
-    it("should have simd4f_normalize4 for normalizing 4 values to unit length") {
+    it("should have simd4f_normalize4 for normalizing four const vector to unit length") {
         simd4f a = simd4f_create(1,2,3,4);
         simd4f x = simd4f_normalize4(a);
-        // octave simd4f: [1,2,3,4] / norm([1,2,3,4])
         const float epsilon = 0.001f;
+        // octave simd4f: [1,2,3,4] / norm([1,2,3,4])
         should_be_equal_simd4f(x, simd4f_create(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
     }
 
+    it("should have simd4f_normalize3 for normalizing three component vector to unit length") {
+        simd4f a = simd4f_create(1,2,3,0);
+        simd4f x = simd4f_normalize4(a);
+        const float epsilon = 0.001f;
+        // octave simd4f: [1,2,3,0] / norm([1,2,3])
+        should_be_equal_simd4f(x, simd4f_create(0.267261, 0.534522, 0.801784, 0.000000), epsilon );
+    }
+
+    it("should have simd4f_normalize2 for normalizing two component vector to unit length") {
+        simd4f a = simd4f_create(1,2,0,0);
+        simd4f x = simd4f_normalize4(a);
+        const float epsilon = 0.001f;
+        // octave simd4f: [1,2,0,0] / norm([1,2])
+        should_be_equal_simd4f(x, simd4f_create(0.447214, 0.894427, 0.000000, 0.000000), epsilon );
+    }
 
     
 }
