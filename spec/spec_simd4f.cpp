@@ -22,7 +22,42 @@ describe(simd4f, "creating") {
     
 }
 
+#define unaligned_mem(n) ((float*)((unsigned char*)alloca(sizeof(float)*n+1)+1))
+
 describe(simd4f, "utilities") {
+
+    it("should have simd4f_uload4 for loading four float values from an unaligned float array into simd4f") {
+        float *f = unaligned_mem(4);
+        f[0] = 1;
+        f[1] = 2;
+        f[2] = 3;
+        f[3] = 4;
+        simd4f x = simd4f_uload4(f);
+        // octave simd4f: [1,2,3,4]
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+    }
+
+    it("should have simd4f_uload3 for loading three float values from an unaligned float array into simd4f") {
+        float *f = unaligned_mem(3);
+        f[0] = 1;
+        f[1] = 2;
+        f[2] = 3;
+        simd4f x = simd4f_uload3(f);
+        // octave simd4f: [1,2,3]
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 0), epsilon );
+    }
+
+    it("should have simd4f_uload2 for loading two float values from float an unaligned array into simd4f") {
+        float *f = unaligned_mem(2);
+        f[0] = 1;
+        f[1] = 2;
+        simd4f x = simd4f_uload2(f);
+        // octave simd4f: [1,2]
+        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 0, 0), epsilon );
+    }
+
+
+
 
     it("should have simd4f_splat that expands a single scalar to all elements") {
         simd4f x = simd4f_splat(42);

@@ -23,6 +23,23 @@ vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
 }
 
 
+vectorial_inline simd4f simd4f_uload4(const float *ary) {
+    simd4f s = { ary[0], ary[1], ary[2], ary[3] };
+    return s;
+}
+
+vectorial_inline simd4f simd4f_uload3(const float *ary) {
+    simd4f s = { ary[0], ary[1], ary[2], 0 };
+    return s;
+}
+
+vectorial_inline simd4f simd4f_uload2(const float *ary) {
+    simd4f s = { ary[0], ary[1], 0, 0 };
+    return s;
+}
+
+
+
 // utilities
 vectorial_inline simd4f simd4f_splat(float v) { 
     simd4f s = { v, v, v, v }; 

@@ -23,6 +23,25 @@ vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
     return s;
 }
 
+vectorial_inline simd4f simd4f_uload4(const float *ary) {
+    const float32_t* ary32 = (const float32_t*)ary;
+    simd4f s = vld1q_f32(ary32);    
+    return s;
+}
+
+vectorial_inline simd4f simd4f_uload3(const float *ary) {
+    simd4f s = simd4f_create(ary[0], ary[1], ary[2], 0);
+    return s;
+}
+
+vectorial_inline simd4f simd4f_uload2(const float *ary) {
+    const float32_t* ary32 = (const float32_t*)ary;
+    float32x2_t low = vld1_f32(ary32);
+    float32x2_t high = { 0, 0};
+    return vcombine_f32(low, high);
+}
+
+
 vectorial_inline simd4f simd4f_splat(float v) { 
     simd4f s = vdupq_n_f32(v);
     return s;
