@@ -16,6 +16,36 @@ describe(vec4f, "constructing") {
         
     }
 
+    it("should have constructor that loads from a float array") {
+        float ary[4] = { 1,2,3,4 };
+        vec4f x(ary);
+        // octave vec4f: [1,2,3,4]
+        should_be_equal_vec4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+    }
+
+}
+
+describe(vec4f, "loads and stores") {
+
+
+    it("should have method for loading from a float array") {
+        float ary[4] = { 1,2,3,4 };
+        vec4f x(-1, -1, -1, -1);
+        x.load(ary);
+        // octave vec4f: [1,2,3,4]
+        should_be_equal_vec4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+    }
+
+    it("should have method for storing to a float array") {
+        float ary[4] = { -1, -1, -1, -1 };
+        vec4f x(1, 2, 3, 4);
+        x.store(ary);
+        should_be_close_to(ary[0], 1, epsilon);
+        should_be_close_to(ary[1], 2, epsilon);
+        should_be_close_to(ary[2], 3, epsilon);
+        should_be_close_to(ary[3], 4, epsilon);
+    }
+
 }
 
 describe(vec4f, "arithmetic with another vec4f") {

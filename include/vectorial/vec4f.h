@@ -15,16 +15,18 @@ namespace vectorial {
         simd4f value;
     
         inline vec4f() {}
-    //    vec4(const vec4& v) : simd4f(v) {}
         inline vec4f(const simd4f& v) : value(v) {}
         inline vec4f(float x, float y, float z, float w) : value( simd4f_create(x,y,z,w) ) {}
+        inline vec4f(const float *ary) : value( simd4f_uload4(ary) ) { }
             
         inline float x() const { return simd4f_getX(value); }
         inline float y() const { return simd4f_getY(value); }
         inline float z() const { return simd4f_getZ(value); }
         inline float w() const { return simd4f_getW(value); }
 
-    
+        inline void load(const float *ary) { value = simd4f_uload4(ary); }
+        inline void store(float *ary) const { simd4f_ustore4(value, ary); }
+        
         enum { elements = 4 };
 
 

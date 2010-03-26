@@ -42,15 +42,15 @@ vectorial_inline simd4f simd4f_uload2(const float *ary) {
 }
 
 
-vectorial_inline simd4f simd4f_ustore4(const simd4f val, float *ary) {
+vectorial_inline void simd4f_ustore4(const simd4f val, float *ary) {
     vst1q_f32( (float32_t*)ary, val);
 }
 
-vectorial_inline simd4f simd4f_ustore3(const simd4f val, float *ary) {
+vectorial_inline void simd4f_ustore3(const simd4f val, float *ary) {
     memcpy(ary, &val, sizeof(float)*3);
 }
 
-vectorial_inline simd4f simd4f_ustore2(const simd4f val, float *ary) {
+vectorial_inline void simd4f_ustore2(const simd4f val, float *ary) {
     const float32x2_t low = vget_low_f32(val);
     vst1_f32( (float32_t*)ary, low);
 }
