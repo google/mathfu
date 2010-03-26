@@ -57,6 +57,43 @@ describe(simd4f, "utilities") {
     }
 
 
+    it("should have simd4f_ustore4 for storing four float values from simd4f to an unaligned array") {
+        float *f = unaligned_mem(4);
+        f[0] = -1;
+        f[1] = -1;
+        f[2] = -1;
+        f[3] = -1;
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f_ustore4(a, f);
+        should_be_close_to(f[0], 1, epsilon);
+        should_be_close_to(f[1], 2, epsilon);
+        should_be_close_to(f[2], 3, epsilon);
+        should_be_close_to(f[3], 4, epsilon);
+    }
+
+    it("should have simd4f_ustore3 for storing three float values from simd4f to an unaligned array") {
+        float *f = unaligned_mem(3);
+        f[0] = -1;
+        f[1] = -1;
+        f[2] = -1;
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f_ustore4(a, f);
+        should_be_close_to(f[0], 1, epsilon);
+        should_be_close_to(f[1], 2, epsilon);
+        should_be_close_to(f[2], 3, epsilon);
+    }
+
+    it("should have simd4f_ustore2 for storing two float values from simd4f to an unaligned array") {
+        float *f = unaligned_mem(2);
+        f[0] = -1;
+        f[1] = -1;
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f_ustore4(a, f);
+        should_be_close_to(f[0], 1, epsilon);
+        should_be_close_to(f[1], 2, epsilon);
+    }
+
+
 
 
     it("should have simd4f_splat that expands a single scalar to all elements") {

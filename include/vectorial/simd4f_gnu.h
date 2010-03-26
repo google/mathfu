@@ -43,6 +43,18 @@ vectorial_inline simd4f simd4f_uload2(const float *ary) {
 }
 
 
+vectorial_inline void simd4f_ustore4(const simd4f val, float *ary) {
+    memcpy(ary, &val, sizeof(float) * 4);
+}
+
+vectorial_inline void simd4f_ustore3(const simd4f val, float *ary) {
+    memcpy(ary, &val, sizeof(float) * 3);
+}
+
+vectorial_inline void simd4f_ustore2(const simd4f val, float *ary) {
+    memcpy(ary, &val, sizeof(float) * 2);
+}
+
 
 vectorial_inline simd4f simd4f_splat(float v) { 
     simd4f s = { v, v, v, v }; 
