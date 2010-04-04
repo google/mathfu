@@ -2,6 +2,7 @@
 #define VECTORIAL_SIMD4F_GNU_H
 
 #include <math.h>
+#include <string.h>  // memcpy
 
 
 #ifdef __cplusplus

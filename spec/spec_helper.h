@@ -12,12 +12,15 @@
 #include "vectorial/vec3f.h"
 #include "vectorial/vec2f.h"
 
+#include "vectorial/simd4x4f.h"
 
 #define should_be_close_to(a,b,tolerance) should_be_close_to_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_simd4f( a, b, tolerance) should_be_equal_simd4f_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_vec4f( a, b, tolerance) should_be_equal_vec4f_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_vec3f( a, b, tolerance) should_be_equal_vec3f_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_vec2f( a, b, tolerance) should_be_equal_vec2f_(this, a,b,tolerance,__FILE__,__LINE__)
+
+#define should_be_equal_simd4x4f( a, b, tolerance) should_be_equal_simd4x4f_(this, a,b,tolerance,__FILE__,__LINE__)
 
 
 
@@ -95,6 +98,37 @@ static void should_be_equal_vec2f_(specific::SpecBase *spec, const vectorial::ve
     
 }
 
+
+
+static void should_be_equal_simd4x4f_(specific::SpecBase *spec, const simd4x4f& a, const simd4x4f& b, float tolerance, const char *file, int line) {
+    
+    bool equal=true;
+    if( fabs( simd4f_getX(b.x) - simd4f_getX(a.x)) > tolerance ) equal = false;
+    if( fabs( simd4f_getY(b.x) - simd4f_getY(a.x)) > tolerance ) equal = false;
+    if( fabs( simd4f_getZ(b.x) - simd4f_getZ(a.x)) > tolerance ) equal = false;
+    if( fabs( simd4f_getW(b.x) - simd4f_getW(a.x)) > tolerance ) equal = false;
+
+    if( fabs( simd4f_getX(b.y) - simd4f_getX(a.y)) > tolerance ) equal = false;
+    if( fabs( simd4f_getY(b.y) - simd4f_getY(a.y)) > tolerance ) equal = false;
+    if( fabs( simd4f_getZ(b.y) - simd4f_getZ(a.y)) > tolerance ) equal = false;
+    if( fabs( simd4f_getW(b.y) - simd4f_getW(a.y)) > tolerance ) equal = false;
+
+    if( fabs( simd4f_getX(b.z) - simd4f_getX(a.z)) > tolerance ) equal = false;
+    if( fabs( simd4f_getY(b.z) - simd4f_getY(a.z)) > tolerance ) equal = false;
+    if( fabs( simd4f_getZ(b.z) - simd4f_getZ(a.z)) > tolerance ) equal = false;
+    if( fabs( simd4f_getW(b.z) - simd4f_getW(a.z)) > tolerance ) equal = false;
+
+    if( fabs( simd4f_getX(b.w) - simd4f_getX(a.w)) > tolerance ) equal = false;
+    if( fabs( simd4f_getY(b.w) - simd4f_getY(a.w)) > tolerance ) equal = false;
+    if( fabs( simd4f_getZ(b.w) - simd4f_getZ(a.w)) > tolerance ) equal = false;
+    if( fabs( simd4f_getW(b.w) - simd4f_getW(a.w)) > tolerance ) equal = false;
+    
+    std::stringstream ss;
+    ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
+    spec->should_test(equal, ss.str().c_str(), file, line);
+    
+    
+}
 
 
 

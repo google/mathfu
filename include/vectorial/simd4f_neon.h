@@ -2,6 +2,7 @@
 #define VECTORIAL_SIMD4F_NEON_H
 
 #include <arm_neon.h>
+#include <string.h>  // memcpy
 
 #ifdef __cplusplus
 extern "C" {

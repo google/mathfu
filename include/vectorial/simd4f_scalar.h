@@ -2,6 +2,7 @@
 #define VECTORIAL_SIMD4F_SCALAR_H
 
 #include <math.h>
+#include <string.h>  // memcpy
 
 #ifdef __cplusplus
 extern "C" {

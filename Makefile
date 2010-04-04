@@ -3,7 +3,7 @@ CXX=g++
 CLANG_CC=clang
 CLANG_CXX=clang++
 
-IPHONE_PLATFORM_PATH = /Developer3.2b/Platforms/iPhoneOS.platform/Developer
+IPHONE_PLATFORM_PATH = /Developer/Platforms/iPhoneOS.platform/Developer
 IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS3.1.2.sdk/
 IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
 # -mfloat-abi=softfp -mfpu=neon  
@@ -148,6 +148,9 @@ include/vectorial/simd4f.h: include/vectorial/simd4f_neon.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_gnu.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_sse.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_scalar.h
+include/vectorial/simd4x4f.h: include/vectorial/simd4f.h
+include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_sse.h
+include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_scalar.h
 
 # DO NOT DELETE
 
@@ -156,11 +159,34 @@ spec/spec_main.o: spec/spec.h
 spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
 spec/spec_simd4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
 spec/spec_simd4f.o: include/vectorial/simd4f_common.h
-spec/spec_simd4f.o: include/vectorial/vec4f.h
+spec/spec_simd4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+spec/spec_simd4f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
+spec/spec_simd4f.o: include/vectorial/simd4f.h
+spec/spec_simd4x4f.o: spec/spec_helper.h spec/spec.h
+spec/spec_simd4x4f.o: include/vectorial/simd4f.h include/vectorial/config.h
+spec/spec_simd4x4f.o: include/vectorial/simd4f_gnu.h
+spec/spec_simd4x4f.o: include/vectorial/simd4f_common.h
+spec/spec_simd4x4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+spec/spec_simd4x4f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
+spec/spec_simd4x4f.o: include/vectorial/simd4f.h
+spec/spec_vec2f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
+spec/spec_vec2f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
+spec/spec_vec2f.o: include/vectorial/simd4f_common.h
+spec/spec_vec2f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+spec/spec_vec2f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
+spec/spec_vec2f.o: include/vectorial/simd4f.h
+spec/spec_vec3f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
+spec/spec_vec3f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
+spec/spec_vec3f.o: include/vectorial/simd4f_common.h
+spec/spec_vec3f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+spec/spec_vec3f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
+spec/spec_vec3f.o: include/vectorial/simd4f.h
 spec/spec_vec4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
 spec/spec_vec4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
 spec/spec_vec4f.o: include/vectorial/simd4f_common.h
-spec/spec_vec4f.o: include/vectorial/vec4f.h
+spec/spec_vec4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+spec/spec_vec4f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
+spec/spec_vec4f.o: include/vectorial/simd4f.h
 bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
 bench/bench.o: bench/bench.h include/vectorial/config.h
 bench/dot_bench.o: bench/bench.h include/vectorial/vec4f.h

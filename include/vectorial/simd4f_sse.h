@@ -2,6 +2,7 @@
 #define VECTORIAL_SIMD4F_SSE_H
 
 #include <xmmintrin.h>
+#include <string.h>  // memcpy
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,10 +11,10 @@ extern "C" {
 
 typedef __m128 simd4f; 
 
-union _simd4f_union {
+typedef union {
     simd4f s ;
     float f[4];
-};
+} _simd4f_union;
 
 // creating
 
