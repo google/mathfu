@@ -93,7 +93,7 @@ full:
 	./specsuite-gnu
 
 specsuite$(SUFFIX): $(SPEC_OBJ)
-	$(CXX) $^ -o $@
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 .PHONY: depend
 depend:

@@ -22,6 +22,7 @@ describe(simd4f, "creating") {
     
 }
 
+#include <alloca.h>
 #define unaligned_mem(n) ((float*)((unsigned char*)alloca(sizeof(float)*n+1)+1))
 
 describe(simd4f, "utilities") {
@@ -77,7 +78,7 @@ describe(simd4f, "utilities") {
         f[1] = -1;
         f[2] = -1;
         simd4f a = simd4f_create(1,2,3,4);
-        simd4f_ustore4(a, f);
+        simd4f_ustore3(a, f);
         should_be_close_to(f[0], 1, epsilon);
         should_be_close_to(f[1], 2, epsilon);
         should_be_close_to(f[2], 3, epsilon);
@@ -88,7 +89,7 @@ describe(simd4f, "utilities") {
         f[0] = -1;
         f[1] = -1;
         simd4f a = simd4f_create(1,2,3,4);
-        simd4f_ustore4(a, f);
+        simd4f_ustore2(a, f);
         should_be_close_to(f[0], 1, epsilon);
         should_be_close_to(f[1], 2, epsilon);
     }
