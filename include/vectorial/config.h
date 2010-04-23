@@ -53,6 +53,8 @@
   #if defined(__cplusplus)
     #define vectorial_restrict  __restrict
   #endif
+#elif defined(_WIN32)
+  #define vectorial_restrict  
 #else
   #define vectorial_restrict  restrict
 #endif
@@ -62,6 +64,14 @@
     #define vectorial_pure __attribute__((pure))
 #else
     #define vectorial_pure
+#endif
+
+
+#ifdef __cplusplus
+    // Hack around msvc badness
+    #define SIMD_PARAM(t, p) const t& p
+#else
+    #define SIMD_PARAM(t, p) t p
 #endif
 
 #endif

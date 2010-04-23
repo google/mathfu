@@ -3,6 +3,7 @@
 #include <iostream>
 #include "vectorial/config.h"
 
+
 namespace profiler {
 
     #ifdef BENCH_MACH
@@ -17,6 +18,15 @@ namespace profiler {
     }
     #endif
 
+    #ifdef BENCH_QPC
+    double frequency;
+    void init() {
+        LARGE_INTEGER freq;
+        QueryPerformanceFrequency(&freq);
+        frequency = (double)freq.QuadPart;
+    }
+    #endif
+
 
     time_t now() {
 
@@ -27,6 +37,12 @@ namespace profiler {
         #ifdef BENCH_GTOD
         time_t v;
         gettimeofday(&v, NULL);
+        return v;
+        #endif
+        
+        #ifdef BENCH_QPC
+        LARGE_INTEGER v;
+        QueryPerformanceCounter(&v);
         return v;
         #endif
 
@@ -43,6 +59,9 @@ namespace profiler {
         return ((end-start) * info.numer / info.denom) / 1000000000.0;
         #endif
 
+        #ifdef BENCH_QPC
+        return (end.QuadPart - start.QuadPart) / frequency;
+        #endif
     }
     
 }
@@ -83,10 +102,13 @@ void profile(const char* name, void (*func)(), int iterations, int elements) {
 
 void add_bench();
 void dot_bench();
+void quad_bench();
+
 int main() {
     
 //    add_bench();
-    dot_bench();
+//    dot_bench();
+    quad_bench();
 
     return 0;
 }

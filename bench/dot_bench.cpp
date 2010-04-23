@@ -11,10 +11,7 @@ using namespace vectorial;
 
 namespace {
     vec4f* alloc_vec4f(size_t n) {
-        void *ptr;
-        int e = posix_memalign(&ptr, 16, n * sizeof(vec4f) );
-    //    if( e == EINVAL ) printf("EINVAL posix_memalign\n");
-    //    if( e == ENOMEM ) printf("ENOMEM posix_memalign\n");
+        void *ptr = memalign(n*sizeof(vec4f), 16);
         return static_cast<vec4f*>(ptr);
     }    
 }
@@ -55,9 +52,9 @@ void dot_bench() {
         
     profile("dot", dot_func, ITER, NUM);
 
-    free(a);
-    free(b);
-    free(c);
+    memfree(a);
+    memfree(b);
+    memfree(c);
 
 
 }

@@ -21,8 +21,12 @@ describe(simd4f, "creating") {
     
     
 }
-
+#ifdef _MSC_VER
+#include <malloc.h>
+#else
 #include <alloca.h>
+#endif
+
 #define unaligned_mem(n) ((float*)((unsigned char*)alloca(sizeof(float)*n+1)+1))
 
 describe(simd4f, "utilities") {
