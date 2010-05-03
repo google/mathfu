@@ -11,7 +11,8 @@
 
         #define VECTORIAL_NEON
 
-    #elif defined(__GNUC__)
+    // Not for arm, doesn't compile on iphone sdk gcc with armv6
+    #elif defined(__GNUC__) && !defined(__arm__)
 
         #define VECTORIAL_GNU
 

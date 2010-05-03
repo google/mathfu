@@ -2,7 +2,6 @@
 #define VECTORIAL_SIMD4F_NEON_H
 
 #include <arm_neon.h>
-#include <string.h>  // memcpy
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,7 +47,10 @@ vectorial_inline void simd4f_ustore4(const simd4f val, float *ary) {
 }
 
 vectorial_inline void simd4f_ustore3(const simd4f val, float *ary) {
-    memcpy(ary, &val, sizeof(float)*3);
+    _simd4f_union u = { val };
+    ary[0] = u.f[0];
+    ary[1] = u.f[1];
+    ary[2] = u.f[2];
 }
 
 vectorial_inline void simd4f_ustore2(const simd4f val, float *ary) {

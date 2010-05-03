@@ -3,6 +3,12 @@
 
 const float epsilon = 0.000001f;
 
+describe(simd4f, "sanity") {
+    it("VECTORIAL_SIMD_TYPE should be defined to a string") {
+        std::cout << "Simd type: " << VECTORIAL_SIMD_TYPE << std::endl;
+    }
+}
+
 describe(simd4f, "creating") {
     
     it("should be possible to create with params") {
