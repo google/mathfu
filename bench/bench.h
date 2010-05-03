@@ -23,7 +23,7 @@ static void* memalign(size_t count, size_t align) {
     return _aligned_malloc(count,align);
     #else
     void *ptr;
-    int e = posix_memalign(&ptr, 16, n * sizeof(vec4f) );
+    int e = posix_memalign(&ptr, align, count);
     //    if( e == EINVAL ) printf("EINVAL posix_memalign\n");
     //    if( e == ENOMEM ) printf("ENOMEM posix_memalign\n");
     return ptr;
