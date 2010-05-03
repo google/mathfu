@@ -3,10 +3,8 @@
 
 
 
-vectorial_inline simd4x4f simd4x4f_transpose(SIMD_PARAM(simd4x4f, s)) {
-    simd4x4f d = s;
-    _MM_TRANSPOSE4_PS(d.x, d.y, d.z, d.w);
-    return d;
+vectorial_inline void simd4x4f_transpose_inplace(simd4x4f *s) {
+    _MM_TRANSPOSE4_PS(s->x, s->y, s->z, s->w);
 }
 
 

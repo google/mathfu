@@ -2,28 +2,28 @@
 #define VECTORIAL_SIMD4X4F_SCALAR_H
 
 
-vectorial_inline simd4x4f simd4x4f_transpose(simd4x4f s) {
-    simd4x4f d;
-    d.x.x = s.x.x;
-    d.x.y = s.y.x;
-    d.x.z = s.z.x;
-    d.x.w = s.w.x;
+vectorial_inline void simd4x4f_transpose_inplace(simd4x4f *s) {
+    simd4x4f d=*s;
+    s->x.x = d.x.x;
+    s->x.y = d.y.x;
+    s->x.z = d.z.x;
+    s->x.w = d.w.x;
 
-    d.y.x = s.x.y;
-    d.y.y = s.y.y;
-    d.y.z = s.z.y;
-    d.y.w = s.w.y;
+    s->y.x = d.x.y;
+    s->y.y = d.y.y;
+    s->y.z = d.z.y;
+    s->y.w = d.w.y;
 
-    d.z.x = s.x.z;
-    d.z.y = s.y.z;
-    d.z.z = s.z.z;
-    d.z.w = s.w.z;
+    s->z.x = d.x.z;
+    s->z.y = d.y.z;
+    s->z.z = d.z.z;
+    s->z.w = d.w.z;
 
-    d.w.x = s.x.w;
-    d.w.y = s.y.w;
-    d.w.z = s.z.w;
-    d.w.w = s.w.w;
-    return d;
+    s->w.x = d.x.w;
+    s->w.y = d.y.w;
+    s->w.z = d.z.w;
+    s->w.w = d.w.w;
+
 }
 
 
