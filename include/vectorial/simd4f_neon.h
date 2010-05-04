@@ -10,10 +10,10 @@ extern "C" {
 
 typedef float32x4_t simd4f;
 
-union _simd4f_union {
+typedef union {
     simd4f s ;
     float f[4];
-};
+} _simd4f_union;
 
 
 

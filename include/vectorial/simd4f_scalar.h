@@ -9,12 +9,12 @@ extern "C" {
 #endif
 
 
-struct simd4f { 
+typedef struct { 
     float x;
     float y; 
     float z; 
     float w;
-};
+} simd4f;
 
 
 
