@@ -17,6 +17,14 @@ vectorial_inline simd4x4f simd4x4f_create(simd4f x, simd4f y, simd4f z, SIMD_PAR
 }
 
 
+vectorial_inline void simd4x4f_identity(simd4x4f* m) {
+    *m = simd4x4f_create( simd4f_create(1.0f, 0.0f, 0.0f, 0.0f),
+                          simd4f_create(0.0f, 1.0f, 0.0f, 0.0f),
+                          simd4f_create(0.0f, 0.0f, 1.0f, 0.0f),
+                          simd4f_create(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+
 #ifdef VECTORIAL_SCALAR
     #include "simd4x4f_scalar.h"
 #elif defined(VECTORIAL_SSE)

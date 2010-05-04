@@ -21,7 +21,14 @@ describe(simd4x4f, "creating") {
         
     }
     
-    
+
+    it("should be possible to set to identity") {
+        simd4x4f x;
+        simd4x4f_identity(&x);
+        
+        // octave simd4x4f: [1,0,0,0; 0,1,0,0; 0,0,1,0; 0,0,0,1]
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(1.000000, 0.000000, 0.000000, 0.000000), simd4f_create(0.000000, 1.000000, 0.000000, 0.000000), simd4f_create(0.000000, 0.000000, 1.000000, 0.000000), simd4f_create(0.000000, 0.000000, 0.000000, 1.000000)), epsilon );
+    }
 }
 
 
