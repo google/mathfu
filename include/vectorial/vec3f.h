@@ -19,9 +19,9 @@ namespace vectorial {
         inline vec3f(float x, float y, float z) : value( simd4f_create(x,y,z,0) ) {}
         inline vec3f(const float *ary) : value( simd4f_uload3(ary) ) { }
             
-        inline float x() const { return simd4f_getX(value); }
-        inline float y() const { return simd4f_getY(value); }
-        inline float z() const { return simd4f_getZ(value); }
+        inline float x() const { return simd4f_get_x(value); }
+        inline float y() const { return simd4f_get_y(value); }
+        inline float z() const { return simd4f_get_z(value); }
 
         inline void load(const float *ary) { value = simd4f_uload3(ary); }
         inline void store(float *ary) const { simd4f_ustore3(value, ary); }
@@ -85,7 +85,7 @@ namespace vectorial {
 
 
     vectorial_inline float dot(const vec3f& lhs, const vec3f& rhs) {
-        return simd4f_getX( simd4f_dot3(lhs.value, rhs.value) );
+        return simd4f_get_x( simd4f_dot3(lhs.value, rhs.value) );
     }
 
     vectorial_inline vec3f cross(const vec3f& lhs, const vec3f& rhs) {
@@ -94,11 +94,11 @@ namespace vectorial {
     
     
     vectorial_inline float length(const vec3f& v) {
-        return simd4f_getX( simd4f_length3(v.value) );
+        return simd4f_get_x( simd4f_length3(v.value) );
     }
 
     vectorial_inline float length_squared(const vec3f& v) {
-        return simd4f_getX( simd4f_length3_squared(v.value) );
+        return simd4f_get_x( simd4f_length3_squared(v.value) );
     }
 
     vectorial_inline vec3f normalize(const vec3f& v) {

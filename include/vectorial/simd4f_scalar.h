@@ -126,10 +126,10 @@ vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
 }
 
 
-vectorial_inline float simd4f_getX(simd4f s) { return s.x; }
-vectorial_inline float simd4f_getY(simd4f s) { return s.y; }
-vectorial_inline float simd4f_getZ(simd4f s) { return s.z; }
-vectorial_inline float simd4f_getW(simd4f s) { return s.w; }
+vectorial_inline float simd4f_get_x(simd4f s) { return s.x; }
+vectorial_inline float simd4f_get_y(simd4f s) { return s.y; }
+vectorial_inline float simd4f_get_z(simd4f s) { return s.z; }
+vectorial_inline float simd4f_get_w(simd4f s) { return s.w; }
 
 
 #ifdef __cplusplus

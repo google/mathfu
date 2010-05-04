@@ -19,10 +19,10 @@ namespace vectorial {
         inline vec4f(float x, float y, float z, float w) : value( simd4f_create(x,y,z,w) ) {}
         inline vec4f(const float *ary) : value( simd4f_uload4(ary) ) { }
             
-        inline float x() const { return simd4f_getX(value); }
-        inline float y() const { return simd4f_getY(value); }
-        inline float z() const { return simd4f_getZ(value); }
-        inline float w() const { return simd4f_getW(value); }
+        inline float x() const { return simd4f_get_x(value); }
+        inline float y() const { return simd4f_get_y(value); }
+        inline float z() const { return simd4f_get_z(value); }
+        inline float w() const { return simd4f_get_w(value); }
 
         inline void load(const float *ary) { value = simd4f_uload4(ary); }
         inline void store(float *ary) const { simd4f_ustore4(value, ary); }
@@ -86,16 +86,16 @@ namespace vectorial {
 
 
     vectorial_inline float dot(const vec4f& lhs, const vec4f& rhs) {
-        return simd4f_getX( simd4f_dot4(lhs.value, rhs.value) );
+        return simd4f_get_x( simd4f_dot4(lhs.value, rhs.value) );
     }
     
     
     vectorial_inline float length(const vec4f& v) {
-        return simd4f_getX( simd4f_length4(v.value) );
+        return simd4f_get_x( simd4f_length4(v.value) );
     }
 
     vectorial_inline float length_squared(const vec4f& v) {
-        return simd4f_getX( simd4f_length4_squared(v.value) );
+        return simd4f_get_x( simd4f_length4_squared(v.value) );
     }
 
     vectorial_inline vec4f normalize(const vec4f& v) {
@@ -108,7 +108,7 @@ namespace vectorial {
 
 
 #ifdef VECTORIAL_OSTREAM
-#include <ostream>
+//#include <ostream>
 
 static std::ostream& operator<<(std::ostream& os, const vectorial::vec4f& v) {
     os << "[ " << v.x() << ", "

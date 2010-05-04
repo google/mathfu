@@ -40,22 +40,22 @@ vectorial_inline simd4x4f simd4x4f_create(simd4f x, simd4f y, simd4f z, SIMD_PAR
         #include <ostream>
 
         static std::ostream& operator<<(std::ostream& os, const simd4x4f& v) {
-            os << "simd4x4f(simd4f(" << simd4f_getX(v.x) << ", "
-                       << simd4f_getY(v.x) << ", "
-                       << simd4f_getZ(v.x) << ", "
-                       << simd4f_getW(v.x) << "),\n"
-                       << "         simd4f(" << simd4f_getX(v.y) << ", "
-                       << simd4f_getY(v.y) << ", "
-                       << simd4f_getZ(v.y) << ", "
-                       << simd4f_getW(v.y) << "),\n"
-                       << "         simd4f(" << simd4f_getX(v.z) << ", "
-                       << simd4f_getY(v.z) << ", "
-                       << simd4f_getZ(v.z) << ", "
-                       << simd4f_getW(v.z) << "),\n"
-                       << "         simd4f(" << simd4f_getX(v.w) << ", "
-                       << simd4f_getY(v.w) << ", "
-                       << simd4f_getZ(v.w) << ", "
-                       << simd4f_getW(v.w) << "))";
+            os << "simd4x4f(simd4f(" << simd4f_get_x(v.x) << ", "
+                       << simd4f_get_y(v.x) << ", "
+                       << simd4f_get_z(v.x) << ", "
+                       << simd4f_get_w(v.x) << "),\n"
+                       << "         simd4f(" << simd4f_get_x(v.y) << ", "
+                       << simd4f_get_y(v.y) << ", "
+                       << simd4f_get_z(v.y) << ", "
+                       << simd4f_get_w(v.y) << "),\n"
+                       << "         simd4f(" << simd4f_get_x(v.z) << ", "
+                       << simd4f_get_y(v.z) << ", "
+                       << simd4f_get_z(v.z) << ", "
+                       << simd4f_get_w(v.z) << "),\n"
+                       << "         simd4f(" << simd4f_get_x(v.w) << ", "
+                       << simd4f_get_y(v.w) << ", "
+                       << simd4f_get_z(v.w) << ", "
+                       << simd4f_get_w(v.w) << "))";
             return os;
         }
     #endif

@@ -15,10 +15,10 @@ describe(simd4f, "creating") {
         
         simd4f x = simd4f_create(1, 2, 3, 4);
 
-        should_be_close_to( simd4f_getX(x), 1, epsilon);
-        should_be_close_to( simd4f_getY(x), 2, epsilon);
-        should_be_close_to( simd4f_getZ(x), 3, epsilon);
-        should_be_close_to( simd4f_getW(x), 4, epsilon);
+        should_be_close_to( simd4f_get_x(x), 1, epsilon);
+        should_be_close_to( simd4f_get_y(x), 2, epsilon);
+        should_be_close_to( simd4f_get_z(x), 3, epsilon);
+        should_be_close_to( simd4f_get_w(x), 4, epsilon);
 
         // octave simd4f: [1,2,3,4]
         should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );

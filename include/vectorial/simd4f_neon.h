@@ -66,7 +66,7 @@ vectorial_inline simd4f simd4f_splat(float v) {
     return s;
 }
 
-// todo: or is simd4f_splat(simd4f_getX(v))  better?
+// todo: or is simd4f_splat(simd4f_get_x(v))  better?
 
 vectorial_inline simd4f simd4f_splat_x(simd4f v) {
     float32x2_t o = vget_low_f32(v);
@@ -140,19 +140,19 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
 }
 
 
-vectorial_inline float simd4f_getX(simd4f s) { return vgetq_lane_f32(s, 0); }
-vectorial_inline float simd4f_getY(simd4f s) { return vgetq_lane_f32(s, 1); }
-vectorial_inline float simd4f_getZ(simd4f s) { return vgetq_lane_f32(s, 2); }
-vectorial_inline float simd4f_getW(simd4f s) { return vgetq_lane_f32(s, 3); }
+vectorial_inline float simd4f_get_x(simd4f s) { return vgetq_lane_f32(s, 0); }
+vectorial_inline float simd4f_get_y(simd4f s) { return vgetq_lane_f32(s, 1); }
+vectorial_inline float simd4f_get_z(simd4f s) { return vgetq_lane_f32(s, 2); }
+vectorial_inline float simd4f_get_w(simd4f s) { return vgetq_lane_f32(s, 3); }
 
 
 vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
     
-    const simd4f lyzx = simd4f_create(simd4f_getY(lhs), simd4f_getZ(lhs), simd4f_getX(lhs), simd4f_getW(lhs));
-    const simd4f lzxy = simd4f_create(simd4f_getZ(lhs), simd4f_getX(lhs), simd4f_getY(lhs), simd4f_getW(lhs));
+    const simd4f lyzx = simd4f_create(simd4f_get_y(lhs), simd4f_get_z(lhs), simd4f_get_x(lhs), simd4f_get_w(lhs));
+    const simd4f lzxy = simd4f_create(simd4f_get_z(lhs), simd4f_get_x(lhs), simd4f_get_y(lhs), simd4f_get_w(lhs));
 
-    const simd4f ryzx = simd4f_create(simd4f_getY(rhs), simd4f_getZ(rhs), simd4f_getX(rhs), simd4f_getW(rhs));
-    const simd4f rzxy = simd4f_create(simd4f_getZ(rhs), simd4f_getX(rhs), simd4f_getY(rhs), simd4f_getW(rhs));
+    const simd4f ryzx = simd4f_create(simd4f_get_y(rhs), simd4f_get_z(rhs), simd4f_get_x(rhs), simd4f_get_w(rhs));
+    const simd4f rzxy = simd4f_create(simd4f_get_z(rhs), simd4f_get_x(rhs), simd4f_get_y(rhs), simd4f_get_w(rhs));
 
     return vmlsq_f32(vmulq_f32(lyzx, rzxy), lzxy, ryzx);
 

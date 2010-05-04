@@ -28,10 +28,10 @@
         #include <ostream>
 
         static std::ostream& operator<<(std::ostream& os, const simd4f& v) {
-            os << "simd4f(" << simd4f_getX(v) << ", "
-                       << simd4f_getY(v) << ", "
-                       << simd4f_getZ(v) << ", "
-                       << simd4f_getW(v) << ")";
+            os << "simd4f(" << simd4f_get_x(v) << ", "
+                       << simd4f_get_y(v) << ", "
+                       << simd4f_get_z(v) << ", "
+                       << simd4f_get_w(v) << ")";
             return os;
         }
     #endif

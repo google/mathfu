@@ -17,10 +17,10 @@ typedef union {
     float f[4];
 } _simd4f_union;
 
-vectorial_inline float simd4f_getX(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
-vectorial_inline float simd4f_getY(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
-vectorial_inline float simd4f_getZ(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
-vectorial_inline float simd4f_getW(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
+vectorial_inline float simd4f_get_x(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
+vectorial_inline float simd4f_get_y(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
+vectorial_inline float simd4f_get_z(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
+vectorial_inline float simd4f_get_w(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
 
 
 vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
@@ -63,25 +63,25 @@ vectorial_inline simd4f simd4f_splat(float v) {
 }
 
 vectorial_inline simd4f simd4f_splat_x(simd4f v) { 
-    float s = simd4f_getX(v);
+    float s = simd4f_get_x(v);
     simd4f ret = { s, s, s, s }; 
     return ret;
 }
 
 vectorial_inline simd4f simd4f_splat_y(simd4f v) { 
-    float s = simd4f_getY(v);
+    float s = simd4f_get_y(v);
     simd4f ret = { s, s, s, s }; 
     return ret;
 }
 
 vectorial_inline simd4f simd4f_splat_z(simd4f v) { 
-    float s = simd4f_getZ(v);
+    float s = simd4f_get_z(v);
     simd4f ret = { s, s, s, s }; 
     return ret;
 }
 
 vectorial_inline simd4f simd4f_splat_w(simd4f v) { 
-    float s = simd4f_getW(v);
+    float s = simd4f_get_w(v);
     simd4f ret = { s, s, s, s }; 
     return ret;
 }
@@ -91,7 +91,7 @@ vectorial_inline simd4f simd4f_reciprocal(simd4f v) {
 }
 
 vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
-    simd4f ret = { sqrtf(simd4f_getX(v)), sqrtf(simd4f_getY(v)), sqrtf(simd4f_getZ(v)), sqrtf(simd4f_getW(v)) };
+    simd4f ret = { sqrtf(simd4f_get_x(v)), sqrtf(simd4f_get_y(v)), sqrtf(simd4f_get_z(v)), sqrtf(simd4f_get_w(v)) };
     return ret;
 }
 
