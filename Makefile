@@ -8,7 +8,9 @@ IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS3.1.2.sdk/
 IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
 # -mfloat-abi=softfp -mfpu=neon  
 
-CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -ffast-math 
+CXXFLAGS += -Iinclude -O0
+#-g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O0 -fstrict-aliasing -Wstrict-aliasing=2
+# -ffast-math 
 
 SPEC_SRC = $(wildcard spec/*.cpp)
 SPEC_OBJ = $(SPEC_SRC:.cpp=.o)
@@ -27,7 +29,8 @@ ifeq ($(FORCE_SCALAR),1)
 endif
 
 ifeq ($(FORCE_SSE),1)
-	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE -msse -msse2 -mfpmath=sse
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE -msse -msse2 
+	#-mfpmath=sse
 	SUFFIX=-sse
 endif
 
@@ -69,7 +72,16 @@ ifeq ($(ASM),1)
 	CXX+= -S
 endif
 
+BUILDDIR=build$(SUFFIX)
+SPEC_OBJ := $(addprefix $(BUILDDIR)/,$(SPEC_OBJ))
+SILENT=@
+MKDIR=mkdir -p
+PATH_SEPARATOR=/
 
+$(BUILDDIR)/%.o: %.cpp
+	@echo CXX $<
+	$(SILENT) $(MKDIR) $(subst /,$(PATH_SEPARATOR),$(dir $@))
+	$(SILENT) $(COMPILE.cc) -o $@ $<
 
 
 
@@ -80,25 +92,28 @@ all: specsuite$(SUFFIX)
 
 .PHONY: full
 full:
-	FORCE_SCALAR=1 $(MAKE) clean 
-	FORCE_SCALAR=1 $(MAKE) specsuite-scalar
-	FORCE_GNU=1 $(MAKE) clean 
-	FORCE_GNU=1 $(MAKE) specsuite-gnu
-	FORCE_SSE=1 $(MAKE) clean 
-	FORCE_SSE=1 $(MAKE) specsuite-sse
-	FORCE_NEON=1 $(MAKE) clean 
-	FORCE_NEON=1 $(MAKE) specsuite-neon
-	./specsuite-scalar
-	./specsuite-sse
-	./specsuite-gnu
+	@clear
+	@echo FULL COMPILE at `date +%H:%M:%S`
+#	FORCE_SCALAR=1 $(MAKE) clean 
+	@FORCE_SCALAR=1 $(MAKE)  specsuite-scalar
+#	FORCE_GNU=1 $(MAKE) clean 
+	@FORCE_GNU=1 $(MAKE)  specsuite-gnu
+#	FORCE_SSE=1 $(MAKE) clean 
+	@FORCE_SSE=1 $(MAKE)  specsuite-sse
+#	FORCE_NEON=1 $(MAKE) clean 
+#	FORCE_NEON=1 $(MAKE) specsuite-neon
+	@./specsuite-scalar
+	@./specsuite-sse
+	@./specsuite-gnu
 
 specsuite$(SUFFIX): $(SPEC_OBJ)
-	$(CXX) $(LDFLAGS) $^ -o $@
+	@echo LINK $@
+	@$(CXX) $(LDFLAGS) $^ -o $@
 
 .PHONY: depend
 depend:
 	@echo DEP
-	@makedepend -Y -- $(CXXFLAGS) -- $(SPEC_SRC) $(BENCH_SRC) > /dev/null 2>&1 
+	@makedepend -Y -- $(CXXFLAGS) -- $(SPEC_SRC) $(BENCH_SRC) -p$(BUILDDIR)/ > /dev/null 2>&1 
 	@$(RM) Makefile.bak
 
 define asm-command
@@ -115,11 +130,8 @@ benchmark$(SUFFIX): $(BENCH_OBJ) bench-asm
 
 .PHONY: bench-full
 bench-full:
-	FORCE_SCALAR=1 $(MAKE) clean 
 	FORCE_SCALAR=1 $(MAKE) benchmark-scalar
-	FORCE_GNU=1 $(MAKE) clean 
 	FORCE_GNU=1 $(MAKE) benchmark-gnu
-	FORCE_SSE=1 $(MAKE) clean 
 	FORCE_SSE=1 $(MAKE) benchmark-sse
 #	FORCE_NEON=1 $(MAKE) clean 
 #	FORCE_NEON=1 $(MAKE) benchmark-neon
@@ -135,6 +147,7 @@ clean:
 .PHONY: realclean
 realclean: clean
 	rm -f specsuite*
+	rm -rf build*
 
 
 .PHONY: update_spec
@@ -143,50 +156,50 @@ update_spec:
 
 
 
+include/vectorial/vec2f.h include/vectorial/vec3f.h include/vectorial/vec4f.h: include/vectorial/simd4f.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_scalar.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_neon.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_gnu.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_sse.h
 include/vectorial/simd4f.h: include/vectorial/simd4f_scalar.h
+include/vectorial/simd4f.h: include/vectorial/config.h
 include/vectorial/simd4x4f.h: include/vectorial/simd4f.h
-include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_sse.h
 include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_scalar.h
+include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_neon.h
+include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_gnu.h
+include/vectorial/simd4x4f.h: include/vectorial/simd4x4f_sse.h
+include/vectorial/simd4x4f.h: include/vectorial/config.h
+spec/spec_helper.h: include/vectorial/simd4x4f.h include/vectorial/simd4f.h include/vectorial/vec4f.h include/vectorial/vec3f.h include/vectorial/vec2f.h
+spec/spec.cpp: spec/spec.h
+spec/spec_main.cpp: spec/spec.h
+spec/spec_simd4f.cpp: spec/spec_helper.h
+spec/spec_simd4x4f.cpp: spec/spec_helper.h
+spec/spec_vec2f.cpp: spec/spec_helper.h
+spec/spec_vec3f.cpp: spec/spec_helper.h
+spec/spec_vec4f.cpp: spec/spec_helper.h
 
-# DO NOT DELETE
+$(BUILDDIR)/spec/spec_simd4f.o: \
+  include/vectorial/simd4x4f.h include/vectorial/simd4f.h \
+  include/vectorial/simd4f_scalar.h include/vectorial/simd4f_neon.h \
+  include/vectorial/simd4f_gnu.h include/vectorial/simd4f_sse.h \
+  include/vectorial/config.h
 
-spec/spec.o: spec/spec.h
-spec/spec_main.o: spec/spec.h
-spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
-spec/spec_simd4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
-spec/spec_simd4f.o: include/vectorial/simd4f_common.h
-spec/spec_simd4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
-spec/spec_simd4f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
-spec/spec_simd4f.o: include/vectorial/simd4f.h
-spec/spec_simd4x4f.o: spec/spec_helper.h spec/spec.h
-spec/spec_simd4x4f.o: include/vectorial/simd4f.h include/vectorial/config.h
-spec/spec_simd4x4f.o: include/vectorial/simd4f_gnu.h
-spec/spec_simd4x4f.o: include/vectorial/simd4f_common.h
-spec/spec_simd4x4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
-spec/spec_simd4x4f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
-spec/spec_simd4x4f.o: include/vectorial/simd4f.h
-spec/spec_vec2f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
-spec/spec_vec2f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
-spec/spec_vec2f.o: include/vectorial/simd4f_common.h
-spec/spec_vec2f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
-spec/spec_vec2f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
-spec/spec_vec2f.o: include/vectorial/simd4f.h
-spec/spec_vec3f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
-spec/spec_vec3f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
-spec/spec_vec3f.o: include/vectorial/simd4f_common.h
-spec/spec_vec3f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
-spec/spec_vec3f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
-spec/spec_vec3f.o: include/vectorial/simd4f.h
-spec/spec_vec4f.o: spec/spec_helper.h spec/spec.h include/vectorial/simd4f.h
-spec/spec_vec4f.o: include/vectorial/config.h include/vectorial/simd4f_gnu.h
-spec/spec_vec4f.o: include/vectorial/simd4f_common.h
-spec/spec_vec4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
-spec/spec_vec4f.o: include/vectorial/vec2f.h include/vectorial/simd4x4f.h
-spec/spec_vec4f.o: include/vectorial/simd4f.h
-bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
-bench/bench.o: bench/bench.h include/vectorial/config.h
-bench/dot_bench.o: bench/bench.h include/vectorial/vec4f.h
+$(BUILDDIR)/spec/spec_simd4x4f.o: \
+  include/vectorial/simd4x4f.h include/vectorial/simd4f.h \
+  include/vectorial/simd4f_scalar.h include/vectorial/simd4f_neon.h \
+  include/vectorial/simd4f_gnu.h include/vectorial/simd4f_sse.h \
+  include/vectorial/simd4x4f_scalar.h include/vectorial/simd4x4f_neon.h \
+  include/vectorial/simd4x4f_gnu.h include/vectorial/simd4x4f_sse.h include/vectorial/config.h
+  
+$(BUILDDIR)/spec/spec_vec2f.o $(BUILDDIR)/spec/spec_vec3f.o $(BUILDDIR)/spec/spec_vec4f.o: \
+  include/vectorial/simd4x4f.h include/vectorial/simd4f.h \
+  include/vectorial/vec4f.h include/vectorial/vec3f.h include/vectorial/vec2f.h \
+  include/vectorial/simd4f_scalar.h include/vectorial/simd4f_neon.h \
+  include/vectorial/simd4f_gnu.h include/vectorial/simd4f_sse.h \
+  include/vectorial/simd4x4f_scalar.h include/vectorial/simd4x4f_neon.h \
+  include/vectorial/simd4x4f_gnu.h include/vectorial/simd4x4f_sse.h include/vectorial/config.h
+
+
+
+
+
