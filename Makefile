@@ -4,7 +4,7 @@ CLANG_CC=clang
 CLANG_CXX=clang++
 
 IPHONE_PLATFORM_PATH = /Developer/Platforms/iPhoneOS.platform/Developer
-IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS3.1.2.sdk/
+IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS4.0.sdk/
 IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
 # -mfloat-abi=softfp -mfpu=neon  
 
