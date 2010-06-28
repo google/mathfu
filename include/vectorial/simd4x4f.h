@@ -4,6 +4,9 @@
 
 #include "simd4f.h"
 
+/*
+  Note, x,y,z,w are conceptually columns with matrix math.
+*/
 
 typedef struct {
     simd4f x,y,z,w;
@@ -25,6 +28,12 @@ vectorial_inline void simd4x4f_identity(simd4x4f* m) {
 }
 
 
+
+
+
+
+
+
 #ifdef VECTORIAL_SCALAR
     #include "simd4x4f_scalar.h"
 #elif defined(VECTORIAL_SSE)
@@ -37,8 +46,39 @@ vectorial_inline void simd4x4f_identity(simd4x4f* m) {
     #error No implementation defined
 #endif
 
+vectorial_inline void simd4x4f_sum(simd4x4f* a, simd4f* out) {
+    simd4f t;
+    t = simd4f_add(a->x, a->y);
+    t = simd4f_add(t, a->z);
+    t = simd4f_add(t, a->w);
+    *out = t;
+}
+
+vectorial_inline void simd4x4f_matrix_vector_mul(simd4x4f* a, simd4f * b, simd4f* out) {
+
+    simd4x4f bbbb = simd4x4f_create( simd4f_splat_x(*b),
+                                     simd4f_splat_y(*b),
+                                     simd4f_splat_z(*b),
+                                     simd4f_splat_w(*b) );
+
+    simd4x4f ab = simd4x4f_create( simd4f_mul(a->x, bbbb.x),
+                                   simd4f_mul(a->y, bbbb.y),
+                                   simd4f_mul(a->z, bbbb.z),
+                                   simd4f_mul(a->w, bbbb.w) );
+
+    simd4x4f_sum(&ab, out);
+
+}
 
 
+vectorial_inline void simd4x4f_matrix_mul(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+
+    simd4x4f_matrix_vector_mul(a, &b->x, &out->x);
+    simd4x4f_matrix_vector_mul(a, &b->y, &out->y);
+    simd4x4f_matrix_vector_mul(a, &b->z, &out->z);
+    simd4x4f_matrix_vector_mul(a, &b->w, &out->w);
+
+}
 
 
 
