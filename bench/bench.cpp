@@ -103,12 +103,14 @@ void profile(const char* name, void (*func)(), int iterations, int elements) {
 void add_bench();
 void dot_bench();
 void quad_bench();
+void matrix_bench();
 
 int main() {
     
 //    add_bench();
 //    dot_bench();
-    quad_bench();
+//    quad_bench();
+    matrix_bench();
 
     return 0;
 }
