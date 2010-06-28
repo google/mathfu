@@ -1,5 +1,5 @@
 
-CXX=g++
+CXX?=g++
 CLANG_CC=clang
 CLANG_CXX=clang++
 
@@ -8,9 +8,8 @@ IPHONE_ISYSROOT_PATH = $(IPHONE_PLATFORM_PATH)/SDKs/iPhoneOS4.0.sdk/
 IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH)   -arch armv7
 # -mfloat-abi=softfp -mfpu=neon  
 
-CXXFLAGS += -Iinclude -O0
-#-g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O0 -fstrict-aliasing -Wstrict-aliasing=2
-# -ffast-math 
+#CXXFLAGS += -Iinclude -O0
+CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math 
 
 SPEC_SRC = $(wildcard spec/*.cpp)
 SPEC_OBJ = $(SPEC_SRC:.cpp=.o)
@@ -74,6 +73,7 @@ endif
 
 BUILDDIR=build$(SUFFIX)
 SPEC_OBJ := $(addprefix $(BUILDDIR)/,$(SPEC_OBJ))
+BENCH_OBJ := $(addprefix $(BUILDDIR)/,$(BENCH_OBJ))
 SILENT=@
 MKDIR=mkdir -p
 PATH_SEPARATOR=/
