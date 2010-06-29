@@ -52,7 +52,7 @@ void matrix_bench() {
         b[i]=simd4x4f_create(vi,vi,vi,vi);
     }
         
-    profile("bench", matrix_func, ITER, NUM);
+    profile("matrix mul", matrix_func, ITER, NUM);
 
     memfree(a);
     memfree(b);
