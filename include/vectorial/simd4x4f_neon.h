@@ -8,10 +8,10 @@ vectorial_inline void simd4x4f_transpose_inplace(simd4x4f* s) {
     const _simd4f_union sz = { s->z };
     const _simd4f_union sw = { s->w };
     
-    const simd4f dx = { sx.f[0], sy.f[0], sz.f[0], sw.f[0] };
-    const simd4f dy = { sx.f[1], sy.f[1], sz.f[1], sw.f[1] };
-    const simd4f dz = { sx.f[2], sy.f[2], sz.f[2], sw.f[2] };
-    const simd4f dw = { sx.f[3], sy.f[3], sz.f[3], sw.f[3] };
+    const simd4f dx = simd4f_create( sx.f[0], sy.f[0], sz.f[0], sw.f[0] );
+    const simd4f dy = simd4f_create( sx.f[1], sy.f[1], sz.f[1], sw.f[1] );
+    const simd4f dz = simd4f_create( sx.f[2], sy.f[2], sz.f[2], sw.f[2] );
+    const simd4f dw = simd4f_create( sx.f[3], sy.f[3], sz.f[3], sw.f[3] );
 
     s->x = dx;
     s->y = dy;

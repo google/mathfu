@@ -19,7 +19,7 @@ typedef union {
 
 vectorial_inline simd4f simd4f_create(float x, float y, float z, float w) {
     const float32_t d[4] = { x,y,z,w };
-    simd4f s = vld1q_f32((const float32_t*)&d);
+    simd4f s = vld1q_f32(d);
     return s;
 }
 
@@ -37,7 +37,8 @@ vectorial_inline simd4f simd4f_uload3(const float *ary) {
 vectorial_inline simd4f simd4f_uload2(const float *ary) {
     const float32_t* ary32 = (const float32_t*)ary;
     float32x2_t low = vld1_f32(ary32);
-    float32x2_t high = { 0, 0};
+    const float32_t zero = 0;
+    float32x2_t high = vld1_dup_f32(&zero); // { 0,0 } but stupid warnings from llvm-gcc
     return vcombine_f32(low, high);
 }
 
