@@ -118,3 +118,42 @@ describe(simd4x4f, "matrix utility") {
     
 }
 
+describe(simd4x4f, "creating projection matrices") {
+
+    it("should have simd4x4f_perspective for creating perspective projection matrix") {
+        
+        const float fov = 10.0f;
+        const float aspect = 1.6f;
+        const float znear = 2.0f;
+        const float zfar = 50.0f;
+
+        const float epsilon = 0.0001f;
+        
+        simd4x4f x;
+        simd4x4f_perspective(&x, fov, aspect, znear, zfar);
+        
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(7.14378,       0,        0,       -0),
+                                                    simd4f_create(      0, 11.4301,        0,       -0),
+                                                    simd4f_create(      0,       0, -1.08333, -4.16667),
+                                                    simd4f_create(      0,       0,       -1,       -0)), epsilon);
+        
+        
+    }
+
+    it("should have simd4x4f_ortho for creating orthogonal projection matrix") {
+        
+
+        simd4x4f x;
+        simd4x4f_ortho(&x, -10, 20, -30, 40, -50, 60);
+        
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.0666667,         0,         -0,  -0.333333 ),
+                                                    simd4f_create(        0, 0.0285714,         -0,  -0.142857 ),
+                                                    simd4f_create(        0,         0, -0.0181818, -0.0909091 ),
+                                                    simd4f_create(        0,         0,         -0,          1 )), epsilon);
+        
+        
+    }
+    
+}
+
+

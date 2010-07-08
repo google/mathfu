@@ -75,5 +75,10 @@
 #else
     #define SIMD_PARAM(t, p) t p
 #endif
+                    
+#define VECTORIAL_PI      3.14159265f
+#define VECTORIAL_HALFPI  1.57079633f
+
+
 
 #endif

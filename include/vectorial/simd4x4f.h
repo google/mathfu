@@ -4,6 +4,8 @@
 
 #include "simd4f.h"
 
+#include <math.h>
+
 /*
   Note, x,y,z,w are conceptually columns with matrix math.
 */
@@ -86,6 +88,48 @@ vectorial_inline void simd4x4f_matrix_mul(simd4x4f* a, simd4x4f* b, simd4x4f* ou
     simd4x4f_matrix_vector_mul(a, &b->z, &out->z);
     simd4x4f_matrix_vector_mul(a, &b->w, &out->w);
 
+}
+
+
+
+
+vectorial_inline void simd4x4f_perspective(simd4x4f *m, float fovy, float aspect, float znear, float zfar) {
+    
+    float radians = fovy * VECTORIAL_HALFPI / 180.0f;
+    float deltaz = zfar - znear;
+    float sine = sinf(radians);
+    float cotangent = cosf(radians) / sine;
+    
+    float a = cotangent / aspect;
+    float b = cotangent;
+    float c = -(zfar + znear) / deltaz;
+    float d = -2 * znear * zfar / deltaz;
+    
+    m->x = simd4f_create( a, 0, 0,  0);
+    m->y = simd4f_create( 0, b, 0,  0);
+    m->z = simd4f_create( 0, 0, c,  d);
+    m->w = simd4f_create( 0, 0, -1, 0);
+
+}
+
+vectorial_inline void simd4x4f_ortho(simd4x4f *m, float left, float right, float bottom, float top, float znear, float zfar) {
+    
+    float deltax = right - left;
+    float deltay = top - bottom;
+    float deltaz = zfar - znear;
+
+    float a = 2.0f / deltax;
+    float b = -(right + left) / deltax;
+    float c = 2.0f / deltay;
+    float d = -(top + bottom) / deltay;
+    float e =  -2.0f / deltaz;
+    float f = -(zfar + znear) / deltaz;
+    
+    m->x = simd4f_create( a, 0, 0, b);
+    m->y = simd4f_create( 0, c, 0, d);
+    m->z = simd4f_create( 0, 0, e, f);
+    m->w = simd4f_create( 0, 0, 0, 1);
+    
 }
 
 
