@@ -14,6 +14,8 @@
 
 #include "vectorial/simd4x4f.h"
 
+#include "vectorial/mat4f.h"
+
 #define should_be_close_to(a,b,tolerance) should_be_close_to_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_simd4f( a, b, tolerance) should_be_equal_simd4f_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_vec4f( a, b, tolerance) should_be_equal_vec4f_(this, a,b,tolerance,__FILE__,__LINE__)
@@ -22,6 +24,7 @@
 
 #define should_be_equal_simd4x4f( a, b, tolerance) should_be_equal_simd4x4f_(this, a,b,tolerance,__FILE__,__LINE__)
 
+#define should_be_equal_mat4f( a, b, tolerance) should_be_equal_mat4f_(this, a,b,tolerance,__FILE__,__LINE__)
 
 
 
@@ -122,6 +125,36 @@ static void should_be_equal_simd4x4f_(specific::SpecBase *spec, const simd4x4f& 
     if( fabs( simd4f_get_y(b.w) - simd4f_get_y(a.w)) > tolerance ) equal = false;
     if( fabs( simd4f_get_z(b.w) - simd4f_get_z(a.w)) > tolerance ) equal = false;
     if( fabs( simd4f_get_w(b.w) - simd4f_get_w(a.w)) > tolerance ) equal = false;
+    
+    std::stringstream ss;
+    ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
+    spec->should_test(equal, ss.str().c_str(), file, line);
+    
+    
+}
+
+static void should_be_equal_mat4f_(specific::SpecBase *spec, const vectorial::mat4f& a, const vectorial::mat4f& b, float tolerance, const char *file, int line) {
+    
+    bool equal=true;
+    if( fabs( simd4f_get_x(b.value.x) - simd4f_get_x(a.value.x)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_y(b.value.x) - simd4f_get_y(a.value.x)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_z(b.value.x) - simd4f_get_z(a.value.x)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_w(b.value.x) - simd4f_get_w(a.value.x)) > tolerance ) equal = false;
+
+    if( fabs( simd4f_get_x(b.value.y) - simd4f_get_x(a.value.y)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_y(b.value.y) - simd4f_get_y(a.value.y)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_z(b.value.y) - simd4f_get_z(a.value.y)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_w(b.value.y) - simd4f_get_w(a.value.y)) > tolerance ) equal = false;
+
+    if( fabs( simd4f_get_x(b.value.z) - simd4f_get_x(a.value.z)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_y(b.value.z) - simd4f_get_y(a.value.z)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_z(b.value.z) - simd4f_get_z(a.value.z)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_w(b.value.z) - simd4f_get_w(a.value.z)) > tolerance ) equal = false;
+
+    if( fabs( simd4f_get_x(b.value.w) - simd4f_get_x(a.value.w)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_y(b.value.w) - simd4f_get_y(a.value.w)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_z(b.value.w) - simd4f_get_z(a.value.w)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_w(b.value.w) - simd4f_get_w(a.value.w)) > tolerance ) equal = false;
     
     std::stringstream ss;
     ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
