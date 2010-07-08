@@ -9,7 +9,8 @@ IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH
 # -mfloat-abi=softfp -mfpu=neon  
 
 #CXXFLAGS += -Iinclude -O0
-CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math 
+#CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math 
+CXXFLAGS += -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math -s
 
 SPEC_SRC = $(wildcard spec/*.cpp)
 SPEC_OBJ = $(SPEC_SRC:.cpp=.o)
@@ -28,7 +29,8 @@ ifeq ($(FORCE_SCALAR),1)
 endif
 
 ifeq ($(FORCE_SSE),1)
-	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE -msse -msse2 
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE
+	# -msse -msse2 
 	#-mfpmath=sse
 	SUFFIX=-sse
 endif

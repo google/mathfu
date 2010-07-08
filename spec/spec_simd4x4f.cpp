@@ -32,6 +32,24 @@ describe(simd4x4f, "creating") {
 }
 
 
+describe(simd4x4f, "loading and storing") {
+
+    it("should be possible to load from array of 16 floats with simd4x4f_uload") {
+        
+        simd4x4f x;
+        float f[16] = {1,2,3,4, 5,6,7,8, 9,10,11,12, 13,14,15,16 };
+        simd4x4f_uload(&x, f);
+
+        should_be_equal_simd4x4f(x, simd4x4f_create( simd4f_create(1,2,3,4),
+                                                     simd4f_create(5,6,7,8),
+                                                     simd4f_create(9,10,11,12),
+                                                     simd4f_create(13,14,15,16) ), epsilon);
+        
+    }
+
+}
+
+
 describe(simd4x4f, "matrix utility") {
     
     it("should have simd4x4f_transpose_inplace for transpose") {

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "vectorial/simd4x4f.h"
 
-#define NUM (81920)
+#define NUM (819200)
 #define ITER 100
 //using namespace vectorial;
 
@@ -33,7 +33,7 @@ void matrix_func() {
     
     for(size_t i = 0; i < NUM; ++i)
     {
-        simd4x4f_matrix_mul(&aa[i], &bb[i], &cc[i]);
+        simd4x4f_matrix_mul(&aa[i], &bb[i], &bb[i]);
     }    
 }
 
