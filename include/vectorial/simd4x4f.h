@@ -134,6 +134,43 @@ vectorial_inline void simd4x4f_ortho(simd4x4f *m, float left, float right, float
 
 
 
+vectorial_inline void simd4x4f_add(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+    
+    out->x = simd4f_add(a->x, b->x);
+    out->y = simd4f_add(a->y, b->y);
+    out->z = simd4f_add(a->z, b->z);
+    out->w = simd4f_add(a->w, b->w);
+    
+}
+
+vectorial_inline void simd4x4f_sub(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+    
+    out->x = simd4f_sub(a->x, b->x);
+    out->y = simd4f_sub(a->y, b->y);
+    out->z = simd4f_sub(a->z, b->z);
+    out->w = simd4f_sub(a->w, b->w);
+    
+}
+
+vectorial_inline void simd4x4f_mul(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+    
+    out->x = simd4f_mul(a->x, b->x);
+    out->y = simd4f_mul(a->y, b->y);
+    out->z = simd4f_mul(a->z, b->z);
+    out->w = simd4f_mul(a->w, b->w);
+    
+}
+
+vectorial_inline void simd4x4f_div(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+    
+    out->x = simd4f_div(a->x, b->x);
+    out->y = simd4f_div(a->y, b->y);
+    out->z = simd4f_div(a->z, b->z);
+    out->w = simd4f_div(a->w, b->w);
+    
+}
+
+
 #ifdef __cplusplus
 
     #ifdef VECTORIAL_OSTREAM

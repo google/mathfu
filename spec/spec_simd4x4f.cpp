@@ -118,6 +118,101 @@ describe(simd4x4f, "matrix utility") {
     
 }
 
+
+describe(simd4x4f, "math on elements") {
+    
+    it("should have simd4x4f_add for element-wise addition") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create(1,  2,  3,  4 ),
+                                     simd4f_create(5,  6,  7,  8 ),
+                                     simd4f_create(9,  10, 11, 12 ),
+                                     simd4f_create(13, 14, 15, 16 ));
+        
+        simd4x4f b = simd4x4f_create(simd4f_create(  2 , -10,   18 , -26 ),
+                                     simd4f_create( -4,   12,  -20,   28 ),
+                                     simd4f_create(  6,  -14,   22,  -30 ),
+                                     simd4f_create( -8,   16,  -24,   32 ));
+
+        simd4x4f x;
+        
+        simd4x4f_add(&a, &b, &x);
+                                 
+
+        // octave simd4x4f: [1,5,9,13 ; 2,6,10,14 ; 3,7,11,15 ; 4,8,12,16 ] + [2,-4,6,-8;-10,12,-14,16;18,-20,22,-24;-26,28,-30,32]
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(3.000000, -8.000000, 21.000000, -22.000000), simd4f_create(1.000000, 18.000000, -13.000000, 36.000000), simd4f_create(15.000000, -4.000000, 33.000000, -18.000000), simd4f_create(5.000000, 30.000000, -9.000000, 48.000000)), epsilon );
+        
+    }
+
+    it("should have simd4x4f_sub for element-wise substraction") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create(1,  2,  3,  4 ),
+                                     simd4f_create(5,  6,  7,  8 ),
+                                     simd4f_create(9,  10, 11, 12 ),
+                                     simd4f_create(13, 14, 15, 16 ));
+        
+        simd4x4f b = simd4x4f_create(simd4f_create(  2 , -10,   18 , -26 ),
+                                     simd4f_create( -4,   12,  -20,   28 ),
+                                     simd4f_create(  6,  -14,   22,  -30 ),
+                                     simd4f_create( -8,   16,  -24,   32 ));
+
+        simd4x4f x;
+        
+        simd4x4f_sub(&a, &b, &x);
+                                 
+
+        // octave simd4x4f: [1,5,9,13 ; 2,6,10,14 ; 3,7,11,15 ; 4,8,12,16 ] - [2,-4,6,-8;-10,12,-14,16;18,-20,22,-24;-26,28,-30,32]
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(-1.000000, 12.000000, -15.000000, 30.000000), simd4f_create(9.000000, -6.000000, 27.000000, -20.000000), simd4f_create(3.000000, 24.000000, -11.000000, 42.000000), simd4f_create(21.000000, -2.000000, 39.000000, -16.000000)), epsilon );
+        
+    }
+
+    it("should have simd4x4f_mul for element-wise multiplication") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create(1,  2,  3,  4 ),
+                                     simd4f_create(5,  6,  7,  8 ),
+                                     simd4f_create(9,  10, 11, 12 ),
+                                     simd4f_create(13, 14, 15, 16 ));
+        
+        simd4x4f b = simd4x4f_create(simd4f_create(  2 , -10,   18 , -26 ),
+                                     simd4f_create( -4,   12,  -20,   28 ),
+                                     simd4f_create(  6,  -14,   22,  -30 ),
+                                     simd4f_create( -8,   16,  -24,   32 ));
+
+        simd4x4f x;
+        
+        simd4x4f_mul(&a, &b, &x);
+                                 
+
+        // octave simd4x4f: [1,5,9,13 ; 2,6,10,14 ; 3,7,11,15 ; 4,8,12,16 ] .* [2,-4,6,-8;-10,12,-14,16;18,-20,22,-24;-26,28,-30,32]
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(2.000000, -20.000000, 54.000000, -104.000000), simd4f_create(-20.000000, 72.000000, -140.000000, 224.000000), simd4f_create(54.000000, -140.000000, 242.000000, -360.000000), simd4f_create(-104.000000, 224.000000, -360.000000, 512.000000)), epsilon );
+        
+    }
+
+    it("should have simd4x4f_div for element-wise division") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create(1,  2,  3,  4 ),
+                                     simd4f_create(5,  6,  7,  8 ),
+                                     simd4f_create(9,  10, 11, 12 ),
+                                     simd4f_create(13, 14, 15, 16 ));
+        
+        simd4x4f b = simd4x4f_create(simd4f_create(  2 , -10,   18 , -26 ),
+                                     simd4f_create( -4,   12,  -20,   28 ),
+                                     simd4f_create(  6,  -14,   22,  -30 ),
+                                     simd4f_create( -8,   16,  -24,   32 ));
+
+        simd4x4f x;
+        
+        simd4x4f_div(&a, &b, &x);
+                                 
+
+        // octave simd4x4f: [1,5,9,13 ; 2,6,10,14 ; 3,7,11,15 ; 4,8,12,16 ] ./ [2,-4,6,-8;-10,12,-14,16;18,-20,22,-24;-26,28,-30,32]
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.500000, -0.200000, 0.166667, -0.153846), simd4f_create(-1.250000, 0.500000, -0.350000, 0.285714), simd4f_create(1.500000, -0.714286, 0.500000, -0.400000), simd4f_create(-1.625000, 0.875000, -0.625000, 0.500000)), epsilon );
+        
+    }
+    
+    
+}
+
+
 describe(simd4x4f, "creating projection matrices") {
 
     it("should have simd4x4f_perspective for creating perspective projection matrix") {
