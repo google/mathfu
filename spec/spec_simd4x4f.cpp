@@ -213,7 +213,7 @@ describe(simd4x4f, "math on elements") {
 }
 
 
-describe(simd4x4f, "creating projection matrices") {
+describe(simd4x4f, "creating projection and view matrices") {
 
     it("should have simd4x4f_perspective for creating perspective projection matrix") {
         
@@ -248,6 +248,27 @@ describe(simd4x4f, "creating projection matrices") {
         
         
     }
+    
+    it("should have simd4x4f_lookat for creating look-at matrix") {
+        
+        simd4f eye = simd4f_create(1,2,3,0);
+        simd4f center = simd4f_create(3,4,5,0);
+        simd4f up = simd4f_create(0,1,0,0);
+
+        simd4x4f x;
+        simd4x4f_lookat(&x, eye, center, up);
+
+        const float epsilon = 0.01f;
+        
+        should_be_equal_simd4x4f(x,simd4x4f_create(simd4f_create(-0.707107, 0, 0.707107, -1.41421),
+                                                   simd4f_create(-0.408248, 0.816497, -0.408248, 0),
+                                                   simd4f_create(-0.57735, -0.57735, -0.57735, 3.4641),
+                                                   simd4f_create(0, 0, 0, 1)),epsilon);
+
+        
+    }
+    
+    
     
 }
 

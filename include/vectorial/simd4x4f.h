@@ -133,6 +133,29 @@ vectorial_inline void simd4x4f_ortho(simd4x4f *m, float left, float right, float
 }
 
 
+vectorial_inline void simd4x4f_lookat(simd4x4f *m, simd4f eye, simd4f center, simd4f up) {
+    
+    simd4f zaxis = simd4f_normalize3( simd4f_sub(center, eye) );
+    simd4f xaxis = simd4f_normalize3( simd4f_cross3( zaxis, up ) );
+    simd4f yaxis = simd4f_cross3(xaxis, zaxis);
+
+    zaxis = simd4f_sub(simd4f_splat(0) ,zaxis);
+
+    float x = -simd4f_get_x( simd4f_dot3(xaxis, eye) );
+    float y = -simd4f_get_x( simd4f_dot3(yaxis, eye) );
+    float z = -simd4f_get_x( simd4f_dot3(zaxis, eye) );
+
+    m->x = xaxis;
+    m->y = yaxis;
+    m->z = zaxis;
+    m->w = simd4f_create( 0,0,0, 1);
+
+    m->x = simd4f_add(m->x, simd4f_create( 0,0,0, x) );
+    m->y = simd4f_add(m->y, simd4f_create( 0,0,0, y) );
+    m->z = simd4f_add(m->z, simd4f_create( 0,0,0, z) );
+
+}
+
 
 vectorial_inline void simd4x4f_add(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     
