@@ -27,6 +27,10 @@ namespace vectorial {
     
         enum { elements = 2 };
 
+        static vec2f zero() { return vec2f(simd4f_zero()); }
+        static vec2f one() { return vec2f(1.0f, 1.0f); }
+        static vec2f xaxis() { return vec2f(1.0f, 0.0f); }
+        static vec2f yaxis() { return vec2f(0.0f, 1.0f); }
 
     };
 

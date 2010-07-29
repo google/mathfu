@@ -28,6 +28,11 @@ namespace vectorial {
     
         enum { elements = 3 };
 
+        static vec3f zero() { return vec3f(simd4f_zero()); }
+        static vec3f one() { return vec3f(1.0f, 1.0f, 1.0f); }
+        static vec3f xaxis() { return vec3f(1.0f, 0.0f, 0.0f); }
+        static vec3f yaxis() { return vec3f(0.0f, 1.0f, 0.0f); }
+        static vec3f zaxis() { return vec3f(0.0f, 0.0f, 1.0f); }
 
     };
 

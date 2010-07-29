@@ -10,7 +10,7 @@ IPHONE_CC = $(IPHONE_PLATFORM_PATH)/usr/bin/g++ -isysroot $(IPHONE_ISYSROOT_PATH
 
 #CXXFLAGS += -Iinclude -O0
 #CXXFLAGS += -g -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math 
-CXXFLAGS += -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math -s
+CXXFLAGS += -Iinclude -Wall -Wextra -pedantic -Wno-unused -O3 -fstrict-aliasing -Wstrict-aliasing=2 -ffast-math 
 
 SPEC_SRC = $(wildcard spec/*.cpp)
 SPEC_OBJ = $(SPEC_SRC:.cpp=.o)
