@@ -11,7 +11,7 @@ describe(simd4f, "sanity") {
 
 describe(simd4f, "creating") {
     
-    it("should be possible to create with params") {
+    it("should be possible to create with simd4f_create") {
         
         simd4f x = simd4f_create(1, 2, 3, 4);
 
@@ -23,6 +23,14 @@ describe(simd4f, "creating") {
         // octave simd4f: [1,2,3,4]
         should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
         
+    }
+
+    it("should have simd4f_zero for zero vector") {
+
+        simd4f x = simd4f_zero();
+
+        // octave simd4f: [0,0,0,0]
+        should_be_equal_simd4f(x, simd4f_create(0.000000, 0.000000, 0.000000, 0.000000), epsilon );
     }
     
     
