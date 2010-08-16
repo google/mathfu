@@ -156,6 +156,15 @@ realclean: clean
 update_spec:
 	./tools/update_spec.rb spec/spec_*.cpp
 
+ifeq ($(MAKECMDGOALS),export)
+ifeq ($(origin to),undefined)
+$(error to not set, like  make export to=/foo/bar)
+endif
+endif
+
+.PHONY: export
+export:
+	$(SILENT) git archive --format tar master | tar x -C $(to)
 
 
 include/vectorial/vec2f.h include/vectorial/vec3f.h include/vectorial/vec4f.h: include/vectorial/simd4f.h
