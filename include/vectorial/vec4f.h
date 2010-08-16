@@ -1,4 +1,5 @@
 #ifndef VECTORIAL_VEC4F_H
+#define VECTORIAL_VEC4F_H
 
 #ifndef VECTORIAL_SIMD4F_H
   #include "vectorial/simd4f.h"
