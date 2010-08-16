@@ -4,6 +4,9 @@
   #include "vectorial/simd4x4f.h"
 #endif
 
+#ifndef VECTORIAL_VEC4F_H
+  #include "vectorial/vec4f.h"
+#endif
 
 
 namespace vectorial {
@@ -16,6 +19,10 @@ namespace vectorial {
     
         inline mat4f() {}
         inline mat4f(const simd4x4f& v) : value(v) {}
+        inline mat4f(vec4f v0, vec4f v1, vec4f v2, vec4f v3) : value(simd4x4f_create(v0.value, v1.value, v2.value, v3.value)) {}
+
+
+        static mat4f identity() { mat4f m; simd4x4f_identity(&m.value); return m; }
 
     };
 
