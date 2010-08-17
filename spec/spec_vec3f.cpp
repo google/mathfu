@@ -208,6 +208,14 @@ describe(vec3f, "arithmetic with scalar") {
 
 describe(vec3f, "vector math") {
 
+    it("should have unary minus operator") {
+        vec3f a(1,2,3);
+        vec3f x = -a;
+        // octave vec3f: -[1,2,3]
+        should_be_equal_vec3f(x, simd4f_create(-1.000000, -2.000000, -3.000000, 0), epsilon );
+    }
+
+
     it("should have dot function") {
         vec3f a(1,2,3);
         vec3f b(6,7,8);
