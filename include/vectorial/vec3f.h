@@ -30,9 +30,9 @@ namespace vectorial {
 
         static vec3f zero() { return vec3f(simd4f_zero()); }
         static vec3f one() { return vec3f(1.0f, 1.0f, 1.0f); }
-        static vec3f xaxis() { return vec3f(1.0f, 0.0f, 0.0f); }
-        static vec3f yaxis() { return vec3f(0.0f, 1.0f, 0.0f); }
-        static vec3f zaxis() { return vec3f(0.0f, 0.0f, 1.0f); }
+        static vec3f xAxis() { return vec3f(1.0f, 0.0f, 0.0f); }
+        static vec3f yAxis() { return vec3f(0.0f, 1.0f, 0.0f); }
+        static vec3f zAxis() { return vec3f(0.0f, 0.0f, 1.0f); }
 
     };
 

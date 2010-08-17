@@ -33,10 +33,10 @@ namespace vectorial {
 
         static vec4f zero() { return vec4f(simd4f_zero()); }
         static vec4f one() { return vec4f(1.0f, 1.0f, 1.0f, 1.0f); }
-        static vec4f xaxis() { return vec4f(1.0f, 0.0f, 0.0f, 0.0f); }
-        static vec4f yaxis() { return vec4f(0.0f, 1.0f, 0.0f, 0.0f); }
-        static vec4f zaxis() { return vec4f(0.0f, 0.0f, 1.0f, 0.0f); }
-        static vec4f waxis() { return vec4f(0.0f, 0.0f, 0.0f, 1.0f); }
+        static vec4f xAxis() { return vec4f(1.0f, 0.0f, 0.0f, 0.0f); }
+        static vec4f yAxis() { return vec4f(0.0f, 1.0f, 0.0f, 0.0f); }
+        static vec4f zAxis() { return vec4f(0.0f, 0.0f, 1.0f, 0.0f); }
+        static vec4f wAxis() { return vec4f(0.0f, 0.0f, 0.0f, 1.0f); }
 
     };
 
