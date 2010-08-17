@@ -54,6 +54,23 @@ namespace vectorial {
     }
 
 
+    vectorial_inline vec3f operator+=(vec3f& lhs, const vec3f& rhs) {
+        return lhs = vec3f( simd4f_add(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f operator-=(vec3f& lhs, const vec3f& rhs) {
+        return lhs = vec3f( simd4f_sub(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f operator*=(vec3f& lhs, const vec3f& rhs) {
+        return lhs = vec3f( simd4f_mul(lhs.value, rhs.value) );
+    }
+
+    vectorial_inline vec3f operator/=(vec3f& lhs, const vec3f& rhs) {
+        return lhs = vec3f( simd4f_div(lhs.value, rhs.value) );
+    }
+
+
 
     vectorial_inline vec3f operator+(const vec3f& lhs, float rhs) {
         return vec3f( simd4f_add(lhs.value, simd4f_splat(rhs)) );

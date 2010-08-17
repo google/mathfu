@@ -83,6 +83,44 @@ describe(vec3f, "arithmetic with another vec3f") {
         should_be_equal_vec3f(x, simd4f_create(10.000000, 10.000000, 10.000000, 0), epsilon );
 
     }
+
+
+
+    it("should have operator+= for component-wise addition") {
+        vec3f x(1,2,3);
+        vec3f b(10,20,30);
+        x += b;
+        // octave vec3f: [1,2,3] + [10,20,30]
+        should_be_equal_vec3f(x, simd4f_create(11.000000, 22.000000, 33.000000, 0), epsilon );
+
+    }
+
+    it("should have operator-= for component-wise subtraction") {
+        vec3f a(1,2,3);
+        vec3f x(10,20,30);
+        x -= a;
+        // octave vec3f:  [10,20,30] - [1,2,3]
+        should_be_equal_vec3f(x, simd4f_create(9.000000, 18.000000, 27.000000, 0), epsilon );
+
+    }
+
+    it("should have operator*= for component-wise multiplication") {
+        vec3f x(1,2,3);
+        vec3f b(10,20,30);
+        x *= b;
+        // octave vec3f: [1,2,3] .* [10,20,30]
+        should_be_equal_vec3f(x, simd4f_create(10.000000, 40.000000, 90.000000, 0), epsilon );
+
+    }
+
+    it("should have operator/= for component-wise division") {
+        vec3f a(1,2,3);
+        vec3f x(10,20,30);
+        x /= a;
+        // octave vec3f:  [10,20,30] ./ [1,2,3]
+        should_be_equal_vec3f(x, simd4f_create(10.000000, 10.000000, 10.000000, 0), epsilon );
+
+    }
     
 }
 

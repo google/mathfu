@@ -85,6 +85,47 @@ describe(vec4f, "arithmetic with another vec4f") {
         should_be_equal_vec4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
 
     }
+
+
+
+	
+    it("should have operator+= for component-wise addition") {
+        vec4f x(1,2,3,4);
+        vec4f b(10,20,30,40);
+        x += b;
+        // octave vec4f: [1,2,3,4] + [10,20,30,40]
+        should_be_equal_vec4f(x, simd4f_create(11.000000, 22.000000, 33.000000, 44.000000), epsilon );
+
+    }
+
+    it("should have operator-= for component-wise subtraction") {
+        vec4f a(1,2,3,4);
+        vec4f x(10,20,30,40);
+        x -= a;
+        // octave vec4f:  [10,20,30,40] - [1,2,3,4]
+        should_be_equal_vec4f(x, simd4f_create(9.000000, 18.000000, 27.000000, 36.000000), epsilon );
+
+    }
+
+    it("should have operator*= for component-wise multiplication") {
+        vec4f x(1,2,3,4);
+        vec4f b(10,20,30,40);
+        x *= b;
+        // octave vec4f: [1,2,3,4] .* [10,20,30,40]
+        should_be_equal_vec4f(x, simd4f_create(10.000000, 40.000000, 90.000000, 160.000000), epsilon );
+
+    }
+
+    it("should have operator/= for component-wise division") {
+        vec4f a(1,2,3,4);
+        vec4f x(10,20,30,40);
+        x /= a;
+        // octave vec4f:  [10,20,30,40] ./ [1,2,3,4]
+        should_be_equal_vec4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
+
+    }
+
+
     
 }
 
