@@ -80,6 +80,23 @@ vectorial_inline void simd4x4f_matrix_vector_mul(simd4x4f* a, simd4f * b, simd4f
 
 }
 
+vectorial_inline void simd4x4f_matrix_vector3_mul(simd4x4f* a, simd4f * b, simd4f* out) {
+
+    *out = simd4f_add( simd4f_add( simd4f_mul(a->x, simd4f_splat_x(*b)), 
+                                   simd4f_mul(a->y, simd4f_splat_y(*b)) )
+                       simd4f_mul(a->z, simd4f_splat_z(*b)) );
+
+}
+
+vectorial_inline void simd4x4f_matrix_point3_mul(simd4x4f* a, simd4f * b, simd4f* out) {
+
+    *out = simd4f_add( simd4f_add( simd4f_mul(a->x, simd4f_splat_x(*b)), 
+                                   simd4f_mul(a->y, simd4f_splat_y(*b)) )
+                       simd4f_add( simd4f_mul(a->z, simd4f_splat_z(*b)), 
+                                   a->w) );
+
+}
+
 
 vectorial_inline void simd4x4f_matrix_mul(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
 

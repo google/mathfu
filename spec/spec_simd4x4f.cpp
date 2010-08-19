@@ -95,6 +95,39 @@ describe(simd4x4f, "matrix utility") {
         should_be_equal_simd4f(x, simd4f_create(-132.000000, -164.000000, -196.000000, -228.000000), epsilon );
     }
 
+    it("should have simd4x4f_matrix_vector3_mul for matrix-vector3 multiply") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create( 1,    9,   17,   25 ),
+                                     simd4f_create( 3,   11,   19,   27 ),
+                                     simd4f_create( 5,   13,   21,   29 ),
+                                     simd4f_create( 7,   15,   23,   31 ));
+
+        simd4f b = simd4f_create( 26,  -28,   30,  -32 );
+        
+        simd4f x;
+        simd4x4f_matrix_vector3_mul(&a, &b, &x);
+        
+        // TODO octave simd4f: [1,3,5,7;9,11,13,15;17,19,21,23;25,27,29,31] * [26;-28;30;0]
+        
+    }
+
+    it("should have simd4x4f_matrix_vector3_mul for matrix-vector3 multiply") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create( 1,    9,   17,   25 ),
+                                     simd4f_create( 3,   11,   19,   27 ),
+                                     simd4f_create( 5,   13,   21,   29 ),
+                                     simd4f_create( 7,   15,   23,   31 ));
+
+        simd4f b = simd4f_create( 26,  -28,   30,  -32 );
+        
+        simd4f x;
+        simd4x4f_matrix_vector3_mul(&a, &b, &x);
+        
+        // TODO octave simd4f: [1,3,5,7;9,11,13,15;17,19,21,23;25,27,29,31] * [26;-28;30;1]
+        
+    }
+
+
 
     it("should have simd4x4f_matrix_mul for matrix multiply") {
         
