@@ -107,7 +107,7 @@ describe(simd4x4f, "matrix utility") {
         simd4f x;
         simd4x4f_matrix_vector3_mul(&a, &b, &x);
         
-        // TODO octave simd4f: [1,3,5,7;9,11,13,15;17,19,21,23;25,27,29,31] * [26;-28;30;0]
+        // TODO octave simd4f: 
         
     }
 
@@ -123,7 +123,7 @@ describe(simd4x4f, "matrix utility") {
         simd4f x;
         simd4x4f_matrix_vector3_mul(&a, &b, &x);
         
-        // TODO octave simd4f: [1,3,5,7;9,11,13,15;17,19,21,23;25,27,29,31] * [26;-28;30;1]
+        // TODO octave simd4f: 
         
     }
 
