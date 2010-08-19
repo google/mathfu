@@ -214,3 +214,83 @@ $(BUILDDIR)/spec/spec_vec2f.o $(BUILDDIR)/spec/spec_vec3f.o $(BUILDDIR)/spec/spe
 
 
 
+# DO NOT DELETE
+
+build/spec/spec.o: spec/spec.h
+build/spec/spec_main.o: spec/spec.h
+build/spec/spec_mat4f.o: spec/spec_helper.h spec/spec.h
+build/spec/spec_mat4f.o: include/vectorial/simd4f.h
+build/spec/spec_mat4f.o: include/vectorial/config.h
+build/spec/spec_mat4f.o: include/vectorial/simd4f_gnu.h
+build/spec/spec_mat4f.o: include/vectorial/simd4f_common.h
+build/spec/spec_mat4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+build/spec/spec_mat4f.o: include/vectorial/vec2f.h
+build/spec/spec_mat4f.o: include/vectorial/simd4x4f.h
+build/spec/spec_mat4f.o: include/vectorial/simd4f.h
+build/spec/spec_mat4f.o: include/vectorial/simd4x4f_gnu.h
+build/spec/spec_mat4f.o: include/vectorial/mat4f.h
+build/spec/spec_simd4f.o: spec/spec_helper.h spec/spec.h
+build/spec/spec_simd4f.o: include/vectorial/simd4f.h
+build/spec/spec_simd4f.o: include/vectorial/config.h
+build/spec/spec_simd4f.o: include/vectorial/simd4f_gnu.h
+build/spec/spec_simd4f.o: include/vectorial/simd4f_common.h
+build/spec/spec_simd4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+build/spec/spec_simd4f.o: include/vectorial/vec2f.h
+build/spec/spec_simd4f.o: include/vectorial/simd4x4f.h
+build/spec/spec_simd4f.o: include/vectorial/simd4f.h
+build/spec/spec_simd4f.o: include/vectorial/simd4x4f_gnu.h
+build/spec/spec_simd4f.o: include/vectorial/mat4f.h
+build/spec/spec_simd4x4f.o: spec/spec_helper.h spec/spec.h
+build/spec/spec_simd4x4f.o: include/vectorial/simd4f.h
+build/spec/spec_simd4x4f.o: include/vectorial/config.h
+build/spec/spec_simd4x4f.o: include/vectorial/simd4f_gnu.h
+build/spec/spec_simd4x4f.o: include/vectorial/simd4f_common.h
+build/spec/spec_simd4x4f.o: include/vectorial/vec4f.h
+build/spec/spec_simd4x4f.o: include/vectorial/vec3f.h
+build/spec/spec_simd4x4f.o: include/vectorial/vec2f.h
+build/spec/spec_simd4x4f.o: include/vectorial/simd4x4f.h
+build/spec/spec_simd4x4f.o: include/vectorial/simd4f.h
+build/spec/spec_simd4x4f.o: include/vectorial/simd4x4f_gnu.h
+build/spec/spec_simd4x4f.o: include/vectorial/mat4f.h
+build/spec/spec_vec2f.o: spec/spec_helper.h spec/spec.h
+build/spec/spec_vec2f.o: include/vectorial/simd4f.h
+build/spec/spec_vec2f.o: include/vectorial/config.h
+build/spec/spec_vec2f.o: include/vectorial/simd4f_gnu.h
+build/spec/spec_vec2f.o: include/vectorial/simd4f_common.h
+build/spec/spec_vec2f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+build/spec/spec_vec2f.o: include/vectorial/vec2f.h
+build/spec/spec_vec2f.o: include/vectorial/simd4x4f.h
+build/spec/spec_vec2f.o: include/vectorial/simd4f.h
+build/spec/spec_vec2f.o: include/vectorial/simd4x4f_gnu.h
+build/spec/spec_vec2f.o: include/vectorial/mat4f.h
+build/spec/spec_vec3f.o: spec/spec_helper.h spec/spec.h
+build/spec/spec_vec3f.o: include/vectorial/simd4f.h
+build/spec/spec_vec3f.o: include/vectorial/config.h
+build/spec/spec_vec3f.o: include/vectorial/simd4f_gnu.h
+build/spec/spec_vec3f.o: include/vectorial/simd4f_common.h
+build/spec/spec_vec3f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+build/spec/spec_vec3f.o: include/vectorial/vec2f.h
+build/spec/spec_vec3f.o: include/vectorial/simd4x4f.h
+build/spec/spec_vec3f.o: include/vectorial/simd4f.h
+build/spec/spec_vec3f.o: include/vectorial/simd4x4f_gnu.h
+build/spec/spec_vec3f.o: include/vectorial/mat4f.h
+build/spec/spec_vec4f.o: spec/spec_helper.h spec/spec.h
+build/spec/spec_vec4f.o: include/vectorial/simd4f.h
+build/spec/spec_vec4f.o: include/vectorial/config.h
+build/spec/spec_vec4f.o: include/vectorial/simd4f_gnu.h
+build/spec/spec_vec4f.o: include/vectorial/simd4f_common.h
+build/spec/spec_vec4f.o: include/vectorial/vec4f.h include/vectorial/vec3f.h
+build/spec/spec_vec4f.o: include/vectorial/vec2f.h
+build/spec/spec_vec4f.o: include/vectorial/simd4x4f.h
+build/spec/spec_vec4f.o: include/vectorial/simd4f.h
+build/spec/spec_vec4f.o: include/vectorial/simd4x4f_gnu.h
+build/spec/spec_vec4f.o: include/vectorial/mat4f.h
+build/bench/add_bench.o: bench/bench.h include/vectorial/vec4f.h
+build/bench/bench.o: bench/bench.h include/vectorial/config.h
+build/bench/dot_bench.o: bench/bench.h include/vectorial/vec4f.h
+build/bench/matrix_bench.o: bench/bench.h include/vectorial/simd4x4f.h
+build/bench/matrix_bench.o: include/vectorial/simd4f.h
+build/bench/matrix_bench.o: include/vectorial/simd4x4f_gnu.h
+build/bench/quad_bench.o: bench/bench.h include/vectorial/simd4x4f.h
+build/bench/quad_bench.o: include/vectorial/simd4f.h
+build/bench/quad_bench.o: include/vectorial/simd4x4f_gnu.h

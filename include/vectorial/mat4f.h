@@ -1,4 +1,5 @@
 #ifndef VECTORIAL_MAT4F_H
+#define VECTORIAL_MAT4F_H
 
 #ifndef VECTORIAL_SIMD4X4F_H
   #include "vectorial/simd4x4f.h"
@@ -27,27 +28,27 @@ namespace vectorial {
     };
     
     
-    mat4f operator*(const mat4f& lhs, const mat4f& rhs) {
+    vectorial_inline mat4f operator*(const mat4f& lhs, const mat4f& rhs) {
         mat4f ret;
-        simd4x4_matrix_mul(&lhs.value, &rhs.value, &ret.value);
+        simd4x4f_matrix_mul(&lhs.value, &rhs.value, &ret.value);
         return ret;
     }
 
-    vec4f operator*(const mat4f& lhs, const vec4f& rhs) {
+    vectorial_inline vec4f operator*(const mat4f& lhs, const vec4f& rhs) {
         vec4f ret;
-        simd4x4_matrix_vector_mul(&lhs.value, &rhs.value, &ret.value);
+        simd4x4f_matrix_vector_mul(&lhs.value, &rhs.value, &ret.value);
         return ret;
     }
 
-    vec3f transformVector(const mat4f& lhs, const vec3f& rhs) {
+    vectorial_inline vec3f transformVector(const mat4f& lhs, const vec3f& rhs) {
         vec3f ret;
-        simd4x4_matrix_vector3_mul(&lhs.value, &rhs.value, &ret.value);
+        simd4x4f_matrix_vector3_mul(&lhs.value, &rhs.value, &ret.value);
         return ret;
     }
 
-    vec3f transformPoint(const mat4f& lhs, const vec3f& rhs) {
+    vectorial_inline vec3f transformPoint(const mat4f& lhs, const vec3f& rhs) {
         vec3f ret;
-        simd4x4_matrix_point3_mul(&lhs.value, &rhs.value, &ret.value);
+        simd4x4f_matrix_point3_mul(&lhs.value, &rhs.value, &ret.value);
         return ret;
     }
 
