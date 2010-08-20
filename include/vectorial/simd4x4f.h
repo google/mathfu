@@ -124,8 +124,8 @@ vectorial_inline void simd4x4f_perspective(simd4x4f *m, float fovy, float aspect
     
     m->x = simd4f_create( a, 0, 0,  0);
     m->y = simd4f_create( 0, b, 0,  0);
-    m->z = simd4f_create( 0, 0, c,  d);
-    m->w = simd4f_create( 0, 0, -1, 0);
+    m->z = simd4f_create( 0, 0, c, -1);
+    m->w = simd4f_create( 0, 0, d,  0);
 
 }
 
@@ -142,10 +142,10 @@ vectorial_inline void simd4x4f_ortho(simd4x4f *m, float left, float right, float
     float e =  -2.0f / deltaz;
     float f = -(zfar + znear) / deltaz;
     
-    m->x = simd4f_create( a, 0, 0, b);
-    m->y = simd4f_create( 0, c, 0, d);
-    m->z = simd4f_create( 0, 0, e, f);
-    m->w = simd4f_create( 0, 0, 0, 1);
+    m->x = simd4f_create( a, 0, 0, 0);
+    m->y = simd4f_create( 0, c, 0, 0);
+    m->z = simd4f_create( 0, 0, e, 0);
+    m->w = simd4f_create( b, d, f, 1);
     
 }
 
@@ -156,7 +156,7 @@ vectorial_inline void simd4x4f_lookat(simd4x4f *m, simd4f eye, simd4f center, si
     simd4f xaxis = simd4f_normalize3( simd4f_cross3( zaxis, up ) );
     simd4f yaxis = simd4f_cross3(xaxis, zaxis);
 
-    zaxis = simd4f_sub(simd4f_splat(0) ,zaxis);
+    zaxis = simd4f_sub( simd4f_zero(), zaxis);
 
     float x = -simd4f_get_x( simd4f_dot3(xaxis, eye) );
     float y = -simd4f_get_x( simd4f_dot3(yaxis, eye) );
@@ -165,11 +165,10 @@ vectorial_inline void simd4x4f_lookat(simd4x4f *m, simd4f eye, simd4f center, si
     m->x = xaxis;
     m->y = yaxis;
     m->z = zaxis;
-    m->w = simd4f_create( 0,0,0, 1);
 
-    m->x = simd4f_add(m->x, simd4f_create( 0,0,0, x) );
-    m->y = simd4f_add(m->y, simd4f_create( 0,0,0, y) );
-    m->z = simd4f_add(m->z, simd4f_create( 0,0,0, z) );
+    m->w = simd4f_create( 0,0,0, 1);
+    simd4x4f_transpose_inplace(m);
+    m->w = simd4f_create( x,y,z,1);
 
 }
 

@@ -260,10 +260,10 @@ describe(simd4x4f, "creating projection and view matrices") {
         simd4x4f x;
         simd4x4f_perspective(&x, fov, aspect, znear, zfar);
         
-        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(7.14378,       0,        0,       -0),
-                                                    simd4f_create(      0, 11.4301,        0,       -0),
-                                                    simd4f_create(      0,       0, -1.08333, -4.16667),
-                                                    simd4f_create(      0,       0,       -1,       -0)), epsilon);
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(7.14378, 0, 0, 0),
+                                                    simd4f_create(0, 11.4301, 0, 0),
+                                                    simd4f_create(0, 0, -1.08333, -1),
+                                                    simd4f_create(-0, -0, -4.16667, -0)), epsilon);
         
         
     }
@@ -274,10 +274,10 @@ describe(simd4x4f, "creating projection and view matrices") {
         simd4x4f x;
         simd4x4f_ortho(&x, -10, 20, -30, 40, -50, 60);
         
-        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.0666667,         0,         -0,  -0.333333 ),
-                                                    simd4f_create(        0, 0.0285714,         -0,  -0.142857 ),
-                                                    simd4f_create(        0,         0, -0.0181818, -0.0909091 ),
-                                                    simd4f_create(        0,         0,         -0,          1 )), epsilon);
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.0666667, 0, 0, 0),
+                                                    simd4f_create(0, 0.0285714, 0, 0),
+                                                    simd4f_create(-0, -0, -0.0181818, -0),
+                                                    simd4f_create(-0.333333, -0.142857, -0.0909091, 1)), epsilon);
         
         
     }
@@ -293,10 +293,10 @@ describe(simd4x4f, "creating projection and view matrices") {
 
         const float epsilon = 0.01f;
         
-        should_be_equal_simd4x4f(x,simd4x4f_create(simd4f_create(-0.707107, 0, 0.707107, -1.41421),
-                                                   simd4f_create(-0.408248, 0.816497, -0.408248, 0),
-                                                   simd4f_create(-0.57735, -0.57735, -0.57735, 3.4641),
-                                                   simd4f_create(0, 0, 0, 1)),epsilon);
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(-0.707107, -0.408248, -0.57735, 0),
+                                                    simd4f_create(0, 0.816497, -0.57735, 0),
+                                                    simd4f_create(0.707107, -0.408248, -0.57735, 0),
+                                                    simd4f_create(-1.41421, 0, 3.4641, 1)), epsilon);
 
         
     }
