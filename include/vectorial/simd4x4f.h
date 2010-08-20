@@ -173,6 +173,46 @@ vectorial_inline void simd4x4f_lookat(simd4x4f *m, simd4f eye, simd4f center, si
 }
 
 
+vectorial_inline void simd4x4f_translation(simd4x4f* m, float x, float y, float z) {
+    *m = simd4x4f_create( simd4f_create(1.0f, 0.0f, 0.0f, 0.0f),
+                          simd4f_create(0.0f, 1.0f, 0.0f, 0.0f),
+                          simd4f_create(0.0f, 0.0f, 1.0f, 0.0f),
+                          simd4f_create(   x,    y,    z, 1.0f));
+}
+
+
+vectorial_inline void simd4x4f_axis_rotation(simd4x4f* m, float angle, simd4f axis) {
+
+    angle = -angle;
+
+    axis = simd4f_normalize3(axis);
+
+    const float radians = angle * M_PI / 180;
+    const float sine = sinf(radians);
+    const float cosine = cosf(radians);
+
+    const float x = simd4f_get_x(axis);
+    const float y = simd4f_get_y(axis);
+    const float z = simd4f_get_z(axis);
+
+    const float ab = x * y * (1 - cosine);
+    const float bc = y * z * (1 - cosine);
+    const float ca = z * x * (1 - cosine);
+
+    const float tx = x * x;
+    const float ty = y * y;
+    const float tz = z * z;
+
+    const simd4f i = simd4f_create( tx + cosine * (1 - tx), ab - z * sine,          ca + y * sine,          0);
+    const simd4f j = simd4f_create( ab + z * sine,          ty + cosine * (1 - ty), bc - x * sine,          0);
+    const simd4f k = simd4f_create( ca - y * sine,          bc + x * sine,          tz + cosine * (1 - tz), 0);
+    
+    *m = simd4x4f_create( i,j,k, simd4f_create(0, 0, 0, 1) );
+        
+}
+
+
+
 vectorial_inline void simd4x4f_add(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     
     out->x = simd4f_add(a->x, b->x);

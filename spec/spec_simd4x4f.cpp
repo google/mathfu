@@ -302,6 +302,31 @@ describe(simd4x4f, "creating projection and view matrices") {
     }
     
     
+    it("should have simd4x4f_translation for creating translation matrix") {
+        
+        simd4x4f x;
+        simd4x4f_translation(&x, 1,2,3);
+
+        // octave simd4x4f: [1,0,0,1; 0,1,0,2; 0,0,1,3; 0,0,0,1]
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(1.000000, 0.000000, 0.000000, 0.000000), simd4f_create(0.000000, 1.000000, 0.000000, 0.000000), simd4f_create(0.000000, 0.000000, 1.000000, 0.000000), simd4f_create(1.000000, 2.000000, 3.000000, 1.000000)), epsilon );
+    }
+
+    it("should have simd4x4f_axis_rotation for creating a rotation matrix along a axis") {
+        
+        simd4x4f x;
+
+        simd4x4f_axis_rotation(&x, 45, simd4f_create(1,2,3,0));
+
+        const float epsilon = 0.01f;
+
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.728028, 0.608789, -0.315202, 0),
+                                                   simd4f_create(-0.525105, 0.790791, 0.314508, 0),
+                                                   simd4f_create(0.440727, -0.0634566, 0.895395, 0),
+                                                   simd4f_create(0, 0, 0, 1)), epsilon);
+
+
+    }
+    
     
 }
 

@@ -42,6 +42,19 @@ namespace vectorial {
             simd4x4f_lookat(&m, eye.value, center.value, up.value);
             return m;            
         }
+
+        static mat4f translation(vec3f pos) {
+            simd4x4f m;
+            simd4x4f_translation(&m, pos.x(), pos.y(), pos.z());
+            return m;            
+        }
+
+        static mat4f axisRotation(float angle, vec3f axis) {
+            simd4x4f m;
+            simd4x4f_axis_rotation(&m, angle, axis.value);
+            return m;            
+        }
+
     };
     
     
