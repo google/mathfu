@@ -25,6 +25,23 @@ namespace vectorial {
 
         static mat4f identity() { mat4f m; simd4x4f_identity(&m.value); return m; }
 
+        static mat4f perspective(float fovy, float aspect, float znear, float zfar) {
+            simd4x4f m;
+            simd4x4f_perspective(&m, fovy, aspect, znear, zfar);
+            return m;
+        }
+        
+        static mat4f ortho(float left, float right, float bottom, float top, float znear, float zfar) {
+            simd4x4f m;
+            simd4x4f_ortho(&m, left, right, bottom, top, znear, zfar);
+            return m;
+        }
+        
+        static mat4f lookAt(vec3f eye, vec3f center, vec3f up) {
+            simd4x4f m;
+            simd4x4f_lookat(&m, eye.value, center.value, up.value);
+            return m;            
+        }
     };
     
     
