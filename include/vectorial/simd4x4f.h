@@ -215,22 +215,22 @@ vectorial_inline void simd4x4f_div(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     #ifdef VECTORIAL_OSTREAM
         #include <ostream>
 
-        static std::ostream& operator<<(std::ostream& os, const simd4x4f& v) {
+        vectorial_inline std::ostream& operator<<(std::ostream& os, const simd4x4f& v) {
             os << "simd4x4f(simd4f(" << simd4f_get_x(v.x) << ", "
-                       << simd4f_get_x(v.y) << ", "
-                       << simd4f_get_x(v.z) << ", "
-                       << simd4f_get_x(v.w) << "),\n"
-                       << "         simd4f(" << simd4f_get_y(v.x) << ", "
+                       << simd4f_get_y(v.x) << ", "
+                       << simd4f_get_z(v.x) << ", "
+                       << simd4f_get_w(v.x) << "),\n"
+                       << "         simd4f(" << simd4f_get_x(v.y) << ", "
                        << simd4f_get_y(v.y) << ", "
-                       << simd4f_get_y(v.z) << ", "
-                       << simd4f_get_y(v.w) << "),\n"
-                       << "         simd4f(" << simd4f_get_z(v.x) << ", "
                        << simd4f_get_z(v.y) << ", "
+                       << simd4f_get_w(v.y) << "),\n"
+                       << "         simd4f(" << simd4f_get_x(v.z) << ", "
+                       << simd4f_get_y(v.z) << ", "
                        << simd4f_get_z(v.z) << ", "
-                       << simd4f_get_z(v.w) << "),\n"
-                       << "         simd4f(" << simd4f_get_w(v.x) << ", "
-                       << simd4f_get_w(v.y) << ", "
-                       << simd4f_get_w(v.z) << ", "
+                       << simd4f_get_w(v.z) << "),\n"
+                       << "         simd4f(" << simd4f_get_x(v.w) << ", "
+                       << simd4f_get_y(v.w) << ", "
+                       << simd4f_get_z(v.w) << ", "
                        << simd4f_get_w(v.w) << "))";
             return os;
         }

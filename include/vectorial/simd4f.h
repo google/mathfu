@@ -27,7 +27,7 @@
     #ifdef VECTORIAL_OSTREAM
         #include <ostream>
 
-        static std::ostream& operator<<(std::ostream& os, const simd4f& v) {
+        vectorial_inline std::ostream& operator<<(std::ostream& os, const simd4f& v) {
             os << "simd4f(" << simd4f_get_x(v) << ", "
                        << simd4f_get_y(v) << ", "
                        << simd4f_get_z(v) << ", "

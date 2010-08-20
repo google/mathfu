@@ -77,7 +77,7 @@ namespace vectorial {
 #ifdef VECTORIAL_OSTREAM
 //#include <ostream>
 
-static std::ostream& operator<<(std::ostream& os, const vectorial::mat4f& v) {
+vectorial_inline std::ostream& operator<<(std::ostream& os, const vectorial::mat4f& v) {
 
     os << "[ ";
     os << simd4f_get_x(v.value.x) << ", ";

@@ -133,7 +133,7 @@ namespace vectorial {
 #ifdef VECTORIAL_OSTREAM
 #include <ostream>
 
-static std::ostream& operator<<(std::ostream& os, const vectorial::vec2f& v) {
+vectorial_inline std::ostream& operator<<(std::ostream& os, const vectorial::vec2f& v) {
     os << "[ " << v.x() << ", "
                << v.y() << " ]";
     return os;
