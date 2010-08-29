@@ -22,6 +22,19 @@ namespace vectorial {
         inline mat4f(const simd4x4f& v) : value(v) {}
         inline mat4f(vec4f v0, vec4f v1, vec4f v2, vec4f v3) : value(simd4x4f_create(v0.value, v1.value, v2.value, v3.value)) {}
 
+        inline void load(const float *ary) { 
+            value->x = simd4f_uload4(ary);
+            value->y = simd4f_uload4(ary+4); 
+            value->z = simd4f_uload4(ary+8); 
+            value->w = simd4f_uload4(ary+12); 
+        }
+
+        inline void store(float *ary) const { 
+            simd4f_ustore4(value->x, ary);
+            simd4f_ustore4(value->y, ary+4);
+            simd4f_ustore4(value->z, ary+8);
+            simd4f_ustore4(value->w, ary+12);
+        }
 
         static mat4f identity() { mat4f m; simd4x4f_identity(&m.value); return m; }
 
