@@ -114,6 +114,22 @@ namespace vectorial {
     }
 
 
+    vectorial_inline vec4f operator+=(vec4f& lhs, float rhs) {
+        return lhs = vec4f( simd4f_add(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec4f operator-=(vec4f& lhs, float rhs) {
+        return lhs = vec4f( simd4f_sub(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec4f operator*=(vec4f& lhs, float rhs) {
+        return lhs = vec4f( simd4f_mul(lhs.value, simd4f_splat(rhs)) );
+    }
+
+    vectorial_inline vec4f operator/=(vec4f& lhs, float rhs) {
+        return lhs = vec4f( simd4f_div(lhs.value, simd4f_splat(rhs)) );
+    }
+
 
     vectorial_inline float dot(const vec4f& lhs, const vec4f& rhs) {
         return simd4f_get_x( simd4f_dot4(lhs.value, rhs.value) );
