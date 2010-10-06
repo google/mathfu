@@ -1,3 +1,8 @@
+/*
+  Vectorial
+  Copyright (c) 2010 Mikko Lehtonen
+  Licensed under the terms of the two-clause BSD License (see LICENSE)
+*/
 #ifndef VECTORIAL_VEC2F_H
 
 #ifndef VECTORIAL_SIMD4F_H
