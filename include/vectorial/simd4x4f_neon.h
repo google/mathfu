@@ -25,7 +25,7 @@ vectorial_inline void simd4x4f_transpose_inplace(simd4x4f* s) {
 
 }
 
-vectorial_inline void simd4x4f_transpose(simd4x4f *s, simd4x4f *out) {
+vectorial_inline void simd4x4f_transpose(const simd4x4f *s, simd4x4f *out) {
     *out=*s;
     simd4x4f_transpose_inplace(out);
 }
