@@ -20,6 +20,7 @@ namespace vectorial {
         simd4f value;
     
         inline vec3f() {}
+        inline vec3f(const vec3f& v) : value(v.value) {}
         inline vec3f(const simd4f& v) : value(v) {}
         inline vec3f(float x, float y, float z) : value( simd4f_create(x,y,z,0) ) {}
         inline vec3f(const float *ary) : value( simd4f_uload3(ary) ) { }
