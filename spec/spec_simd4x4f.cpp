@@ -127,6 +127,23 @@ describe(simd4x4f, "matrix utility") {
         
     }
 
+    it("should have simd4x4f_matrix_point3_mul") { /* TODO */ }
+
+    it("should have simd4x4f_inv_ortho_matrix_point3_mul for transforming point with inverse of a orhtonormal matrix") {
+
+        simd4x4f a = simd4x4f_create(simd4f_create( 0,  -1,   0,   0 ),
+                                     simd4f_create( 1,   0,   0,   0 ),
+                                     simd4f_create( 0,   0,   1,   0 ),
+                                     simd4f_create( 1,   2,   3,   1 ));
+
+        simd4f b = simd4f_create(5,6,7,0);
+
+        simd4f x;
+        simd4x4f_inv_ortho_matrix_point3_mul(&a, &b, &x);
+
+        // octave simd4f: inverse([0,1,0,1; -1,0,0,2; 0,0,1,3; 0,0,0,1]) * [5;6;7;1] .* [1;1;1;0]
+        should_be_equal_simd4f(x, simd4f_create(-4.000000, 4.000000, 4.000000, 0.000000), epsilon );
+    }
 
 
     it("should have simd4x4f_matrix_mul for matrix multiply") {
