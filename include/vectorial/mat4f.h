@@ -100,6 +100,13 @@ namespace vectorial {
         simd4x4f_matrix_point3_mul(&lhs.value, &rhs.value, &ret.value);
         return ret;
     }
+
+    vectorial_inline vec3f orthoInverseTransformPoint(const mat4f& lhs, const vec3f& rhs) {
+        vec3f ret;
+        simd4x4f_inv_ortho_matrix_point3_mul(&lhs.value, &rhs.value, &ret.value);
+        return ret;
+    }
+
     
     vectorial_inline mat4f transpose(const mat4f& m) {
         mat4f ret;
