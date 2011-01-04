@@ -110,6 +110,17 @@ vectorial_inline void simd4x4f_inv_ortho_matrix_point3_mul(const simd4x4f* a, co
     transpose.w = simd4f_create(0,0,0,0);
     simd4x4f_transpose_inplace(&transpose);
 
+    simd4x4f_matrix_point3_mul(&transpose, &translation, out);
+}
+
+vectorial_inline void simd4x4f_inv_ortho_matrix_vector3_mul(const simd4x4f* a, const simd4f * b, simd4f* out) {
+    simd4f translation = *b;
+
+    simd4x4f transpose = *a;
+
+    transpose.w = simd4f_create(0,0,0,0);
+    simd4x4f_transpose_inplace(&transpose);
+
     simd4x4f_matrix_vector3_mul(&transpose, &translation, out);
 }
 
