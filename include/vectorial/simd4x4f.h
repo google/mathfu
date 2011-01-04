@@ -137,12 +137,10 @@ vectorial_inline void simd4x4f_matrix_mul(const simd4x4f* a, const simd4x4f* b, 
 
 
 
-vectorial_inline void simd4x4f_perspective(simd4x4f *m, float fovy, float aspect, float znear, float zfar) {
+vectorial_inline void simd4x4f_perspective(simd4x4f *m, float fovy_radians, float aspect, float znear, float zfar) {
     
-    float radians = fovy * VECTORIAL_HALFPI / 180.0f;
     float deltaz = zfar - znear;
-    float sine = sinf(radians);
-    float cotangent = cosf(radians) / sine;
+    float cotangent = tanf( VECTORIAL_HALFPI - fovy_radians * 0.5f );
     
     float a = cotangent / aspect;
     float b = cotangent;
@@ -208,13 +206,12 @@ vectorial_inline void simd4x4f_translation(simd4x4f* m, float x, float y, float 
 }
 
 
-vectorial_inline void simd4x4f_axis_rotation(simd4x4f* m, float angle, simd4f axis) {
+vectorial_inline void simd4x4f_axis_rotation(simd4x4f* m, float radians, simd4f axis) {
 
-    angle = -angle;
+    radians = -radians;
 
     axis = simd4f_normalize3(axis);
 
-    const float radians = angle * M_PI / 180;
     const float sine = sinf(radians);
     const float cosine = cosf(radians);
 

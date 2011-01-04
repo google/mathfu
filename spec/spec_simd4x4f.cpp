@@ -267,7 +267,7 @@ describe(simd4x4f, "creating projection and view matrices") {
 
     it("should have simd4x4f_perspective for creating perspective projection matrix") {
         
-        const float fov = 10.0f;
+        const float fov = 10.0f * M_PI / 180.0f;
         const float aspect = 1.6f;
         const float znear = 2.0f;
         const float zfar = 50.0f;
@@ -332,7 +332,7 @@ describe(simd4x4f, "creating projection and view matrices") {
         
         simd4x4f x;
 
-        simd4x4f_axis_rotation(&x, 45, simd4f_create(1,2,3,0));
+        simd4x4f_axis_rotation(&x, 45 * M_PI / 180.0f, simd4f_create(1,2,3,0));
 
         const float epsilon = 0.01f;
 
