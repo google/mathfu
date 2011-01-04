@@ -91,6 +91,12 @@ namespace vectorial {
         return ret;
     }
 
+    vectorial_inline mat4f operator*=(mat4f& lhs, const mat4f& rhs) {
+        simd4x4f_matrix_mul(&lhs.value, &rhs.value, &lhs.value);
+        return lhs;
+    }
+
+
     vectorial_inline vec4f operator*(const mat4f& lhs, const vec4f& rhs) {
         vec4f ret;
         simd4x4f_matrix_vector_mul(&lhs.value, &rhs.value, &ret.value);
