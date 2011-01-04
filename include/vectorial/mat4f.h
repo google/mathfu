@@ -27,6 +27,7 @@ namespace vectorial {
         inline mat4f(const mat4f& m) : value(m.value) {}
         inline mat4f(const simd4x4f& v) : value(v) {}
         inline mat4f(vec4f v0, vec4f v1, vec4f v2, vec4f v3) : value(simd4x4f_create(v0.value, v1.value, v2.value, v3.value)) {}
+        inline mat4f(const float *ary) { simd4x4f_uload(&value, ary); }
 
         inline void load(const float *ary) { 
             value.x = simd4f_uload4(ary);
