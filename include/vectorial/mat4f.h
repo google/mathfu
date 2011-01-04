@@ -75,6 +75,13 @@ namespace vectorial {
             return m;            
         }
 
+        static mat4f scale(float scale) {
+            return simd4x4f_create( simd4f_create(scale,0,0,0),
+                                    simd4f_create(0,scale,0,0),
+                                    simd4f_create(0,0,scale,0),
+                                    simd4f_create(0,0,0,1) );
+        }
+
     };
     
     
