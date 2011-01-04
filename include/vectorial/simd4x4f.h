@@ -36,7 +36,7 @@ vectorial_inline void simd4x4f_identity(simd4x4f* m) {
 
 
 
-vectorial_inline void simd4x4f_uload(simd4x4f* m, float *f) {
+vectorial_inline void simd4x4f_uload(simd4x4f* m, const float *f) {
 
     m->x = simd4f_uload4(f + 0);
     m->y = simd4f_uload4(f + 4);
