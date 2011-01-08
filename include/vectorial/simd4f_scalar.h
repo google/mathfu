@@ -124,6 +124,9 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
     return ret;
 }
 
+vectorial_inline simd4f simd4f_madd(simd4f m1, simd4f m2, simd4f a) {
+    return simd4f_add( simd4f_mul(m1, m2), a );
+}
 
 vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
     return simd4f_create( lhs.y * rhs.z - lhs.z * rhs.y,

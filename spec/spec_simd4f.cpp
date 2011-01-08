@@ -215,6 +215,17 @@ describe(simd4f, "arithmetic with another simd4f") {
         should_be_equal_simd4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
     }
 
+    it("should have simd4f_madd for multiply-add") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f b = simd4f_create(100,100,100,100);
+        simd4f c = simd4f_create(6,7,8,9);
+
+        simd4f x = simd4f_madd(a,b,c);
+        // octave simd4f: [1,2,3,4] .* [100,100,100,100] .+ [6,7,8,9]
+        should_be_equal_simd4f(x, simd4f_create(106.000000, 207.000000, 308.000000, 409.000000), epsilon );
+
+    }
+
 }
 
 

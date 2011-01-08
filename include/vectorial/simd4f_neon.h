@@ -147,6 +147,11 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
     return ret;
 }
 
+vectorial_inline simd4f simd4f_madd(simd4f m1, simd4f m2, simd4f a) {
+    return vmlaq_f32( a, m1, m2 );
+}
+
+
 
 vectorial_inline float simd4f_get_x(simd4f s) { return vgetq_lane_f32(s, 0); }
 vectorial_inline float simd4f_get_y(simd4f s) { return vgetq_lane_f32(s, 1); }
