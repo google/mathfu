@@ -149,6 +149,29 @@ vectorial_inline float simd4f_get_z(simd4f s) { _simd4f_union u={s}; return u.f[
 vectorial_inline float simd4f_get_w(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
 
 
+vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(2,1,0,3) ); }
+vectorial_inline simd4f simd4f_shuffle_zwxy(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(1,0,3,2) ); }
+vectorial_inline simd4f simd4f_shuffle_yzwx(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(0,3,2,1) ); }
+
+vectorial_inline simd4f simd4f_merge_high(simd4f xyzw, simd4f abcd) { 
+    return _mm_movehl_ps(abcd, xyzw);
+}
+
+
+vectorial_inline simd4f simd4f_flip_sign_0101(simd4f s) {
+    const unsigned int upnpn[4] = { 0x00000000, 0x80000000, 0x00000000, 0x80000000 };
+    const simd4f pnpn = _mm_load_ps( (float*)upnpn );
+    return _mm_xor_ps( s, pnpn ); 
+}
+
+vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
+    const unsigned int unpnp[4] = { 0x80000000, 0x00000000, 0x80000000, 0x00000000 };
+    const simd4f npnp = _mm_load_ps( (float*)unpnp );
+    return _mm_xor_ps( s, npnp ); 
+}
+
+
+
 #ifdef __cplusplus
 }
 #endif

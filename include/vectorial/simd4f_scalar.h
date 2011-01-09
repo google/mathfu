@@ -141,6 +141,25 @@ vectorial_inline float simd4f_get_z(simd4f s) { return s.z; }
 vectorial_inline float simd4f_get_w(simd4f s) { return s.w; }
 
 
+vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { return simd4f_create(s.w, s.x, s.y, s.z); }
+vectorial_inline simd4f simd4f_shuffle_zwxy(simd4f s) { return simd4f_create(s.z, s.w, s.x, s.y); }
+vectorial_inline simd4f simd4f_shuffle_yzwx(simd4f s) { return simd4f_create(s.y, s.z, s.w, s.x); }
+
+
+
+vectorial_inline simd4f simd4f_merge_high(simd4f abcd, simd4f xyzw) { 
+    return simd4f_create(abcd.z, abcd.w, xyzw.z, xyzw.w);
+}
+
+vectorial_inline simd4f simd4f_flip_sign_0101(simd4f s) {
+    return simd4f_create(s.x, -s.y, s.z, -s.w);
+}
+
+vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
+    return simd4f_create(-s.x, s.y, -s.z, s.w);
+}
+
+
 #ifdef __cplusplus
 }
 #endif

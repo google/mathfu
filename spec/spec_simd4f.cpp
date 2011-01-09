@@ -346,4 +346,48 @@ describe(simd4f, "vector math") {
     
 }
 
+describe(simd4f, "shuffles and merges") {
+    
+    it("should have simd4f_shuffle_wxyz") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_shuffle_wxyz(a);
+        should_be_equal_simd4f(x, simd4f_create(4,1,2,3), epsilon );
+    }
+
+    it("should have simd4f_shuffle_zwxy") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_shuffle_zwxy(a);
+        should_be_equal_simd4f(x, simd4f_create(3,4,1,2), epsilon );
+    }
+
+    it("should have simd4f_shuffle_yzwx") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_shuffle_yzwx(a);
+        should_be_equal_simd4f(x, simd4f_create(2,3,4,1), epsilon );
+    }
+
+    it("should have simd4f_merge_high") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f b = simd4f_create(5,6,7,8);
+        simd4f x = simd4f_merge_high(a,b);
+        should_be_equal_simd4f(x, simd4f_create(3,4,7,8), epsilon );
+    }
+    
+}
+
+describe(simd4f, "signs") {
+
+    it("should have simd4f_flip_sign_0101 for flipping even elements sign") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_flip_sign_0101(a);
+        should_be_equal_simd4f(x, simd4f_create(1,-2,3,-4), epsilon );
+    }
+
+    it("should have simd4f_flip_sign_1010 for flipping even elements sign") {
+        simd4f a = simd4f_create(1,2,3,4);
+        simd4f x = simd4f_flip_sign_1010(a);
+        should_be_equal_simd4f(x, simd4f_create(-1,2,-3,4), epsilon );
+    }
+
+}
 

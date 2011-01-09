@@ -143,6 +143,40 @@ vectorial_inline simd4f simd4f_cross3(simd4f l, simd4f r) {
 }
 
 
+vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { 
+    _simd4f_union u = {s};
+    return simd4f_create(u.f[3], u.f[0], u.f[1], u.f[2]); 
+}
+
+vectorial_inline simd4f simd4f_shuffle_zwxy(simd4f s) { 
+    _simd4f_union u = {s};
+    return simd4f_create(u.f[2], u.f[3], u.f[0], u.f[1]); 
+}
+
+vectorial_inline simd4f simd4f_shuffle_yzwx(simd4f s) { 
+    _simd4f_union u = {s};
+    return simd4f_create(u.f[1], u.f[2], u.f[3], u.f[0]); 
+}
+
+
+vectorial_inline simd4f simd4f_merge_high(simd4f abcd, simd4f xyzw) { 
+    _simd4f_union u1 = {abcd};
+    _simd4f_union u2 = {xyzw};
+    return simd4f_create(u1.f[2], u1.f[3], u2.f[2], u2.f[3]);
+}
+
+vectorial_inline simd4f simd4f_flip_sign_0101(simd4f s) {
+    _simd4f_union u = {s};
+    return simd4f_create(u.f[0], -u.f[1], u.f[2], -u.f[3]);
+}
+
+vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
+    _simd4f_union u = {s};
+    return simd4f_create(-u.f[0], u.f[1], -u.f[2], u.f[3]);
+}
+
+
+
 
 #ifdef __cplusplus
 }
