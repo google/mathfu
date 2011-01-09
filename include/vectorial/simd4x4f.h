@@ -71,34 +71,62 @@ vectorial_inline void simd4x4f_sum(const simd4x4f* a, simd4f* out) {
 
 vectorial_inline void simd4x4f_matrix_vector_mul(const simd4x4f* a, const simd4f * b, simd4f* out) {
 
-    simd4x4f bbbb = simd4x4f_create( simd4f_splat_x(*b),
-                                     simd4f_splat_y(*b),
-                                     simd4f_splat_z(*b),
-                                     simd4f_splat_w(*b) );
+    const simd4f x = a->x;
+    const simd4f y = a->y;
+    const simd4f z = a->z;
+    const simd4f w = a->w;
+    const simd4f v = *b;
+    const simd4f vx = simd4f_splat_x(v);
+    const simd4f vy = simd4f_splat_y(v);
+    const simd4f vz = simd4f_splat_z(v);
+    const simd4f vw = simd4f_splat_w(v);
 
-    simd4x4f ab = simd4x4f_create( simd4f_mul(a->x, bbbb.x),
-                                   simd4f_mul(a->y, bbbb.y),
-                                   simd4f_mul(a->z, bbbb.z),
-                                   simd4f_mul(a->w, bbbb.w) );
+    #if 0
+    // In a hasty benchmark, this actually performed worse on neon
+    // TODO: revisit and conditionalize accordingly
 
-    simd4x4f_sum(&ab, out);
+    *out = simd4f_madd(x, vx, 
+             simd4f_madd(y, vy, 
+               simd4f_madd(z, vz, 
+                 simd4f_mul(w, vw) ) ) );
 
+    #else    
+
+     *out = simd4f_add(simd4f_mul(x, vx), 
+              simd4f_add(simd4f_mul(y, vy), 
+                simd4f_add(simd4f_mul(z, vz), 
+                  simd4f_mul(w, vw) ) ) );
+
+    #endif
 }
 
 vectorial_inline void simd4x4f_matrix_vector3_mul(const simd4x4f* a, const simd4f * b, simd4f* out) {
 
-    *out = simd4f_add( simd4f_add( simd4f_mul(a->x, simd4f_splat_x(*b)), 
-                                   simd4f_mul(a->y, simd4f_splat_y(*b)) ),
-                       simd4f_mul(a->z, simd4f_splat_z(*b)) );
+    #if 0
+    *out = simd4f_madd( a->x, simd4f_splat_x(*b), 
+             simd4f_madd( a->y, simd4f_splat_y(*b), 
+               simd4f_mul(a->z, simd4f_splat_z(*b)) ) );
+    #else
+    *out = simd4f_add( simd4f_mul(a->x, simd4f_splat_x(*b)), 
+             simd4f_add( simd4f_mul(a->y, simd4f_splat_y(*b)), 
+               simd4f_mul(a->z, simd4f_splat_z(*b)) ) );
+    #endif
 
 }
 
 vectorial_inline void simd4x4f_matrix_point3_mul(const simd4x4f* a, const simd4f * b, simd4f* out) {
 
-    *out = simd4f_add( simd4f_add( simd4f_mul(a->x, simd4f_splat_x(*b)), 
-                                   simd4f_mul(a->y, simd4f_splat_y(*b)) ),
-                       simd4f_add( simd4f_mul(a->z, simd4f_splat_z(*b)), 
-                                   a->w) );
+    #if 0
+    *out = simd4f_madd( a->x, simd4f_splat_x(*b),
+             simd4f_madd( a->y, simd4f_splat_y(*b),
+               simd4f_madd( a->z, simd4f_splat_z(*b),
+                 a->w ) ) );
+    #else
+    *out = simd4f_add( simd4f_mul(a->x, simd4f_splat_x(*b)),
+             simd4f_add( simd4f_mul(a->y, simd4f_splat_y(*b)),
+               simd4f_add( simd4f_mul(a->z, simd4f_splat_z(*b)),
+                 a->w ) ) );
+    #endif
 
 }
 
