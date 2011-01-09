@@ -166,6 +166,31 @@ describe(simd4x4f, "matrix utility") {
     }
     
     
+    
+    
+    it("should have simd4x4f_inverse for calculating inverse matrix") {
+        
+        simd4x4f a = simd4x4f_create(simd4f_create(7,  2,  87,  5 ),
+                                   simd4f_create(5,  24,  6,  3 ),
+                                   simd4f_create(4,  6, 5, 6 ),
+                                   simd4f_create(5, 7, 4, 6 ));
+        
+        simd4x4f x;
+        simd4x4f_inverse(&a, &x);
+        
+        // octave simd4x4f: inverse( [7,5,4,5 ; 2,24,6,7 ; 87,6,5,4 ; 5,3,6,6] )
+        should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.015309, -0.049885, -1.081337, 1.093522), simd4f_create(-0.004062, 0.054051, 0.123620, -0.147261), simd4f_create(0.011248, 0.004166, 0.042283, -0.053739), simd4f_create(-0.015518, -0.024266, 0.728702, -0.536971)), epsilon );
+
+        simd4x4f x2;
+        simd4x4f_matrix_mul(&a, &x, &x2);
+        simd4x4f identity;
+        simd4x4f_identity(&identity);
+        should_be_equal_simd4x4f(x2, identity, epsilon);
+        
+    }
+    
+    
+    
 }
 
 

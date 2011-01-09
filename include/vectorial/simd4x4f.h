@@ -301,6 +301,81 @@ vectorial_inline void simd4x4f_div(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     
 }
 
+vectorial_inline void simd4x4f_inverse(const simd4x4f* a, simd4x4f* out) {
+
+    const simd4f c0 = a->x;
+    const simd4f c1 = a->y;
+    const simd4f c2 = a->z;
+    const simd4f c3 = a->w;
+
+    const simd4f c0_wxyz = simd4f_shuffle_wxyz(c0);
+    const simd4f c0_zwxy = simd4f_shuffle_zwxy(c0);
+    const simd4f c0_yzwx = simd4f_shuffle_yzwx(c0);
+
+    const simd4f c1_wxyz = simd4f_shuffle_wxyz(c1);
+    const simd4f c1_zwxy = simd4f_shuffle_zwxy(c1);
+    const simd4f c1_yzwx = simd4f_shuffle_yzwx(c1);
+
+    const simd4f c2_wxyz = simd4f_shuffle_wxyz(c2);
+    const simd4f c2_zwxy = simd4f_shuffle_zwxy(c2);
+    const simd4f c2_yzwx = simd4f_shuffle_yzwx(c2);
+
+    const simd4f c3_wxyz = simd4f_shuffle_wxyz(c3);
+    const simd4f c3_zwxy = simd4f_shuffle_zwxy(c3);
+    const simd4f c3_yzwx = simd4f_shuffle_yzwx(c3);
+
+    const simd4f c0_wxyz_x_c1 = simd4f_mul(c0_wxyz, c1);
+    const simd4f c0_wxyz_x_c1_yzwx = simd4f_mul(c0_wxyz, c1_yzwx);
+    const simd4f c0_wxyz_x_c1_zwxy = simd4f_mul(c0_wxyz, c1_zwxy);
+
+    const simd4f c2_wxyz_x_c3 = simd4f_mul(c2_wxyz, c3);
+    const simd4f c2_wxyz_x_c3_yzwx = simd4f_mul(c2_wxyz, c3_yzwx);
+    const simd4f c2_wxyz_x_c3_zwxy = simd4f_mul(c2_wxyz, c3_zwxy);
+
+    const simd4f ar1 = simd4f_sub( simd4f_shuffle_wxyz(c2_wxyz_x_c3_zwxy), simd4f_shuffle_zwxy(c2_wxyz_x_c3) );
+    const simd4f ar2 = simd4f_sub( simd4f_shuffle_zwxy(c2_wxyz_x_c3_yzwx), c2_wxyz_x_c3_yzwx );
+    const simd4f ar3 = simd4f_sub( c2_wxyz_x_c3_zwxy, simd4f_shuffle_wxyz(c2_wxyz_x_c3) );
+
+    const simd4f br1 = simd4f_sub( simd4f_shuffle_wxyz(c0_wxyz_x_c1_zwxy), simd4f_shuffle_zwxy(c0_wxyz_x_c1) );
+    const simd4f br2 = simd4f_sub( simd4f_shuffle_zwxy(c0_wxyz_x_c1_yzwx), c0_wxyz_x_c1_yzwx );
+    const simd4f br3 = simd4f_sub( c0_wxyz_x_c1_zwxy, simd4f_shuffle_wxyz(c0_wxyz_x_c1) );
+
+
+    const simd4f c0_sum = simd4f_madd(c0_yzwx, ar3,
+                            simd4f_madd(c0_zwxy, ar2,
+                              simd4f_mul(c0_wxyz, ar1)));
+
+    const simd4f c1_sum = simd4f_madd(c1_wxyz,  ar1, 
+                            simd4f_madd(c1_zwxy,  ar2, 
+                              simd4f_mul(c1_yzwx, ar3)));
+
+    const simd4f c2_sum = simd4f_madd(c2_yzwx, br3,
+                            simd4f_madd(c2_zwxy, br2,
+                              simd4f_mul(c2_wxyz, br1)));
+
+    const simd4f c3_sum = simd4f_madd(c3_yzwx, br3,
+                            simd4f_madd(c3_zwxy, br2,
+                              simd4f_mul(c3_wxyz, br1)));
+
+
+    const simd4f d0 = simd4f_mul(c1_sum, c0);
+    const simd4f d1 = simd4f_add(d0, simd4f_merge_high(d0, d0));
+    const simd4f det = simd4f_sub(d1, simd4f_splat_y(d1));
+
+    const simd4f invdet = simd4f_splat_x( simd4f_div(simd4f_splat(1.0f), det) );
+
+    const simd4f o0 = simd4f_mul( simd4f_flip_sign_0101(c1_sum), invdet );
+    const simd4f o1 = simd4f_mul( simd4f_flip_sign_1010(c0_sum), invdet );
+    const simd4f o2 = simd4f_mul( simd4f_flip_sign_0101(c3_sum), invdet );
+    const simd4f o3 = simd4f_mul( simd4f_flip_sign_1010(c2_sum), invdet );
+
+    const simd4x4f mt = simd4x4f_create(o0, o1, o2, o3);
+    
+    simd4x4f_transpose( &mt, out);
+
+
+}
+
 
 #ifdef __cplusplus
 
