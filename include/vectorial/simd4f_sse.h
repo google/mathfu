@@ -19,6 +19,7 @@ typedef __m128 simd4f;
 typedef union {
     simd4f s ;
     float f[4];
+    unsigned int ui[4];
 } _simd4f_union;
 
 // creating
@@ -158,16 +159,19 @@ vectorial_inline simd4f simd4f_merge_high(simd4f xyzw, simd4f abcd) {
 }
 
 
+typedef union {
+    unsigned int ui[4];
+    float f[4];
+} _simd4f_uif;
+
 vectorial_inline simd4f simd4f_flip_sign_0101(simd4f s) {
-    const unsigned int upnpn[4] = { 0x00000000, 0x80000000, 0x00000000, 0x80000000 };
-    const simd4f pnpn = _mm_load_ps( (float*)upnpn );
-    return _mm_xor_ps( s, pnpn ); 
+    const _simd4f_uif upnpn = { { 0x00000000, 0x80000000, 0x00000000, 0x80000000 } };
+    return _mm_xor_ps( s, _mm_load_ps(upnpn.f) ); 
 }
 
 vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
-    const unsigned int unpnp[4] = { 0x80000000, 0x00000000, 0x80000000, 0x00000000 };
-    const simd4f npnp = _mm_load_ps( (float*)unpnp );
-    return _mm_xor_ps( s, npnp ); 
+    const _simd4f_uif unpnp = { { 0x80000000, 0x00000000, 0x80000000, 0x00000000 } };
+    return _mm_xor_ps( s, _mm_load_ps(unpnp.f) ); 
 }
 
 

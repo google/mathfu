@@ -29,9 +29,7 @@ ifeq ($(FORCE_SCALAR),1)
 endif
 
 ifeq ($(FORCE_SSE),1)
-	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE
-	# -msse -msse2 
-	#-mfpmath=sse
+	CXXFLAGS+= -DVECTORIAL_FORCED -DVECTORIAL_SSE -msse -msse2 -mfpmath=sse
 	SUFFIX=-sse
 endif
 
