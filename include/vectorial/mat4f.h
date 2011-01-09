@@ -133,7 +133,14 @@ namespace vectorial {
         simd4x4f_transpose(&m.value, &ret.value);
         return ret;
     }
-    
+
+
+    vectorial_inline mat4f inverse(const mat4f& m) {
+        mat4f ret;
+        simd4x4f_inverse(&m.value, &ret.value);
+        return ret;
+    }
+
 
 
 }
