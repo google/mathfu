@@ -8,7 +8,7 @@
 
 
 #ifndef VECTORIAL_FORCED
-    #if defined(__SSE__)
+    #if defined(__SSE__) || (_M_IX86_FP > 0)
 
         #define VECTORIAL_SSE
 

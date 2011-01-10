@@ -2,6 +2,10 @@
 
 const float epsilon = 0.000001f;
 
+#ifndef M_PI
+#define M_PI 3.141592f
+#endif
+
 describe(simd4x4f, "creating") {
     
     it("should be possible to create with params") {

@@ -26,7 +26,7 @@ namespace vectorial {
         inline mat4f() {}
         inline mat4f(const mat4f& m) : value(m.value) {}
         inline mat4f(const simd4x4f& v) : value(v) {}
-        inline mat4f(vec4f v0, vec4f v1, vec4f v2, vec4f v3) : value(simd4x4f_create(v0.value, v1.value, v2.value, v3.value)) {}
+        inline mat4f(const vec4f& v0, const vec4f& v1, const vec4f& v2, const vec4f& v3) : value(simd4x4f_create(v0.value, v1.value, v2.value, v3.value)) {}
         inline mat4f(const float *ary) { simd4x4f_uload(&value, ary); }
 
         inline void load(const float *ary) { 
@@ -57,19 +57,19 @@ namespace vectorial {
             return m;
         }
         
-        static mat4f lookAt(vec3f eye, vec3f center, vec3f up) {
+        static mat4f lookAt(const vec3f& eye, const vec3f& center, const vec3f& up) {
             simd4x4f m;
             simd4x4f_lookat(&m, eye.value, center.value, up.value);
             return m;            
         }
 
-        static mat4f translation(vec3f pos) {
+        static mat4f translation(const vec3f& pos) {
             simd4x4f m;
             simd4x4f_translation(&m, pos.x(), pos.y(), pos.z());
             return m;            
         }
 
-        static mat4f axisRotation(float angle, vec3f axis) {
+        static mat4f axisRotation(float angle, const vec3f& axis) {
             simd4x4f m;
             simd4x4f_axis_rotation(&m, angle, axis.value);
             return m;            
