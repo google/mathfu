@@ -13,6 +13,8 @@
 
 namespace vectorial {
     
+    class vec4f;
+    class vec3f;
 
     class vec2f {
     public:
@@ -37,6 +39,11 @@ namespace vectorial {
         static vec2f one() { return vec2f(1.0f, 1.0f); }
         static vec2f xAxis() { return vec2f(1.0f, 0.0f); }
         static vec2f yAxis() { return vec2f(0.0f, 1.0f); }
+
+        inline vec4f xy00() const;
+        inline vec4f xy01() const;
+        inline vec3f xy0() const;
+        inline vec2f xy() const;
 
     };
 

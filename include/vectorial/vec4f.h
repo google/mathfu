@@ -14,6 +14,8 @@
 
 namespace vectorial {
     
+    class vec3f;
+    class vec2f;
 
     class vec4f {
     public:
@@ -43,6 +45,10 @@ namespace vectorial {
         static vec4f yAxis() { return vec4f(0.0f, 1.0f, 0.0f, 0.0f); }
         static vec4f zAxis() { return vec4f(0.0f, 0.0f, 1.0f, 0.0f); }
         static vec4f wAxis() { return vec4f(0.0f, 0.0f, 0.0f, 1.0f); }
+
+
+        inline vec3f xyz() const;
+        inline vec2f xy() const;
 
     };
 
@@ -170,8 +176,6 @@ vectorial_inline std::ostream& operator<<(std::ostream& os, const vectorial::vec
     return os;
 }
 #endif
-
-
 
 
 #endif

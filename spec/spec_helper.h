@@ -4,17 +4,11 @@
 #define VECTORIAL_OSTREAM
 
 #include "spec.h"
-#include "vectorial/simd4f.h"
+
+#include "vectorial/vectorial.h"
+
 #include <cmath>
-
 #include <iostream>
-#include "vectorial/vec4f.h"
-#include "vectorial/vec3f.h"
-#include "vectorial/vec2f.h"
-
-#include "vectorial/simd4x4f.h"
-
-#include "vectorial/mat4f.h"
 
 #define should_be_close_to(a,b,tolerance) should_be_close_to_(this, a,b,tolerance,__FILE__,__LINE__)
 #define should_be_equal_simd4f( a, b, tolerance) should_be_equal_simd4f_(this, a,b,tolerance,__FILE__,__LINE__)
