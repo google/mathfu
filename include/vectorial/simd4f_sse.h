@@ -87,21 +87,6 @@ vectorial_inline simd4f simd4f_splat_w(simd4f v) {
     return s;
 }
 
-vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
-    simd4f s = _mm_rcp_ps(v); 
-    return s;
-}
-
-vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
-    simd4f s = _mm_sqrt_ps(v); 
-    return s;
-}
-
-vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
-    simd4f s = _mm_rsqrt_ps(v); 
-    return s;
-}
-
 
 // arithmetic
 
@@ -128,6 +113,31 @@ vectorial_inline simd4f simd4f_div(simd4f lhs, simd4f rhs) {
 vectorial_inline simd4f simd4f_madd(simd4f m1, simd4f m2, simd4f a) {
     return simd4f_add( simd4f_mul(m1, m2), a );
 }
+
+
+
+
+vectorial_inline simd4f simd4f_reciprocal(simd4f v) { 
+    simd4f s = _mm_rcp_ps(v); 
+    const simd4f two = simd4f_create(2.0f, 2.0f, 2.0f, 2.0f);
+    s = simd4f_mul(s, simd4f_sub(two, simd4f_mul(v, s)));
+    return s;
+}
+
+vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
+    simd4f s = _mm_sqrt_ps(v); 
+    return s;
+}
+
+vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
+    simd4f s = _mm_rsqrt_ps(v); 
+    const simd4f half = simd4f_create(0.5f, 0.5f, 0.5f, 0.5f);
+    const simd4f three = simd4f_create(3.0f, 3.0f, 3.0f, 3.0f);
+    s = simd4f_mul(simd4f_mul(s, half), simd4f_sub(three, simd4f_mul(s, simd4f_mul(v,s))));
+    return s;
+}
+
+
 
 
 vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
