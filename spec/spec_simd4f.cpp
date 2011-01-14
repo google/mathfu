@@ -21,7 +21,7 @@ describe(simd4f, "creating") {
         should_be_close_to( simd4f_get_w(x), 4, epsilon);
 
         // octave simd4f: [1,2,3,4]
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 3.000000000000000f, 4.000000000000000f), epsilon );
         
     }
 
@@ -30,7 +30,7 @@ describe(simd4f, "creating") {
         simd4f x = simd4f_zero();
 
         // octave simd4f: [0,0,0,0]
-        should_be_equal_simd4f(x, simd4f_create(0.000000, 0.000000, 0.000000, 0.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(0.000000000000000f, 0.000000000000000f, 0.000000000000000f, 0.000000000000000f), epsilon );
     }
     
     
@@ -53,7 +53,7 @@ describe(simd4f, "utilities") {
         f[3] = 4;
         simd4f x = simd4f_uload4(f);
         // octave simd4f: [1,2,3,4]
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 3.000000000000000f, 4.000000000000000f), epsilon );
     }
 
     it("should have simd4f_uload3 for loading three float values from an unaligned float array into simd4f") {
@@ -63,7 +63,7 @@ describe(simd4f, "utilities") {
         f[2] = 3;
         simd4f x = simd4f_uload3(f);
         // octave simd4f: [1,2,3]
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 0), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 3.000000000000000f, 0.0f), epsilon );
     }
 
     it("should have simd4f_uload2 for loading two float values from float an unaligned array into simd4f") {
@@ -72,7 +72,7 @@ describe(simd4f, "utilities") {
         f[1] = 2;
         simd4f x = simd4f_uload2(f);
         // octave simd4f: [1,2]
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 2.000000, 0, 0), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 0.0f, 0.0f), epsilon );
     }
 
 
@@ -118,7 +118,7 @@ describe(simd4f, "utilities") {
     it("should have simd4f_splat that expands a single scalar to all elements") {
         simd4f x = simd4f_splat(42);
         // octave simd4f: [42,42,42,42]
-        should_be_equal_simd4f(x, simd4f_create(42.000000, 42.000000, 42.000000, 42.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(42.000000000000000f, 42.000000000000000f, 42.000000000000000f, 42.000000000000000f), epsilon );
     }
 
     it("should have simd4f_splat_x,y,z,w splatting of an element") {
@@ -128,51 +128,48 @@ describe(simd4f, "utilities") {
         
         x = simd4f_splat_x(a);
         // octave simd4f: [1,1,1,1]
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 1.000000, 1.000000, 1.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(1.000000000000000f, 1.000000000000000f, 1.000000000000000f, 1.000000000000000f), epsilon );
 
         x = simd4f_splat_y(a);
         // octave simd4f: [2,2,2,2]
-        should_be_equal_simd4f(x, simd4f_create(2.000000, 2.000000, 2.000000, 2.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(2.000000000000000f, 2.000000000000000f, 2.000000000000000f, 2.000000000000000f), epsilon );
 
         x = simd4f_splat_z(a);
         // octave simd4f: [3,3,3,3]
-        should_be_equal_simd4f(x, simd4f_create(3.000000, 3.000000, 3.000000, 3.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(3.000000000000000f, 3.000000000000000f, 3.000000000000000f, 3.000000000000000f), epsilon );
 
         x = simd4f_splat_w(a);
         // octave simd4f: [4,4,4,4]
-        should_be_equal_simd4f(x, simd4f_create(4.000000, 4.000000, 4.000000, 4.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(4.000000000000000f, 4.000000000000000f, 4.000000000000000f, 4.000000000000000f), epsilon );
     }
     
     it("should have simd4f_sum that adds elements") {
         simd4f a = simd4f_create(1,2,3,4);
         simd4f x = simd4f_sum(a);
         // octave simd4f: [sum([1,2,3,4]), sum([1,2,3,4]), sum([1,2,3,4]), sum([1,2,3,4])]
-        should_be_equal_simd4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(10.000000000000000f, 10.000000000000000f, 10.000000000000000f, 10.000000000000000f), epsilon );
         
     }
         
     it("should have simd4f_reciprocal") {
-        simd4f a = simd4f_create(1.0f,2,3,9999);
+        simd4f a = simd4f_create(0.00001f, 2.00001f, 3.0f, 99999999.0f);
         simd4f x = simd4f_reciprocal(a);
-        const float epsilon = 0.001f;
-        // octave simd4f: 1 ./ [1,2,3,9999]
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 0.500000, 0.333333, 0.000100), epsilon );
+        // octave simd4f: 1 ./ [0.00001, 2.00001, 3.0, 99999999.0]
+        should_be_equal_simd4f(x, simd4f_create(99999.999999999985448f, 0.499997500012500f, 0.333333333333333f, 0.000000010000000f), epsilon );
     }
 
     it("should have simd4f_sqrt") {
-        simd4f a = simd4f_create(1.0f,2,3,9999);
+        simd4f a = simd4f_create(0.00001f, 2.00001f, 3.0f, 99999999.0f);
         simd4f x = simd4f_sqrt(a);
-        const float epsilon = 0.001f;
-        // octave simd4f:  sqrt([1,2,3,9999])
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 1.414214, 1.732051, 99.995000), epsilon );
+        // octave simd4f:  sqrt([0.00001, 2.00001, 3.0, 99999999.0])
+        should_be_equal_simd4f(x, simd4f_create(0.003162277660168f, 1.414217097902582f, 1.732050807568877f, 9999.999949999999444f), epsilon );
     }
 
     it("should have simd4f_rsqrt for reciprocal of square-root") {
-        simd4f a = simd4f_create(1.0f,2,3,9999);
+        simd4f a = simd4f_create(0.00001f, 2.00001f, 3.0f, 99999999.0f);
         simd4f x = simd4f_rsqrt(a);
-        const float epsilon = 0.001f;
-        // octave simd4f:  1 ./ sqrt([1,2,3,9999])
-        should_be_equal_simd4f(x, simd4f_create(1.000000, 0.707107, 0.577350, 0.010001), epsilon );
+        // octave simd4f:  1 ./ sqrt([0.00001, 2.00001, 3.0, 99999999.0])
+        should_be_equal_simd4f(x, simd4f_create(316.227766016837904f, 0.707105013426224f, 0.577350269189626f, 0.000100000000500f), epsilon );
     }
 
 }
@@ -185,7 +182,7 @@ describe(simd4f, "arithmetic with another simd4f") {
         
         simd4f x = simd4f_add(a,b);
         // octave simd4f: [1,2,3,4] + [10,20,30,40]
-        should_be_equal_simd4f(x, simd4f_create(11.000000, 22.000000, 33.000000, 44.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(11.000000000000000f, 22.000000000000000f, 33.000000000000000f, 44.000000000000000f), epsilon );
     }
 
     it("should have simd4f_sub for component-wise subtraction") {
@@ -194,7 +191,7 @@ describe(simd4f, "arithmetic with another simd4f") {
         
         simd4f x = simd4f_sub(b,a);
         // octave simd4f: [10,20,30,40] - [1,2,3,4] 
-        should_be_equal_simd4f(x, simd4f_create(9.000000, 18.000000, 27.000000, 36.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(9.000000000000000f, 18.000000000000000f, 27.000000000000000f, 36.000000000000000f), epsilon );
     }
 
     it("should have simd4f_mul for component-wise multiply") {
@@ -203,7 +200,7 @@ describe(simd4f, "arithmetic with another simd4f") {
         
         simd4f x = simd4f_mul(a,b);
         // octave simd4f: [1,2,3,4] .* [10,20,30,40]
-        should_be_equal_simd4f(x, simd4f_create(10.000000, 40.000000, 90.000000, 160.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(10.000000000000000f, 40.000000000000000f, 90.000000000000000f, 160.000000000000000f), epsilon );
     }
 
     it("should have simd4f_div for component-wise division") {
@@ -212,7 +209,7 @@ describe(simd4f, "arithmetic with another simd4f") {
         
         simd4f x = simd4f_div(b,a);
         // octave simd4f: [10,20,30,40] ./ [1,2,3,4] 
-        should_be_equal_simd4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(10.000000000000000f, 10.000000000000000f, 10.000000000000000f, 10.000000000000000f), epsilon );
     }
 
     it("should have simd4f_madd for multiply-add") {
@@ -222,7 +219,7 @@ describe(simd4f, "arithmetic with another simd4f") {
 
         simd4f x = simd4f_madd(a,b,c);
         // octave simd4f: [1,2,3,4] .* [100,100,100,100] .+ [6,7,8,9]
-        should_be_equal_simd4f(x, simd4f_create(106.000000, 207.000000, 308.000000, 409.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(106.000000000000000f, 207.000000000000000f, 308.000000000000000f, 409.000000000000000f), epsilon );
 
     }
 
@@ -237,7 +234,7 @@ describe(simd4f, "vector math") {
         
         simd4f x = simd4f_dot4(a,b);
         // octave simd4f: [dot([1, 2, 3, 4], [10, 20, 30, 40]),dot([1, 2, 3, 4], [10, 20, 30, 40]),dot([1, 2, 3, 4], [10, 20, 30, 40]),dot([1, 2, 3, 4], [10, 20, 30, 40])]
-        should_be_equal_simd4f(x, simd4f_create(300.000000, 300.000000, 300.000000, 300.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(300.000000000000000f, 300.000000000000000f, 300.000000000000000f, 300.000000000000000f), epsilon );
     }
 
     it("should have simd4f_dot3 for three component dot product") {
@@ -246,7 +243,7 @@ describe(simd4f, "vector math") {
         
         simd4f x = simd4f_dot3(a,b);
         // octave simd4f: [dot([1, 2, 3], [10, 20, 30]),dot([1, 2, 3], [10, 20, 30]),dot([1, 2, 3], [10, 20, 30]),dot([1, 2, 3], [10, 20, 30])]
-        should_be_equal_simd4f(x, simd4f_create(140.000000, 140.000000, 140.000000, 140.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(140.000000000000000f, 140.000000000000000f, 140.000000000000000f, 140.000000000000000f), epsilon );
     }
 
     it("should have simd4f_dot2 for two component dot product") {
@@ -255,14 +252,14 @@ describe(simd4f, "vector math") {
         
         simd4f x = simd4f_dot2(a,b);
         // octave simd4f: [dot([1, 2], [10, 20]),dot([1, 2], [10, 20]),dot([1, 2], [10, 20]),dot([1, 2], [10, 20])]
-        should_be_equal_simd4f(x, simd4f_create(50.000000, 50.000000, 50.000000, 50.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(50.000000000000000f, 50.000000000000000f, 50.000000000000000f, 50.000000000000000f), epsilon );
     }
     
     it("should have simd4f_length4 for four component vector length") {
         simd4f a = simd4f_create(1,2,-3,9999);
         simd4f x = simd4f_length4(a);
         // octave simd4f: [norm([1,2,-3,9999]), norm([1,2,-3,9999]), norm([1,2,-3,9999]), norm([1,2,-3,9999])]
-        should_be_equal_simd4f(x, simd4f_create(9999.000700, 9999.000700, 9999.000700, 9999.000700), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(9999.000700069982486f, 9999.000700069982486f, 9999.000700069982486f, 9999.000700069982486f), epsilon );
 
     }
 
@@ -270,7 +267,7 @@ describe(simd4f, "vector math") {
         simd4f a = simd4f_create(1,2,-3,9999);
         simd4f x = simd4f_length3(a);
         // octave simd4f: [norm([1,2,-3]), norm([1,2,-3]), norm([1,2,-3]), norm([1,2,-3])]
-        should_be_equal_simd4f(x, simd4f_create(3.741657, 3.741657, 3.741657, 3.741657), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(3.741657386773941f, 3.741657386773941f, 3.741657386773941f, 3.741657386773941f), epsilon );
 
     }
 
@@ -278,7 +275,7 @@ describe(simd4f, "vector math") {
         simd4f a = simd4f_create(1,2,-3,9999);
         simd4f x = simd4f_length2(a);
         // octave simd4f: [norm([1,2]),norm([1,2]),norm([1,2]),norm([1,2])]
-        should_be_equal_simd4f(x, simd4f_create(2.236068, 2.236068, 2.236068, 2.236068), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(2.236067977499790f, 2.236067977499790f, 2.236067977499790f, 2.236067977499790f), epsilon );
 
     }
 
@@ -287,7 +284,7 @@ describe(simd4f, "vector math") {
         simd4f a = simd4f_create(1,2,-3,9999);
         simd4f x = simd4f_length4_squared(a);
         // octave simd4f: ([(dot([1,2,-3,9999], [1,2,-3,9999])), (dot([1,2,-3,9999], [1,2,-3,9999])), (dot([1,2,-3,9999], [1,2,-3,9999])), (dot([1,2,-3,9999], [1,2,-3,9999]))])
-        should_be_equal_simd4f(x, simd4f_create(99980015.000000, 99980015.000000, 99980015.000000, 99980015.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(99980015.000000000000000f, 99980015.000000000000000f, 99980015.000000000000000f, 99980015.000000000000000f), epsilon );
 
     }
 
@@ -295,7 +292,7 @@ describe(simd4f, "vector math") {
         simd4f a = simd4f_create(1,2,-3,9999);
         simd4f x = simd4f_length3_squared(a);
         // octave simd4f: ([dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3]), dot([1,2,-3], [1,2,-3])])
-        should_be_equal_simd4f(x, simd4f_create(14.000000, 14.000000, 14.000000, 14.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(14.000000000000000f, 14.000000000000000f, 14.000000000000000f, 14.000000000000000f), epsilon );
 
     }
 
@@ -303,7 +300,7 @@ describe(simd4f, "vector math") {
         simd4f a = simd4f_create(1,2,-3,9999);
         simd4f x = simd4f_length2_squared(a);
         // octave simd4f: ([dot([1,2], [1,2]), dot([1,2], [1,2]), dot([1,2], [1,2]), dot([1,2], [1,2])])
-        should_be_equal_simd4f(x, simd4f_create(5.000000, 5.000000, 5.000000, 5.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(5.000000000000000f, 5.000000000000000f, 5.000000000000000f, 5.000000000000000f), epsilon );
 
     }
     
@@ -315,7 +312,7 @@ describe(simd4f, "vector math") {
 
         simd4f x = simd4f_cross3(a,b);
         // octave simd4f: horzcat(  cross( [1,12,3], [5,6,-17] )  , [0] )
-        should_be_equal_simd4f(x, simd4f_create(-222.000000, 32.000000, -54.000000, 0.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(-222.000000000000000f, 32.000000000000000f, -54.000000000000000f, 0.000000000000000f), epsilon );
 
     }
     
@@ -324,7 +321,7 @@ describe(simd4f, "vector math") {
         simd4f x = simd4f_normalize4(a);
         const float epsilon = 0.001f;
         // octave simd4f: [1,2,3,4] / norm([1,2,3,4])
-        should_be_equal_simd4f(x, simd4f_create(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(0.182574185835055f, 0.365148371670111f, 0.547722557505166f, 0.730296743340221f), epsilon );
     }
 
     it("should have simd4f_normalize3 for normalizing three component vector to unit length") {
@@ -332,7 +329,7 @@ describe(simd4f, "vector math") {
         simd4f x = simd4f_normalize4(a);
         const float epsilon = 0.001f;
         // octave simd4f: [1,2,3,0] / norm([1,2,3])
-        should_be_equal_simd4f(x, simd4f_create(0.267261, 0.534522, 0.801784, 0.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(0.267261241912424f, 0.534522483824849f, 0.801783725737273f, 0.000000000000000f), epsilon );
     }
 
     it("should have simd4f_normalize2 for normalizing two component vector to unit length") {
@@ -340,7 +337,7 @@ describe(simd4f, "vector math") {
         simd4f x = simd4f_normalize4(a);
         const float epsilon = 0.001f;
         // octave simd4f: [1,2,0,0] / norm([1,2])
-        should_be_equal_simd4f(x, simd4f_create(0.447214, 0.894427, 0.000000, 0.000000), epsilon );
+        should_be_equal_simd4f(x, simd4f_create(0.447213595499958f, 0.894427190999916f, 0.000000000000000f, 0.000000000000000f), epsilon );
     }
 
     

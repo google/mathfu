@@ -12,7 +12,7 @@ describe(vec4f, "constructing") {
     it("should have constructor with element values") {
         vec4f x(10,20,30,40);
         // octave vec4f: [10,20,30,40]
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 20.000000, 30.000000, 40.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 20.000000000000000f, 30.000000000000000f, 40.000000000000000f), epsilon );
         
     }
 
@@ -20,7 +20,7 @@ describe(vec4f, "constructing") {
         float ary[4] = { 1,2,3,4 };
         vec4f x(ary);
         // octave vec4f: [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 3.000000000000000f, 4.000000000000000f), epsilon );
     }
 
 }
@@ -33,7 +33,7 @@ describe(vec4f, "loads and stores") {
         vec4f x(-1, -1, -1, -1);
         x.load(ary);
         // octave vec4f: [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 3.000000000000000f, 4.000000000000000f), epsilon );
     }
 
     it("should have method for storing to a float array") {
@@ -55,7 +55,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f b(10,20,30,40);
         vec4f x = a + b;
         // octave vec4f: [1,2,3,4] + [10,20,30,40]
-        should_be_equal_vec4f(x, simd4f_create(11.000000, 22.000000, 33.000000, 44.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(11.000000000000000f, 22.000000000000000f, 33.000000000000000f, 44.000000000000000f), epsilon );
 
     }
 
@@ -64,7 +64,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f b(10,20,30,40);
         vec4f x = b - a;
         // octave vec4f:  [10,20,30,40] - [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(9.000000, 18.000000, 27.000000, 36.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(9.000000000000000f, 18.000000000000000f, 27.000000000000000f, 36.000000000000000f), epsilon );
 
     }
 
@@ -73,7 +73,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f b(10,20,30,40);
         vec4f x = a * b;
         // octave vec4f: [1,2,3,4] .* [10,20,30,40]
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 40.000000, 90.000000, 160.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 40.000000000000000f, 90.000000000000000f, 160.000000000000000f), epsilon );
 
     }
 
@@ -82,7 +82,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f b(10,20,30,40);
         vec4f x = b / a;
         // octave vec4f:  [10,20,30,40] ./ [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 10.000000000000000f, 10.000000000000000f, 10.000000000000000f), epsilon );
 
     }
 
@@ -94,7 +94,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f b(10,20,30,40);
         x += b;
         // octave vec4f: [1,2,3,4] + [10,20,30,40]
-        should_be_equal_vec4f(x, simd4f_create(11.000000, 22.000000, 33.000000, 44.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(11.000000000000000f, 22.000000000000000f, 33.000000000000000f, 44.000000000000000f), epsilon );
 
     }
 
@@ -103,7 +103,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f x(10,20,30,40);
         x -= a;
         // octave vec4f:  [10,20,30,40] - [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(9.000000, 18.000000, 27.000000, 36.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(9.000000000000000f, 18.000000000000000f, 27.000000000000000f, 36.000000000000000f), epsilon );
 
     }
 
@@ -112,7 +112,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f b(10,20,30,40);
         x *= b;
         // octave vec4f: [1,2,3,4] .* [10,20,30,40]
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 40.000000, 90.000000, 160.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 40.000000000000000f, 90.000000000000000f, 160.000000000000000f), epsilon );
 
     }
 
@@ -121,7 +121,7 @@ describe(vec4f, "arithmetic with another vec4f") {
         vec4f x(10,20,30,40);
         x /= a;
         // octave vec4f:  [10,20,30,40] ./ [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 10.000000, 10.000000, 10.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 10.000000000000000f, 10.000000000000000f, 10.000000000000000f), epsilon );
 
     }
 
@@ -137,7 +137,7 @@ describe(vec4f, "arithmetic with scalar") {
         float b=10;
         vec4f x = a + b;
         // octave vec4f: [1,2,3,4] + 10
-        should_be_equal_vec4f(x, simd4f_create(11.000000, 12.000000, 13.000000, 14.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(11.000000000000000f, 12.000000000000000f, 13.000000000000000f, 14.000000000000000f), epsilon );
 
     }
 
@@ -146,7 +146,7 @@ describe(vec4f, "arithmetic with scalar") {
         vec4f b(10,20,30,40);
         vec4f x = b - a;
         // octave vec4f:  [10,20,30,40] - 10
-        should_be_equal_vec4f(x, simd4f_create(0.000000, 10.000000, 20.000000, 30.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(0.000000000000000f, 10.000000000000000f, 20.000000000000000f, 30.000000000000000f), epsilon );
 
     }
 
@@ -155,7 +155,7 @@ describe(vec4f, "arithmetic with scalar") {
         float b=10;
         vec4f x = a * b;
         // octave vec4f: [1,2,3,4] .* 10
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 20.000000, 30.000000, 40.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 20.000000000000000f, 30.000000000000000f, 40.000000000000000f), epsilon );
 
     }
 
@@ -164,7 +164,7 @@ describe(vec4f, "arithmetic with scalar") {
         float b=10;
         vec4f x = a / b;
         // octave vec4f: [10,20,30,40] ./ 10
-        should_be_equal_vec4f(x, simd4f_create(1.000000, 2.000000, 3.000000, 4.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 3.000000000000000f, 4.000000000000000f), epsilon );
 
     }
 
@@ -175,7 +175,7 @@ describe(vec4f, "arithmetic with scalar") {
         float a=10;
         vec4f x = a + b;
         // octave vec4f: 10 + [1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(11.000000, 12.000000, 13.000000, 14.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(11.000000000000000f, 12.000000000000000f, 13.000000000000000f, 14.000000000000000f), epsilon );
 
     }
 
@@ -184,7 +184,7 @@ describe(vec4f, "arithmetic with scalar") {
         vec4f a(10,20,30,40);
         vec4f x = b - a;
         // octave vec4f:  50 - [10,20,30,40]
-        should_be_equal_vec4f(x, simd4f_create(40.000000, 30.000000, 20.000000, 10.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(40.000000000000000f, 30.000000000000000f, 20.000000000000000f, 10.000000000000000f), epsilon );
 
     }
 
@@ -193,7 +193,7 @@ describe(vec4f, "arithmetic with scalar") {
         float a=10;
         vec4f x = a * b;
         // octave vec4f: 10 .* [1,2,3,4] 
-        should_be_equal_vec4f(x, simd4f_create(10.000000, 20.000000, 30.000000, 40.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(10.000000000000000f, 20.000000000000000f, 30.000000000000000f, 40.000000000000000f), epsilon );
 
     }
 
@@ -202,7 +202,7 @@ describe(vec4f, "arithmetic with scalar") {
         float a=40;
         vec4f x = a / b;
         // octave vec4f: 40 ./ [10,20,30,40] 
-        should_be_equal_vec4f(x, simd4f_create(4.000000, 2.000000, 1.333333, 1.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(4.000000000000000f, 2.000000000000000f, 1.333333333333333f, 1.000000000000000f), epsilon );
 
     }
 
@@ -217,7 +217,7 @@ describe(vec4f, "vector math") {
         vec4f a(1,2,3,4);
         vec4f x = -a;
         // octave vec4f: -[1,2,3,4]
-        should_be_equal_vec4f(x, simd4f_create(-1.000000, -2.000000, -3.000000, -4.000000), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(-1.000000000000000f, -2.000000000000000f, -3.000000000000000f, -4.000000000000000f), epsilon );
     }
 
     it("should have dot function") {
@@ -226,7 +226,7 @@ describe(vec4f, "vector math") {
         float x = vectorial::dot(a,b);
         
         // octave vec4f: dot([1,2,3,4],[6,7,8,9])
-        should_be_close_to(x, 80.000000, epsilon );
+        should_be_close_to(x, 80.000000000000000f, epsilon );
     }
 
     it("should have length_squared function") {
@@ -234,7 +234,7 @@ describe(vec4f, "vector math") {
         float x = vectorial::length_squared(a);
         
         // octave vec4f: dot([1,2,3,4],[1,2,3,4])
-        should_be_close_to(x, 30.000000, epsilon );
+        should_be_close_to(x, 30.000000000000000f, epsilon );
     }
 
     it("should have length function") {
@@ -242,7 +242,7 @@ describe(vec4f, "vector math") {
         float x = vectorial::length(a);
         
         // octave vec4f: norm([1,2,3,4])
-        should_be_close_to(x, 5.477226, epsilon );
+        should_be_close_to(x, 5.477225575051661f, epsilon );
     }
     
     
@@ -251,7 +251,7 @@ describe(vec4f, "vector math") {
         vec4f x = vectorial::normalize(a);
         const float epsilon = 0.001f;
         // octave vec4f: [1,2,3,4] / norm([1,2,3,4])
-        should_be_equal_vec4f(x, simd4f_create(0.182574, 0.365148, 0.547723, 0.730297), epsilon );
+        should_be_equal_vec4f(x, simd4f_create(0.182574185835055f, 0.365148371670111f, 0.547722557505166f, 0.730296743340221f), epsilon );
     }
 
 }

@@ -12,7 +12,7 @@ describe(vec2f, "constructing") {
     it("should have constructor with element values") {
         vec2f x(10,20);
         // octave vec2f: [10,20]
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 20.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 20.000000000000000f, 0.0f, 0.0f), epsilon );
         
     }
 
@@ -20,7 +20,7 @@ describe(vec2f, "constructing") {
         float ary[2] = { 1,2 };
         vec2f x(ary);
         // octave vec2f: [1,2]
-        should_be_equal_vec2f(x, simd4f_create(1.000000, 2.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 0.0f, 0.0f), epsilon );
     }
 
 }
@@ -32,7 +32,7 @@ describe(vec2f, "loads and stores") {
         vec2f x(-1, -1 );
         x.load(ary);
         // octave vec2f: [1,2]
-        should_be_equal_vec2f(x, simd4f_create(1.000000, 2.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 0.0f, 0.0f), epsilon );
     }
 
     it("should have method for storing to a float array") {
@@ -53,7 +53,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f b(10,20);
         vec2f x = a + b;
         // octave vec2f: [1,2] + [10,20]
-        should_be_equal_vec2f(x, simd4f_create(11.000000, 22.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(11.000000000000000f, 22.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -62,7 +62,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f b(10,20);
         vec2f x = b - a;
         // octave vec2f:  [10,20] - [1,2]
-        should_be_equal_vec2f(x, simd4f_create(9.000000, 18.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(9.000000000000000f, 18.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -71,7 +71,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f b(10,20);
         vec2f x = a * b;
         // octave vec2f: [1,2] .* [10,20]
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 40.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 40.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -80,7 +80,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f b(10,20);
         vec2f x = b / a;
         // octave vec2f:  [10,20] ./ [1,2]
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 10.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 10.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
    
@@ -91,7 +91,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f b(10,20);
         x += b;
         // octave vec2f: [1,2] + [10,20]
-        should_be_equal_vec2f(x, simd4f_create(11.000000, 22.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(11.000000000000000f, 22.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -100,7 +100,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f x(10,20);
         x -= a;
         // octave vec2f:  [10,20] - [1,2]
-        should_be_equal_vec2f(x, simd4f_create(9.000000, 18.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(9.000000000000000f, 18.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -109,7 +109,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f b(10,20);
         x *= b;
         // octave vec2f: [1,2] .* [10,20]
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 40.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 40.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -118,7 +118,7 @@ describe(vec2f, "arithmetic with another vec2f") {
         vec2f x(10,20);
         x /= a;
         // octave vec2f:  [10,20] ./ [1,2]
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 10.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 10.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -133,7 +133,7 @@ describe(vec2f, "arithmetic with scalar") {
         float b=10;
         vec2f x = a + b;
         // octave vec2f: [1,2] + 10
-        should_be_equal_vec2f(x, simd4f_create(11.000000, 12.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(11.000000000000000f, 12.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -142,7 +142,7 @@ describe(vec2f, "arithmetic with scalar") {
         vec2f b(10,20);
         vec2f x = b - a;
         // octave vec2f:  [10,20] - 10
-        should_be_equal_vec2f(x, simd4f_create(0.000000, 10.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(0.000000000000000f, 10.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -151,7 +151,7 @@ describe(vec2f, "arithmetic with scalar") {
         float b=10;
         vec2f x = a * b;
         // octave vec2f: [1,2] .* 10
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 20.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 20.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -160,7 +160,7 @@ describe(vec2f, "arithmetic with scalar") {
         float b=10;
         vec2f x = a / b;
         // octave vec2f: [10,20] ./ 10
-        should_be_equal_vec2f(x, simd4f_create(1.000000, 2.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(1.000000000000000f, 2.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -171,7 +171,7 @@ describe(vec2f, "arithmetic with scalar") {
         float a=10;
         vec2f x = a + b;
         // octave vec2f: 10 + [1,2]
-        should_be_equal_vec2f(x, simd4f_create(11.000000, 12.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(11.000000000000000f, 12.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -180,7 +180,7 @@ describe(vec2f, "arithmetic with scalar") {
         vec2f a(10,20);
         vec2f x = b - a;
         // octave vec2f:  50 - [10,20]
-        should_be_equal_vec2f(x, simd4f_create(40.000000, 30.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(40.000000000000000f, 30.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -189,7 +189,7 @@ describe(vec2f, "arithmetic with scalar") {
         float a=10;
         vec2f x = a * b;
         // octave vec2f: 10 .* [1,2] 
-        should_be_equal_vec2f(x, simd4f_create(10.000000, 20.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(10.000000000000000f, 20.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -198,7 +198,7 @@ describe(vec2f, "arithmetic with scalar") {
         float a=40;
         vec2f x = a / b;
         // octave vec2f: 40 ./ [10,20] 
-        should_be_equal_vec2f(x, simd4f_create(4.000000, 2.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(4.000000000000000f, 2.000000000000000f, 0.0f, 0.0f), epsilon );
 
     }
 
@@ -213,7 +213,7 @@ describe(vec2f, "vector math") {
         vec2f a(1,2);
         vec2f x = -a;
         // octave vec2f: -[1,2]
-        should_be_equal_vec2f(x, simd4f_create(-1.000000, -2.000000, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(-1.000000000000000f, -2.000000000000000f, 0.0f, 0.0f), epsilon );
     }
 
 
@@ -223,7 +223,7 @@ describe(vec2f, "vector math") {
         float x = vectorial::dot(a,b);
         
         // octave vec2f: dot([1,2],[6,7])
-        should_be_close_to(x, 20.000000, epsilon );
+        should_be_close_to(x, 20.000000000000000f, epsilon );
     }
 
     it("should have length_squared function") {
@@ -231,7 +231,7 @@ describe(vec2f, "vector math") {
         float x = vectorial::length_squared(a);
         
         // octave vec2f: dot([1,2],[1,2])
-        should_be_close_to(x, 5.000000, epsilon );
+        should_be_close_to(x, 5.000000000000000f, epsilon );
     }
 
     it("should have length function") {
@@ -239,7 +239,7 @@ describe(vec2f, "vector math") {
         float x = vectorial::length(a);
         
         // octave vec2f: norm([1,2])
-        should_be_close_to(x, 2.236068, epsilon );
+        should_be_close_to(x, 2.236067977499790f, epsilon );
     }
     
     
@@ -248,7 +248,7 @@ describe(vec2f, "vector math") {
         vec2f x = vectorial::normalize(a);
         const float epsilon = 0.001f;
         // octave vec2f: [1,2] / norm([1,2])
-        should_be_equal_vec2f(x, simd4f_create(0.447214, 0.894427, 0, 0), epsilon );
+        should_be_equal_vec2f(x, simd4f_create(0.447213595499958f, 0.894427190999916f, 0.0f, 0.0f), epsilon );
     }
 
 }
