@@ -154,9 +154,22 @@ namespace vectorial {
         return vec2f( simd4f_normalize2(v.value) );
     }
 
+    vectorial_inline vec2f min(const vec2f& a, const vec2f& b) {
+        return vec2f( simd4f_min(a.value, b.value) );
+    }
+
+    vectorial_inline vec2f max(const vec2f& a, const vec2f& b) {
+        return vec2f( simd4f_max(a.value, b.value) );
+    }
+
 
 }
 
+
+namespace std {
+    inline ::vectorial::vec2f min(::vectorial::vec2f a, ::vectorial::vec2f b) { return ::vectorial::min(a,b); }
+    inline ::vectorial::vec2f max(::vectorial::vec2f a, ::vectorial::vec2f b) { return ::vectorial::max(a,b); }
+}
 
 
 #ifdef VECTORIAL_OSTREAM

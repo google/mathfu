@@ -160,13 +160,26 @@ namespace vectorial {
         return vec4f( simd4f_normalize4(v.value) );
     }
 
+    vectorial_inline vec4f min(const vec4f& a, const vec4f& b) {
+        return vec4f( simd4f_min(a.value, b.value) );
+    }
+
+    vectorial_inline vec4f max(const vec4f& a, const vec4f& b) {
+        return vec4f( simd4f_max(a.value, b.value) );
+    }
+
 
 }
 
 
+namespace std {
+    inline ::vectorial::vec4f min(::vectorial::vec4f a, ::vectorial::vec4f b) { return ::vectorial::min(a,b); }
+    inline ::vectorial::vec4f max(::vectorial::vec4f a, ::vectorial::vec4f b) { return ::vectorial::max(a,b); }
+}
+
 
 #ifdef VECTORIAL_OSTREAM
-//#include <ostream>
+#include <ostream>
 
 vectorial_inline std::ostream& operator<<(std::ostream& os, const vectorial::vec4f& v) {
     os << "[ " << v.x() << ", "
