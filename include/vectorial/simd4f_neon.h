@@ -207,6 +207,13 @@ vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
 }
 
 
+vectorial_inline simd4f simd4f_min(simd4f a, simd4f b) {
+    return vminq_f32( a, b ); 
+}
+
+vectorial_inline simd4f simd4f_max(simd4f a, simd4f b) {
+    return vmaxq_f32( a, b ); 
+}
 
 
 #ifdef __cplusplus

@@ -184,6 +184,14 @@ vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
     return _mm_xor_ps( s, _mm_load_ps(unpnp.f) ); 
 }
 
+vectorial_inline simd4f simd4f_min(simd4f a, simd4f b) {
+    return _mm_min_ps( a, b ); 
+}
+
+vectorial_inline simd4f simd4f_max(simd4f a, simd4f b) {
+    return _mm_max_ps( a, b ); 
+}
+
 
 
 #ifdef __cplusplus

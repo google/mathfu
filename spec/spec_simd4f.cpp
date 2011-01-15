@@ -388,3 +388,27 @@ describe(simd4f, "signs") {
 
 }
 
+describe(simd4f, "min-max") {
+    
+    it("should have simd4f_min for choosing minimum elements") {
+        simd4f a = simd4f_create(1.0f,  2.0f, -300000000.0f, -0.000002f);
+        simd4f b = simd4f_create(2.0f, -2.0f,  300000000.0f,  0.000001f);
+
+        simd4f x = simd4f_min(a,b);
+        should_be_equal_simd4f(x, simd4f_create(1.0f, -2.0f, -300000000.0f, -0.000002f), epsilon);
+        
+    }
+
+    it("should have simd4f_max for choosing maximum elements") {
+        simd4f a = simd4f_create(1.0f,  2.0f, -300000000.0f, -0.000002f);
+        simd4f b = simd4f_create(2.0f, -2.0f,  300000000.0f,  0.000001f);
+
+        simd4f x = simd4f_max(a,b);
+        should_be_equal_simd4f(x, simd4f_create(2.0f, 2.0f, 300000000.0f, 0.000001f), epsilon);
+        
+    }
+    
+    
+    
+}
+

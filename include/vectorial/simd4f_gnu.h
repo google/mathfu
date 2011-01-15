@@ -176,6 +176,24 @@ vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
 }
 
 
+vectorial_inline simd4f simd4f_min(simd4f a, simd4f b) {
+    _simd4f_union ua = {a};
+    _simd4f_union ub = {b};
+    return simd4f_create( ua.f[0] < ub.f[0] ? ua.f[0] : ub.f[0], 
+                          ua.f[1] < ub.f[1] ? ua.f[1] : ub.f[1], 
+                          ua.f[2] < ub.f[2] ? ua.f[2] : ub.f[2], 
+                          ua.f[3] < ub.f[3] ? ua.f[3] : ub.f[3] );
+}
+
+vectorial_inline simd4f simd4f_max(simd4f a, simd4f b) {
+    _simd4f_union ua = {a};
+    _simd4f_union ub = {b};
+    return simd4f_create( ua.f[0] > ub.f[0] ? ua.f[0] : ub.f[0], 
+                          ua.f[1] > ub.f[1] ? ua.f[1] : ub.f[1], 
+                          ua.f[2] > ub.f[2] ? ua.f[2] : ub.f[2], 
+                          ua.f[3] > ub.f[3] ? ua.f[3] : ub.f[3] );
+}
+
 
 
 #ifdef __cplusplus

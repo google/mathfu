@@ -159,6 +159,20 @@ vectorial_inline simd4f simd4f_flip_sign_1010(simd4f s) {
     return simd4f_create(-s.x, s.y, -s.z, s.w);
 }
 
+vectorial_inline simd4f simd4f_min(simd4f a, simd4f b) {
+    return simd4f_create( a.x < b.x ? a.x : b.x, 
+                          a.y < b.y ? a.y : b.y, 
+                          a.z < b.z ? a.z : b.z, 
+                          a.w < b.w ? a.w : b.w );
+}
+
+vectorial_inline simd4f simd4f_max(simd4f a, simd4f b) {
+    return simd4f_create( a.x > b.x ? a.x : b.x, 
+                          a.y > b.y ? a.y : b.y, 
+                          a.z > b.z ? a.z : b.z, 
+                          a.w > b.w ? a.w : b.w );
+}
+
 
 #ifdef __cplusplus
 }
