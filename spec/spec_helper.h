@@ -42,8 +42,7 @@ static void should_be_equal_simd4f_(specific::SpecBase *spec, const simd4f& a, c
     if( fabs( simd4f_get_x(b) - simd4f_get_x(a)) > tolerance ) equal = false;
     if( fabs( simd4f_get_y(b) - simd4f_get_y(a)) > tolerance ) equal = false;
     if( fabs( simd4f_get_z(b) - simd4f_get_z(a)) > tolerance ) equal = false;
-//    if(A::elements > 3 && B::elements > 3)
-        if( fabs( simd4f_get_w(b) - simd4f_get_w(a)) > tolerance ) equal = false;
+    if( fabs( simd4f_get_w(b) - simd4f_get_w(a)) > tolerance ) equal = false;
     
     std::stringstream ss;
     ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
@@ -58,8 +57,7 @@ static void should_be_equal_vec4f_(specific::SpecBase *spec, const vectorial::ve
     if( fabs( b.x() - a.x()) > tolerance ) equal = false;
     if( fabs( b.y() - a.y()) > tolerance ) equal = false;
     if( fabs( b.z() - a.z()) > tolerance ) equal = false;
-//    if(A::elements > 3 && B::elements > 3)
-        if( fabs( b.w() - a.w()) > tolerance ) equal = false;
+    if( fabs( b.w() - a.w()) > tolerance ) equal = false;
     
     std::stringstream ss;
     ss << a << " == " << b << " (with tolerance of " << tolerance << ")";
