@@ -38,10 +38,7 @@
       simd4f v = simd4f_normalize( simd4f_add( simd4f_create(1,2,3,4), y) );
       float z = simd4f_get_z(v);
 
-    #include "vectorial/vec2.h"
-    #include "vectorial/vec3.h"
-    #include "vectorial/vec4.h"
-    #include "vectorial/mat4.h"
+    #include "vectorial/vectorial.h"
     for C++ classes. They reside in vectorial namespace, you might
     want to alias them to your own namespace
       namespace myproject {
