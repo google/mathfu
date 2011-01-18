@@ -73,6 +73,13 @@
     #define vectorial_pure
 #endif
 
+#ifdef _WIN32
+  #if defined(min) || defined(max)
+#pragma message ( "set NOMINMAX as preprocessor macro, undefining min/max " )
+#undef min
+#undef max
+  #endif
+#endif
 
 #ifdef __cplusplus
     // Hack around msvc badness
