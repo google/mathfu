@@ -167,8 +167,8 @@ namespace vectorial {
 
 
 namespace std {
-    inline ::vectorial::vec2f min(::vectorial::vec2f a, ::vectorial::vec2f b) { return ::vectorial::min(a,b); }
-    inline ::vectorial::vec2f max(::vectorial::vec2f a, ::vectorial::vec2f b) { return ::vectorial::max(a,b); }
+    inline ::vectorial::vec2f min(const ::vectorial::vec2f& a, const ::vectorial::vec2f& b) { return ::vectorial::min(a,b); }
+    inline ::vectorial::vec2f max(const ::vectorial::vec2f& a, const ::vectorial::vec2f& b) { return ::vectorial::max(a,b); }
 }
 
 

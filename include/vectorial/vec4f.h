@@ -173,8 +173,8 @@ namespace vectorial {
 
 
 namespace std {
-    inline ::vectorial::vec4f min(::vectorial::vec4f a, ::vectorial::vec4f b) { return ::vectorial::min(a,b); }
-    inline ::vectorial::vec4f max(::vectorial::vec4f a, ::vectorial::vec4f b) { return ::vectorial::max(a,b); }
+    inline ::vectorial::vec4f min(const ::vectorial::vec4f& a, const ::vectorial::vec4f& b) { return ::vectorial::min(a,b); }
+    inline ::vectorial::vec4f max(const ::vectorial::vec4f& a, const ::vectorial::vec4f& b) { return ::vectorial::max(a,b); }
 }
 
 
