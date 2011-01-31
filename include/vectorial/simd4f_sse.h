@@ -169,7 +169,7 @@ vectorial_inline simd4f simd4f_merge_high(simd4f xyzw, simd4f abcd) {
 }
 
 
-typedef union {
+typedef simd4f_aligned16 union {
     unsigned int ui[4];
     float f[4];
 } _simd4f_uif;

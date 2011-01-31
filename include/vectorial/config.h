@@ -60,10 +60,13 @@
   #if defined(__cplusplus)
     #define vectorial_restrict  __restrict
   #endif
+  #define simd4f_aligned16  __attribute__ ((aligned (16)))
 #elif defined(_WIN32)
   #define vectorial_restrict  
+  #define simd4f_aligned16   __declspec(align(16))
 #else
   #define vectorial_restrict  restrict
+  #define simd4f_aligned16   
 #endif
 // #define vectorial_restrict
 
