@@ -41,7 +41,7 @@ describe(simd4f, "creating") {
 #include <alloca.h>
 #endif
 
-#define unaligned_mem(n) ((float*)((unsigned char*)alloca(sizeof(float)*n+1)+1))
+#define unaligned_mem(n) ((float*)((unsigned char*)alloca(sizeof(float)*n+4)+4))
 
 describe(simd4f, "utilities") {
 
