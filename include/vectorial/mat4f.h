@@ -82,6 +82,13 @@ namespace vectorial {
                                     simd4f_create(0,0,0,1) );
         }
 
+        static mat4f scale(const vec3f& scale) {
+            return simd4x4f_create( simd4f_create(scale.x(),0,0,0),
+                                   simd4f_create(0,scale.y(),0,0),
+                                   simd4f_create(0,0,scale.z(),0),
+                                   simd4f_create(0,0,0,1) );
+        }
+
     };
     
     
@@ -110,6 +117,12 @@ namespace vectorial {
         return ret;
     }
 
+    vectorial_inline vec4f transformVector(const mat4f& lhs, const vec4f& rhs) {
+        vec4f ret;
+        simd4x4f_matrix_vector_mul(&lhs.value, &rhs.value, &ret.value);
+        return ret;
+    }
+    
     vectorial_inline vec3f transformPoint(const mat4f& lhs, const vec3f& rhs) {
         vec3f ret;
         simd4x4f_matrix_point3_mul(&lhs.value, &rhs.value, &ret.value);
