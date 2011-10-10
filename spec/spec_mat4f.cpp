@@ -3,7 +3,7 @@
 using vectorial::vec4f;
 using vectorial::mat4f;
 
-const float epsilon = 0.00001f;
+const int epsilon = 1;
 
 describe(mat4f, "constructing") {
     it("should have default constructor that does nothing..") {

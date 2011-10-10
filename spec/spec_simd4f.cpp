@@ -1,7 +1,7 @@
 
 #include "spec_helper.h"
 
-const float epsilon = 0.000001f;
+const int epsilon = 1;
 
 describe(simd4f, "sanity") {
     it("VECTORIAL_SIMD_TYPE should be defined to a string") {
@@ -168,6 +168,7 @@ describe(simd4f, "utilities") {
     it("should have simd4f_rsqrt for reciprocal of square-root") {
         simd4f a = simd4f_create(0.00001f, 2.00001f, 3.0f, 99999999.0f);
         simd4f x = simd4f_rsqrt(a);
+        const int epsilon = 4; // Grant larger error
         // octave simd4f:  1 ./ sqrt([0.00001, 2.00001, 3.0, 99999999.0])
         should_be_equal_simd4f(x, simd4f_create(316.227766016837904f, 0.707105013426224f, 0.577350269189626f, 0.000100000000500f), epsilon );
     }
@@ -319,7 +320,6 @@ describe(simd4f, "vector math") {
     it("should have simd4f_normalize4 for normalizing four const vector to unit length") {
         simd4f a = simd4f_create(1,2,3,4);
         simd4f x = simd4f_normalize4(a);
-        const float epsilon = 0.001f;
         // octave simd4f: [1,2,3,4] / norm([1,2,3,4])
         should_be_equal_simd4f(x, simd4f_create(0.182574185835055f, 0.365148371670111f, 0.547722557505166f, 0.730296743340221f), epsilon );
     }
@@ -327,7 +327,6 @@ describe(simd4f, "vector math") {
     it("should have simd4f_normalize3 for normalizing three component vector to unit length") {
         simd4f a = simd4f_create(1,2,3,0);
         simd4f x = simd4f_normalize4(a);
-        const float epsilon = 0.001f;
         // octave simd4f: [1,2,3,0] / norm([1,2,3])
         should_be_equal_simd4f(x, simd4f_create(0.267261241912424f, 0.534522483824849f, 0.801783725737273f, 0.000000000000000f), epsilon );
     }
@@ -335,7 +334,6 @@ describe(simd4f, "vector math") {
     it("should have simd4f_normalize2 for normalizing two component vector to unit length") {
         simd4f a = simd4f_create(1,2,0,0);
         simd4f x = simd4f_normalize4(a);
-        const float epsilon = 0.001f;
         // octave simd4f: [1,2,0,0] / norm([1,2])
         should_be_equal_simd4f(x, simd4f_create(0.447213595499958f, 0.894427190999916f, 0.000000000000000f, 0.000000000000000f), epsilon );
     }

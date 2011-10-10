@@ -1,6 +1,6 @@
 #include "spec_helper.h"
 
-const float epsilon = 0.000001f;
+const int epsilon = 1;
 
 #ifndef M_PI
 #define M_PI 3.141592f
@@ -186,9 +186,11 @@ describe(simd4x4f, "matrix utility") {
         should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.015309310560300f, -0.049885440533222f, -1.081337221412206f, 1.093522182878568f), simd4f_create(-0.004061653822120f, 0.054051239325141f, 0.123620079150177f, -0.147260987294314f), simd4f_create(0.011247656738180f, 0.004165798791918f, 0.042282857737971f, -0.053738804415747f), simd4f_create(-0.015517600499896f, -0.024265777962924f, 0.728702353676318f, -0.536971464278276f)), epsilon );
 
         simd4x4f x2;
-        simd4x4f_matrix_mul(&a, &x, &x2);
+        simd4x4f_matrix_mul(&x, &a, &x2);
         simd4x4f identity;
         simd4x4f_identity(&identity);
+        // Allow larger error for M * M' = I
+        const int epsilon = 0x35000000; 
         should_be_equal_simd4x4f(x2, identity, epsilon);
         
     }
@@ -301,7 +303,7 @@ describe(simd4x4f, "creating projection and view matrices") {
         const float znear = 2.0f;
         const float zfar = 50.0f;
 
-        const float epsilon = 0.0001f;
+        const int epsilon = 50;
         
         simd4x4f x;
         simd4x4f_perspective(&x, fov, aspect, znear, zfar);
@@ -319,7 +321,7 @@ describe(simd4x4f, "creating projection and view matrices") {
 
         simd4x4f x;
         simd4x4f_ortho(&x, -10, 20, -30, 40, -50, 60);
-        
+        const int epsilon = 20;        
         should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.0666667, 0, 0, 0),
                                                     simd4f_create(0, 0.0285714, 0, 0),
                                                     simd4f_create(-0, -0, -0.0181818, -0),
@@ -337,7 +339,7 @@ describe(simd4x4f, "creating projection and view matrices") {
         simd4x4f x;
         simd4x4f_lookat(&x, eye, center, up);
 
-        const float epsilon = 0.01f;
+        const int epsilon = 40;
         
         should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(-0.707107, -0.408248, -0.57735, 0),
                                                     simd4f_create(0, 0.816497, -0.57735, 0),
@@ -363,7 +365,7 @@ describe(simd4x4f, "creating projection and view matrices") {
 
         simd4x4f_axis_rotation(&x, 45 * M_PI / 180.0f, simd4f_create(1,2,3,0));
 
-        const float epsilon = 0.01f;
+        const int epsilon = 20;
 
         should_be_equal_simd4x4f(x, simd4x4f_create(simd4f_create(0.728028, 0.608789, -0.315202, 0),
                                                    simd4f_create(-0.525105, 0.790791, 0.314508, 0),

@@ -2,7 +2,7 @@
 #include <iostream>
 using vectorial::vec3f;
 
-const float epsilon = 0.00001f;
+const int epsilon = 1;
 
 describe(vec3f, "constructing") {
     it("should have default constructor that does nothing..") {
@@ -254,7 +254,6 @@ describe(vec3f, "vector math") {
     it("should have normalize function") {
         vec3f a(1,2,3);
         vec3f x = vectorial::normalize(a);
-        const float epsilon = 0.001f;
         // octave vec3f: [1,2,3] / norm([1,2,3])
         should_be_equal_vec3f(x, simd4f_create(0.267261241912424f, 0.534522483824849f, 0.801783725737273f, 0.0f), epsilon );
     }
