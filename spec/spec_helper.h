@@ -8,6 +8,7 @@
 #include "vectorial/vectorial.h"
 
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 
 #define should_be_close_to(a,b,tolerance) should_be_close_to_(this, a,b,tolerance,__FILE__,__LINE__)
