@@ -190,7 +190,7 @@ describe(simd4x4f, "matrix utility") {
         simd4x4f identity;
         simd4x4f_identity(&identity);
         // Allow larger error for M * M' = I
-        const int epsilon = 0x35000000; 
+        const int epsilon = 0x35100000; 
         should_be_equal_simd4x4f(x2, identity, epsilon);
         
     }
