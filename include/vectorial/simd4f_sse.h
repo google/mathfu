@@ -164,6 +164,15 @@ vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { return _mm_shuffle_ps(s,
 vectorial_inline simd4f simd4f_shuffle_zwxy(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(1,0,3,2) ); }
 vectorial_inline simd4f simd4f_shuffle_yzwx(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(0,3,2,1) ); }
 
+vectorial_inline simd4f simd4f_zero_w(simd4f s) {
+    simd4f r = _mm_unpackhi_ps(s, _mm_setzero_ps());
+    return _mm_movelh_ps(s, r);
+}
+
+vectorial_inline simd4f simd4f_zero_zw(simd4f s) {
+    return _mm_movelh_ps(s, _mm_setzero_ps());
+}
+
 vectorial_inline simd4f simd4f_merge_high(simd4f xyzw, simd4f abcd) { 
     return _mm_movehl_ps(abcd, xyzw);
 }

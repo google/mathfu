@@ -159,6 +159,17 @@ vectorial_inline simd4f simd4f_shuffle_yzwx(simd4f s) {
 }
 
 
+vectorial_inline simd4f simd4f_zero_w(simd4f s) {
+    _simd4f_union u = {s};
+    return simd4f_create(s.f[0], s.f[1], s.f[2], 0.0f);
+}
+
+vectorial_inline simd4f simd4f_zero_zw(simd4f s) {
+    _simd4f_union u = {s};
+    return simd4f_create(s.f[0], s.f[1], 0.0f, 0.0f);
+}
+
+
 vectorial_inline simd4f simd4f_merge_high(simd4f abcd, simd4f xyzw) { 
     _simd4f_union u1 = {abcd};
     _simd4f_union u2 = {xyzw};

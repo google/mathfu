@@ -146,6 +146,14 @@ vectorial_inline simd4f simd4f_shuffle_zwxy(simd4f s) { return simd4f_create(s.z
 vectorial_inline simd4f simd4f_shuffle_yzwx(simd4f s) { return simd4f_create(s.y, s.z, s.w, s.x); }
 
 
+vectorial_inline simd4f simd4f_zero_w(simd4f s) {
+    return simd4f_create(s.x, s.y, s.z, 0.0f);
+}
+
+vectorial_inline simd4f simd4f_zero_zw(simd4f s) {
+    return simd4f_create(s.x, s.y, 0.0f, 0.0f);
+}
+
 
 vectorial_inline simd4f simd4f_merge_high(simd4f abcd, simd4f xyzw) { 
     return simd4f_create(abcd.z, abcd.w, xyzw.z, xyzw.w);
