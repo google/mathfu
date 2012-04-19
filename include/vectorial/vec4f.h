@@ -25,9 +25,9 @@ namespace vectorial {
         inline vec4f() {}
         inline vec4f(const vec4f& v) : value(v.value) {}
         inline vec4f(const simd4f& v) : value(v) {}
-        inline vec4f(float xyzw) : value( simd4f_splat(xyzw) ) {}
+        explicit inline vec4f(float xyzw) : value( simd4f_splat(xyzw) ) {}
         inline vec4f(float x, float y, float z, float w) : value( simd4f_create(x,y,z,w) ) {}
-        inline vec4f(const float *ary) : value( simd4f_uload4(ary) ) { }
+        explicit inline vec4f(const float *ary) : value( simd4f_uload4(ary) ) { }
             
         inline float x() const { return simd4f_get_x(value); }
         inline float y() const { return simd4f_get_y(value); }
