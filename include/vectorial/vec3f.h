@@ -24,6 +24,7 @@ namespace vectorial {
         inline vec3f() {}
         inline vec3f(const vec3f& v) : value(v.value) {}
         inline vec3f(const simd4f& v) : value(v) {}
+        inline vec3f(float xyz) : value( simd4f_splat(xyz) ) {}
         inline vec3f(float x, float y, float z) : value( simd4f_create(x,y,z,0) ) {}
         inline vec3f(const float *ary) : value( simd4f_uload3(ary) ) { }
             
@@ -37,13 +38,14 @@ namespace vectorial {
         enum { elements = 3 };
 
         static vec3f zero() { return vec3f(simd4f_zero()); }
-        static vec3f one() { return vec3f(1.0f, 1.0f, 1.0f); }
+        static vec3f one() { return vec3f(1.0f); }
         static vec3f xAxis() { return vec3f(1.0f, 0.0f, 0.0f); }
         static vec3f yAxis() { return vec3f(0.0f, 1.0f, 0.0f); }
         static vec3f zAxis() { return vec3f(0.0f, 0.0f, 1.0f); }
 
         inline vec4f xyz0() const;
         inline vec4f xyz1() const;
+        inline vec4f xyzw(float w) const;
         inline vec3f xyz() const;
         inline vec3f xy0() const;
         inline vec2f xy() const;
