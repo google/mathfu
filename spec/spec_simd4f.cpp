@@ -410,3 +410,33 @@ describe(simd4f, "min-max") {
     
 }
 
+
+describe(simd4f, "zeroing")
+{
+
+    it("should have simd4f_zero_w that zeros the last element")
+    {
+        simd4f a = simd4f_create(1.0f, 2.0f, 3.0f, 4.0f);
+        simd4f b = simd4f_create(1.0f, 2.0f, 3.0f, NAN);
+        simd4f x = simd4f_zero_w(a);
+        should_be_equal_simd4f(x, simd4f_create(1.0f, 2.0f, 3.0f, 0.0f), epsilon);
+        x = simd4f_zero_w(b);
+        should_be_equal_simd4f(x, simd4f_create(1.0f, 2.0f, 3.0f, 0.0f), epsilon);
+    }
+
+    it("should have simd4f_zero_zw that zeros the last element")
+    {
+        simd4f a = simd4f_create(1.0f, 2.0f, 3.0f, 4.0f);
+        simd4f b = simd4f_create(1.0f, 2.0f, NAN, NAN);
+        simd4f x = simd4f_zero_zw(a);
+        should_be_equal_simd4f(x, simd4f_create(1.0f, 2.0f, 0.0f, 0.0f), epsilon);
+        x = simd4f_zero_zw(b);
+        should_be_equal_simd4f(x, simd4f_create(1.0f, 2.0f, 0.0f, 0.0f), epsilon);
+    }
+
+}
+
+
+
+
+
