@@ -60,7 +60,7 @@ static inline bool compare_floats(float A, float B, int maxUlps)
 
 
 
-static void should_be_close_to_(specific::SpecBase *spec, float a, float b, int tolerance, const char *file, int line) {
+static inline void should_be_close_to_(specific::SpecBase *spec, float a, float b, int tolerance, const char *file, int line) {
     
     bool equal=true;
     if( !compare_floats(a,b,tolerance) ) equal = false;
@@ -73,7 +73,7 @@ static void should_be_close_to_(specific::SpecBase *spec, float a, float b, int 
 }
 
 
-static void should_be_equal_simd4f_(specific::SpecBase *spec, const simd4f& a, const simd4f& b, int tolerance, const char *file, int line) {
+static inline void should_be_equal_simd4f_(specific::SpecBase *spec, const simd4f& a, const simd4f& b, int tolerance, const char *file, int line) {
     
     bool equal=true;
     if( !compare_floats( simd4f_get_x(a), simd4f_get_x(b), tolerance) ) equal = false;
@@ -88,7 +88,7 @@ static void should_be_equal_simd4f_(specific::SpecBase *spec, const simd4f& a, c
     
 }
 
-static void should_be_equal_vec4f_(specific::SpecBase *spec, const vectorial::vec4f& a, const vectorial::vec4f& b, int tolerance, const char *file, int line) {
+static inline void should_be_equal_vec4f_(specific::SpecBase *spec, const vectorial::vec4f& a, const vectorial::vec4f& b, int tolerance, const char *file, int line) {
     
     bool equal=true;
     if( !compare_floats( a.x(), b.x(), tolerance) ) equal = false;
@@ -103,7 +103,7 @@ static void should_be_equal_vec4f_(specific::SpecBase *spec, const vectorial::ve
     
 }
 
-static void should_be_equal_vec3f_(specific::SpecBase *spec, const vectorial::vec3f& a, const vectorial::vec3f& b, int tolerance, const char *file, int line) {
+static inline void should_be_equal_vec3f_(specific::SpecBase *spec, const vectorial::vec3f& a, const vectorial::vec3f& b, int tolerance, const char *file, int line) {
     
     bool equal=true;
     if( !compare_floats( a.x(), b.x(), tolerance) ) equal = false;
@@ -117,7 +117,7 @@ static void should_be_equal_vec3f_(specific::SpecBase *spec, const vectorial::ve
     
 }
 
-static void should_be_equal_vec2f_(specific::SpecBase *spec, const vectorial::vec2f& a, const vectorial::vec2f& b, int tolerance, const char *file, int line) {
+static inline void should_be_equal_vec2f_(specific::SpecBase *spec, const vectorial::vec2f& a, const vectorial::vec2f& b, int tolerance, const char *file, int line) {
     
     bool equal=true;
     if( !compare_floats( a.x(), b.x(), tolerance) ) equal = false;
@@ -132,7 +132,7 @@ static void should_be_equal_vec2f_(specific::SpecBase *spec, const vectorial::ve
 
 
 
-static void should_be_equal_simd4x4f_(specific::SpecBase *spec, const simd4x4f& a, const simd4x4f& b, int tolerance, const char *file, int line) {
+static inline void should_be_equal_simd4x4f_(specific::SpecBase *spec, const simd4x4f& a, const simd4x4f& b, int tolerance, const char *file, int line) {
     
     bool equal=true;
     if( !compare_floats( simd4f_get_x(a.x), simd4f_get_x(b.x), tolerance) ) equal = false;
@@ -162,7 +162,7 @@ static void should_be_equal_simd4x4f_(specific::SpecBase *spec, const simd4x4f& 
     
 }
 
-static void should_be_equal_mat4f_(specific::SpecBase *spec, const vectorial::mat4f& a, const vectorial::mat4f& b, int tolerance, const char *file, int line) {
+static inline void should_be_equal_mat4f_(specific::SpecBase *spec, const vectorial::mat4f& a, const vectorial::mat4f& b, int tolerance, const char *file, int line) {
                                                                         
     bool equal=true;                                                    
     if( !compare_floats( simd4f_get_x(a.value.x), simd4f_get_x(b.value.x), tolerance) ) equal = false;
