@@ -119,7 +119,14 @@ vectorial_inline simd4f simd4f_rsqrt(simd4f v) {
 }
 
 vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
-    return simd4f_reciprocal(simd4f_rsqrt(v));
+
+    return vreinterpretq_f32_u32(vandq_u32( vtstq_u32(vreinterpretq_u32_f32(v),  
+                                                      vreinterpretq_u32_f32(v)), 
+                                            vreinterpretq_u32_f32(
+                                              simd4f_reciprocal(simd4f_rsqrt(v)))
+                                          )
+                                );
+
 }
 
 

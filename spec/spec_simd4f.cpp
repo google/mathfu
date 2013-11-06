@@ -163,6 +163,10 @@ describe(simd4f, "utilities") {
         simd4f x = simd4f_sqrt(a);
         // octave simd4f:  sqrt([0.00001, 2.00001, 3.0, 99999999.0])
         should_be_equal_simd4f(x, simd4f_create(0.003162277660168f, 1.414217097902582f, 1.732050807568877f, 9999.999949999999444f), epsilon );
+
+        x = simd4f_sqrt( simd4f_create(0.0f, 0.0f, 0.0f, 0.0f) );
+        // octave simd4f:  sqrt([0, 0, 0, 0])
+        should_be_equal_simd4f(x, simd4f_create(0.000000000000000f, 0.000000000000000f, 0.000000000000000f, 0.000000000000000f), epsilon );
     }
 
     it("should have simd4f_rsqrt for reciprocal of square-root") {
