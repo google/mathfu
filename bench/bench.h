@@ -2,6 +2,7 @@
 #define BENCH_H
 
 #include <string>
+#include <stdlib.h>
 
 #ifdef __APPLE__
     #define BENCH_MACH
