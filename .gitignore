@@ -1,0 +1,8 @@
+PerfTests/*
+**/bin/**
+**/libs/**
+**/obj/**
+build.xml
+local.properties
+project.properties
+proguard-project.txt
