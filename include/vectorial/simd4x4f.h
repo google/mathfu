@@ -1,6 +1,7 @@
 /*
   Vectorial
   Copyright (c) 2010 Mikko Lehtonen
+  Copyright (c) 2014 Google, Inc.
   Licensed under the terms of the two-clause BSD License (see LICENSE)
 */
 #ifndef VECTORIAL_SIMD4X4F_H
@@ -211,9 +212,9 @@ vectorial_inline void simd4x4f_lookat(simd4x4f *m, simd4f eye, simd4f center, si
 
     zaxis = simd4f_sub( simd4f_zero(), zaxis);
 
-    float x = -simd4f_get_x( simd4f_dot3(xaxis, eye) );
-    float y = -simd4f_get_x( simd4f_dot3(yaxis, eye) );
-    float z = -simd4f_get_x( simd4f_dot3(zaxis, eye) );
+    float x = -simd4f_dot3(xaxis, eye);
+    float y = -simd4f_dot3(yaxis, eye);
+    float z = -simd4f_dot3(zaxis, eye);
 
     m->x = xaxis;
     m->y = yaxis;
@@ -265,7 +266,7 @@ vectorial_inline void simd4x4f_axis_rotation(simd4x4f* m, float radians, simd4f 
 
 
 
-vectorial_inline void simd4x4f_add(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+vectorial_inline void simd4x4f_add(const simd4x4f* a, const simd4x4f* b, simd4x4f* out) {
     
     out->x = simd4f_add(a->x, b->x);
     out->y = simd4f_add(a->y, b->y);
@@ -274,7 +275,7 @@ vectorial_inline void simd4x4f_add(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     
 }
 
-vectorial_inline void simd4x4f_sub(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+vectorial_inline void simd4x4f_sub(const simd4x4f* a, const simd4x4f* b, simd4x4f* out) {
     
     out->x = simd4f_sub(a->x, b->x);
     out->y = simd4f_sub(a->y, b->y);
@@ -283,7 +284,7 @@ vectorial_inline void simd4x4f_sub(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     
 }
 
-vectorial_inline void simd4x4f_mul(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
+vectorial_inline void simd4x4f_mul(const simd4x4f* a, const simd4x4f* b, simd4x4f* out) {
     
     out->x = simd4f_mul(a->x, b->x);
     out->y = simd4f_mul(a->y, b->y);

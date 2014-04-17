@@ -1,6 +1,7 @@
 /*
   Vectorial
   Copyright (c) 2010 Mikko Lehtonen
+  Copyright (c) 2014 Google, Inc.
   Licensed under the terms of the two-clause BSD License (see LICENSE)
 */
 #ifndef VECTORIAL_SIMD4F_NEON_H
@@ -14,6 +15,7 @@ extern "C" {
 
 
 typedef float32x4_t simd4f;
+typedef float32x2_t simd2f;
 
 typedef union {
     simd4f s ;
@@ -55,10 +57,10 @@ vectorial_inline void simd4f_ustore4(const simd4f val, float *ary) {
 }
 
 vectorial_inline void simd4f_ustore3(const simd4f val, float *ary) {
-    _simd4f_union u = { val };
-    ary[0] = u.f[0];
-    ary[1] = u.f[1];
-    ary[2] = u.f[2];
+    float* local_data = ary;
+    vst1q_lane_f32(local_data++, val, 0);
+    vst1q_lane_f32(local_data++, val, 1);
+    vst1q_lane_f32(local_data, val, 2);
 }
 
 vectorial_inline void simd4f_ustore2(const simd4f val, float *ary) {
@@ -107,15 +109,36 @@ vectorial_inline simd4f simd4f_reciprocal(simd4f v) {
     return estimate;
 }
 
-vectorial_inline simd4f simd4f_rsqrt(simd4f v) { 
-    simd4f estimate = vrsqrteq_f32(v);
+vectorial_inline void simd4f_rsqrt_1iteration(const simd4f& v, simd4f& estimate) {
     simd4f estimate2 = vmulq_f32(estimate, v);
     estimate = vmulq_f32(estimate, vrsqrtsq_f32(estimate2, estimate));
-    estimate2 = vmulq_f32(estimate, v);
-    estimate = vmulq_f32(estimate, vrsqrtsq_f32(estimate2, estimate));
-    estimate2 = vmulq_f32(estimate, v);
-    estimate = vmulq_f32(estimate, vrsqrtsq_f32(estimate2, estimate));
+}
+
+vectorial_inline simd4f simd4f_rsqrt1(simd4f v) {
+    simd4f estimate = vrsqrteq_f32(v);
+    simd4f_rsqrt_1iteration(v, estimate);
     return estimate;
+}
+
+vectorial_inline simd4f simd4f_rsqrt2(simd4f v) {
+    simd4f estimate = vrsqrteq_f32(v);
+    simd4f_rsqrt_1iteration(v, estimate);
+    simd4f_rsqrt_1iteration(v, estimate);
+    return estimate;
+}
+
+vectorial_inline simd4f simd4f_rsqrt3(simd4f v) {
+    simd4f estimate = vrsqrteq_f32(v);
+    simd4f_rsqrt_1iteration(v, estimate);
+    simd4f_rsqrt_1iteration(v, estimate);
+    simd4f_rsqrt_1iteration(v, estimate);
+    return estimate;
+}
+
+// http://en.wikipedia.org/wiki/Fast_inverse_square_root makes the argument for
+// one iteration but two gives a signficant accuracy improvment.
+vectorial_inline simd4f simd4f_rsqrt(simd4f v) {
+    return simd4f_rsqrt2(v);
 }
 
 vectorial_inline simd4f simd4f_sqrt(simd4f v) { 
@@ -165,17 +188,30 @@ vectorial_inline float simd4f_get_y(simd4f s) { return vgetq_lane_f32(s, 1); }
 vectorial_inline float simd4f_get_z(simd4f s) { return vgetq_lane_f32(s, 2); }
 vectorial_inline float simd4f_get_w(simd4f s) { return vgetq_lane_f32(s, 3); }
 
+// This function returns x*x+y*y+z*z and ignores the w component.
+vectorial_inline float simd4f_dot3(simd4f lhs, simd4f rhs) {
+    const simd4f m = simd4f_mul(lhs, rhs);
+    simd2f s1 = vpadd_f32(vget_low_f32(m), vget_low_f32(m));
+    s1 = vadd_f32(s1, vget_high_f32(m));
+    return vget_lane_f32(s1, 0);
+}
+
+vectorial_inline simd4f simd4f_dot3_splat(simd4f lhs, simd4f rhs) {
+    return simd4f_splat(simd4f_dot3(lhs, rhs));
+}
 
 vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
-    
-    const simd4f lyzx = simd4f_create(simd4f_get_y(lhs), simd4f_get_z(lhs), simd4f_get_x(lhs), simd4f_get_w(lhs));
-    const simd4f lzxy = simd4f_create(simd4f_get_z(lhs), simd4f_get_x(lhs), simd4f_get_y(lhs), simd4f_get_w(lhs));
-
-    const simd4f ryzx = simd4f_create(simd4f_get_y(rhs), simd4f_get_z(rhs), simd4f_get_x(rhs), simd4f_get_w(rhs));
-    const simd4f rzxy = simd4f_create(simd4f_get_z(rhs), simd4f_get_x(rhs), simd4f_get_y(rhs), simd4f_get_w(rhs));
-
-    return vmlsq_f32(vmulq_f32(lyzx, rzxy), lzxy, ryzx);
-
+    // Compute lhs and rhs in order yzx
+    simd2f lhs_low = vget_low_f32(lhs);
+    simd2f rhs_low = vget_low_f32(rhs);
+    simd4f lhs_yzx = vcombine_f32(vext_f32(lhs_low, vget_high_f32(lhs),1), lhs_low);
+    simd4f rhs_yzx = vcombine_f32(vext_f32(rhs_low, vget_high_f32(rhs),1), rhs_low);
+    // Compute cross in order zxy
+    simd4f s3 = simd4f_sub(simd4f_mul(rhs_yzx, lhs), simd4f_mul(lhs_yzx, rhs));
+    // Permute cross to order xyz and zero out the fourth value
+    simd2f low = vget_low_f32(s3);
+    s3 = vcombine_f32(vext_f32(low, vget_high_f32(s3), 1), low);
+    return (simd4f)vandq_s32((int32x4_t)s3,(int32x4_t){0xFFFFFFFF,0xFFFFFFFF,0xFFFFFFFF,0});
 }
 
 vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { 

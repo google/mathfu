@@ -1,12 +1,14 @@
 /*
   Vectorial
   Copyright (c) 2010 Mikko Lehtonen
+  Copyright (c) 2014 Google, Inc.
   Licensed under the terms of the two-clause BSD License (see LICENSE)
 */
 #ifndef VECTORIAL_SIMD4F_SSE_H
 #define VECTORIAL_SIMD4F_SSE_H
 
 #include <xmmintrin.h>
+#include <smmintrin.h>
 #include <string.h>  // memcpy
 
 #ifdef __cplusplus
@@ -137,8 +139,18 @@ vectorial_inline simd4f simd4f_rsqrt(simd4f v) {
     return s;
 }
 
+vectorial_inline float simd4f_get_x(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
+vectorial_inline float simd4f_get_y(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
+vectorial_inline float simd4f_get_z(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
+vectorial_inline float simd4f_get_w(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
 
+vectorial_inline simd4f simd4f_dot3_splat(simd4f lhs,simd4f rhs) {
+    return _mm_dp_ps(lhs, rhs, 0x71);
+}
 
+vectorial_inline float simd4f_dot3(simd4f lhs,simd4f rhs) {
+    return simd4f_get_x(simd4f_dot3_splat(lhs, rhs));
+}
 
 vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
     
@@ -151,14 +163,6 @@ vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
     return _mm_sub_ps(_mm_mul_ps(lyzx, rzxy), _mm_mul_ps(lzxy, ryzx));
 
 }
-
-
-
-vectorial_inline float simd4f_get_x(simd4f s) { _simd4f_union u={s}; return u.f[0]; }
-vectorial_inline float simd4f_get_y(simd4f s) { _simd4f_union u={s}; return u.f[1]; }
-vectorial_inline float simd4f_get_z(simd4f s) { _simd4f_union u={s}; return u.f[2]; }
-vectorial_inline float simd4f_get_w(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
-
 
 vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(2,1,0,3) ); }
 vectorial_inline simd4f simd4f_shuffle_zwxy(simd4f s) { return _mm_shuffle_ps(s,s, _MM_SHUFFLE(1,0,3,2) ); }
