@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vectorial specsuite", "vectorial.vcproj", "{9450BCE8-02CB-4169-8471-2DFF764817F4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vectorial benchmark", "vectorialbenchmark.vcproj", "{1E78F64D-C404-4048-8AE6-217089480E8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release Scalar|Win32 = Release Scalar|Win32
+		Release SSE|Win32 = Release SSE|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9450BCE8-02CB-4169-8471-2DFF764817F4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9450BCE8-02CB-4169-8471-2DFF764817F4}.Debug|Win32.Build.0 = Debug|Win32
+		{9450BCE8-02CB-4169-8471-2DFF764817F4}.Release Scalar|Win32.ActiveCfg = Release Scalar|Win32
+		{9450BCE8-02CB-4169-8471-2DFF764817F4}.Release Scalar|Win32.Build.0 = Release Scalar|Win32
+		{9450BCE8-02CB-4169-8471-2DFF764817F4}.Release SSE|Win32.ActiveCfg = Release|Win32
+		{9450BCE8-02CB-4169-8471-2DFF764817F4}.Release SSE|Win32.Build.0 = Release|Win32
+		{1E78F64D-C404-4048-8AE6-217089480E8A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E78F64D-C404-4048-8AE6-217089480E8A}.Debug|Win32.Build.0 = Debug|Win32
+		{1E78F64D-C404-4048-8AE6-217089480E8A}.Release Scalar|Win32.ActiveCfg = Release Scalar|Win32
+		{1E78F64D-C404-4048-8AE6-217089480E8A}.Release Scalar|Win32.Build.0 = Release Scalar|Win32
+		{1E78F64D-C404-4048-8AE6-217089480E8A}.Release SSE|Win32.ActiveCfg = Release|Win32
+		{1E78F64D-C404-4048-8AE6-217089480E8A}.Release SSE|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
