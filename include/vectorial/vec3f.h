@@ -1,6 +1,7 @@
 /*
   Vectorial
   Copyright (c) 2010 Mikko Lehtonen
+  Copyright (c) 2014 Google, Inc.
   Licensed under the terms of the two-clause BSD License (see LICENSE)
 */
 #ifndef VECTORIAL_VEC3F_H
@@ -142,7 +143,7 @@ namespace vectorial {
 
 
     vectorial_inline float dot(const vec3f& lhs, const vec3f& rhs) {
-        return simd4f_get_x( simd4f_dot3(lhs.value, rhs.value) );
+        return simd4f_dot3(lhs.value, rhs.value);
     }
 
     vectorial_inline vec3f cross(const vec3f& lhs, const vec3f& rhs) {
