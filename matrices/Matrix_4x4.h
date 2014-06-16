@@ -109,6 +109,21 @@ class Matrix<float, 4> {
     return m;
   }
 
+  inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
+    Vector<float, 3> return_v;
+#ifdef COMPILE_WITH_PADDING
+    v.data_[3] = 1;
+    simd4x4f_matrix_vector_mul(&data_, &v.data_, &return_v.data_);
+    return_v *= (1 / return_v.data_[3]);
+#else
+    simd4f vec = GOOMATH_LOAD(v.data_);
+    simd4x4f_matrix_vector_mul(&data_, &vec, &vec);
+    simd4f_mul(vec, simd4f_splat(*(CAST<float*>(&vec) + 3)));
+    GOOMATH_STORE(vec, return_v.data_);
+#endif
+    return return_v;
+  }
+
   inline Vector<float, 4> operator*(const Vector<float, 4>& v) const {
     Vector<float, 4> return_v;
     simd4x4f_matrix_vector_mul(&data_, &v.data_, &return_v.data_);
@@ -184,6 +199,11 @@ class Matrix<float, 4> {
     Matrix<float, 4> return_m;
     simd4x4f_identity(&return_m.data_);
     return return_m;
+  }
+
+  static inline Matrix<float, 4> FromTranslationVector(const Vector<float, 3>& v) {
+    return Matrix<float, 4>(
+      1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);
   }
 
   static inline Matrix<float, 4> FromRotationMatrix(const Matrix<float, 3>& m) {

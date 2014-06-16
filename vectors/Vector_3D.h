@@ -196,6 +196,8 @@ class Vector<float, 3> {
       simd4f_mul(GOOMATH_LOAD(v1.data_), GOOMATH_LOAD(v2.data_)));
   }
 
+  template<class T, int rows, int cols> friend class Matrix;
+
  private:
 #ifdef COMPILE_WITH_PADDING
   simd4f data_;

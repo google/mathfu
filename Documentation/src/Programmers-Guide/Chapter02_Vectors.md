@@ -28,6 +28,7 @@ such as cross product, dot product, and normalization.
 For example, to create three points and compute the normal of the plane
 defined by the points execute:
 
+    <!-- @doxysnippetstart Vector_Sample -->
     Vector<float, 3> point1(0.5f, 0.4f, 0.1f);
     Vector<float, 3> point2(0.4f, 0.9f, 0.1f);
     Vector<float, 3> point3(0.1f, 0.8f, 0.6f);
@@ -36,6 +37,7 @@ defined by the points execute:
     Vector<float, 3> vector2 = point3 - point1;
 
     Vector<float, 3> normal = Vector<float, 3>::CrossProduct(vector2, vector1);
+    <!-- @doxysnippetend -->
 
 Note that Vector<float, 3> is typedef'd to vec3 for GLSL compatbility.
 Similarly cross is defined to call CrossProduct. For more details please visit

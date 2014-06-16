@@ -407,7 +407,7 @@ class Matrix {
   friend inline Vector<T, columns> operator*(
     const Vector<T, rows>& v, const Matrix<T, rows, columns>& m) {
     const int d = columns;
-    VEC_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
+    GOOMATH_VEC_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
   }
 
  private:
@@ -476,6 +476,17 @@ inline Vector<T, 4> operator*(
     GOOMATH_MATRIX_4X4_DOT(data1, v, 1),
     GOOMATH_MATRIX_4X4_DOT(data1, v, 2),
     GOOMATH_MATRIX_4X4_DOT(data1, v, 3));
+}
+
+// Matrix/Vector multiplication of a 4x4 matrix with a vector of size 3.
+// This is provided as a convenience and assumes the vector has a fourth
+// component equal to 1.
+template<class T>
+inline Vector<T, 3> operator*(
+  const Matrix<T, 4, 4>& m, const Vector<T, 3>& v) {
+  Vector<T, 4> v4(v[0], v[1], v[2], 1);
+  v4 = m * v4;
+  return Vector<T, 3>(v4[0] / v4[3], v4[1] / v4[3], v4[2] / v4[3]);
 }
 
 // Matrix/Matrix Multiplication. Template specialized versions are implemented
@@ -638,7 +649,7 @@ static inline Matrix<T, rows, columns> OuterProductHelper(
   int offset = 0;
   for (int column = 0; column < columns; column++) {
     for (int row = 0; row < rows; row++) {
-      result[row + offset] = v1[row] * v2[column]
+      result[row + offset] = v1[row] * v2[column];
     }
     offset += rows;
   }

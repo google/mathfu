@@ -31,6 +31,7 @@ about that axis.
 As an example, here is how to perform slerp of two angles specified by 3 euler
 angles and store the result as angles:
 
+    <!-- @doxysnippetstart Quaternion_Sample -->
     // Use radians for angles
     Vector<float, 3> angles1(0.66f, 1.3f, 0.76f);
     Vector<float, 3> angles2(0.85f, 0.33f, 1.6f);
@@ -40,6 +41,7 @@ angles and store the result as angles:
 
     Quaternion<float> quatSlerp = Quaternion<float>::Slerp(quat1, quat2, 0.5);
     Vector<float, 3> angleSlerp = quatSlerp.ToEulerAngles();
+    <!-- @doxysnippetend -->
 
 For complete details please visit the api docs.
 

@@ -129,6 +129,23 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult);
 
+// Test the compilation of basic quaternion opertations given in the sample
+// file. This will test interpolating two rotations.
+TEST_F(QuaternionTests, QuaternionSample) {
+    using namespace goomath;
+    /// @doxysnippetstart Chapter03_Quaternions.md Quaternion_Sample
+    // Use radians for angles
+    Vector<float, 3> angles1(0.66f, 1.3f, 0.76f);
+    Vector<float, 3> angles2(0.85f, 0.33f, 1.6f);
+
+    Quaternion<float> quat1 = Quaternion<float>::FromEulerAngles(angles1);
+    Quaternion<float> quat2 = Quaternion<float>::FromEulerAngles(angles2);
+
+    Quaternion<float> quatSlerp = Quaternion<float>::Slerp(quat1, quat2, 0.5);
+    Vector<float, 3> angleSlerp = quatSlerp.ToEulerAngles();
+    /// @doxysnippetend
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

@@ -174,6 +174,22 @@ void Cross_Test(const T& precision) {
 }
 TEST_SCALAR_F(Cross)
 
+// Test the compilation of basic vector opertations given in the sample file.
+// This will test creation of two vectors and computing their cross product.
+TEST_F(VectorTests, SampleTest) {
+    using namespace goomath;
+    /// @doxysnippetstart Chapter02_Vectors.md Vector_Sample
+    Vector<float, 3> point1(0.5f, 0.4f, 0.1f);
+    Vector<float, 3> point2(0.4f, 0.9f, 0.1f);
+    Vector<float, 3> point3(0.1f, 0.8f, 0.6f);
+
+    Vector<float, 3> vector1 = point2 - point1;
+    Vector<float, 3> vector2 = point3 - point1;
+
+    Vector<float, 3> normal = Vector<float, 3>::CrossProduct(vector2, vector1);
+    /// @doxysnippetend
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

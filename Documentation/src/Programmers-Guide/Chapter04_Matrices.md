@@ -28,6 +28,7 @@ such as identity, outer product, and inverse.
 Here is an example for rotating a vector in homogenious coordinates by
 a transformation matrix:
 
+    <!-- @doxysnippetstart Matrix_Sample -->
     Vector<float, 3> trans(3.f, 2.f, 8.f);
     Vector<float, 3> rotation(0.4f, 1.4f, 0.33f);
     Vector<float, 3> vector(4.f, 8.f, 1.f);
@@ -41,6 +42,7 @@ a transformation matrix:
 
     Matrix<float, 4> matrix = transMatrix * rotHMatrix;
     Vector<float, 3> rotatedVector = matrix * vector;
+    <!-- @doxysnippetend -->
 
 For complete details please visit the api docs.
 

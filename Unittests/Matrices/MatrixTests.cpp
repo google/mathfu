@@ -15,6 +15,8 @@
 */
 #include "matrices/Matrix.h"
 #include "matrices/Matrix_4x4.h"
+#include "vectors/Quaternion.h"
+#include "vectors/Vector.h"
 #include "gtest/gtest.h"
 
 #include "AndroidUtil/AndroidMainWrapper.h"
@@ -249,6 +251,27 @@ void Inverse_Test(const T& precision) {
   }
 }
 TEST_ALL_F(Inverse);
+
+// Test the compilation of basic matrix opertations given in the sample file.
+// This will test transforming a vector with a matrix.
+TEST_F(MatrixTests, MatrixSample) {
+    using namespace goomath;
+    /// @doxysnippetstart Chapter04_Matrices.md Matrix_Sample
+    Vector<float, 3> trans(3.f, 2.f, 8.f);
+    Vector<float, 3> rotation(0.4f, 1.4f, 0.33f);
+    Vector<float, 3> vector(4.f, 8.f, 1.f);
+
+    Quaternion<float> rotQuat = Quaternion<float>::FromEulerAngles(rotation);
+    Matrix<float, 3> rotMatrix = rotQuat.ToMatrix();
+    Matrix<float, 4> transMatrix =
+        Matrix<float, 4>::FromTranslationVector(trans);
+    Matrix<float, 4> rotHMatrix =
+        Matrix<float, 4>::FromRotationMatrix(rotMatrix);
+
+    Matrix<float, 4> matrix = transMatrix * rotHMatrix;
+    Vector<float, 3> rotatedVector = matrix * vector;
+    /// @doxysnippetend
+}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
