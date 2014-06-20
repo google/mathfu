@@ -1,4 +1,4 @@
-# Copyright (c) 2013 Google, Inc.
+#Copyright (c) 2013 Google, Inc.
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any damages
@@ -13,16 +13,6 @@
 # 2. Altered source versions must be plainly marked as such, and must not be
 # misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
-cmake_minimum_required(VERSION 2.8.7)
-
-set(PROJECT_NAME GooMath)
-project(GooMath)
-
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/../../../../external/vectorial/include)
-
-add_definitions(-msse4.1)
-
-add_subdirectory(../googletest googletest)
-add_subdirectory(Unittests)
-add_subdirectory(PerfTests)
+LOCAL_PATH:=$(call my-dir)/..
+LOCAL_TEST_NAME:=MatrixPerfTest
+include $(LOCAL_PATH)/../android_common.mk

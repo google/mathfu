@@ -13,16 +13,5 @@
 # 2. Altered source versions must be plainly marked as such, and must not be
 # misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
-cmake_minimum_required(VERSION 2.8.7)
-
-set(PROJECT_NAME GooMath)
-project(GooMath)
-
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/../../../../external/vectorial/include)
-
-add_definitions(-msse4.1)
-
-add_subdirectory(../googletest googletest)
-add_subdirectory(Unittests)
-add_subdirectory(PerfTests)
+include $(NDK_PROJECT_PATH)/../application_common.mk
+APP_MODULES:=MatrixPerfTest
