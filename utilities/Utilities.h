@@ -27,6 +27,33 @@
 #define CAST reinterpret_cast
 #endif
 
+#ifndef WIN32
+#define WEAK __attribute__((weak))
+#else
+#define WEAK __declspec(selectany)
+#endif
+
+#define MATHFU_VERSION_MAJOR 1
+#define MATHFU_VERSION_MINOR 0
+#define MATHFU_VERSION_REVISION 0
+#define MATHFU_STRING_EXPAND(X) #X
+#define MATHFU_STRING(X) MATHFU_STRING_EXPAND(X)
+
+/// String which identifies the current version of MathFu.
+/// kMathFuVersionString is used by Google developers to identify which
+/// applications uploaded to Google Play are using this library.  This allows
+/// the development team at Google to determine the popularity of the library.
+/// How it works: Applications that are uploaded to the Google Play Store are
+/// scanned for this version string.  We track which applications are using it
+/// to measure popularity.  You are free to remove it (of course) but we would
+/// appreciate if you left it in.
+extern volatile const char* WEAK kMathFuVersionString;
+volatile const char *kMathFuVersionString =
+    "MathFu"
+    MATHFU_STRING(MATHFU_VERSION_MAJOR) "."
+    MATHFU_STRING(MATHFU_VERSION_MINOR) "."
+    MATHFU_STRING(MATHFU_VERSION_REVISION);
+
 template<bool> struct static_assert_util;
 template<> struct static_assert_util<true> {};
 #define STATIC_ASSERT(x) static_assert_util<(x)>()
