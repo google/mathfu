@@ -39,7 +39,7 @@ template<class T> inline T getRand() {
 
 // Number of elements to iterate over
 static const size_t kMatrixSize = 1000;
-using goomath::Matrix;
+using mathfu::Matrix;
 
 // This test creates a number of matrices and performs some mathematical
 // operations on them in order to measure expected performance of matrix
@@ -66,8 +66,8 @@ int main(int argc, char** argv) {
   PERFTEST_2D_VECTOR_LOOP(iterations, kMatrixSize) mul += matrices[j];
   PERFTEST_2D_VECTOR_LOOP(iterations, kMatrixSize) mul *= matrices[j];
   PERFTEST_2D_VECTOR_LOOP(iterations, kMatrixSize) {
-    goomath::Vector<T, 4> tmp =
-      matrices[j] * goomath::Vector<T, 4>(matrices[i](0, 0), matrices[i](1, 0),
+    mathfu::Vector<T, 4> tmp =
+      matrices[j] * mathfu::Vector<T, 4>(matrices[i](0, 0), matrices[i](1, 0),
                                           matrices[i](2, 0), matrices[i](3, 0));
     mul -= Matrix<T, 4>::OuterProduct(tmp, tmp);
   }

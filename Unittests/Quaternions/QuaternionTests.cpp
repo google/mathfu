@@ -38,20 +38,20 @@ class QuaternionTests : public ::testing::Test {
 // Euler Angles, and Matrices
 template<class T>
 void Conversion_Test(const T& precision) {
-  goomath::Vector<T, 3> angles(1.5, 2.3, 0.6);
+  mathfu::Vector<T, 3> angles(1.5, 2.3, 0.6);
   // This will create a Quaternion from Euler Angles, convert back to
   // Euler Angles, and verify that they match
-  goomath::Quaternion<T> qea(goomath::Quaternion<T>::FromEulerAngles(angles));
-  goomath::Vector<T, 3> convertedAngles(qea.ToEulerAngles());
+  mathfu::Quaternion<T> qea(mathfu::Quaternion<T>::FromEulerAngles(angles));
+  mathfu::Vector<T, 3> convertedAngles(qea.ToEulerAngles());
   EXPECT_NEAR(angles[0], M_PI + convertedAngles[0], precision);
   EXPECT_NEAR(angles[1], M_PI - convertedAngles[1], precision);
   EXPECT_NEAR(angles[2], M_PI + convertedAngles[2], precision);
   // This will create a Quaternion from Axis Angle, convert back to
   // Axis Angle, and verify that they match.
-  goomath::Vector<T, 3> axis(4.3, 7.6, 1.2); axis.Normalize();
+  mathfu::Vector<T, 3> axis(4.3, 7.6, 1.2); axis.Normalize();
   T angle = 1.2;
-  goomath::Quaternion<T> qaa(goomath::Quaternion<T>::FromAngleAxis(angle, axis));
-  goomath::Vector<T, 3> convertedAxis;
+  mathfu::Quaternion<T> qaa(mathfu::Quaternion<T>::FromAngleAxis(angle, axis));
+  mathfu::Vector<T, 3> convertedAxis;
   T convertedAngle;
   qaa.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle, convertedAngle, precision);
@@ -60,18 +60,18 @@ void Conversion_Test(const T& precision) {
   EXPECT_NEAR(axis[2], convertedAxis[2], precision);
   // This will create a Quaternion from a Matrix, convert back to a Matrix,
   // and verify that they match.
-  goomath::Matrix<T, 3> rx(
+  mathfu::Matrix<T, 3> rx(
     1, 0, 0, 0, cos(angles[0]), sin(angles[0]),
     0, -sin(angles[0]), cos(angles[0]));
-  goomath::Matrix<T, 3> ry
+  mathfu::Matrix<T, 3> ry
     (cos(angles[1]), 0, -sin(angles[1]), 0, 1, 0,
     sin(angles[1]), 0, cos(angles[1]));
-  goomath::Matrix<T, 3> rz(
+  mathfu::Matrix<T, 3> rz(
     cos(angles[2]), sin(angles[2]), 0,
     -sin(angles[2]), cos(angles[2]), 0, 0, 0, 1);
-  goomath::Matrix<T, 3> m(rz * ry * rx);
-  goomath::Quaternion<T> qm(goomath::Quaternion<T>::FromMatrix(m));
-  goomath::Matrix<T, 3> convertedM(qm.ToMatrix());
+  mathfu::Matrix<T, 3> m(rz * ry * rx);
+  mathfu::Quaternion<T> qm(mathfu::Quaternion<T>::FromMatrix(m));
+  mathfu::Matrix<T, 3> convertedM(qm.ToMatrix());
   for (int i = 0; i < 9; ++i) EXPECT_NEAR(m[i], convertedM[i], precision);
 }
 TEST_ALL_F(Conversion);
@@ -80,8 +80,8 @@ TEST_ALL_F(Conversion);
 // corresponds to a rotation of 0.
 template<class T>
 void Inverse_Test(const T& precision) {
-  goomath::Quaternion<T> q(1.4, 6.3, 8.5, 5.9);
-  goomath::Vector<T, 3> v((q.Inverse()*q).ToEulerAngles());
+  mathfu::Quaternion<T> q(1.4, 6.3, 8.5, 5.9);
+  mathfu::Vector<T, 3> v((q.Inverse()*q).ToEulerAngles());
   EXPECT_NEAR(0, v[0], precision);
   EXPECT_NEAR(0, v[1], precision);
   EXPECT_NEAR(0, v[2], precision);
@@ -91,12 +91,12 @@ TEST_ALL_F(Inverse);
 // This will test the multiplcation of quaternions.
 template<class T>
 void Mult_Test(const T& precision) {
-  goomath::Vector<T, 3> axis(4.3, 7.6, 1.2); axis.Normalize();
+  mathfu::Vector<T, 3> axis(4.3, 7.6, 1.2); axis.Normalize();
   T angle1 = 1.2, angle2 = 0.7, angle3 = angle2 + precision * 10;
-  goomath::Quaternion<T> qaa1(goomath::Quaternion<T>::FromAngleAxis(angle1, axis));
-  goomath::Quaternion<T> qaa2(goomath::Quaternion<T>::FromAngleAxis(angle2, axis));
-  goomath::Quaternion<T> qaa3(goomath::Quaternion<T>::FromAngleAxis(angle3, axis));
-  goomath::Vector<T, 3> convertedAxis;
+  mathfu::Quaternion<T> qaa1(mathfu::Quaternion<T>::FromAngleAxis(angle1, axis));
+  mathfu::Quaternion<T> qaa2(mathfu::Quaternion<T>::FromAngleAxis(angle2, axis));
+  mathfu::Quaternion<T> qaa3(mathfu::Quaternion<T>::FromAngleAxis(angle3, axis));
+  mathfu::Vector<T, 3> convertedAxis;
   T convertedAngle;
   // This will verify that mutliplying two quaternions corresponds to the sum
   // of the rotations.
@@ -106,23 +106,23 @@ void Mult_Test(const T& precision) {
   // to scalaing the rotation.
   (qaa1 * 2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 * 2, convertedAngle, precision);
-  goomath::Vector<T, 3> v(3.5, 6.4, 7.0);
+  mathfu::Vector<T, 3> v(3.5, 6.4, 7.0);
   // This will verify that multiplying by a vector corresponds to applying
   // the rotation to that vector.
-  goomath::Vector<T, 3> quatRotatedV(qaa1 * v);
-  goomath::Vector<T, 3> matRotatedV(qaa1.ToMatrix()*v);
+  mathfu::Vector<T, 3> quatRotatedV(qaa1 * v);
+  mathfu::Vector<T, 3> matRotatedV(qaa1.ToMatrix()*v);
   EXPECT_NEAR(quatRotatedV[0], matRotatedV[0], 10 * precision);
   EXPECT_NEAR(quatRotatedV[1], matRotatedV[1], 10 * precision);
   EXPECT_NEAR(quatRotatedV[2], matRotatedV[2], 10 * precision);
   // This will verify that interpolating two quaternions corresponds to
   // interpolating the angle.
-  goomath::Quaternion<T> slerp1(goomath::Quaternion<T>::Slerp(qaa1, qaa2, .5));
+  mathfu::Quaternion<T> slerp1(mathfu::Quaternion<T>::Slerp(qaa1, qaa2, .5));
   slerp1.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(.5*(angle1 + angle2), convertedAngle, precision);
-  goomath::Quaternion<T> slerp2(goomath::Quaternion<T>::Slerp(qaa2, qaa3, .5));
+  mathfu::Quaternion<T> slerp2(mathfu::Quaternion<T>::Slerp(qaa2, qaa3, .5));
   slerp2.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(.5*(angle2 + angle3), convertedAngle, precision);
-  goomath::Quaternion<T> slerp3(goomath::Quaternion<T>::Slerp(qaa2, qaa2, .5));
+  mathfu::Quaternion<T> slerp3(mathfu::Quaternion<T>::Slerp(qaa2, qaa2, .5));
   slerp3.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle2, convertedAngle, precision);
 
@@ -132,7 +132,7 @@ TEST_ALL_F(Mult);
 // Test the compilation of basic quaternion opertations given in the sample
 // file. This will test interpolating two rotations.
 TEST_F(QuaternionTests, QuaternionSample) {
-    using namespace goomath;
+    using namespace mathfu;
     /// @doxysnippetstart Chapter03_Quaternions.md Quaternion_Sample
     // Use radians for angles
     Vector<float, 3> angles1(0.66f, 1.3f, 0.76f);

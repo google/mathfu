@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GOOMATH_VECTORS_GLSL_MAPPINGS
-#define GOOMATH_VECTORS_GLSL_MAPPINGS
+#ifndef MATHFU_VECTORS_GLSL_MAPPINGS
+#define MATHFU_VECTORS_GLSL_MAPPINGS
 
-namespace goomath {
+namespace mathfu {
 
 typedef Vector<float, 2> vec2;
 typedef Vector<float, 3> vec3;
@@ -37,6 +37,6 @@ inline TV normalize(const TV& v1) {
   return v1.Normalized();
 }
 
-}  // namespace goomath
+}  // namespace mathfu
 
-#endif  // GOOMATH_VECTORS_GLSL_MAPPINGS
+#endif  // MATHFU_VECTORS_GLSL_MAPPINGS

@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GOOMATH_MATRICES_MATRIX_
-#define GOOMATH_MATRICES_MATRIX_
+#ifndef MATHFU_MATRICES_MATRIX_
+#define MATHFU_MATRICES_MATRIX_
 
 #include <vectors/Vector.h>
 #include <vectors/Vector_2D.h>
@@ -30,7 +30,7 @@
 #endif
 
 // This will unroll loops for matrices with <= 4 columns
-#define GOOMATH_MAT_OPERATION(OP) \
+#define MATHFU_MAT_OPERATION(OP) \
   const int i = 0; OP; \
   if (columns > 1) { \
     const int i = 1; OP; \
@@ -46,27 +46,27 @@
   }
 
 // This will perform a given OP on each matrix column and return the result
-#define GOOMATH_MAT_OPERATOR(OP) \
+#define MATHFU_MAT_OPERATOR(OP) \
   { Matrix<T, rows, columns> result; \
-  GOOMATH_MAT_OPERATION(result.data_[i] = OP); \
+  MATHFU_MAT_OPERATION(result.data_[i] = OP); \
   return result; }
 
 // This will perform a given OP on each matrix column
-#define GOOMATH_MAT_SELF_OPERATOR(OP) \
-  { GOOMATH_MAT_OPERATION(OP); \
+#define MATHFU_MAT_SELF_OPERATOR(OP) \
+  { MATHFU_MAT_OPERATION(OP); \
   return *this; }
 
 // This macro will take the dot product for a row from data1 and a column from
 // data2.
-#define GOOMATH_MATRIX_4X4_DOT(data1, data2, r) \
+#define MATHFU_MATRIX_4X4_DOT(data1, data2, r) \
   (data1[r] * data2[0] + data1[r + 4] * data2[1] + \
   data1[r + 8] * data2[2] + data1[r + 12] * data2[3])
 
-#define GOOMATH_MATRIX_3X3_DOT(data1, data2, r, size) \
+#define MATHFU_MATRIX_3X3_DOT(data1, data2, r, size) \
   (data1[r] * data2[0] + data1[r + size] * data2[1] + \
   data1[r + 2 * size] * data2[2])
 
-namespace goomath {
+namespace mathfu {
 
 template<class T, int rows, int columns = rows> class Matrix;
 template<class T, int rows, int columns>
@@ -97,14 +97,14 @@ class Matrix {
   /// Create a matrix from another matrix copying each element.
   /// @param m Matrix that the data will be copied from.
   inline Matrix(const Matrix<T, rows, columns>& m) {
-    GOOMATH_MAT_OPERATION(data_[i] = m.data_[i]);
+    MATHFU_MAT_OPERATION(data_[i] = m.data_[i]);
   }
 
   /// Create a matrix from a single float. Each elements is set to be equal to
   /// the value given.
   /// @param s Scalar value that the matrix will be initialized to.
   explicit inline Matrix(const T& s) {
-    GOOMATH_MAT_OPERATION((data_[i] = Vector<T, rows>(s)));
+    MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(s)));
   }
 
   /// Create a matrix from four floats. This method only works for a 2x2 matrix.
@@ -170,7 +170,7 @@ class Matrix {
   /// Create a matirx form the first row*column elements of an array.
   /// @param a Array of values that the matrix will be iniitlized to.
   explicit inline Matrix(const T* a) {
-    GOOMATH_MAT_OPERATION((data_[i] = Vector<T, rows>(&a[i*columns])));
+    MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(&a[i*columns])));
   }
 
   /// Access an element of the matrix.
@@ -234,7 +234,7 @@ class Matrix {
   /// Matrix negation.
   /// @return A new matrix that stores the negation result.
   inline Matrix<T, rows, columns> operator-() const {
-    GOOMATH_MAT_OPERATOR(-data_[i]);
+    MATHFU_MAT_OPERATOR(-data_[i]);
   }
 
   /// Matrix addition.
@@ -242,7 +242,7 @@ class Matrix {
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> operator+(
     const Matrix<T, rows, columns>& m) const {
-    GOOMATH_MAT_OPERATOR(data_[i] + m.data_[i]);
+    MATHFU_MAT_OPERATOR(data_[i] + m.data_[i]);
   }
 
   /// Matrix subtraction.
@@ -250,7 +250,7 @@ class Matrix {
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> operator-(
     const Matrix<T, rows, columns>& m) const {
-    GOOMATH_MAT_OPERATOR(data_[i] - m.data_[i]);
+    MATHFU_MAT_OPERATOR(data_[i] - m.data_[i]);
   }
 
   /// Matrix/Scalar addition. Note that this is defined as addition between
@@ -258,7 +258,7 @@ class Matrix {
   /// @param s A scalar to add to this matrix.
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> operator+(const T& s) const {
-    GOOMATH_MAT_OPERATOR(data_[i] + s);
+    MATHFU_MAT_OPERATOR(data_[i] + s);
   }
 
   /// Matrix/Scalar subtraction. Note that this is defined as subtraction
@@ -267,14 +267,14 @@ class Matrix {
   /// @param s A scalar to subtract from this matrix.
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> operator-(const T& s) const {
-    GOOMATH_MAT_OPERATOR(data_[i] - s);
+    MATHFU_MAT_OPERATOR(data_[i] - s);
   }
 
   /// Matrix/Scalar multiplication.
   /// @param s A scalar to multiply this matrix with.
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> operator*(const T& s) const {
-    GOOMATH_MAT_OPERATOR(data_[i] * s);
+    MATHFU_MAT_OPERATOR(data_[i] * s);
   }
 
   /// Matrix/Scalar division. Note that this is defined as multiplication by the
@@ -300,7 +300,7 @@ class Matrix {
   /// @return A reference to this class.
   inline Matrix<T, rows, columns>& operator+=(
     const Matrix<T, rows, columns>& m) {
-    GOOMATH_MAT_SELF_OPERATOR(data_[i] += m.data_[i]);
+    MATHFU_MAT_SELF_OPERATOR(data_[i] += m.data_[i]);
   }
 
   /// In place matrix subtraction.
@@ -308,7 +308,7 @@ class Matrix {
   /// @return A reference to this class.
   inline Matrix<T, rows, columns>& operator-=(
     const Matrix<T, rows, columns>& m) {
-    GOOMATH_MAT_SELF_OPERATOR(data_[i] -= m.data_[i]);
+    MATHFU_MAT_SELF_OPERATOR(data_[i] -= m.data_[i]);
   }
 
   /// In place matrix/scalar addition. Note that this is defined as addition
@@ -317,7 +317,7 @@ class Matrix {
   /// @param s A scalar to add to this matrix.
   /// @return A reference to this class.
   inline Matrix<T, rows, columns>& operator+=(const T& s) {
-    GOOMATH_MAT_SELF_OPERATOR(data_[i] += s);
+    MATHFU_MAT_SELF_OPERATOR(data_[i] += s);
   }
 
   /// In place matrix/scalar subtraction. Note that this is defined as
@@ -326,14 +326,14 @@ class Matrix {
   /// @param s A scalar to subtract from this matrix.
   /// @return A reference to this class.
   inline Matrix<T, rows, columns>& operator-=(const T& s) {
-    GOOMATH_MAT_SELF_OPERATOR(data_[i] -= s);
+    MATHFU_MAT_SELF_OPERATOR(data_[i] -= s);
   }
 
   /// In place matrix/scalar multiplication.
   /// @param s A scalar to multiply this matrix with.
   /// @return A reference to this class.
   inline Matrix<T, rows, columns>& operator*=(const T& s) {
-    GOOMATH_MAT_SELF_OPERATOR(data_[i] *= s);
+    MATHFU_MAT_SELF_OPERATOR(data_[i] *= s);
   }
 
   /// In place matrix/scalar division. Note that this is defined as
@@ -372,7 +372,7 @@ class Matrix {
   /// @return A new matrix that stores the result.
   static inline Matrix<T, rows, columns> HadamardProduct(
     const Matrix<T, rows, columns>& m1, const Matrix<T, rows, columns>& m2) {
-    GOOMATH_MAT_OPERATOR(m1[i] * m2[i]);
+    MATHFU_MAT_OPERATOR(m1[i] * m2[i]);
   }
 
   /// Calculate the identity matrix.
@@ -407,7 +407,7 @@ class Matrix {
   friend inline Vector<T, columns> operator*(
     const Vector<T, rows>& v, const Matrix<T, rows, columns>& m) {
     const int d = columns;
-    GOOMATH_VEC_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
+    MATHFU_VEC_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
   }
 
  private:
@@ -452,9 +452,9 @@ inline Vector<T, 3> operator*(
   const Matrix<T, 3, 3>& m, const Vector<T, 3>& v) {
   const T* data1 = CAST<const T*>(&m);
   return Vector<T, 3>(
-    GOOMATH_MATRIX_3X3_DOT(data1, v, 0, 3),
-    GOOMATH_MATRIX_3X3_DOT(data1, v, 1, 3),
-    GOOMATH_MATRIX_3X3_DOT(data1, v, 2, 3));
+    MATHFU_MATRIX_3X3_DOT(data1, v, 0, 3),
+    MATHFU_MATRIX_3X3_DOT(data1, v, 1, 3),
+    MATHFU_MATRIX_3X3_DOT(data1, v, 2, 3));
 }
 
 template<>
@@ -462,9 +462,9 @@ inline Vector<float, 3> operator*(
   const Matrix<float, 3, 3>& m, const Vector<float, 3>& v) {
   const float* data1 = CAST<const float*>(&m);
   return Vector<float, 3>(
-    GOOMATH_MATRIX_3X3_DOT(data1, v, 0, VEC3_SIZE),
-    GOOMATH_MATRIX_3X3_DOT(data1, v, 1, VEC3_SIZE),
-    GOOMATH_MATRIX_3X3_DOT(data1, v, 2, VEC3_SIZE));
+    MATHFU_MATRIX_3X3_DOT(data1, v, 0, VEC3_SIZE),
+    MATHFU_MATRIX_3X3_DOT(data1, v, 1, VEC3_SIZE),
+    MATHFU_MATRIX_3X3_DOT(data1, v, 2, VEC3_SIZE));
 }
 
 template<class T>
@@ -472,10 +472,10 @@ inline Vector<T, 4> operator*(
   const Matrix<T, 4, 4>& m, const Vector<T, 4>& v) {
   const T* data1 = CAST<const T*>(&m);
   return Vector<T, 4>(
-    GOOMATH_MATRIX_4X4_DOT(data1, v, 0),
-    GOOMATH_MATRIX_4X4_DOT(data1, v, 1),
-    GOOMATH_MATRIX_4X4_DOT(data1, v, 2),
-    GOOMATH_MATRIX_4X4_DOT(data1, v, 3));
+    MATHFU_MATRIX_4X4_DOT(data1, v, 0),
+    MATHFU_MATRIX_4X4_DOT(data1, v, 1),
+    MATHFU_MATRIX_4X4_DOT(data1, v, 2),
+    MATHFU_MATRIX_4X4_DOT(data1, v, 3));
 }
 
 // Matrix/Vector multiplication of a 4x4 matrix with a vector of size 3.
@@ -819,5 +819,5 @@ Matrix<T, 4, 4> InverseHelper(const Matrix<T, 4, 4>& m) {
   return Matrix<T, 4, 4>::Identity();
 }
 
-}  // namespace goomath
-#endif  // GOOMATH_MATRICES_MATRIX_
+}  // namespace mathfu
+#endif  // MATHFU_MATRICES_MATRIX_

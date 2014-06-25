@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GOOMATH_VECTORS_VECTOR_2D_H_
-#define GOOMATH_VECTORS_VECTOR_2D_H_
+#ifndef MATHFU_VECTORS_VECTOR_2D_H_
+#define MATHFU_VECTORS_VECTOR_2D_H_
 
 #include <math.h>
 #include <utilities/Utilities.h>
@@ -25,7 +25,7 @@
 
 #include <vectors/Vector.h>
 
-namespace goomath {
+namespace mathfu {
 
 #if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
 template<>
@@ -172,5 +172,5 @@ class Vector<float, 2> {
 };
 
 #endif  //  !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
-}  // namespace goomath
-#endif  // GOOMATH_VECTORS_VECTOR_2D_H_
+}  // namespace mathfu
+#endif  // MATHFU_VECTORS_VECTOR_2D_H_

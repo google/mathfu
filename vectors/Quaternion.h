@@ -13,15 +13,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GOOMATH_VECTORS_QUATERNION_
-#define GOOMATH_VECTORS_QUATERNION_
+#ifndef MATHFU_VECTORS_QUATERNION_
+#define MATHFU_VECTORS_QUATERNION_
 
 #include <math.h>
 
 #include <vectors/Vector_3D.h>
 #include <matrices/Matrix.h>
 
-namespace goomath {
+namespace mathfu {
 
 /// @class Quaternion
 /// Stores a quaternion of type T and provides a set of utility
@@ -221,5 +221,5 @@ inline Quaternion<T> operator*(const T& s, const Quaternion<T>& q) {
   return q * s;
 }
 
-}  // namespace goomath
-#endif  // GOOMATH_VECTORS_QUATERNION_
+}  // namespace mathfu
+#endif  // MATHFU_VECTORS_QUATERNION_

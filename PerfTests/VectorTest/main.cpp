@@ -34,7 +34,7 @@
 
 // Number of elements to iterate over
 static const size_t kVectorSize = 1000;
-using goomath::Vector;
+using mathfu::Vector;
 
 // This test creates a number of vectors and performs some mathematical
 // operations on them in order to measure expected performance of vector

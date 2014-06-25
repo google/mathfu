@@ -54,21 +54,21 @@ template<class T, int d>
 void Initialization_Test(const T& precision) {
   // This will test initialization of the vector using a random single value.
   // The expected result is that all entries equal the given value.
-  goomath::Vector<T, d> vector_splat(3.1);
+  mathfu::Vector<T, d> vector_splat(3.1);
   for (int i = 0; i < d; ++i) EXPECT_NEAR(3.1, vector_splat[i], precision);
   T x[d];
   for (int i = 0; i < d; ++i) x[i] = rand()/static_cast<T>(RAND_MAX)*100.f;
   // This will test initialization of the vector using a c style array of
   // values.
-  goomath::Vector<T, d> vector_arr(x);
+  mathfu::Vector<T, d> vector_arr(x);
   for (int i = 0; i < d; ++i) EXPECT_NEAR(x[i], vector_arr[i], precision);
   // This will test copy constructor making sure that the new matrix equals
   // the old one.
-  goomath::Vector<T, d> vector_copy(vector_arr);
+  mathfu::Vector<T, d> vector_copy(vector_arr);
   for (int i = 0; i < d; ++i) EXPECT_NEAR(x[i], vector_copy[i], precision);
   // This will make sure the copy was deep and chaning the values of the
   // copied matrix does not effect the origional.
-  vector_copy -= goomath::Vector<T, d>(1);
+  vector_copy -= mathfu::Vector<T, d>(1);
   EXPECT_NE(vector_copy[0], vector_arr[0]);
 }
 TEST_ALL_F(Initialization)
@@ -76,14 +76,14 @@ TEST_ALL_F(Initialization)
 // This will test initializaiton by specifying all values explictly.
 template<class T>
 void InitializationPerDimension_Test(const T& precision) {
-  goomath::Vector<T, 2> f2_vector(5.3, 7.1);
+  mathfu::Vector<T, 2> f2_vector(5.3, 7.1);
   EXPECT_NEAR(5.3, f2_vector[0], precision);
   EXPECT_NEAR(7.1, f2_vector[1], precision);
-  goomath::Vector<T, 3> f3_vector(4.3, 1.1, 3.2);
+  mathfu::Vector<T, 3> f3_vector(4.3, 1.1, 3.2);
   EXPECT_NEAR(4.3, f3_vector[0], precision);
   EXPECT_NEAR(1.1, f3_vector[1], precision);
   EXPECT_NEAR(3.2, f3_vector[2], precision);
-  goomath::Vector<T, 4> f4_vector(2.3, 4.6, 9.2, 15.5);
+  mathfu::Vector<T, 4> f4_vector(2.3, 4.6, 9.2, 15.5);
   EXPECT_NEAR(2.3, f4_vector[0], precision);
   EXPECT_NEAR(4.6, f4_vector[1], precision);
   EXPECT_NEAR(9.2, f4_vector[2], precision);
@@ -98,19 +98,19 @@ void AddSub_Test(const T& precision) {
   T x1[d], x2[d];
   for (int i = 0; i < d; ++i) x1[i] = rand()/static_cast<T>(RAND_MAX)*100.f;
   for (int i = 0; i < d; ++i) x2[i] = rand()/static_cast<T>(RAND_MAX)*100.f;
-  goomath::Vector<T, d> vector1(x1), vector2(x2);
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
   // This will test the negation of a vector and make sure each element is
   // negated.
-  goomath::Vector<T, d> neg_vector1(-vector1);
+  mathfu::Vector<T, d> neg_vector1(-vector1);
   for (int i = 0; i < d; ++i) EXPECT_NEAR(-x1[i], neg_vector1[i], precision);
   // This will test the addition of vectors and make such each element is
   // equal to the sum of the input values.
-  goomath::Vector<T, d> sum_vector(vector1 + vector2);
+  mathfu::Vector<T, d> sum_vector(vector1 + vector2);
   for (int i = 0; i < d; ++i)
     EXPECT_NEAR(x1[i] + x2[i], sum_vector[i], precision);
   // This will test the subtraction of vectors and make such each element is
   // equal to the difference of the input values.
-  goomath::Vector<T, d> diff_vector(vector1 - vector2);
+  mathfu::Vector<T, d> diff_vector(vector1 - vector2);
   for (int i = 0; i < d; ++i)
     EXPECT_NEAR(x1[i] - x2[i], diff_vector[i], precision);
 }
@@ -123,23 +123,23 @@ void Mult_Test(const T& precision) {
   T x1[d], x2[d], scalar(1.4);
   for (int i = 0; i < d; ++i) x1[i] = rand()/static_cast<T>(RAND_MAX);
   for (int i = 0; i < d; ++i) x2[i] = rand()/static_cast<T>(RAND_MAX);
-  goomath::Vector<T, d> vector1(x1), vector2(x2);
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
   // This will test the Hadamard Product of two vectors and verify that each
   // element is the product of the input elements.
-  goomath::Vector<T, d> mult_vec(
-    goomath::Vector<T, d>::HadamardProduct(vector1, vector2));
+  mathfu::Vector<T, d> mult_vec(
+    mathfu::Vector<T, d>::HadamardProduct(vector1, vector2));
   for (int i = 0; i < d; ++i) EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
   // This will test multiplication by a scalar and verify that each
   // element is the input element multipled by the scalar.
-  goomath::Vector<T, d> smult_vec1(vector1 * scalar);
+  mathfu::Vector<T, d> smult_vec1(vector1 * scalar);
   for (int i = 0; i < d; ++i) EXPECT_NEAR(x1[i] * 1.4, smult_vec1[i], precision);
-  goomath::Vector<T, d> smult_vec2(scalar * vector2);
+  mathfu::Vector<T, d> smult_vec2(scalar * vector2);
   for (int i = 0; i < d; ++i) EXPECT_NEAR(x2[i] * 1.4, smult_vec2[i], precision);
   // This will test the dot product of two vectors and verify the result
   // is mathematically correct.
   T my_dot = 0;
   for (int i = 0; i < d; ++i) my_dot += x1[i] * x2[i];
-  T vec_dot = goomath::Vector<T, d>::DotProduct(vector1, vector2);
+  T vec_dot = mathfu::Vector<T, d>::DotProduct(vector1, vector2);
   EXPECT_NEAR(my_dot, vec_dot, precision);
 }
 TEST_ALL_F(Mult)
@@ -150,10 +150,10 @@ template<class T, int d>
 void Norm_Test(const T& precision) {
   T x[d];
   for (int i = 0; i < d; ++i) x[i] = rand()/static_cast<T>(RAND_MAX);
-  goomath::Vector<T, d> vector(x);
+  mathfu::Vector<T, d> vector(x);
   vector.Normalize();
   // This will verify that the dot product is 1.
-  T dot = goomath::Vector<T, d>::DotProduct(vector, vector);
+  T dot = mathfu::Vector<T, d>::DotProduct(vector, vector);
   EXPECT_NEAR(dot, 1, precision);
 }
 TEST_ALL_F(Norm)
@@ -161,14 +161,14 @@ TEST_ALL_F(Norm)
 // This will test the cross prodcut of two vectors.
 template<class T>
 void Cross_Test(const T& precision) {
-  goomath::Vector<T, 3> f1_vector(1.1, 4.5, 9.8);
-  goomath::Vector<T, 3> f2_vector(-1.4, 9.5, 3.2);
+  mathfu::Vector<T, 3> f1_vector(1.1, 4.5, 9.8);
+  mathfu::Vector<T, 3> f2_vector(-1.4, 9.5, 3.2);
   f1_vector.Normalize(); f2_vector.Normalize();
-  goomath::Vector<T, 3> fcross_vector(
-    goomath::Vector<T, 3>::CrossProduct(f1_vector, f2_vector));
+  mathfu::Vector<T, 3> fcross_vector(
+    mathfu::Vector<T, 3>::CrossProduct(f1_vector, f2_vector));
   // This will verify that v1*(v1xv2) and v2*(v1xv2) are 0.
-  T f1_dot = goomath::Vector<T, 3>::DotProduct(fcross_vector, f1_vector);
-  T f2_dot = goomath::Vector<T, 3>::DotProduct(fcross_vector, f2_vector);
+  T f1_dot = mathfu::Vector<T, 3>::DotProduct(fcross_vector, f1_vector);
+  T f2_dot = mathfu::Vector<T, 3>::DotProduct(fcross_vector, f2_vector);
   EXPECT_NEAR(f1_dot, 0, precision * 10);
   EXPECT_NEAR(f2_dot, 0, precision * 10);
 }
@@ -177,7 +177,7 @@ TEST_SCALAR_F(Cross)
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
 TEST_F(VectorTests, SampleTest) {
-    using namespace goomath;
+    using namespace mathfu;
     /// @doxysnippetstart Chapter02_Vectors.md Vector_Sample
     Vector<float, 3> point1(0.5f, 0.4f, 0.1f);
     Vector<float, 3> point2(0.4f, 0.9f, 0.1f);

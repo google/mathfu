@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GOOMATH_MATRICES_MATRIX_4X4_
-#define GOOMATH_MATRICES_MATRIX_4X4_
+#ifndef MATHFU_MATRICES_MATRIX_4X4_
+#define MATHFU_MATRICES_MATRIX_4X4_
 
 #include <utilities/Utilities.h>
 
@@ -25,7 +25,7 @@
 #include <vectors/Vector_4D.h>
 #include <matrices/Matrix.h>
 
-namespace goomath {
+namespace mathfu {
 
 #ifdef COMPILE_WITH_SIMD
 template<>
@@ -116,10 +116,10 @@ class Matrix<float, 4> {
     simd4x4f_matrix_vector_mul(&data_, &v.data_, &return_v.data_);
     return_v *= (1 / return_v.data_[3]);
 #else
-    simd4f vec = GOOMATH_LOAD(v.data_);
+    simd4f vec = MATHFU_LOAD(v.data_);
     simd4x4f_matrix_vector_mul(&data_, &vec, &vec);
     simd4f_mul(vec, simd4f_splat(*(CAST<float*>(&vec) + 3)));
-    GOOMATH_STORE(vec, return_v.data_);
+    MATHFU_STORE(vec, return_v.data_);
 #endif
     return return_v;
   }
@@ -233,5 +233,5 @@ inline Vector<float, 4> operator*(
   return m.VecMatTimes(v);
 }
 #endif  // COMPILE_WITH_SIMD
-}  // namespace goomath
-#endif  // GOOMATH_MATRICES_MATRIX_4X4_
+}  // namespace mathfu
+#endif  // MATHFU_MATRICES_MATRIX_4X4_

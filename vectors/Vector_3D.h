@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GOOMATH_VECTORS_VECTOR_3D_H_
-#define GOOMATH_VECTORS_VECTOR_3D_H_
+#ifndef MATHFU_VECTORS_VECTOR_3D_H_
+#define MATHFU_VECTORS_VECTOR_3D_H_
 
 #include <math.h>
 #include <utilities/Utilities.h>
@@ -27,23 +27,23 @@
 
 // Add macros to account for both the case where the vector is stored as a simd
 // intrinsic using 4 elements or as 3 values of type T.
-// GOOMATH_STORE/GOOMATH_LOAD are additional operations used to load/store the
+// MATHFU_STORE/MATHFU_LOAD are additional operations used to load/store the
 // non simd values from and to simd datatypes. If intrinsics are used these
-// amount to essentially noops. GOOMATH_INIT either creates a simd datatype if
+// amount to essentially noops. MATHFU_INIT either creates a simd datatype if
 // the intrinsic is used or sets the T values if not.
 #ifdef COMPILE_WITH_PADDING
-#define GOOMATH_STORE(v, data) {data = v;}
-#define GOOMATH_LOAD(data) data
-#define GOOMATH_INIT(data, v1, v2, v3) { \
+#define MATHFU_STORE(v, data) {data = v;}
+#define MATHFU_LOAD(data) data
+#define MATHFU_INIT(data, v1, v2, v3) { \
   data = simd4f_create(v1, v2, v3, 0); }
 #else
-#define GOOMATH_STORE(v, data) {simd4f_ustore3(v, data);}
-#define GOOMATH_LOAD(data) simd4f_uload4(data)
-#define GOOMATH_INIT(data, v1, v2, v3) { \
+#define MATHFU_STORE(v, data) {simd4f_ustore3(v, data);}
+#define MATHFU_LOAD(data) simd4f_uload4(data)
+#define MATHFU_INIT(data, v1, v2, v3) { \
   data[0] = v1; data[1] = v2; data[2] = v3; }
 #endif
 
-namespace goomath {
+namespace mathfu {
 
 #ifdef COMPILE_WITH_SIMD
 template<>
@@ -62,19 +62,19 @@ class Vector<float, 3> {
   }
 
   inline Vector(const simd4f& v) {
-    GOOMATH_STORE(v, data_);
+    MATHFU_STORE(v, data_);
   }
 
   explicit inline Vector(const float& s) {
-    GOOMATH_INIT(data_, s, s, s);
+    MATHFU_INIT(data_, s, s, s);
   }
 
   inline Vector(const float& v1, const float& v2, const float& v3) {
-    GOOMATH_INIT(data_, v1, v2, v3);
+    MATHFU_INIT(data_, v1, v2, v3);
   }
 
   explicit inline Vector(const float* v) {
-    GOOMATH_INIT(data_, v[0], v[1], v[2]);
+    MATHFU_INIT(data_, v[0], v[1], v[2]);
   }
 
   inline float& operator()(const int i) {
@@ -94,106 +94,106 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3> operator-() const {
-    return Vector<float, 3>(simd4f_sub(simd4f_zero(), GOOMATH_LOAD(data_)));
+    return Vector<float, 3>(simd4f_sub(simd4f_zero(), MATHFU_LOAD(data_)));
   }
 
   inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_mul(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator/(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_div(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_div(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator+(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_add(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_add(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator-(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_sub(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator*(const float& s) const {
-    return Vector<float, 3>(simd4f_mul(GOOMATH_LOAD(data_), simd4f_splat(s)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator/(const float& s) const {
-    return Vector<float, 3>(simd4f_mul(GOOMATH_LOAD(data_), simd4f_splat(1 / s)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / s)));
   }
 
   inline Vector<float, 3> operator+(const float& s) const {
-    return Vector<float, 3>(simd4f_add(GOOMATH_LOAD(data_), simd4f_splat(s)));
+    return Vector<float, 3>(simd4f_add(MATHFU_LOAD(data_), simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator-(const float& s) const {
-    return Vector<float, 3>(simd4f_sub(GOOMATH_LOAD(data_), simd4f_splat(1 / s)));
+    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_), simd4f_splat(1 / s)));
   }
 
   inline Vector<float, 3>& operator*=(const Vector<float, 3>& v) {
-    *this = simd4f_mul(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)); return *this;
+    *this = simd4f_mul(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
   }
 
   inline Vector<float, 3>& operator/=(const Vector<float, 3>& v) {
-    *this = simd4f_div(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)); return *this;
+    *this = simd4f_div(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
   }
 
   inline Vector<float, 3>& operator+=(const Vector<float, 3>& v) {
-    *this = simd4f_add(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)); return *this;
+    *this = simd4f_add(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
   }
 
   inline Vector<float, 3>& operator-=(const Vector<float, 3>& v) {
-    *this = simd4f_sub(GOOMATH_LOAD(data_), GOOMATH_LOAD(v.data_)); return *this;
+    *this = simd4f_sub(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
   }
 
   inline Vector<float, 3>& operator*=(const float& s) {
-    *this = simd4f_mul(GOOMATH_LOAD(data_), simd4f_splat(s)); return *this;
+    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(s)); return *this;
   }
 
   inline Vector<float, 3>& operator/=(const float& s) {
-    *this = simd4f_mul(GOOMATH_LOAD(data_), simd4f_splat(1 / s)); return *this;
+    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / s)); return *this;
   }
 
   inline Vector<float, 3>& operator+=(const float& s) {
-    *this = simd4f_add(GOOMATH_LOAD(data_), simd4f_splat(s)); return *this;
+    *this = simd4f_add(MATHFU_LOAD(data_), simd4f_splat(s)); return *this;
   }
 
   inline Vector<float, 3>& operator-=(const float& s) {
-    *this = simd4f_sub(GOOMATH_LOAD(data_), simd4f_splat(s)); return *this;
+    *this = simd4f_sub(MATHFU_LOAD(data_), simd4f_splat(s)); return *this;
   }
 
   inline float LengthSquared() const {
-    return simd4f_dot3(GOOMATH_LOAD(data_), GOOMATH_LOAD(data_));
+    return simd4f_dot3(MATHFU_LOAD(data_), MATHFU_LOAD(data_));
   }
 
   inline float Length() const {
-    return simd4f_get_x(simd4f_length3(GOOMATH_LOAD(data_)));
+    return simd4f_get_x(simd4f_length3(MATHFU_LOAD(data_)));
   }
 
   inline float Normalize() {
     const float length = Length();
-    *this = simd4f_mul(GOOMATH_LOAD(data_), simd4f_splat(1 / length));
+    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / length));
     return length;
   }
 
   inline Vector<float, 3> Normalized() const {
-    return simd4f_normalize3(GOOMATH_LOAD(data_));
+    return simd4f_normalize3(MATHFU_LOAD(data_));
   }
 
   static inline float DotProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
-    return simd4f_dot3(GOOMATH_LOAD(v1.data_), GOOMATH_LOAD(v2.data_));
+    return simd4f_dot3(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_));
   }
 
   static inline Vector<float, 3> CrossProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
     return Vector<float, 3>(
-      simd4f_cross3(GOOMATH_LOAD(v1.data_), GOOMATH_LOAD(v2.data_)));
+      simd4f_cross3(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_)));
   }
 
   static inline Vector<float, 3> HadamardProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
     return Vector<float, 3>(
-      simd4f_mul(GOOMATH_LOAD(v1.data_), GOOMATH_LOAD(v2.data_)));
+      simd4f_mul(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_)));
   }
 
   template<class T, int rows, int cols> friend class Matrix;
@@ -206,5 +206,5 @@ class Vector<float, 3> {
 #endif
 };
 #endif  // COMPILE_WITH_SIMD
-}  // namespace goomath
-#endif  // GOOMATH_VECTORS_VECTOR_3D
+}  // namespace mathfu
+#endif  // MATHFU_VECTORS_VECTOR_3D
