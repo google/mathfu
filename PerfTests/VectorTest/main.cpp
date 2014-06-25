@@ -42,12 +42,12 @@ using mathfu::Vector;
 int main(int argc, char** argv) {
   typedef float T;
   struct timeval start, end, diff;
-  int iterations = 100;
+  size_t iterations = 100;
   // Create a array of vectors
   std::vector<Vector<T, 3> > vectors;
   T final_sum = 0;
   Vector<T, 3> sum(0.f);
-  for (int i = 0; i < kVectorSize; i++) {
+  for (size_t i = 0; i < kVectorSize; i++) {
     Vector<T, 3> vec(
       (T)rand()/RAND_MAX, (T)rand()/RAND_MAX, (T)rand()/RAND_MAX);
     vectors.push_back(vec);

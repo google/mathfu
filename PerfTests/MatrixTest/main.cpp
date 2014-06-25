@@ -47,12 +47,12 @@ using mathfu::Matrix;
 int main(int argc, char** argv) {
   typedef float T;
   struct timeval start, end, diff;
-  int iterations = 100;
+  size_t iterations = 100;
   // Create a array of matrices
   std::vector<Matrix<T, 4> > matrices;
   T final_sum = 0;
   Matrix<T, 4> mul = Matrix<T, 4>::Identity();
-  for (int i = 0; i < kMatrixSize; i++) {
+  for (size_t i = 0; i < kMatrixSize; i++) {
     Matrix<T, 4> mat(
       getRand<T>(), getRand<T>(), getRand<T>(), getRand<T>(),
       getRand<T>(), getRand<T>(), getRand<T>(), getRand<T>(),

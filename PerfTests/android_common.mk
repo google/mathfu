@@ -16,9 +16,9 @@ namespace:=$(if $(NDK_PROJECT_PATH),,_gmath)
 LOCAL_MODULE:=$(LOCAL_TEST_NAME)${namespace}
 LOCAL_MODULE_TAGS:=optional
 LOCAL_C_INCLUDES:=\
-	../\
-	../../\
-	../../../../../../external/vectorial/include
+	$(LOCAL_PATH)/../\
+	$(LOCAL_PATH)/../../\
+	$(LOCAL_PATH)/../../../../../../external/vectorial/include
 LOCAL_SRC_FILES:=\
 	$(LOCAL_PATH)/main.cpp
 LOCAL_CFLAGS:=-Wno-narrowing -Wall -Werror -Wno-long-long -Wno-variadic-macros\
@@ -29,7 +29,6 @@ LOCAL_ARM_MODE:=arm
 include $(BUILD_SHARED_LIBRARY)
 # Import googletest and native_app_glue libraries.
 $(call import-module,AndroidUtil/jni)
-$(call import-module,googletest)
 $(call import-module,android/native_app_glue)
 
 LOCAL_TEST_NAME:=
