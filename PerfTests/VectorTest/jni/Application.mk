@@ -14,4 +14,4 @@
 # misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 include $(NDK_PROJECT_PATH)/../application_common.mk
-APP_MODULES:=MatrixPerfTest
+APP_MODULES:=VectorPerfTest

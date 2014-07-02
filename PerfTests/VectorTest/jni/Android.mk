@@ -14,5 +14,5 @@
 # misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 LOCAL_PATH:=$(call my-dir)/..
-LOCAL_TEST_NAME:=MatrixPerfTest
+LOCAL_TEST_NAME:=VectorPerfTest
 include $(LOCAL_PATH)/../android_common.mk
