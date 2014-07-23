@@ -405,6 +405,35 @@ class Matrix {
       m[6], m[7], m[8], 0, 0, 0, 0, 1);
   }
 
+  /// Create a 4x4 perpective matrix.
+  /// @handedness: 1.0f for RH, -1.0f for LH
+  static inline Matrix<T, 4, 4> Perspective(T fovy, T aspect, T znear, T zfar,
+                                            T handedness = 1.0f)
+  {
+    const float y = 1 / tanf(fovy * .5f);
+    const float x = y / aspect;
+    const float zdist = (znear - zfar) * handedness;
+    const float zfar_per_zdist = zfar / zdist;
+
+    return Matrix<T, 4, 4>(
+      x, 0, 0, 0,
+      0, y, 0, 0,
+      0, 0, zfar_per_zdist, -1.f * handedness,
+      0, 0, znear * zfar_per_zdist * handedness, 0);
+  }
+
+  /// Create a 4x4 orthographic matrix.
+  static inline Matrix<T, 4, 4> Ortho(T left, T right, T bottom, T top,
+                                      T znear, T zfar)
+  {
+      return Matrix<T, 4, 4>(
+          2.0f / (right - left), 0, 0, 0,
+          0, 2.0f / (top - bottom), 0, 0,
+          0, 0, -2.0f / (zfar - znear), 0,
+          -(right + left) / (right - left), -(top + bottom) / (top - bottom),
+            -(zfar + znear) / (zfar - znear), 1.0f);
+  }
+
   /// Vector/Matrix multiplication.
   /// @param v The vector to use for mulitplication.
   /// @param m The matrix to use for multiplication.
