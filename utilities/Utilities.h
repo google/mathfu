@@ -27,12 +27,6 @@
 #define CAST reinterpret_cast
 #endif
 
-#ifndef WIN32
-#define WEAK __attribute__((weak))
-#else
-#define WEAK __declspec(selectany)
-#endif
-
 #define MATHFU_VERSION_MAJOR 1
 #define MATHFU_VERSION_MINOR 0
 #define MATHFU_VERSION_REVISION 0
@@ -47,12 +41,18 @@
 /// scanned for this version string.  We track which applications are using it
 /// to measure popularity.  You are free to remove it (of course) but we would
 /// appreciate if you left it in.
-extern volatile const char* WEAK kMathFuVersionString;
-volatile const char *kMathFuVersionString =
+
+// Weak linkage is culled by VS & doesn't work on cygwin.
+#if !defined(_WIN32) && !defined(__CYGWIN__)
+
+extern volatile __attribute__((weak)) const char* kMathFuVersionString;
+volatile __attribute__((weak)) const char *kMathFuVersionString =
     "MathFu"
     MATHFU_STRING(MATHFU_VERSION_MAJOR) "."
     MATHFU_STRING(MATHFU_VERSION_MINOR) "."
     MATHFU_STRING(MATHFU_VERSION_REVISION);
+
+#endif  // !defined(_WIN32) && !defined(__CYGWIN__)
 
 template<bool> struct static_assert_util;
 template<> struct static_assert_util<true> {};

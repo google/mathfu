@@ -19,6 +19,11 @@
 #include <math.h>
 #include <utilities/Utilities.h>
 
+#ifdef _MSC_VER
+  #pragma warning(push)
+  #pragma warning(disable: 4127)  // conditional expression is constant
+#endif
+
 #define MATHFU_VEC_OPERATION(OP) \
   const int i = 0; OP; \
   if (d > 1) { \
@@ -355,4 +360,9 @@ inline Vector<T, d> operator-(const T& s, const Vector<T, d>& v) {
 }
 
 }  // namespace mathfu
+
+#ifdef _MSC_VER
+  #pragma warning(pop)
+#endif
+
 #endif  // MATHFU_VECTORS_VECTOR_H_

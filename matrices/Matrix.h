@@ -23,6 +23,11 @@
 #include <utilities/Utilities.h>
 #include <assert.h>
 
+#ifdef _MSC_VER
+  #pragma warning(push)
+  #pragma warning(disable: 4127)  // conditional expression is constant
+#endif
+
 #if defined(COMPILE_WITH_SIMD) && defined(COMPILE_WITH_PADDING)
 #define VEC3_SIZE 4
 #else
@@ -178,7 +183,7 @@ class Matrix {
   /// @param j The index of the column where the elment is located.
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
-  inline const T operator()(const int i, const int j) const {
+  inline const T &operator()(const int i, const int j) const {
     return data_[j][i];
   }
 
@@ -191,7 +196,7 @@ class Matrix {
     return data_[j][i];
   }
 
-  inline const T operator()(const int i) const {
+  inline const T &operator()(const int i) const {
     return ConstGetHelper(*this, i - 1);
   }
 
@@ -203,7 +208,7 @@ class Matrix {
   /// @param i The index of the elment in flattened memory.
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
-  inline const T operator[](const int i) const {
+  inline const T &operator[](const int i) const {
     return ConstGetHelper(*this, i);
   }
 
@@ -820,4 +825,9 @@ Matrix<T, 4, 4> InverseHelper(const Matrix<T, 4, 4>& m) {
 }
 
 }  // namespace mathfu
+
+#ifdef _MSC_VER
+  #pragma warning(pop)
+#endif
+
 #endif  // MATHFU_MATRICES_MATRIX_
