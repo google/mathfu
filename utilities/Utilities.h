@@ -61,21 +61,19 @@ template<> struct static_assert_util<true> {};
 // This is done to avoid aliasing issues.
 // http://cellperformance.beyond3d.com/articles/2006/06/understanding-strict-aliasing.html
 template<class T1, class T2>
-T1& union_reinterpret_cast(T2& data) {
-  typedef union {
-    T2 data2;
-    T1 data1;
-  } conversion_union;
-  return reinterpret_cast<conversion_union*>(&data)->data1;
+union ConversionUnion {
+  T1 data1;
+  T2 data2;
+};
+
+template<class T1, class T2>
+static T1& union_reinterpret_cast(T2& data) {
+  return reinterpret_cast<ConversionUnion<T1, T2> *>(&data)->data1;
 }
 
 template<class T1, class T2>
-const T1& union_reinterpret_cast(const T2& data) {
-  typedef union {
-    T2 data2;
-    T1 data1;
-  } conversion_union;
-  return reinterpret_cast<const conversion_union*>(&data)->data1;
+static const T1& union_reinterpret_cast(const T2& data) {
+  return reinterpret_cast<const ConversionUnion<T1, T2> *>(&data)->data1;
 }
 
 #endif  // GMATH_UTILITIES_UTILITIES_H_
