@@ -15,13 +15,29 @@
 # 3. This notice may not be removed or altered from any source distribution.
 cmake_minimum_required(VERSION 2.8.7)
 
-set(PROJECT_NAME GooMath)
-project(GooMath)
+set(PROJECT_NAME MathFu)
+project(MathFu)
 
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/../../../../external/vectorial/include)
 
-add_definitions(-msse4.1)
+# Enable SSE4.1 when building with GCC / Clang.
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
+       CMAKE_COMPILER_IS_CLANGXX)
+  add_definitions(-msse4.1)
+endif()
+
+# Enable maximum reasonable warning level.
+set(C_FLAGS_WARNINGS "")
+if(MSVC)
+  set(C_FLAGS_WARNINGS "/W4 /WX")
+elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
+       CMAKE_COMPILER_IS_CLANGXX)
+  # Set the maximum warning level for gcc.
+  set(C_FLAGS_WARNINGS "-Wall -Werror -Wno-long-long -Wno-variadic-macros")
+endif()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
 
 add_subdirectory(../googletest googletest)
 add_subdirectory(Unittests)
