@@ -81,7 +81,7 @@ class Vector<float, 3> {
     return *(CAST<float*>(&data_) + i - 1);
   }
 
-  inline const float operator()(const int i) const {
+  inline const float& operator()(const int i) const {
     return *(CAST<const float*>(&data_) + i - 1);
   }
 

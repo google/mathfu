@@ -122,7 +122,7 @@ class Vector {
     return data_[i - 1];
   }
 
-  inline const T operator()(const int i) const {
+  inline const T& operator()(const int i) const {
     return data_[i - 1];
   }
 
@@ -138,7 +138,7 @@ class Vector {
   /// @param i The index to access.
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
-  inline const T operator[](const int i) const {
+  inline const T& operator[](const int i) const {
     return data_[i];
   }
 
