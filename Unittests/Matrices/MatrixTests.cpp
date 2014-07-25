@@ -271,6 +271,10 @@ TEST_F(MatrixTests, MatrixSample) {
     Matrix<float, 4> matrix = transMatrix * rotHMatrix;
     Vector<float, 3> rotatedVector = matrix * vector;
     /// @doxysnippetend
+    const float precision = 1e-2f;
+    EXPECT_NEAR(2.14f, rotatedVector[0], precision);
+    EXPECT_NEAR(8.11f, rotatedVector[1], precision);
+    EXPECT_NEAR(-3.26f, rotatedVector[2], precision);
 }
 
 int main(int argc, char **argv) {
