@@ -188,6 +188,10 @@ TEST_F(VectorTests, SampleTest) {
 
     Vector<float, 3> normal = Vector<float, 3>::CrossProduct(vector2, vector1);
     /// @doxysnippetend
+    const float precision = 1e-2f;
+    EXPECT_NEAR(-0.25f, normal[0], precision);
+    EXPECT_NEAR(-0.05f, normal[1], precision);
+    EXPECT_NEAR(-0.16f, normal[2], precision);
 }
 
 int main(int argc, char **argv) {
