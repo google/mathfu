@@ -60,18 +60,16 @@ class Vector<float, 4> {
     return *(union_reinterpret_cast<float*>(&data_) + i - 1);
   }
 
-  inline const float operator()(const int i) const {
-    return i == 1 ? simd4f_get_x(data_) : i == 2 ? simd4f_get_y(data_):
-      i == 3 ? simd4f_get_z(data_) : simd4f_get_w(data_);
+  inline const float& operator()(const int i) const {
+    return const_cast<Vector*>(this)->operator()(i);
   }
 
   inline float& operator[](const int i) {
     return *(union_reinterpret_cast<float*>(&data_) + i);
   }
 
-  inline const float operator[](const int i) const {
-    return i == 0 ? simd4f_get_x(data_) : i == 1 ? simd4f_get_y(data_):
-      i == 2 ? simd4f_get_z(data_) : simd4f_get_w(data_);
+  inline const float& operator[](const int i) const {
+    return const_cast<Vector*>(this)->operator[](i);
   }
 
   inline Vector<float, 4> operator-() const {

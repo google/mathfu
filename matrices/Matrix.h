@@ -183,7 +183,7 @@ class Matrix {
   /// @param j The index of the column where the elment is located.
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
-  inline const T &operator()(const int i, const int j) const {
+  inline const T& operator()(const int i, const int j) const {
     return data_[j][i];
   }
 
