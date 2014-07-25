@@ -144,6 +144,10 @@ TEST_F(QuaternionTests, QuaternionSample) {
     Quaternion<float> quatSlerp = Quaternion<float>::Slerp(quat1, quat2, 0.5);
     Vector<float, 3> angleSlerp = quatSlerp.ToEulerAngles();
     /// @doxysnippetend
+    const float precision = 1e-2f;
+    EXPECT_NEAR(0.93f, angleSlerp[0], precision);
+    EXPECT_NEAR(0.82f, angleSlerp[1], precision);
+    EXPECT_NEAR(1.33f, angleSlerp[2], precision);
 }
 
 int main(int argc, char **argv) {
