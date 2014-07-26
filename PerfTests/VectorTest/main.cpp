@@ -16,21 +16,12 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/time.h>
 #ifdef __ANDROID__
 #include <android/log.h>
 #endif
-#include <unistd.h>
 #include <vector>
 #include <vectors/Vector_3D.h>
 #include <TestUtils/TestUtils.h>
-
-#ifdef __ANDROID__
-#define LOG_PRINT(...) \
-  __android_log_print(ANDROID_LOG_VERBOSE, "VectorTest", __VA_ARGS__)
-#else
-#define LOG_PRINT(...) printf(__VA_ARGS__)
-#endif
 
 // Number of elements to iterate over
 static const size_t kVectorSize = 1000;
@@ -41,35 +32,40 @@ using mathfu::Vector;
 // operations.
 int main(int argc, char** argv) {
   typedef float T;
-  struct timeval start, end, diff;
   size_t iterations = 100;
+  (void)argc;
+  (void)argv;
   // Create a array of vectors
   std::vector<Vector<T, 3> > vectors;
   T final_sum = 0;
-  Vector<T, 3> sum(0.f);
+  Vector<T, 3> sum(0.0f);
   for (size_t i = 0; i < kVectorSize; i++) {
     Vector<T, 3> vec(
-      (T)rand()/RAND_MAX, (T)rand()/RAND_MAX, (T)rand()/RAND_MAX);
+      (T)rand() / RAND_MAX, (T)rand() / RAND_MAX, (T)rand() / RAND_MAX);
     vectors.push_back(vec);
   }
   // Start vector performance code. Run a number of loops for more accurate
   // numbers.
-  gettimeofday(&start, NULL);
+  Timer timer;
   PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) sum += vectors[j];
   PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) sum -= vectors[j];
-  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) sum *= .1;
-  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize)
+  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) sum *= 0.1f;
+  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) {
     sum += Vector<T, 3>::CrossProduct(vectors[i], vectors[j]);
-  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize)
+  }
+  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) {
     final_sum += Vector<T, 3>::DotProduct(vectors[j], vectors[i]);
-  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) final_sum -= vectors[i].Length();
-  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) final_sum += vectors[i].Normalize();
+  }
+  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) {
+      final_sum -= vectors[i].Length();
+  }
+  PERFTEST_2D_VECTOR_LOOP(iterations, kVectorSize) {
+    final_sum += vectors[i].Normalize();
+  }
   final_sum += sum[0] + sum[1] + sum[2];
   // End vector performance code
-  gettimeofday(&end, NULL);
-  timersub(&end, &start, &diff);
-  float time_passed = diff.tv_sec + diff.tv_usec / 1000000.f;
-  LOG_PRINT("Sum %f", final_sum);
-  LOG_PRINT("Time %f", time_passed);
+  double elapsed = timer.GetElapsedSeconds();
+  LOG_PRINT("Sum %f\n", final_sum);
+  LOG_PRINT("Time %f\n", elapsed);
   return 0;
 }

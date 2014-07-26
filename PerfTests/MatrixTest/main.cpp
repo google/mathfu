@@ -16,21 +16,12 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/time.h>
 #ifdef __ANDROID__
 #include <android/log.h>
 #endif
-#include <unistd.h>
 #include <vector>
 #include <matrices/Matrix_4x4.h>
 #include <TestUtils/TestUtils.h>
-
-#ifdef __ANDROID__
-#define LOG_PRINT(...) \
-  __android_log_print(ANDROID_LOG_VERBOSE, "VectorTest", __VA_ARGS__)
-#else
-#define LOG_PRINT(...) printf(__VA_ARGS__)
-#endif
 
 // Generate a random value of type T
 template<class T> inline T getRand() {
@@ -46,8 +37,9 @@ using mathfu::Matrix;
 // operations.
 int main(int argc, char** argv) {
   typedef float T;
-  struct timeval start, end, diff;
   size_t iterations = 100;
+  (void)argc;
+  (void)argv;
   // Create a array of matrices
   std::vector<Matrix<T, 4> > matrices;
   T final_sum = 0;
@@ -62,7 +54,7 @@ int main(int argc, char** argv) {
   }
   // Start matrix performance code. Run a number of loops for more accurate
   // numbers.
-  gettimeofday(&start, NULL);
+  Timer timer;
   PERFTEST_2D_VECTOR_LOOP(iterations, kMatrixSize) mul += matrices[j];
   PERFTEST_2D_VECTOR_LOOP(iterations, kMatrixSize) mul *= matrices[j];
   PERFTEST_2D_VECTOR_LOOP(iterations, kMatrixSize) {
@@ -76,10 +68,8 @@ int main(int argc, char** argv) {
   }
   for (int i = 0; i < 16; ++i) final_sum += mul[i];
   // End matrix performance code
-  gettimeofday(&end, NULL);
-  timersub(&end, &start, &diff);
-  float time_passed = diff.tv_sec + diff.tv_usec / 1000000.f;
-  LOG_PRINT("Sum %f", final_sum);
-  LOG_PRINT("Time %f", time_passed);
+  double elapsed = timer.GetElapsedSeconds();
+  LOG_PRINT("Sum %f\n", final_sum);
+  LOG_PRINT("Time %f\n", elapsed);
   return 0;
 }

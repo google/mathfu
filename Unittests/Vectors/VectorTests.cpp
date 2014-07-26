@@ -54,18 +54,26 @@ template<class T, int d>
 void Initialization_Test(const T& precision) {
   // This will test initialization of the vector using a random single value.
   // The expected result is that all entries equal the given value.
-  mathfu::Vector<T, d> vector_splat(3.1);
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(3.1, vector_splat[i], precision);
+  mathfu::Vector<T, d> vector_splat(static_cast<T>(3.1));
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(3.1, vector_splat[i], precision);
+  }
   T x[d];
-  for (int i = 0; i < d; ++i) x[i] = rand()/static_cast<T>(RAND_MAX)*100.f;
+  for (int i = 0; i < d; ++i) {
+    x[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
   // This will test initialization of the vector using a c style array of
   // values.
   mathfu::Vector<T, d> vector_arr(x);
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(x[i], vector_arr[i], precision);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x[i], vector_arr[i], precision);
+  }
   // This will test copy constructor making sure that the new matrix equals
   // the old one.
   mathfu::Vector<T, d> vector_copy(vector_arr);
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(x[i], vector_copy[i], precision);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x[i], vector_copy[i], precision);
+  }
   // This will make sure the copy was deep and chaning the values of the
   // copied matrix does not effect the origional.
   vector_copy -= mathfu::Vector<T, d>(1);
@@ -76,14 +84,16 @@ TEST_ALL_F(Initialization)
 // This will test initializaiton by specifying all values explictly.
 template<class T>
 void InitializationPerDimension_Test(const T& precision) {
-  mathfu::Vector<T, 2> f2_vector(5.3, 7.1);
+  mathfu::Vector<T, 2> f2_vector(static_cast<T>(5.3), static_cast<T>(7.1));
   EXPECT_NEAR(5.3, f2_vector[0], precision);
   EXPECT_NEAR(7.1, f2_vector[1], precision);
-  mathfu::Vector<T, 3> f3_vector(4.3, 1.1, 3.2);
+  mathfu::Vector<T, 3> f3_vector(static_cast<T>(4.3), static_cast<T>(1.1),
+                                 static_cast<T>(3.2));
   EXPECT_NEAR(4.3, f3_vector[0], precision);
   EXPECT_NEAR(1.1, f3_vector[1], precision);
   EXPECT_NEAR(3.2, f3_vector[2], precision);
-  mathfu::Vector<T, 4> f4_vector(2.3, 4.6, 9.2, 15.5);
+  mathfu::Vector<T, 4> f4_vector(static_cast<T>(2.3), static_cast<T>(4.6),
+                                 static_cast<T>(9.2), static_cast<T>(15.5));
   EXPECT_NEAR(2.3, f4_vector[0], precision);
   EXPECT_NEAR(4.6, f4_vector[1], precision);
   EXPECT_NEAR(9.2, f4_vector[2], precision);
@@ -96,23 +106,31 @@ TEST_SCALAR_F(InitializationPerDimension);
 template<class T, int d>
 void AddSub_Test(const T& precision) {
   T x1[d], x2[d];
-  for (int i = 0; i < d; ++i) x1[i] = rand()/static_cast<T>(RAND_MAX)*100.f;
-  for (int i = 0; i < d; ++i) x2[i] = rand()/static_cast<T>(RAND_MAX)*100.f;
+  for (int i = 0; i < d; ++i) {
+    x1[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
+  for (int i = 0; i < d; ++i) {
+    x2[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
   mathfu::Vector<T, d> vector1(x1), vector2(x2);
   // This will test the negation of a vector and make sure each element is
   // negated.
   mathfu::Vector<T, d> neg_vector1(-vector1);
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(-x1[i], neg_vector1[i], precision);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(-x1[i], neg_vector1[i], precision);
+  }
   // This will test the addition of vectors and make such each element is
   // equal to the sum of the input values.
   mathfu::Vector<T, d> sum_vector(vector1 + vector2);
-  for (int i = 0; i < d; ++i)
+  for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] + x2[i], sum_vector[i], precision);
+  }
   // This will test the subtraction of vectors and make such each element is
   // equal to the difference of the input values.
   mathfu::Vector<T, d> diff_vector(vector1 - vector2);
-  for (int i = 0; i < d; ++i)
+  for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] - x2[i], diff_vector[i], precision);
+  }
 }
 TEST_ALL_F(AddSub)
 
@@ -120,21 +138,27 @@ TEST_ALL_F(AddSub)
 // template paramter d corresponds to the size of the vector.
 template<class T, int d>
 void Mult_Test(const T& precision) {
-  T x1[d], x2[d], scalar(1.4);
-  for (int i = 0; i < d; ++i) x1[i] = rand()/static_cast<T>(RAND_MAX);
-  for (int i = 0; i < d; ++i) x2[i] = rand()/static_cast<T>(RAND_MAX);
+  T x1[d], x2[d], scalar(static_cast<T>(1.4));
+  for (int i = 0; i < d; ++i) x1[i] = rand() / static_cast<T>(RAND_MAX);
+  for (int i = 0; i < d; ++i) x2[i] = rand() / static_cast<T>(RAND_MAX);
   mathfu::Vector<T, d> vector1(x1), vector2(x2);
   // This will test the Hadamard Product of two vectors and verify that each
   // element is the product of the input elements.
   mathfu::Vector<T, d> mult_vec(
     mathfu::Vector<T, d>::HadamardProduct(vector1, vector2));
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
+  }
   // This will test multiplication by a scalar and verify that each
   // element is the input element multipled by the scalar.
   mathfu::Vector<T, d> smult_vec1(vector1 * scalar);
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(x1[i] * 1.4, smult_vec1[i], precision);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] * 1.4, smult_vec1[i], precision);
+  }
   mathfu::Vector<T, d> smult_vec2(scalar * vector2);
-  for (int i = 0; i < d; ++i) EXPECT_NEAR(x2[i] * 1.4, smult_vec2[i], precision);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x2[i] * 1.4, smult_vec2[i], precision);
+  }
   // This will test the dot product of two vectors and verify the result
   // is mathematically correct.
   T my_dot = 0;
@@ -161,8 +185,10 @@ TEST_ALL_F(Norm)
 // This will test the cross prodcut of two vectors.
 template<class T>
 void Cross_Test(const T& precision) {
-  mathfu::Vector<T, 3> f1_vector(1.1, 4.5, 9.8);
-  mathfu::Vector<T, 3> f2_vector(-1.4, 9.5, 3.2);
+  mathfu::Vector<T, 3> f1_vector(static_cast<T>(1.1), static_cast<T>(4.5),
+                                 static_cast<T>(9.8));
+  mathfu::Vector<T, 3> f2_vector(-static_cast<T>(1.4), static_cast<T>(9.5),
+                                 static_cast<T>(3.2));
   f1_vector.Normalize(); f2_vector.Normalize();
   mathfu::Vector<T, 3> fcross_vector(
     mathfu::Vector<T, 3>::CrossProduct(f1_vector, f2_vector));

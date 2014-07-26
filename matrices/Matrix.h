@@ -25,7 +25,15 @@
 
 #ifdef _MSC_VER
   #pragma warning(push)
-  #pragma warning(disable: 4127)  // conditional expression is constant
+  // The following disables warnings for MATHFU_MAT_OPERATION.
+  // The buffer overrun warning must be disabled as MSVC doesn't treat
+  // "columns" as constant and therefore assumes that it's possible
+  // to overrun arrays indexed by "i".
+  // The conditional expression is constant warning is disabled since
+  // MSVC decides that "columns" *is* constant when unrolling the operation
+  // loop.
+  #pragma warning(disable:4127) // conditional expression is constant
+  #pragma warning(disable:4789) // buffer overrun
 #endif
 
 #if defined(COMPILE_WITH_SIMD) && defined(COMPILE_WITH_PADDING)
@@ -36,15 +44,17 @@
 
 // This will unroll loops for matrices with <= 4 columns
 #define MATHFU_MAT_OPERATION(OP) \
-  const int i = 0; OP; \
-  if (columns > 1) { \
-    const int i = 1; OP; \
-    if (columns > 2) { \
-      const int i = 2; OP; \
-      if (columns > 3) { \
-        const int i = 3; OP; \
-        if (columns > 4) { \
-          for (int i = 4; i < columns; ++i) OP; \
+  { \
+    const int i = 0; OP; \
+    if (columns > 1) { \
+      const int i = 1; OP; \
+      if (columns > 2) { \
+        const int i = 2; OP; \
+        if (columns > 3) { \
+          const int i = 3; OP; \
+          if (columns > 4) { \
+            for (int i = 4; i < columns; ++i) { OP; } \
+          } \
         } \
       } \
     } \
@@ -781,7 +791,6 @@ inline int FindLargestPivotElem(const Matrix<T, 4, 4>& m) {
   else {
     return 3;
   }
-  return 0;
 }
 
 template<class T>
@@ -850,7 +859,6 @@ Matrix<T, 4, 4> InverseHelper(const Matrix<T, 4, 4>& m) {
       row_inverse[2], mat_inverse[6], mat_inverse[7], mat_inverse[8],
       pivot_inverse, col_inverse[0], col_inverse[1], col_inverse[2]);
   }
-  return Matrix<T, 4, 4>::Identity();
 }
 
 }  // namespace mathfu

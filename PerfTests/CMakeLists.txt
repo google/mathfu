@@ -15,5 +15,14 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_SOURCE_DIR}/PerfTests)
 
-add_subdirectory(MatrixTest)
-add_subdirectory(VectorTest)
+# Generates a rule to build a performance test executable.
+function(perf_executable test_name)
+  set(target Perf${test_name})
+  add_executable(${target} ${test_name}/main.cpp)
+  if(UNIX AND NOT APPLE)
+    target_link_libraries(${target} rt)
+  endif(UNIX AND NOT APPLE)
+endfunction()
+
+perf_executable(MatrixTest)
+perf_executable(VectorTest)

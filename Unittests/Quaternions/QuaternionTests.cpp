@@ -38,7 +38,8 @@ class QuaternionTests : public ::testing::Test {
 // Euler Angles, and Matrices
 template<class T>
 void Conversion_Test(const T& precision) {
-  mathfu::Vector<T, 3> angles(1.5, 2.3, 0.6);
+  mathfu::Vector<T, 3> angles(static_cast<T>(1.5), static_cast<T>(2.3),
+                              static_cast<T>(0.6));
   // This will create a Quaternion from Euler Angles, convert back to
   // Euler Angles, and verify that they match
   mathfu::Quaternion<T> qea(mathfu::Quaternion<T>::FromEulerAngles(angles));
@@ -48,8 +49,10 @@ void Conversion_Test(const T& precision) {
   EXPECT_NEAR(angles[2], M_PI + convertedAngles[2], precision);
   // This will create a Quaternion from Axis Angle, convert back to
   // Axis Angle, and verify that they match.
-  mathfu::Vector<T, 3> axis(4.3, 7.6, 1.2); axis.Normalize();
-  T angle = 1.2;
+  mathfu::Vector<T, 3> axis(static_cast<T>(4.3), static_cast<T>(7.6),
+                            static_cast<T>(1.2));
+  axis.Normalize();
+  T angle = static_cast<T>(1.2);
   mathfu::Quaternion<T> qaa(mathfu::Quaternion<T>::FromAngleAxis(angle, axis));
   mathfu::Vector<T, 3> convertedAxis;
   T convertedAngle;
@@ -80,7 +83,8 @@ TEST_ALL_F(Conversion);
 // corresponds to a rotation of 0.
 template<class T>
 void Inverse_Test(const T& precision) {
-  mathfu::Quaternion<T> q(1.4, 6.3, 8.5, 5.9);
+  mathfu::Quaternion<T> q(static_cast<T>(1.4), static_cast<T>(6.3),
+                          static_cast<T>(8.5), static_cast<T>(5.9));
   mathfu::Vector<T, 3> v((q.Inverse()*q).ToEulerAngles());
   EXPECT_NEAR(0, v[0], precision);
   EXPECT_NEAR(0, v[1], precision);
@@ -91,11 +95,17 @@ TEST_ALL_F(Inverse);
 // This will test the multiplcation of quaternions.
 template<class T>
 void Mult_Test(const T& precision) {
-  mathfu::Vector<T, 3> axis(4.3, 7.6, 1.2); axis.Normalize();
-  T angle1 = 1.2, angle2 = 0.7, angle3 = angle2 + precision * 10;
-  mathfu::Quaternion<T> qaa1(mathfu::Quaternion<T>::FromAngleAxis(angle1, axis));
-  mathfu::Quaternion<T> qaa2(mathfu::Quaternion<T>::FromAngleAxis(angle2, axis));
-  mathfu::Quaternion<T> qaa3(mathfu::Quaternion<T>::FromAngleAxis(angle3, axis));
+  mathfu::Vector<T, 3> axis(static_cast<T>(4.3), static_cast<T>(7.6),
+                            static_cast<T>(1.2));
+  axis.Normalize();
+  T angle1 = static_cast<T>(1.2), angle2 = static_cast<T>(0.7),
+    angle3 = angle2 + precision * 10;
+  mathfu::Quaternion<T> qaa1(mathfu::Quaternion<T>::FromAngleAxis(angle1,
+                                                                  axis));
+  mathfu::Quaternion<T> qaa2(mathfu::Quaternion<T>::FromAngleAxis(angle2,
+                                                                  axis));
+  mathfu::Quaternion<T> qaa3(mathfu::Quaternion<T>::FromAngleAxis(angle3,
+                                                                  axis));
   mathfu::Vector<T, 3> convertedAxis;
   T convertedAngle;
   // This will verify that mutliplying two quaternions corresponds to the sum
@@ -106,7 +116,7 @@ void Mult_Test(const T& precision) {
   // to scalaing the rotation.
   (qaa1 * 2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 * 2, convertedAngle, precision);
-  mathfu::Vector<T, 3> v(3.5, 6.4, 7.0);
+  mathfu::Vector<T, 3> v(3.5f, 6.4f, 7.0f);
   // This will verify that multiplying by a vector corresponds to applying
   // the rotation to that vector.
   mathfu::Vector<T, 3> quatRotatedV(qaa1 * v);
@@ -116,13 +126,13 @@ void Mult_Test(const T& precision) {
   EXPECT_NEAR(quatRotatedV[2], matRotatedV[2], 10 * precision);
   // This will verify that interpolating two quaternions corresponds to
   // interpolating the angle.
-  mathfu::Quaternion<T> slerp1(mathfu::Quaternion<T>::Slerp(qaa1, qaa2, .5));
+  mathfu::Quaternion<T> slerp1(mathfu::Quaternion<T>::Slerp(qaa1, qaa2, 0.5));
   slerp1.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(.5*(angle1 + angle2), convertedAngle, precision);
-  mathfu::Quaternion<T> slerp2(mathfu::Quaternion<T>::Slerp(qaa2, qaa3, .5));
+  mathfu::Quaternion<T> slerp2(mathfu::Quaternion<T>::Slerp(qaa2, qaa3, 0.5));
   slerp2.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(.5*(angle2 + angle3), convertedAngle, precision);
-  mathfu::Quaternion<T> slerp3(mathfu::Quaternion<T>::Slerp(qaa2, qaa2, .5));
+  mathfu::Quaternion<T> slerp3(mathfu::Quaternion<T>::Slerp(qaa2, qaa2, 0.5));
   slerp3.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle2, convertedAngle, precision);
 
