@@ -22,9 +22,9 @@
 #endif
 
 #ifdef COMPILE_WITH_SIMD
-#define CAST union_reinterpret_cast
+#define MATHFU_CAST union_reinterpret_cast
 #else
-#define CAST reinterpret_cast
+#define MATHFU_CAST reinterpret_cast
 #endif
 
 #define MATHFU_VERSION_MAJOR 1

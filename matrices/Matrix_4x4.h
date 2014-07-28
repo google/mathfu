@@ -118,7 +118,7 @@ class Matrix<float, 4> {
 #else
     simd4f vec = MATHFU_LOAD(v.data_);
     simd4x4f_matrix_vector_mul(&data_, &vec, &vec);
-    simd4f_mul(vec, simd4f_splat(*(CAST<float*>(&vec) + 3)));
+    simd4f_mul(vec, simd4f_splat(*(MATHFU_CAST<float*>(&vec) + 3)));
     MATHFU_STORE(vec, return_v.data_);
 #endif
     return return_v;
@@ -214,11 +214,11 @@ class Matrix<float, 4> {
 
  private:
   inline const simd4f& FindColumn(const int i) const {
-    return *(CAST<simd4f*>(&data_) + i);
+    return *(MATHFU_CAST<simd4f*>(&data_) + i);
   }
 
   inline const float& FindElem(const int i, const simd4f& column) const {
-    return *(CAST<float*>(&column) + i);
+    return *(MATHFU_CAST<float*>(&column) + i);
   }
 
   simd4x4f data_;

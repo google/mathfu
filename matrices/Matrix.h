@@ -486,7 +486,7 @@ inline Vector<T, rows> operator*(
 template<class T>
 inline Vector<T, 2> operator*(
   const Matrix<T, 2, 2>& m, const Vector<T, 2>& v) {
-  const T* data1 = CAST<const T*>(&m);
+  const T* data1 = MATHFU_CAST<const T*>(&m);
     return Vector<T, 2>(
       data1[0] * v[0] + data1[2] * v[1], data1[1] * v[0] + data1[3] * v[1]);
 }
@@ -494,7 +494,7 @@ inline Vector<T, 2> operator*(
 template<class T>
 inline Vector<T, 3> operator*(
   const Matrix<T, 3, 3>& m, const Vector<T, 3>& v) {
-  const T* data1 = CAST<const T*>(&m);
+  const T* data1 = MATHFU_CAST<const T*>(&m);
   return Vector<T, 3>(
     MATHFU_MATRIX_3X3_DOT(data1, v, 0, 3),
     MATHFU_MATRIX_3X3_DOT(data1, v, 1, 3),
@@ -504,7 +504,7 @@ inline Vector<T, 3> operator*(
 template<>
 inline Vector<float, 3> operator*(
   const Matrix<float, 3, 3>& m, const Vector<float, 3>& v) {
-  const float* data1 = CAST<const float*>(&m);
+  const float* data1 = MATHFU_CAST<const float*>(&m);
   return Vector<float, 3>(
     MATHFU_MATRIX_3X3_DOT(data1, v, 0, VEC3_SIZE),
     MATHFU_MATRIX_3X3_DOT(data1, v, 1, VEC3_SIZE),
@@ -514,7 +514,7 @@ inline Vector<float, 3> operator*(
 template<class T>
 inline Vector<T, 4> operator*(
   const Matrix<T, 4, 4>& m, const Vector<T, 4>& v) {
-  const T* data1 = CAST<const T*>(&m);
+  const T* data1 = MATHFU_CAST<const T*>(&m);
   return Vector<T, 4>(
     MATHFU_MATRIX_4X4_DOT(data1, v, 0),
     MATHFU_MATRIX_4X4_DOT(data1, v, 1),
@@ -555,9 +555,9 @@ template<class T>
 inline void TimesHelper(
   const Matrix<T, 2, 2>& m1, const Matrix<T, 2, 2>& m2,
   Matrix<T, 2, 2>* out_m) {
-  T* data_out = CAST<T*>(out_m);
-  const T* data1 = CAST<const T*>(&m1);
-  const T* data2 = CAST<const T*>(&m2);
+  T* data_out = MATHFU_CAST<T*>(out_m);
+  const T* data1 = MATHFU_CAST<const T*>(&m1);
+  const T* data2 = MATHFU_CAST<const T*>(&m2);
   data_out[0] = data1[0] * data2[0] + data1[2] * data2[1];
   data_out[1] = data1[1] * data2[0] + data1[3] * data2[1];
   data_out[2] = data1[0] * data2[2] + data1[2] * data2[3];
@@ -568,8 +568,8 @@ template<class T>
 inline void TimesHelper(
   const Matrix<T, 3, 3>& m1, const Matrix<T, 3, 3>& m2,
   Matrix<T, 3, 3>* out_m) {
-  T* data_out = CAST<T*>(out_m);
-  const T* data1 = CAST<const T*>(&m1);
+  T* data_out = MATHFU_CAST<T*>(out_m);
+  const T* data1 = MATHFU_CAST<const T*>(&m1);
   {Vector<T, 3> row(data1[0], data1[3], data1[6]);
   data_out[0] = Vector<T, 3>::DotProduct(m2.GetColumn(0),row);
   data_out[3] = Vector<T, 3>::DotProduct(m2.GetColumn(1),row);
@@ -589,8 +589,8 @@ inline void TimesHelper(
   const Matrix<float, 3, 3>& m1, const Matrix<float, 3, 3>& m2,
   Matrix<float, 3, 3>* out_m) {
   typedef float T;
-  T* data_out = CAST<T*>(out_m);
-  const T* data1 = CAST<const T*>(&m1);
+  T* data_out = MATHFU_CAST<T*>(out_m);
+  const T* data1 = MATHFU_CAST<const T*>(&m1);
   {Vector<T, 3> row(data1[0], data1[VEC3_SIZE], data1[2 * VEC3_SIZE]);
   data_out[0] = Vector<T, 3>::DotProduct(m2.GetColumn(0),row);
   data_out[VEC3_SIZE] = Vector<T, 3>::DotProduct(m2.GetColumn(1),row);
@@ -609,8 +609,8 @@ template<class T>
 inline void TimesHelper(
   const Matrix<T, 4, 4>& m1, const Matrix<T, 4, 4>& m2,
   Matrix<T, 4, 4>* out_m) {
-  T* data_out = CAST<T*>(out_m);
-  const T* data1 = CAST<const T*>(&m1);
+  T* data_out = MATHFU_CAST<T*>(out_m);
+  const T* data1 = MATHFU_CAST<const T*>(&m1);
   {Vector<T, 4> row(data1[0], data1[4], data1[8], data1[12]);
   data_out[0] = Vector<T, 4>::DotProduct(m2.GetColumn(0),row);
   data_out[4] = Vector<T, 4>::DotProduct(m2.GetColumn(1),row);
@@ -637,25 +637,25 @@ inline void TimesHelper(
 // float matrices as the column vectors could be of length 4.
 template<class T, int rows, int columns>
 inline T& GetHelper(Matrix<T, rows, columns>& m, const int i) {
-  return *(CAST<T*>(&m) + i);
+  return *(MATHFU_CAST<T*>(&m) + i);
 }
 
 template<class T, int rows, int columns>
 inline const T& ConstGetHelper(const Matrix<T, rows, columns>& m, const int i) {
-  return *(CAST<const T*>(&m) + i);
+  return *(MATHFU_CAST<const T*>(&m) + i);
 }
 
 #if defined(COMPILE_WITH_SIMD) && defined(COMPILE_WITH_PADDING)
 template<int columns>
 inline float& GetHelper(Matrix<float, 3, columns>& m, const int i) {
   const int index = 4 * (i / 3) + i % 3;
-  return *(CAST<float*>(&m) + index);
+  return *(MATHFU_CAST<float*>(&m) + index);
 }
 
 template<int columns>
 inline const float& ConstGetHelper(const Matrix<float, 3, columns>& m, const int i) {
   const int index = 4 * (i / 3) + i % 3;
-  return *(CAST<const float*>(&m) + index);
+  return *(MATHFU_CAST<const float*>(&m) + index);
 }
 #endif
 

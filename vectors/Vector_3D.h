@@ -78,19 +78,19 @@ class Vector<float, 3> {
   }
 
   inline float& operator()(const int i) {
-    return *(CAST<float*>(&data_) + i - 1);
+    return *(MATHFU_CAST<float*>(&data_) + i - 1);
   }
 
   inline const float& operator()(const int i) const {
-    return *(CAST<const float*>(&data_) + i - 1);
+    return *(MATHFU_CAST<const float*>(&data_) + i - 1);
   }
 
   inline float& operator[](const int i) {
-    return *(CAST<float*>(&data_) + i);
+    return *(MATHFU_CAST<float*>(&data_) + i);
   }
 
   inline const float& operator[](const int i) const {
-    return *(CAST<const float*>(&data_) + i);
+    return *(MATHFU_CAST<const float*>(&data_) + i);
   }
 
   inline Vector<float, 3> operator-() const {
