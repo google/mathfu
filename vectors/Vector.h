@@ -69,6 +69,14 @@ class Vector {
     MATHFU_VEC_OPERATION(data_[i] = v.data_[i]);
   }
 
+  /// Create a vector from another vector of a different type,
+  // copying each element.
+  // (e.g. to convert between float/double/int vectors).
+  /// @param v Vector that the data will be copied from.
+  template<typename U> explicit inline Vector(const Vector<U, d>& v) {
+    MATHFU_VEC_OPERATION(data_[i] = static_cast<T>(v[i]));
+  }
+
   /// Create a vector from a single float. Each elements is set to be equal to
   /// the value given.
   /// @param s Scalar value that the vector will be initialized to.
