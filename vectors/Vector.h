@@ -150,6 +150,17 @@ class Vector {
     return data_[i];
   }
 
+  /// Convenient named element accessors.
+  inline T& x() { STATIC_ASSERT(d > 0); return data_[0]; }
+  inline T& y() { STATIC_ASSERT(d > 1); return data_[1]; }
+  inline T& z() { STATIC_ASSERT(d > 2); return data_[2]; }
+  inline T& w() { STATIC_ASSERT(d > 3); return data_[3]; }
+
+  inline const T& x() const { STATIC_ASSERT(d > 0); return data_[0]; }
+  inline const T& y() const { STATIC_ASSERT(d > 1); return data_[1]; }
+  inline const T& z() const { STATIC_ASSERT(d > 2); return data_[2]; }
+  inline const T& w() const { STATIC_ASSERT(d > 3); return data_[3]; }
+
   /// Vector negation.
   /// @return A new vector that stores the negation result.
   inline Vector<T, d> operator-() const {
