@@ -63,20 +63,20 @@ class Matrix<float, 4> {
       simd4f_create(m[12], m[13], m[14], m[15]));
   }
 
-  inline const float operator()(const int i, const int j) const {
-    return FindElem(i,FindColumn(j));
+  inline const float& operator()(const int i, const int j) const {
+    return FindElem(i, FindColumn(j));
   }
 
-  inline const float operator()(const int i) const {
+  inline const float& operator()(const int i) const {
     const int col = (i - 1) / 4;
     const int row = (i - 1) % 4;
-    return FindElem(row,FindColumn(col));
+    return FindElem(row, FindColumn(col));
   }
 
-  inline const float operator[](const int i) const {
+  inline const float& operator[](const int i) const {
     const int col = i / 4;
     const int row = i % 4;
-    return FindElem(row,FindColumn(col));
+    return FindElem(row, FindColumn(col));
   }
 
   inline Matrix<float, 4> operator-() const {
@@ -217,7 +217,7 @@ class Matrix<float, 4> {
     return *(CAST<simd4f*>(&data_) + i);
   }
 
-  inline const float& FindElem(const int i,const simd4f& column) const {
+  inline const float& FindElem(const int i, const simd4f& column) const {
     return *(CAST<float*>(&column) + i);
   }
 
