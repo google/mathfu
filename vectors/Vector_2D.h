@@ -71,6 +71,12 @@ class Vector<float, 2> {
     return i == 0 ? simd2f_get_x(data_):simd2f_get_y(data_);
   }
 
+  inline T& x() { return (*this)[0]; }
+  inline T& y() { return (*this)[1]; }
+
+  inline const T& x() const { return (*this)[0]; }
+  inline const T& y() const { return (*this)[1]; }
+
   inline Vector<float, 2> operator-() const {
     return Vector<float, 2>(simd2f_sub(simd2f_zero(), data_));
   }
