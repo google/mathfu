@@ -22,13 +22,21 @@ typedef Vector<float, 2> vec2;
 typedef Vector<float, 3> vec3;
 typedef Vector<float, 4> vec4;
 
+typedef Vector<int, 2> vec2i;
+typedef Vector<int, 3> vec3i;
+typedef Vector<int, 4> vec4i;
+
+typedef Matrix<float, 2, 2> mat2;
+typedef Matrix<float, 3, 3> mat3;
+typedef Matrix<float, 4, 4> mat4;
+
 template<class T>
-inline Vector<T, 3> cross(const Vector<T, 3>& v1,const Vector<T, 3>& v2) {
-  return Vector<T, 3>::CrossProduct(v1,v2)
+inline Vector<T, 3> cross(const Vector<T, 3>& v1, const Vector<T, 3>& v2) {
+  return Vector<T, 3>::CrossProduct(v1,v2);
 }
 
 template<class TV>
-inline typename TV::Scalar dot(const TV& v1,const TV& v2) {
+inline typename TV::Scalar dot(const TV& v1, const TV& v2) {
   return TV::DotProduct(v1,v2);
 }
 
