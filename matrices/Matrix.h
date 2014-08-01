@@ -733,7 +733,8 @@ static inline Matrix<T, 4, 4> OuterProductHelper(
 template<class T, int rows, int columns>
 inline Matrix<T, rows, columns> InverseHelper(
   const Matrix<T, rows, columns>& m) {
-  STATIC_ASSERT(false);
+  assert(false);
+  (void)m;
   return Matrix<T, rows, columns>::Identity();
 }
 

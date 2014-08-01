@@ -72,15 +72,15 @@ class Vector<float, 4> {
     return const_cast<Vector*>(this)->operator[](i);
   }
 
-  inline T& x() { return (*this)[0]; }
-  inline T& y() { return (*this)[1]; }
-  inline T& z() { return (*this)[2]; }
-  inline T& w() { return (*this)[3]; }
+  inline float& x() { return (*this)[0]; }
+  inline float& y() { return (*this)[1]; }
+  inline float& z() { return (*this)[2]; }
+  inline float& w() { return (*this)[3]; }
 
-  inline const T& x() const { return (*this)[0]; }
-  inline const T& y() const { return (*this)[1]; }
-  inline const T& z() const { return (*this)[2]; }
-  inline const T& w() const { return (*this)[3]; }
+  inline const float& x() const { return (*this)[0]; }
+  inline const float& y() const { return (*this)[1]; }
+  inline const float& z() const { return (*this)[2]; }
+  inline const float& w() const { return (*this)[3]; }
 
   inline Vector<float, 4> operator-() const {
     return Vector<float, 4>(simd4f_sub(simd4f_zero(), data_));

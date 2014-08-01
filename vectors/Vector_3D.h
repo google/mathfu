@@ -93,13 +93,13 @@ class Vector<float, 3> {
     return *(MATHFU_CAST<const float*>(&data_) + i);
   }
 
-  inline T& x() { return (*this)[0]; }
-  inline T& y() { return (*this)[1]; }
-  inline T& z() { return (*this)[2]; }
+  inline float& x() { return (*this)[0]; }
+  inline float& y() { return (*this)[1]; }
+  inline float& z() { return (*this)[2]; }
 
-  inline const T& x() const { return (*this)[0]; }
-  inline const T& y() const { return (*this)[1]; }
-  inline const T& z() const { return (*this)[2]; }
+  inline const float& x() const { return (*this)[0]; }
+  inline const float& y() const { return (*this)[1]; }
+  inline const float& z() const { return (*this)[2]; }
 
   inline Vector<float, 3> operator-() const {
     return Vector<float, 3>(simd4f_sub(simd4f_zero(), MATHFU_LOAD(data_)));
