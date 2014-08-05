@@ -3,7 +3,7 @@
 ### Version Requirements
 
 Following are the minimum required versions for the tools and libraries you
-need for building GooMath for Android:
+need for building MathFu for Android:
 
 -   Android SDK:  Android 2.3.3 (API Level 10)
 -   ADT: 20130917
@@ -18,16 +18,16 @@ need for building GooMath for Android:
 
 ### Building
 
-Each GooMath project for Android has an associated `AndroidManifest.xml`
+Each MathFu project for Android has an associated `AndroidManifest.xml`
 file and `jni` subdirectory.  For samples, `AndroidManifest.xml` contains
 details about how to build an Android package (apk).  For libraries, such as
-GooMath and vectorial, the `AndroidManifest.xml` file informs the `ndk-build`
+MathFu and vectorial, the `AndroidManifest.xml` file informs the `ndk-build`
 tool that the directory contains NDK makefiles under the `jni` subdirectory.
 
-The following [Android NDK][] projects live in the GooMath directory tree.
+The following [Android NDK][] projects live in the MathFu directory tree.
 
--   `GooMath/` - rules for building GooMath and android.
--   `GooMath/Unittests` - Unittests for the gmath library.
+-   `MathFu/` - rules for building MathFu and android.
+-   `MathFu/Unittests` - Unittests for the mathfu library.
 
 To build an [Android NDK][] project:
 
@@ -37,7 +37,7 @@ To build an [Android NDK][] project:
 
 For example, to build the matrix tests:
 
-    cd GooMath/Unittests/Matrices
+    cd MathFu/Unittests/Matrices
     ndk-build
 
 ### Executing a Sample
@@ -52,7 +52,7 @@ the [NDK Eclipse plugin][].
 -   Select "File->Import..." from the menu.
 -   Select "Android > Existing Android Code Into Workspace", and click "Next".
 -   Click the "Browse..." button next to `Root Directory:` and select the
-    project folder (e.g. `GooMath/Unittests/Matrices`).
+    project folder (e.g. `MathFu/Unittests/Matrices`).
 -   Click "Finish". Eclipse imports the project, and displays it in the
     Package Explorer pane.
 -   Right-click the project, and select "Run->Run As->Android Application"
@@ -82,7 +82,7 @@ To build and run an application using `build_apk.sh`:
 For example, the following will build the Testbed application, deploy it to
 the connected device, and start it:
 
-    cd GooMath/Unittests/Matrices
+    cd MathFu/Unittests/Matrices
     ../AndroidUtil/build_apk.sh
 
 ### Code Generation
@@ -100,7 +100,7 @@ correctly by executing the provided unit tests.
 
 Use the run\_tests\_android.sh script to execute unit tests:
 
-    ./GooMath/Unittests/run_tests_android.sh
+    ./MathFu/Unittests/run_tests_android.sh
 
 `run_tests_android.sh` uses `build_apk.sh` to build, deploy, and
 execute each unit test on the connected device.

@@ -11,27 +11,27 @@
 
 ## About
 
-GooMath is a basic math library for games. It contains data structures
+MathFu is a basic math library for games. It contains data structures
 and utilities for Vectors, Matrices, and Quaternions. It also has the option
 to use simd instructions (sse or neon) for improvded efficiency.
 
-GooMath is written in portable C++. The classes are within the goomath
+MathFu is written in portable C++. The classes are within the mathfu
 namespace. Hopefully this is sufficient to avoid name clashing with your
 existing code.
 
 <a name="pre"></a><br/>
 ## Prerequisites
 
-GooMath is built ontop of the vectorial math library which contains an
+MathFu is built ontop of the vectorial math library which contains an
 abstraction layer around common simd instructions.
 
-Since GooMath is written in C++, you are expected to be experienced in C++
-programming. GooMath should not be your first C++ programming project! You
+Since MathFu is written in C++, you are expected to be experienced in C++
+programming. MathFu should not be your first C++ programming project! You
 should be comfortable with compiling, linking, and debugging.
 
 	Caution
 
-	GooMath should not be your first C++ project. Please learn C++
+	MathFu should not be your first C++ project. Please learn C++
 programming, compiling, linking, and debugging before working with LiquidFun.
 There are many resources for this on the net.
 
@@ -39,9 +39,9 @@ There are many resources for this on the net.
 
 ## About this manual
 
-This manual covers the majority of the GooMath API. However, not every
+This manual covers the majority of the MathFu API. However, not every
 aspect is covered. You are encouraged to look at the Unittests included with
-GooMath to learn more. Also, the GooMath code base has comments formatted
+MathFu to learn more. Also, the MathFu code base has comments formatted
 for Doxygen, so it is easy to create a hyper-linked API document.
 
 This manual is only updated with new releases. The version in source control
@@ -50,15 +50,15 @@ is likely to be out of date.
 <a name="frb"></a><br/>
 ## Feedback and Reporting Bugs
 
-If you have a question or feedback about GooMath, please leave a comment in
+If you have a question or feedback about MathFu, please leave a comment in
 the forum. This is also a great place for community discussion.
 
-GooMath issues are tracked using a Google code project. This is a great way
+MathFu issues are tracked using a Google code project. This is a great way
 to track issues and ensures that your issue will not be lost in the depths of
 the forums.
 
 Please file bugs and feature requests here:
-[http://google.github.io/goomath/](http://google.github.io/goomath/)
+[http://google.github.io/mathfu/](http://google.github.io/mathfu/)
 
  You can help to ensure your issue gets fixed if you provide sufficient
 detail. 
@@ -66,7 +66,7 @@ detail.
 <a name="cc"></a><br/>
 ## Core Concepts
 
-GooMath comprises three primary datatypes: Vector, Quaternion,
+MathFu comprises three primary datatypes: Vector, Quaternion,
 and Matrix. We briefly define these objects here and more details are given
 later in this document.<br/>
 <br/>

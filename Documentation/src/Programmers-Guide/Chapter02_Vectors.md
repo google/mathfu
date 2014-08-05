@@ -8,7 +8,7 @@
 
 <a name="about">
 ## About
-In the distribution of GooMath is a Vector class which stores data and
+In the distribution of MathFu is a Vector class which stores data and
 defines a number of operations that can be performed.
 
 <a name="data"></a><br/>

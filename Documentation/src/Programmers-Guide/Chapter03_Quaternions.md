@@ -8,7 +8,7 @@
 
 <a name="about">
 ## About
-In the distribution of GooMath is a Quaternion class which stores data and
+In the distribution of MathFu is a Quaternion class which stores data and
 defines a number of operations that can be performed. For more details on
 what a quaternion is please see http://en.wikipedia.org/wiki/Quaternion.
 

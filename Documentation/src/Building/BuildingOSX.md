@@ -23,7 +23,7 @@ need for building LiquidFun for OS X:
 
 ### Building with [Xcode][]
 
--   Double-click on `GooMath/GooMath.xcodeproj` to open the project in
+-   Double-click on `mathfu/mathfu.xcodeproj` to open the project in
     [Xcode][].
 -   Select "Product-->Build" from the menu.
 
@@ -38,9 +38,9 @@ need for building LiquidFun for OS X:
 When working directly with the source, you can generate the [Xcode][]
 project using [cmake][].  [cmake][] version 2.8.12.1 or above is required to
 build this project on [OS X][] 10.9 (Mavericks).  For example, the following
-generates the Xcode project in the GooMath/build directory.
+generates the Xcode project in the mathfu/build directory.
 
-    cd GooMath/build
+    cd mathfu/build
     cmake -G "Xcode"
 
 ### Running Unit Tests
@@ -50,7 +50,7 @@ correctly by executing the provided unit tests.
 
 Use the run\_tests.sh script to execute unit tests:
 
-    ./GooMath/Unittests/run_tests.sh
+    ./mathfu/Unittests/run_tests.sh
 
   [Xquartz]: http://xquartz.macosforge.org/
   [cmake]: http://www.cmake.org
