@@ -15,15 +15,15 @@
 # 3. This notice may not be removed or altered from any source distribution.
 
 include $(CLEAR_VARS)
-namespace:=$(if $(NDK_PROJECT_PATH),,_gmath)
+namespace:=$(if $(NDK_PROJECT_PATH),,_mathfu)
 LOCAL_MODULE:=$(LOCAL_TEST_NAME)${namespace}
 LOCAL_MODULE_TAGS:=optional
 LOCAL_SRC_FILES:=\
 	$(LOCAL_PATH)/$(LOCAL_TEST_NAME).cpp
 LOCAL_C_INCLUDES:=\
 	$(LOCAL_PATH)/ \
-	$(LOCAL_PATH)/.. \
-	$(LOCAL_PATH)/../../ \
+	$(LOCAL_PATH)/../ \
+	$(LOCAL_PATH)/../../include \
 	$(LOCAL_PATH)/../../../../../../external/vectorial/include
 LOCAL_LDLIBS:=-llog -landroid -lm_hard
 LOCAL_STATIC_LIBRARIES:=\

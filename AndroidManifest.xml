@@ -18,16 +18,16 @@
 <!-- Empty Manifest so the NDK build process can find the project
      directory. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.google.fpl.gmath"
+          package="com.google.fpl.mathfu"
           android:versionCode="1"
           android:versionName="1.0">
-    <!-- Empty application since this project just builds the gmath
+    <!-- Empty application since this project just builds the mathfu
          libraries -->
-    <application android:label="gmath" android:enabled="false"
+    <application android:label="mathfu" android:enabled="false"
                  android:hasCode="false">
         <activity android:name="android.app.NativeActivity">
             <meta-data android:name="android.app.lib_name"
-                       android:value="gmath" />
+                       android:value="mathfu" />
         </activity>
     </application>
 </manifest>

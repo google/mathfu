@@ -17,7 +17,7 @@
  -->
 <!-- BEGIN_INCLUDE(manifest) -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.google.fpl.gmath.matrixperftest"
+          package="com.google.fpl.mathfu.matrixperftest"
           android:versionCode="1"
           android:versionName="1.0">
 

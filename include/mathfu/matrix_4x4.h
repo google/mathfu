@@ -13,17 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_MATRICES_MATRIX_4X4_
-#define MATHFU_MATRICES_MATRIX_4X4_
+#ifndef MATHFU_MATRIX_4X4_H_
+#define MATHFU_MATRIX_4X4_H_
 
-#include <utilities/Utilities.h>
+#include "mathfu/matrix.h"
+#include "mathfu/vector_4.h"
+#include "mathfu/utilities.h"
 
 #ifdef COMPILE_WITH_SIMD
-#include <vectorial/simd4x4f.h>
+#include "vectorial/simd4x4f.h"
 #endif
-
-#include <vectors/Vector_4D.h>
-#include <matrices/Matrix.h>
 
 namespace mathfu {
 
@@ -234,4 +233,5 @@ inline Vector<float, 4> operator*(
 }
 #endif  // COMPILE_WITH_SIMD
 }  // namespace mathfu
-#endif  // MATHFU_MATRICES_MATRIX_4X4_
+
+#endif  // MATHFU_MATRIX_4X4_H_

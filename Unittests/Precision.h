@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GMATH_UNITTESTS_PRECISION_H_
-#define GMATH_UNITTESTS_PRECISION_H_
+#ifndef MATHFU_UNITTESTS_PRECISION_H_
+#define MATHFU_UNITTESTS_PRECISION_H_
 
 // Precision for floats and doubles
 #define FLOAT_PRECISION 1e-6f
 #define DOUBLE_PRECISION 1e-15
 
-#endif  // GMATH_UNITTESTS_PRECISION_H_
-
+#endif  // MATHFU_UNITTESTS_PRECISION_H_

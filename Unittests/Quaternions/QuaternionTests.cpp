@@ -13,9 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+#include "mathfu/quaternion.h"
+
 #include <math.h>
 
-#include "vectors/Quaternion.h"
 #include "gtest/gtest.h"
 
 #include "AndroidUtil/AndroidMainWrapper.h"

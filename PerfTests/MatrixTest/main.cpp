@@ -13,15 +13,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+#include "mathfu/matrix_4x4.h"
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #ifdef __ANDROID__
 #include <android/log.h>
 #endif
+
 #include <vector>
-#include <matrices/Matrix_4x4.h>
-#include <TestUtils/TestUtils.h>
+
+#include "TestUtils/TestUtils.h"
 
 // Generate a random value of type T
 template<class T> inline T getRand() {

@@ -13,10 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#include "vectors/Vector.h"
-#include "vectors/Vector_2D.h"
-#include "vectors/Vector_3D.h"
-#include "vectors/Vector_4D.h"
+#include "mathfu/vector.h"
+#include "mathfu/vector_2.h"
+#include "mathfu/vector_3.h"
+#include "mathfu/vector_4.h"
+
 #include "gtest/gtest.h"
 
 #include "AndroidUtil/AndroidMainWrapper.h"

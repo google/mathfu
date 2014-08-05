@@ -13,17 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_VECTORS_VECTOR_3D_H_
-#define MATHFU_VECTORS_VECTOR_3D_H_
+#ifndef MATHFU_VECTOR_3_H_
+#define MATHFU_VECTOR_3_H_
+
+#include "mathfu/vector.h"
+#include "mathfu/utilities.h"
 
 #include <math.h>
-#include <utilities/Utilities.h>
 
 #ifdef COMPILE_WITH_SIMD
-#include <vectorial/simd4f.h>
+#include "vectorial/simd4f.h"
 #endif
-
-#include <vectors/Vector.h>
 
 // Add macros to account for both the case where the vector is stored as a simd
 // intrinsic using 4 elements or as 3 values of type T.
@@ -32,15 +32,15 @@
 // amount to essentially noops. MATHFU_INIT either creates a simd datatype if
 // the intrinsic is used or sets the T values if not.
 #ifdef COMPILE_WITH_PADDING
-#define MATHFU_STORE(v, data) {data = v;}
+#define MATHFU_STORE(v, data) { data = v; }
 #define MATHFU_LOAD(data) data
-#define MATHFU_INIT(data, v1, v2, v3) { \
-  data = simd4f_create(v1, v2, v3, 0); }
+#define MATHFU_INIT(data, v1, v2, v3) \
+  { data = simd4f_create(v1, v2, v3, 0); }
 #else
-#define MATHFU_STORE(v, data) {simd4f_ustore3(v, data);}
+#define MATHFU_STORE(v, data) { simd4f_ustore3(v, data); }
 #define MATHFU_LOAD(data) simd4f_uload4(data)
-#define MATHFU_INIT(data, v1, v2, v3) { \
-  data[0] = v1; data[1] = v2; data[2] = v3; }
+#define MATHFU_INIT(data, v1, v2, v3) \
+  { data[0] = v1; data[1] = v2; data[2] = v3; }
 #endif
 
 namespace mathfu {
@@ -214,5 +214,7 @@ class Vector<float, 3> {
 #endif
 };
 #endif  // COMPILE_WITH_SIMD
+
 }  // namespace mathfu
-#endif  // MATHFU_VECTORS_VECTOR_3D
+
+#endif  // MATHFU_VECTOR_3_H_

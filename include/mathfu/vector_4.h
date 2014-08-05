@@ -13,17 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_VECTORS_VECTOR_4D_H_
-#define MATHFU_VECTORS_VECTOR_4D_H_
+#ifndef MATHFU_VECTOR_4_H_
+#define MATHFU_VECTOR_4_H_
+
+#include "mathfu/utilities.h"
+#include "mathfu/vector.h"
 
 #include <math.h>
-#include <utilities/Utilities.h>
 
 #ifdef COMPILE_WITH_SIMD
-#include <vectorial/simd4f.h>
+#include "vectorial/simd4f.h"
 #endif
-
-#include <vectors/Vector.h>
 
 namespace mathfu {
 
@@ -155,7 +155,8 @@ class Vector<float, 4> {
  private:
   simd4f data_;
 };
-
 #endif  // COMPILE_WITH_SIMD
+
 }  // namespace mathfu
-#endif  // MATHFU_VECTORS_VECTOR_2D_H_
+
+#endif  // MATHFU_VECTOR_4_H_

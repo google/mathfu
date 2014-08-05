@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_VECTORS_GLSL_MAPPINGS
-#define MATHFU_VECTORS_GLSL_MAPPINGS
+#ifndef MATHFU_GLSL_MAPPINGS_H_
+#define MATHFU_GLSL_MAPPINGS_H_
 
 namespace mathfu {
 
@@ -47,4 +47,4 @@ inline TV normalize(const TV& v1) {
 
 }  // namespace mathfu
 
-#endif  // MATHFU_VECTORS_GLSL_MAPPINGS
+#endif  // MATHFU_GLSL_MAPPINGS_H_

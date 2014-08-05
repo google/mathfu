@@ -13,17 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_VECTORS_VECTOR_2D_H_
-#define MATHFU_VECTORS_VECTOR_2D_H_
+#ifndef MATHFU_VECTOR_2_H_
+#define MATHFU_VECTOR_2_H_
+
+#include "mathfu/vector.h"
+#include "mathfu/utilities.h"
 
 #include <math.h>
-#include <utilities/Utilities.h>
 
 #if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
 #include <vectorial/simd2f.h>
 #endif
-
-#include <vectors/Vector.h>
 
 namespace mathfu {
 
@@ -56,26 +56,26 @@ class Vector<float, 2> {
   }
 
   inline float& operator()(const int i) {
-    return *(union_reinterpret_cast<float*>(&data_) + i - 1);
+    return *(MATHFU_CAST<float*>(&data_) + i - 1);
   }
 
-  inline const float operator()(const int i) const {
-    return i == 1 ? simd2f_get_x(data_):simd2f_get_y(data_);
+  inline const float& operator()(const int i) const {
+    return *(MATHFU_CAST<float*>(&data_) + i - 1);
   }
 
   inline float& operator[](const int i) {
-    return *(union_reinterpret_cast<float*>(&data_) + i);
+    return *(MATHFU_CAST<float*>(&data_) + i);
   }
 
-  inline const float operator[](const int i) const {
-    return i == 0 ? simd2f_get_x(data_):simd2f_get_y(data_);
+  inline const float& operator[](const int i) const {
+    return *(MATHFU_CAST<float*>(&data_) + i);
   }
 
-  inline T& x() { return (*this)[0]; }
-  inline T& y() { return (*this)[1]; }
+  inline float& x() { return (*this)[0]; }
+  inline float& y() { return (*this)[1]; }
 
-  inline const T& x() const { return (*this)[0]; }
-  inline const T& y() const { return (*this)[1]; }
+  inline const float& x() const { return (*this)[0]; }
+  inline const float& y() const { return (*this)[1]; }
 
   inline Vector<float, 2> operator-() const {
     return Vector<float, 2>(simd2f_sub(simd2f_zero(), data_));
@@ -176,7 +176,8 @@ class Vector<float, 2> {
  private:
   simd2f data_;
 };
-
 #endif  //  !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
+
 }  // namespace mathfu
-#endif  // MATHFU_VECTORS_VECTOR_2D_H_
+
+#endif  // MATHFU_VECTOR_2_H_

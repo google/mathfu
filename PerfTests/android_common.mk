@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 include $(CLEAR_VARS)
-namespace:=$(if $(NDK_PROJECT_PATH),,_gmath)
+namespace:=$(if $(NDK_PROJECT_PATH),,_mathfu)
 LOCAL_MODULE:=$(LOCAL_TEST_NAME)${namespace}
 LOCAL_MODULE_TAGS:=optional
 LOCAL_C_INCLUDES:=\
 	$(LOCAL_PATH)/../\
-	$(LOCAL_PATH)/../../\
+	$(LOCAL_PATH)/../../include\
 	$(LOCAL_PATH)/../../../../../../external/vectorial/include
 LOCAL_SRC_FILES:=\
 	$(LOCAL_PATH)/main.cpp
@@ -28,7 +28,7 @@ LOCAL_LDLIBS:=-llog -landroid -lm_hard
 LOCAL_ARM_MODE:=arm
 include $(BUILD_SHARED_LIBRARY)
 # Import googletest and native_app_glue libraries.
-$(call import-module,AndroidUtil/jni)
+$(call import-module,../Unittests/AndroidUtil/jni)
 $(call import-module,android/native_app_glue)
 
 LOCAL_TEST_NAME:=
