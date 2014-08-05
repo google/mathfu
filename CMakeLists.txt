@@ -13,11 +13,19 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8.7)
 
+get_filename_component(
+    vectorial_dir_default
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../external/vectorial"
+    REALPATH)
+
 set(PROJECT_NAME MathFu)
 project(MathFu)
 
+set(dependencies_vectorial_dir "${vectorial_dir_default}"
+    CACHE PATH "Directory containing the Vectorial library.")
+
 include_directories(${CMAKE_SOURCE_DIR}/include)
-include_directories(${CMAKE_SOURCE_DIR}/../../../../external/vectorial/include)
+include_directories(${dependencies_vectorial_dir}/include)
 
 # Detect clang
 if(CMAKE_CXX_COMPILER MATCHES ".*clang")

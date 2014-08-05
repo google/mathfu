@@ -13,6 +13,9 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8)
 
+get_filename_component(gtest_dir_default
+                       "${CMAKE_CURRENT_SOURCE_DIR}/../../googletest" REALPATH)
+
 # Set some variables describing file locations.
 #
 # NOTE: This configuration assumes that gtest was built installed in the "inst"
@@ -21,11 +24,13 @@ cmake_minimum_required(VERSION 2.8)
 # Also keep in mind that this will need to be cleaned up were we ever to make
 # this code public domain, we will wish to remove this relative path and
 # replace it with something less google-specific.
-set(GUNIT_INCDIR ${CMAKE_CURRENT_SOURCE_DIR}/../../googletest/include)
-set(GTEST_LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/../../googletest)
+set(dependencies_gtest_dir "${gtest_dir_default}"
+    CACHE PATH "Directory containing the googletest (gtest) library.")
+set(gtest_incdir ${dependencies_gtest_dir}/include)
+set(gtest_libdir ${dependencies_gtest_dir})
 
 # Include helper functions and macros used by Google Test.
-include(${GTEST_LIBDIR}/cmake/internal_utils.cmake)
+include(${gtest_libdir}/cmake/internal_utils.cmake)
 config_compiler_and_linker()
 string(REPLACE "-W4" "-W3" cxx_default "${cxx_default}")
 string(REPLACE "-Wshadow" "" cxx_default "${cxx_default}")
@@ -34,7 +39,7 @@ string(REPLACE "-Wextra" "" cxx_default "${cxx_default}")
 # This is the directory into which the executables are built.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${GUNIT_INCDIR} ${CMAKE_CURRENT_SOURCE_DIR}
+include_directories(${gtest_incdir} ${CMAKE_CURRENT_SOURCE_DIR}
                                     ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 # Common libraries for tests.
