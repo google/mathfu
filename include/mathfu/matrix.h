@@ -13,14 +13,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_MATRICES_MATRIX_
-#define MATHFU_MATRICES_MATRIX_
+#ifndef MATHFU_MATRIX_H_
+#define MATHFU_MATRIX_H_
 
-#include <vectors/Vector.h>
-#include <vectors/Vector_2D.h>
-#include <vectors/Vector_3D.h>
-#include <vectors/Vector_4D.h>
-#include <utilities/Utilities.h>
+#include "mathfu/vector.h"
+#include "mathfu/vector_2.h"
+#include "mathfu/vector_3.h"
+#include "mathfu/vector_4.h"
+#include "mathfu/utilities.h"
+
 #include <assert.h>
 
 #ifdef _MSC_VER
@@ -451,7 +452,7 @@ class Matrix {
   friend inline Vector<T, columns> operator*(
     const Vector<T, rows>& v, const Matrix<T, rows, columns>& m) {
     const int d = columns;
-    MATHFU_VEC_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
+    MATHFU_VECTOR_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
   }
 
  private:
@@ -868,4 +869,4 @@ Matrix<T, 4, 4> InverseHelper(const Matrix<T, 4, 4>& m) {
   #pragma warning(pop)
 #endif
 
-#endif  // MATHFU_MATRICES_MATRIX_
+#endif  // MATHFU_MATRIX_H_

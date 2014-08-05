@@ -16,9 +16,7 @@
 
 LOCAL_PATH:=$(call my-dir)/..
 
-source_directories:=\
-	vectors \
-	matrices
+source_directories:=include
 
 # Conditionally include libstlport (so include path is added to CFLAGS) if
 # it's not being built using the NDK build process.
@@ -31,18 +29,18 @@ endef
 
 # Configure common local variables to build box2d adding $(1) to the end of the
 # build target's name.
-define gmath-module
+define mathfu-module
 $(eval \
-  LOCAL_MODULE:=libgmath$(1)
+  LOCAL_MODULE:=libmathfu$(1)
   LOCAL_MODULE_TAGS:=optional
-  LOCAL_COPY_HEADERS_TO:=gmath$(1))
+  LOCAL_COPY_HEADERS_TO:=mathfu$(1))
 endef
 
 # Configure local variables to build box2d adding $(1) to the end of the
 # build target's name.
-define gmath-build
+define mathfu-build
 $(eval \
-  $$(call gmath-module,$(1))
+  $$(call mathfu-module,$(1))
   LOCAL_SRC_FILES:=
   LOCAL_COPY_HEADERS:=\
     $(subst $(LOCAL_PATH)/,,\
@@ -54,14 +52,14 @@ $(eval \
   $$(call add-stlport-includes))
 endef
 
-# --- libgmath ---
+# --- libmathfu ---
 # Build shared library.
 include $(CLEAR_VARS)
-$(call gmath-build,)
+$(call mathfu-build,)
 include $(BUILD_SHARED_LIBRARY)
 
-# --- libgmath_static ---
+# --- libmathfu_static ---
 # Build static library.
 include $(CLEAR_VARS)
-$(call gmath-build,_static)
+$(call mathfu-build,_static)
 include $(BUILD_STATIC_LIBRARY)

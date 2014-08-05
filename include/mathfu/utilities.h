@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef GMATH_UTILITIES_UTILITIES_H_
-#define GMATH_UTILITIES_UTILITIES_H_
+#ifndef MATHFU_UTILITIES_H_
+#define MATHFU_UTILITIES_H_
 
 #if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && \
   (defined(__SSE__) || defined(__ARM_NEON__))
@@ -76,4 +76,4 @@ static const T1& union_reinterpret_cast(const T2& data) {
   return reinterpret_cast<const ConversionUnion<T1, T2> *>(&data)->data1;
 }
 
-#endif  // GMATH_UTILITIES_UTILITIES_H_
+#endif  // MATHFU_UTILITIES_H_

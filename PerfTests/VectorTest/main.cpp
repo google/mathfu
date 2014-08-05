@@ -13,15 +13,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+#include "mathfu/vector_3.h"
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #ifdef __ANDROID__
 #include <android/log.h>
 #endif
+
 #include <vector>
-#include <vectors/Vector_3D.h>
-#include <TestUtils/TestUtils.h>
+
+#include "TestUtils/TestUtils.h"
 
 // Number of elements to iterate over
 static const size_t kVectorSize = 1000;

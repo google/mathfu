@@ -13,17 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_VECTORS_QUATERNION_
-#define MATHFU_VECTORS_QUATERNION_
+#ifndef MATHFU_QUATERNION_H_
+#define MATHFU_QUATERNION_H_
 
 #ifdef _WIN32
 #define _USE_MATH_DEFINES // For M_PI.
 #endif  // _WIN32
 
-#include <math.h>
+#include "mathfu/matrix.h"
+#include "mathfu/vector_3.h"
 
-#include <vectors/Vector_3D.h>
-#include <matrices/Matrix.h>
+#include <math.h>
 
 namespace mathfu {
 
@@ -235,4 +235,4 @@ inline Quaternion<T> operator*(const T& s, const Quaternion<T>& q) {
 }
 
 }  // namespace mathfu
-#endif  // MATHFU_VECTORS_QUATERNION_
+#endif  // MATHFU_QUATERNION_H_

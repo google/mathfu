@@ -13,10 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#include "matrices/Matrix.h"
-#include "matrices/Matrix_4x4.h"
-#include "vectors/Quaternion.h"
-#include "vectors/Vector.h"
+#include "mathfu/matrix.h"
+#include "mathfu/matrix_4x4.h"
+#include "mathfu/quaternion.h"
+#include "mathfu/vector.h"
+
 #include "gtest/gtest.h"
 
 #include "AndroidUtil/AndroidMainWrapper.h"
