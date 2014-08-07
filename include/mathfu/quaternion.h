@@ -122,7 +122,7 @@ class Quaternion {
   /// Convert to 3 Euler Angles. The angles correspond to rotations (in radians)
   /// around the x, y, and z axes.
   /// @return A Vector of size 3 filed with the result.
-  inline Vector<T, 3> ToEulerAngles() {
+  inline Vector<T, 3> ToEulerAngles() const {
     Matrix<T, 3> m(ToMatrix());
     T cos2 = m[0] * m[0] + m[1] * m[1];
     if (cos2 < 1e-6f) {
@@ -138,7 +138,7 @@ class Quaternion {
   /// Convert to a matrix. The matrix is a rotation matrix that corresponds to
   /// the rotation in the quaternion.
   /// @return A 3x3 rotation Matrix with the result.
-  inline Matrix<T, 3> ToMatrix() {
+  inline Matrix<T, 3> ToMatrix() const {
     const T x2 = v_[0] * v_[0], y2 = v_[1] * v_[1], z2 = v_[2] * v_[2];
     const T sx = s_ * v_[0], sy = s_ * v_[1], sz = s_ * v_[2];
     const T xz = v_[0] * v_[2], yz = v_[1] * v_[2], xy = v_[0] * v_[1];

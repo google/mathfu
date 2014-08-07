@@ -183,7 +183,7 @@ void Norm_Test(const T& precision) {
 }
 TEST_ALL_F(Norm)
 
-// This will test the cross prodcut of two vectors.
+// This will test the cross product of two vectors.
 template<class T>
 void Cross_Test(const T& precision) {
   mathfu::Vector<T, 3> f1_vector(static_cast<T>(1.1), static_cast<T>(4.5),
@@ -200,6 +200,59 @@ void Cross_Test(const T& precision) {
   EXPECT_NEAR(f2_dot, 0, precision * 10);
 }
 TEST_SCALAR_F(Cross)
+
+// Create a vector with random values between 0~1.
+template<class T, int d>
+mathfu::Vector<T, d> RandomVector() {
+  T x[d];
+  for (int i = 0; i < d; ++i) {
+    x[i] = rand() / static_cast<T>(RAND_MAX);
+  }
+  return mathfu::Vector<T, d>(x);
+}
+
+// This will test an equal lerp of two vectors gives their average.
+template<class T, int d>
+void LerpHalf_Test(const T& precision) {
+  mathfu::Vector<T, d> vector1(RandomVector<T, d>());
+  mathfu::Vector<T, d> vector2(RandomVector<T, d>());
+  mathfu::Vector<T, d> flerp_vector(
+    mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(0.5)));
+  // This will verify f1_vector.x + f2_vector.x == 2 * flerp_vector
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(vector1[i] + vector2[i],
+                static_cast<T>(2.0) * flerp_vector[i], precision * 10);
+  }
+}
+TEST_ALL_F(LerpHalf)
+
+// This will test that lerp with weight 0 returns the first vector.
+template<class T, int d>
+void Lerp0_Test(const T& precision) {
+  mathfu::Vector<T, d> vector1(RandomVector<T, d>());
+  mathfu::Vector<T, d> vector2(RandomVector<T, d>());
+  mathfu::Vector<T, d> flerp_vector(
+    mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(0.0)));
+  // This will verify f1_vector.x + f2_vector.x == 2 * flerp_vector
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(vector1[i], flerp_vector[i], precision * 10);
+  }
+}
+TEST_ALL_F(Lerp0)
+
+// This will test that lerp with weight 1 returns the second vector.
+template<class T, int d>
+void Lerp1_Test(const T& precision) {
+  mathfu::Vector<T, d> vector1(RandomVector<T, d>());
+  mathfu::Vector<T, d> vector2(RandomVector<T, d>());
+  mathfu::Vector<T, d> flerp_vector(
+    mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(1.0)));
+  // This will verify f1_vector.x + f2_vector.x == 2 * flerp_vector
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(vector2[i], flerp_vector[i], precision * 10);
+  }
+}
+TEST_ALL_F(Lerp1)
 
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.

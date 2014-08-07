@@ -204,6 +204,18 @@ class Vector<float, 3> {
       simd4f_mul(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_)));
   }
 
+  static inline Vector<float, 3> Lerp(
+    const Vector<float, 3>& v1, const Vector<float, 3>& v2, float percent) {
+    const Vector<float, 3> percentv(percent);
+    const Vector<float, 3> one(1.0f);
+    const Vector<float, 3> one_minus_percent = one - percentv;
+    return Vector<float, 3>(
+        simd4f_add(
+            simd4f_mul(MATHFU_LOAD(one_minus_percent.data_),
+                       MATHFU_LOAD(v1.data_)),
+            simd4f_mul(MATHFU_LOAD(percentv.data_), MATHFU_LOAD(v2.data_))));
+  }
+
   template<class T, int rows, int cols> friend class Matrix;
 
  private:

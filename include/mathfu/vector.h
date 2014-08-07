@@ -362,6 +362,17 @@ class Vector {
       v1[0] * v2[1] - v1[1] * v2[0]);
   }
 
+  /// Linearly interpolate two vectors.
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @param percent Percentage from v1 to v2. In range 0~1.
+  /// @return The hadamard product of v1 and v2.
+  static inline Vector<T, d> Lerp(
+      const Vector<T, d>& v1, const Vector<T, d>& v2, const T percent) {
+    const T one_minus_percent = static_cast<T>(1.0) - percent;
+    MATHFU_VECTOR_OPERATOR(one_minus_percent * v1[i] + percent * v2[i]);
+  }
+
  private:
   T data_[d];
 };
