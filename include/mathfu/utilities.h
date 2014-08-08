@@ -16,6 +16,8 @@
 #ifndef MATHFU_UTILITIES_H_
 #define MATHFU_UTILITIES_H_
 
+#include <algorithm>
+
 #if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && \
   (defined(__SSE__) || defined(__ARM_NEON__))
 #define COMPILE_WITH_SIMD
@@ -75,5 +77,15 @@ template<class T1, class T2>
 static const T1& union_reinterpret_cast(const T2& data) {
   return reinterpret_cast<const ConversionUnion<T1, T2> *>(&data)->data1;
 }
+
+namespace mathfu {
+
+// Clamp x within [lower, upper]. Results are undefined if lower > upper.
+template<class T>
+T Clamp(const T& x, const T& lower, const T& upper) {
+  return std::max<T>(lower, std::min<T>(x, upper));
+}
+
+} // namespace mathfu
 
 #endif  // MATHFU_UTILITIES_H_

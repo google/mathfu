@@ -254,6 +254,27 @@ void Lerp1_Test(const T& precision) {
 }
 TEST_ALL_F(Lerp1)
 
+// This will test initializaiton by specifying all values explictly.
+template<class T>
+void Clamp_Test() {
+  const T min = static_cast<T>(-1);
+  const T max = static_cast<T>(8);
+  const T inside = static_cast<T>(7);
+  const T above = static_cast<T>(9);
+  const T below = static_cast<T>(-11);
+
+  EXPECT_EQ(mathfu::Clamp<T>(inside, min, max), inside);
+  EXPECT_EQ(mathfu::Clamp<T>(above, min, max), max);
+  EXPECT_EQ(mathfu::Clamp<T>(below, min, max), min);
+  EXPECT_EQ(mathfu::Clamp<T>(max, min, max), max);
+  EXPECT_EQ(mathfu::Clamp<T>(min, min, max), min);
+}
+TEST_F(VectorTests, Clamp) { \
+  Clamp_Test<float>(); \
+  Clamp_Test<double>(); \
+  Clamp_Test<int>(); \
+}
+
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
 TEST_F(VectorTests, SampleTest) {

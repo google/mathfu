@@ -16,6 +16,13 @@
 #ifndef MATHFU_GLSL_MAPPINGS_H_
 #define MATHFU_GLSL_MAPPINGS_H_
 
+#include "mathfu/matrix.h"
+#include "mathfu/matrix_4x4.h"
+#include "mathfu/vector.h"
+#include "mathfu/vector_2.h"
+#include "mathfu/vector_3.h"
+#include "mathfu/vector_4.h"
+
 namespace mathfu {
 
 typedef Vector<float, 2> vec2;
