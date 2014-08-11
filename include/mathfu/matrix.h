@@ -305,7 +305,7 @@ class Matrix {
   /// @param m A matrix to multiply this matrix with.
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> operator*(
-    const Matrix<T, rows, columns>& m) {
+    const Matrix<T, rows, columns>& m) const {
     Matrix<T, rows, columns> result;
     TimesHelper(*this, m, &result);
     return result;
