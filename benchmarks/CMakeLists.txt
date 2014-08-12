@@ -11,14 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+cmake_minimum_required(VERSION 2.8)
 
-LOCAL_PATH:=$(call my-dir)
+include_directories(${CMAKE_SOURCE_DIR}/benchmarks)
 
-APP_PLATFORM:=android-10
-APP_ABI:=armeabi-v7a-hard
-APP_STL:=gnustl_static
-APP_MODULES:=\
-	libmathfu \
-	libmathfu_static
-APP_CFLAGS+=-Wall -Werror
-NDK_TOOLCHAIN_VERSION=4.8
+# Generates a rule to build a performance test executable.
+function(benchmark_executable benchmark_name)
+  set(target_name ${benchmark_name}s)
+  add_executable(${target_name} ${benchmark_name}/main.cpp)
+  if(UNIX AND NOT APPLE)
+    target_link_libraries(${target_name} rt)
+  endif(UNIX AND NOT APPLE)
+endfunction()
+
+benchmark_executable(matrix_benchmark)
+benchmark_executable(vector_benchmark)

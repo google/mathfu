@@ -16,6 +16,8 @@
 #ifndef MATHFU_UTILITIES_H_
 #define MATHFU_UTILITIES_H_
 
+#include <math.h>
+
 #include <algorithm>
 
 #if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && \
@@ -80,10 +82,16 @@ static const T1& union_reinterpret_cast(const T2& data) {
 
 namespace mathfu {
 
-// Clamp x within [lower, upper]. Results are undefined if lower > upper.
+/// Clamp x within [lower, upper]. Results are undefined if lower > upper.
 template<class T>
 T Clamp(const T& x, const T& lower, const T& upper) {
   return std::max<T>(lower, std::min<T>(x, upper));
+}
+
+/// Generate a random value of type T in the range 0.0...1.0.
+/// This function uses rand() from math.h to generate the random number.
+template<class T> inline T Random() {
+  return static_cast<T>(rand()) / static_cast<T>(RAND_MAX);
 }
 
 } // namespace mathfu

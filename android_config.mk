@@ -12,13 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH:=$(call my-dir)
-
-APP_PLATFORM:=android-10
-APP_ABI:=armeabi-v7a-hard
-APP_STL:=gnustl_static
-APP_MODULES:=\
-	libmathfu \
-	libmathfu_static
-APP_CFLAGS+=-Wall -Werror
-NDK_TOOLCHAIN_VERSION=4.8
+# Location of the vectorial library.
+DEPENDENCIES_VECTORIAL_DIR?=$(MATHFU_DIR)/../../../../external/vectorial
+# Location of the googletest library.
+DEPENDENCIES_GTEST_DIR?=$(MATHFU_DIR)/../googletest

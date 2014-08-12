@@ -173,6 +173,16 @@ class Vector<float, 2> {
     return Vector<float, 2>(simd2f_mul(v1.data_, v2.data_));
   }
 
+  static inline Vector<float, 2> Lerp(
+    const Vector<float, 2>& v1, const Vector<float, 2>& v2, float percent) {
+    const Vector<float, 2> percentv(percent);
+    const Vector<float, 2> one_minus_percent(
+        simd2f_sub(simd2f_splat(1.0f), percentv.data_));
+    return Vector<float, 2>(
+        simd2f_add(simd2f_mul(one_minus_percent.data_, v1.data_),
+                   simd2f_mul(percentv.data_, v2.data_)));
+  }
+
  private:
   simd2f data_;
 };

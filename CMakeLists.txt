@@ -52,5 +52,5 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
 
 add_subdirectory(../googletest googletest)
-add_subdirectory(Unittests)
-add_subdirectory(PerfTests)
+add_subdirectory(benchmarks)
+add_subdirectory(unit_tests)
