@@ -375,6 +375,13 @@ class Matrix {
     return InverseHelper(*this);
   }
 
+  /// Return the translation component from a 4x4 matrix.
+  /// @return A new Vector with the first three components of column 3.
+  inline Vector<T, 3> TranslationVector() const {
+    STATIC_ASSERT(rows == 4 && columns == 4);
+    return Vector<T, 3>(data_[3][0], data_[3][1], data_[3][2]);
+  }
+
   /// Find the outer product of two vectors.
   /// @return A new matrix that stores the result.
   static inline Matrix<T, rows, columns> OuterProduct(

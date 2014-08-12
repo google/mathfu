@@ -149,6 +149,12 @@ class Matrix<float, 4> {
     return return_m;
   }
 
+  inline Vector<float, 3> TranslationVector() const {
+    Vector<float, 3> return_v;
+    MATHFU_STORE(FindColumn(3), return_v.data_);
+    return return_v;
+  }
+
   inline Matrix<float, 4>& operator+=(const Matrix<float, 4>& m) {
     simd4x4f_add(&data_, &m.data_, &data_);
     return *this;

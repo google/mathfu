@@ -268,6 +268,23 @@ void Inverse_Test(const T& precision) {
 }
 TEST_ALL_F(Inverse);
 
+// This will test converting from a translation into a matrix and back again.
+template<class T>
+void TranslationVector_Test(const T& precision) {
+  (void)precision;
+  const mathfu::Vector<T, 3> trans(
+      static_cast<T>(-100.0), static_cast<T>(0.0), static_cast<T>(0.00003));
+  const mathfu::Matrix<T, 4> trans_matrix =
+      mathfu::Matrix<T, 4>::FromTranslationVector(trans);
+  const mathfu::Vector<T, 3> trans_back = trans_matrix.TranslationVector();
+
+  // This will verify that the translation vector has not changed.
+  for (int i = 0; i < 3; ++i) {
+    EXPECT_EQ(trans[i], trans_back[i]);
+  }
+}
+TEST_SCALAR_F(TranslationVector);
+
 // Test the compilation of basic matrix opertations given in the sample file.
 // This will test transforming a vector with a matrix.
 TEST_F(MatrixTests, MatrixSample) {
