@@ -23,6 +23,7 @@ project(MathFu)
 
 set(dependencies_vectorial_dir "${vectorial_dir_default}"
     CACHE PATH "Directory containing the Vectorial library.")
+option(mathfu_enable_simd "Use SIMD implementations when available." ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${dependencies_vectorial_dir}/include)
@@ -32,14 +33,19 @@ if(CMAKE_CXX_COMPILER MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
 
-# Enable SSE4.1 when building with GCC / Clang.
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
-       CMAKE_COMPILER_IS_CLANGXX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.1")
-endif()
-# Enable SSE2 by default when building with MSVC.
-if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:SSE2")
+# If SIMD build option is enabled.
+if(mathfu_enable_simd)
+  # Enable SSE4.1 when building with GCC / Clang.
+  if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
+         CMAKE_COMPILER_IS_CLANGXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.1")
+  endif()
+  # Enable SSE2 by default when building with MSVC.
+  if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:SSE2")
+  endif()
+else()
+  add_definitions(-DCOMPILE_WITHOUT_SIMD_SUPPORT)
 endif()
 
 # Enable maximum reasonable warning level.
