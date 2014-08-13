@@ -17,6 +17,7 @@
 #define MATHFU_UTILITIES_H_
 
 #include <math.h>
+#include <stdlib.h>
 
 #include <algorithm>
 
