@@ -17,13 +17,6 @@ get_filename_component(gtest_dir_default
                        "${CMAKE_CURRENT_SOURCE_DIR}/../../googletest" REALPATH)
 
 # Set some variables describing file locations.
-#
-# NOTE: This configuration assumes that gtest was built installed in the "inst"
-# directory. Please see http://blah for instructions.
-#
-# Also keep in mind that this will need to be cleaned up were we ever to make
-# this code public domain, we will wish to remove this relative path and
-# replace it with something less google-specific.
 set(dependencies_gtest_dir "${gtest_dir_default}"
     CACHE PATH "Directory containing the googletest (gtest) library.")
 set(gtest_incdir ${dependencies_gtest_dir}/include)
@@ -48,11 +41,9 @@ if(NOT MSVC)
 endif()
 set(COMMON_LIBS "gtest;${CMAKE_THREAD_LIBS_INIT}")
 
-# PUT ADDITIONAL UNIT TEST BINARIES BELOW!
-
 cxx_executable_with_flags(vector_tests "${cxx_default}" "${COMMON_LIBS}"
-    vector_test/vector_test.cpp)
+    vector_test/vector_test.cpp ${MATHFU_HEADERS})
 cxx_executable_with_flags(quaternion_tests "${cxx_default}" "${COMMON_LIBS}"
-    quaternion_test/quaternion_test.cpp)
+    quaternion_test/quaternion_test.cpp ${MATHFU_HEADERS})
 cxx_executable_with_flags(matrix_tests "${cxx_default}" "${COMMON_LIBS}"
-    matrix_test/matrix_test.cpp)
+    matrix_test/matrix_test.cpp ${MATHFU_HEADERS})
