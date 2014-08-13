@@ -149,7 +149,7 @@ class Matrix<float, 4> {
     return return_m;
   }
 
-  inline Vector<float, 3> TranslationVector() const {
+  inline Vector<float, 3> TranslationVector3D() const {
     Vector<float, 3> return_v;
     MATHFU_STORE(FindColumn(3), return_v.data_);
     return return_v;

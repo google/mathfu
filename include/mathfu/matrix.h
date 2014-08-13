@@ -375,9 +375,18 @@ class Matrix {
     return InverseHelper(*this);
   }
 
-  /// Return the translation component from a 4x4 matrix.
+  /// Return the 2 dimensional translation of a 2 dimensional affine transform.
+  /// Note: 2 dimensional affine transforms are represented by 3x3 matrices.
+  /// @return A new Vector with the first two components of column 2.
+  inline Vector<T, 2> TranslationVector2D() const {
+    STATIC_ASSERT(rows == 3 && columns == 3);
+    return Vector<T, 2>(data_[2][0], data_[2][1]);
+  }
+
+  /// Return the 3 dimensional translation of a 3 dimensional affine transform.
+  /// Note: 3 dimensional affine transforms are represented by 4x4 matrices.
   /// @return A new Vector with the first three components of column 3.
-  inline Vector<T, 3> TranslationVector() const {
+  inline Vector<T, 3> TranslationVector3D() const {
     STATIC_ASSERT(rows == 4 && columns == 4);
     return Vector<T, 3>(data_[3][0], data_[3][1], data_[3][2]);
   }
@@ -402,6 +411,15 @@ class Matrix {
   /// @return A new matrix that stores the result.
   static inline Matrix<T, rows, columns> Identity() {
     return IdentityHelper<T, rows, columns>();
+  }
+
+  /// Create a 3x3 matrix from a Vector of size 2. This matrix will have an
+  /// empty or zero rotation component.
+  /// @param m The vector of size 2.
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> FromTranslationVector(const Vector<T, 2>& v) {
+    return Matrix<T, 3>(
+      1, 0, 0, 0, 1, 0, v[0], v[1], 1);
   }
 
   /// Create a 4x4 matrix from a Vector of size 3. This matrix will have an
