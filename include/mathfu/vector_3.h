@@ -38,7 +38,7 @@
   { data = simd4f_create(v1, v2, v3, 0); }
 #else
 #define MATHFU_STORE(v, data) { simd4f_ustore3(v, data); }
-#define MATHFU_LOAD(data) simd4f_uload4(data)
+#define MATHFU_LOAD(data) simd4f_uload3(data)
 #define MATHFU_INIT(data, v1, v2, v3) \
   { data[0] = v1; data[1] = v2; data[2] = v3; }
 #endif

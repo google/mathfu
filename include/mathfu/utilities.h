@@ -21,10 +21,17 @@
 
 #include <algorithm>
 
-#if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && \
-  (defined(__SSE__) || defined(__ARM_NEON__))
+#if !defined(COMPILE_WITHOUT_SIMD_SUPPORT)
+#if defined(__SSE__)
 #define COMPILE_WITH_SIMD
+#elif defined(__ARM_NEON__)
+#define COMPILE_WITH_SIMD
+#elif defined(_M_IX86_FP)  // MSVC
+#if _M_IX86_FP >= 1 // SSE enabled
+#define COMPILE_WITH_SIMD
+#endif  // _M_IX86_FP >= 1
 #endif
+#endif  // !defined(COMPILE_WITHOUT_SIMD_SUPPORT)
 
 #ifdef COMPILE_WITH_SIMD
 #define MATHFU_CAST union_reinterpret_cast
