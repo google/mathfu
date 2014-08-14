@@ -426,8 +426,7 @@ class Matrix {
   /// Create a 4x4 perpective matrix.
   /// @handedness: 1.0f for RH, -1.0f for LH
   static inline Matrix<T, 4, 4> Perspective(T fovy, T aspect, T znear, T zfar,
-                                            T handedness = 1.0f)
-  {
+                                            T handedness = 1.0f) {
     const float y = 1 / tanf(fovy * .5f);
     const float x = y / aspect;
     const float zdist = (znear - zfar) * handedness;
@@ -442,14 +441,34 @@ class Matrix {
 
   /// Create a 4x4 orthographic matrix.
   static inline Matrix<T, 4, 4> Ortho(T left, T right, T bottom, T top,
-                                      T znear, T zfar)
-  {
-      return Matrix<T, 4, 4>(
-          2.0f / (right - left), 0, 0, 0,
-          0, 2.0f / (top - bottom), 0, 0,
-          0, 0, -2.0f / (zfar - znear), 0,
-          -(right + left) / (right - left), -(top + bottom) / (top - bottom),
-            -(zfar + znear) / (zfar - znear), 1.0f);
+                                      T znear, T zfar) {
+    return Matrix<T, 4, 4>(
+        2.0f / (right - left), 0, 0, 0,
+        0, 2.0f / (top - bottom), 0, 0,
+        0, 0, -2.0f / (zfar - znear), 0,
+        -(right + left) / (right - left), -(top + bottom) / (top - bottom),
+          -(zfar + znear) / (zfar - znear), 1.0f);
+  }
+
+  /// Create a 3-dimensional camera matrix.
+  /// @param at The look-at target of the camera.
+  /// @param eye The position of the camera.
+  /// @param up The up vector in the world, for example (0, 1, 0) if the
+  /// y-axis is up.
+  static inline Matrix<T, 4, 4> LookAt(const Vector<T, 3>& at,
+      const Vector<T, 3>& eye, const Vector<T, 3>& up) {
+    const Vector<T, 3> zaxis = (at - eye).Normalized();
+    const Vector<T, 3> xaxis =
+        Vector<T, 3>::CrossProduct(up, zaxis).Normalized();
+    const Vector<T, 3> yaxis = Vector<T, 3>::CrossProduct(zaxis, xaxis);
+
+    return Matrix<T, 4, 4>(
+     xaxis[0], yaxis[0], zaxis[0], static_cast<T>(0.0),
+     xaxis[1], yaxis[1], zaxis[1], static_cast<T>(0.0),
+     xaxis[2], yaxis[2], zaxis[2], static_cast<T>(0.0),
+     -Vector<T, 3>::DotProduct(xaxis, eye),
+     -Vector<T, 3>::DotProduct(yaxis, eye),
+     -Vector<T, 3>::DotProduct(zaxis, eye), static_cast<T>(1.0));
   }
 
   /// Vector/Matrix multiplication.
