@@ -41,9 +41,20 @@ if(NOT MSVC)
 endif()
 set(COMMON_LIBS "gtest;${CMAKE_THREAD_LIBS_INIT}")
 
-cxx_executable_with_flags(vector_tests "${cxx_default}" "${COMMON_LIBS}"
-    vector_test/vector_test.cpp ${MATHFU_HEADERS})
-cxx_executable_with_flags(quaternion_tests "${cxx_default}" "${COMMON_LIBS}"
-    quaternion_test/quaternion_test.cpp ${MATHFU_HEADERS})
-cxx_executable_with_flags(matrix_tests "${cxx_default}" "${COMMON_LIBS}"
-    matrix_test/matrix_test.cpp ${MATHFU_HEADERS})
+# Generate a rule to build unit test executables.  This only builds
+# ${test_name}_tests if SIMD is disabled (see ${mathfu_enable_simd}) or
+# ${test_name}_tests and ${test_name}_no_simd_tests if SIMD is enabled where
+# the no_simd_tests binary has SIMD disabled.
+function(test_executable test_name source)
+  cxx_executable_with_flags(${test_name}_tests "${cxx_default}"
+    "${COMMON_LIBS}" ${source} ${MATHFU_HEADERS})
+  if(mathfu_enable_simd)
+    cxx_executable_with_flags(${test_name}_no_simd_tests
+      "${cxx_default} ${mathfu_disable_simd_defines}" "${COMMON_LIBS}"
+      ${source} ${MATHFU_HEADERS})
+  endif()
+endfunction()
+
+test_executable(vector vector_test/vector_test.cpp)
+test_executable(quaternion quaternion_test/quaternion_test.cpp)
+test_executable(matrix matrix_test/matrix_test.cpp)

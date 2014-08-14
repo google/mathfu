@@ -33,6 +33,9 @@ if(CMAKE_CXX_COMPILER MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
 
+# Definitions that disable SIMD support.
+set(mathfu_disable_simd_defines -DCOMPILE_WITHOUT_SIMD_SUPPORT)
+
 # If SIMD build option is enabled.
 if(mathfu_enable_simd)
   # Enable SSE4.1 when building with GCC / Clang.
@@ -45,7 +48,7 @@ if(mathfu_enable_simd)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:SSE2")
   endif()
 else()
-  add_definitions(-DCOMPILE_WITHOUT_SIMD_SUPPORT)
+  add_definitions(${mathfu_disable_simd_defines})
 endif()
 
 # Enable maximum reasonable warning level.

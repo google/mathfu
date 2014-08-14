@@ -15,14 +15,31 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_SOURCE_DIR}/benchmarks)
 
-# Generates a rule to build a performance test executable.
-function(benchmark_executable benchmark_name)
-  set(target_name ${benchmark_name}s)
-  add_executable(${target_name} ${benchmark_name}/main.cpp)
+# Generate a rule to build a performance test executable
+# ${benchmark_executable_name} from ${benchmark_source} using compile flags
+# ${cxx_flags}
+function(benchmark_executable benchmark_executable_name benchmark_source
+         cxx_flags)
+  add_executable(${benchmark_executable_name} ${benchmark_source})
+  set_target_properties(${benchmark_executable_name}
+    PROPERTIES COMPILE_FLAGS "${cxx_flags}")
   if(UNIX AND NOT APPLE)
-    target_link_libraries(${target_name} rt)
+    target_link_libraries(${benchmark_executable_name} rt)
   endif(UNIX AND NOT APPLE)
 endfunction()
 
-benchmark_executable(matrix_benchmark)
-benchmark_executable(vector_benchmark)
+# Generates a rule to build performance test executables.  This only builds
+# ${benchmark_name}_benchmarks if SIMD is disabled (see ${mathfu_enable_simd})
+# or ${benchmark_name}_benchmarks and ${benchmark_name}_no_simd_benchmarks if
+# SIMD is enabled where the no_simd_benchmarks binary has SIMD disabled.
+function(benchmark_executables benchmark_name benchmark_source)
+  benchmark_executable(${benchmark_name}_benchmarks ${benchmark_source}
+    "${CMAKE_CXX_FLAGS}")
+  if(mathfu_enable_simd)
+    benchmark_executable(${benchmark_name}_no_simd_benchmarks
+      ${benchmark_source} "${CMAKE_CXX_FLAGS} ${mathfu_disable_simd_defines}")
+  endif()
+endfunction()
+
+benchmark_executables(matrix matrix_benchmark/main.cpp)
+benchmark_executables(vector vector_benchmark/main.cpp)
