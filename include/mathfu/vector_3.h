@@ -46,6 +46,7 @@
 namespace mathfu {
 
 #ifdef COMPILE_WITH_SIMD
+// This class should remain plain old data.
 template<>
 class Vector<float, 3> {
  public:
@@ -57,7 +58,9 @@ class Vector<float, 3> {
 #ifdef COMPILE_WITH_PADDING
     data_ = v.data_;
 #else
-    data_[0] = v.data_[0]; data_[1] = v.data_[1]; data_[2] = v.data_[2];
+    data_[0] = v.data_[0];
+    data_[1] = v.data_[1];
+    data_[2] = v.data_[2];
 #endif
   }
 
@@ -106,19 +109,23 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_),
+                                       MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator/(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_div(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_div(MATHFU_LOAD(data_),
+                                       MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator+(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_add(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_add(MATHFU_LOAD(data_),
+                                       MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator-(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_),
+                                       MATHFU_LOAD(v.data_)));
   }
 
   inline Vector<float, 3> operator*(const float& s) const {
@@ -126,7 +133,8 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3> operator/(const float& s) const {
-    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / s)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_),
+                                       simd4f_splat(1 / s)));
   }
 
   inline Vector<float, 3> operator+(const float& s) const {
@@ -134,39 +142,48 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3> operator-(const float& s) const {
-    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_), simd4f_splat(1 / s)));
+    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_),
+                                       simd4f_splat(1 / s)));
   }
 
   inline Vector<float, 3>& operator*=(const Vector<float, 3>& v) {
-    *this = simd4f_mul(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
+    *this = simd4f_mul(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    return *this;
   }
 
   inline Vector<float, 3>& operator/=(const Vector<float, 3>& v) {
-    *this = simd4f_div(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
+    *this = simd4f_div(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    return *this;
   }
 
   inline Vector<float, 3>& operator+=(const Vector<float, 3>& v) {
-    *this = simd4f_add(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
+    *this = simd4f_add(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    return *this;
   }
 
   inline Vector<float, 3>& operator-=(const Vector<float, 3>& v) {
-    *this = simd4f_sub(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_)); return *this;
+    *this = simd4f_sub(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    return *this;
   }
 
   inline Vector<float, 3>& operator*=(const float& s) {
-    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(s)); return *this;
+    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(s));
+    return *this;
   }
 
   inline Vector<float, 3>& operator/=(const float& s) {
-    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / s)); return *this;
+    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / s));
+    return *this;
   }
 
   inline Vector<float, 3>& operator+=(const float& s) {
-    *this = simd4f_add(MATHFU_LOAD(data_), simd4f_splat(s)); return *this;
+    *this = simd4f_add(MATHFU_LOAD(data_), simd4f_splat(s));
+    return *this;
   }
 
   inline Vector<float, 3>& operator-=(const float& s) {
-    *this = simd4f_sub(MATHFU_LOAD(data_), simd4f_splat(s)); return *this;
+    *this = simd4f_sub(MATHFU_LOAD(data_), simd4f_splat(s));
+    return *this;
   }
 
   inline float LengthSquared() const {
