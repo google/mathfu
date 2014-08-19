@@ -47,19 +47,17 @@ class Matrix<float, 4> {
     const float& s01, const float& s11, const float& s21, const float& s31,
     const float& s02, const float& s12, const float& s22, const float& s32,
     const float& s03, const float& s13, const float& s23, const float& s33) {
-    data_ = simd4x4f_create(
-      simd4f_create(s00, s10, s20, s30),
-      simd4f_create(s01, s11, s21, s31),
-      simd4f_create(s02, s12, s22, s32),
-      simd4f_create(s03, s13, s23, s33));
+    data_ = simd4x4f_create(simd4f_create(s00, s10, s20, s30),
+                            simd4f_create(s01, s11, s21, s31),
+                            simd4f_create(s02, s12, s22, s32),
+                            simd4f_create(s03, s13, s23, s33));
   }
 
   explicit inline Matrix<float, 4>(const float* m) {
-    data_ = simd4x4f_create(
-      simd4f_create(m[0], m[1], m[2], m[3]),
-      simd4f_create(m[4], m[5], m[6], m[7]),
-      simd4f_create(m[8], m[9], m[10], m[11]),
-      simd4f_create(m[12], m[13], m[14], m[15]));
+    data_ = simd4x4f_create(simd4f_create(m[0], m[1], m[2], m[3]),
+                            simd4f_create(m[4], m[5], m[6], m[7]),
+                            simd4f_create(m[8], m[9], m[10], m[11]),
+                            simd4f_create(m[12], m[13], m[14], m[15]));
   }
 
   inline const float& operator()(const int i, const int j) const {
@@ -115,7 +113,7 @@ class Matrix<float, 4> {
     simd4x4f_matrix_vector_mul(&data_, &v.data_, &return_v.data_);
     return_v *= (1 / return_v.data_[3]);
 #else
-    simd4f vec = MATHFU_LOAD(v.data_);
+    simd4f vec = simd4f_create(v.data_[0], v.data_[1], v.data_[2], 1.0f);
     simd4x4f_matrix_vector_mul(&data_, &vec, &vec);
     simd4f_mul(vec, simd4f_splat(*(MATHFU_CAST<float*>(&vec) + 3)));
     MATHFU_STORE(vec, return_v.data_);
@@ -185,11 +183,10 @@ class Matrix<float, 4> {
   static inline Matrix<float, 4> OuterProduct(
     const Vector<float, 4>& v1, const Vector<float, 4>& v2) {
     Matrix<float, 4> m;
-    m.data_ = simd4x4f_create(
-      simd4f_mul(v1.data_, simd4f_splat(v2[0])),
-      simd4f_mul(v1.data_, simd4f_splat(v2[1])),
-      simd4f_mul(v1.data_, simd4f_splat(v2[2])),
-      simd4f_mul(v1.data_, simd4f_splat(v2[3])));
+    m.data_ = simd4x4f_create(simd4f_mul(v1.data_, simd4f_splat(v2[0])),
+                              simd4f_mul(v1.data_, simd4f_splat(v2[1])),
+                              simd4f_mul(v1.data_, simd4f_splat(v2[2])),
+                              simd4f_mul(v1.data_, simd4f_splat(v2[3])));
     return m;
   }
 
