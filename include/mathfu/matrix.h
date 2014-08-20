@@ -451,6 +451,22 @@ class Matrix {
         1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);
   }
 
+  /// Create a square matrix with the diagonal component set to v.
+  /// This is an affine transform matrix, so the dimension of the vector is
+  /// one less than the dimension of the matrix.
+  /// @param v The vector containing components for scaling.
+  /// @return A new matrix with v along the diagonal, and 1 in the bottom
+  /// right.
+  static inline Matrix<T, rows> FromScaleVector(const Vector<T, rows - 1>& v) {
+    // TODO OPT: Use a helper function in a similar way to Identity to
+    // construct the matrix for the specialized cases 2, 3, 4, and only run
+    // this method in the general case. This will also allow you to use the
+    // helper methods from specialized classes like Matrix<T, 4, 4>.
+    Matrix<T, rows> return_matrix(Identity());
+    for (int i = 0; i < rows - 1; ++i) return_matrix(i,i) = v[i];
+    return return_matrix;
+  }
+
   /// Create a 4x4 matrix from a 3x3 rotation matrix. This matrix will have an
   /// empty or zero translation component.
   /// @param m The 3x3 rotation matrix.

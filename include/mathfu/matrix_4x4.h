@@ -217,6 +217,11 @@ class Matrix<float, 4> {
       1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);
   }
 
+  static inline Matrix<float, 4> FromScaleVector(const Vector<float, 3>& v) {
+    return Matrix<float, 4>(
+      v[0], 0, 0, 0, 0, v[1], 0, 0, 0, 0, v[2], 0, 0, 0, 0, 1);
+  }
+
   static inline Matrix<float, 4> FromRotationMatrix(
       const Matrix<float, 3>& m) {
     return Matrix<float, 4>(

@@ -404,6 +404,40 @@ void TranslationVector2D_Test(const T& precision) {
 }
 TEST_SCALAR_F(TranslationVector2D);
 
+// This will test converting from a scale into a matrix, then multiply by
+// a vector of 1's, which should produce the original scale again.
+template<class T, int d>
+void FromScaleVector_Test(const T& precision) {
+  mathfu::Vector<T, d> ones(static_cast<T>(1));
+  mathfu::Vector<T, d - 1> v;
+
+  // Tests that the scale vector is placed in the correct order in the matrix.
+  for (int i = 0; i < d - 1; ++i) {
+    v[i] = static_cast<T>(i + 10);
+  }
+  mathfu::Matrix<T, d> m = mathfu::Matrix<T, d>::FromScaleVector(v);
+
+  // Ensure that the v is on the diagonal.
+  for (int i = 0; i < d - 1; ++i) {
+    EXPECT_NEAR(v[i], m(i, i), precision);
+  }
+
+  // Ensure that the last diagonal element is one.
+  EXPECT_NEAR(m(d - 1, d - 1), 1, precision);
+
+  // Ensure that all non-diagonal elements are zero.
+  for (int i = 0; i < d - 1; ++i) {
+    for (int j = 0; j < d - 1; ++j) {
+      if (i == j)
+        continue;
+      EXPECT_NEAR(m(i,j), 0, precision);
+    }
+  }
+}
+// Precision is zero. Results must be perfect for this test.
+TEST_ALL_F(FromScaleVector, 0.0f, 0.0);
+
+// This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix opertations given in the sample file.
 // This will test transforming a vector with a matrix.
 TEST_F(MatrixTests, MatrixSample) {
