@@ -302,7 +302,7 @@ vectorial_inline void simd4x4f_div(simd4x4f* a, simd4x4f* b, simd4x4f* out) {
     
 }
 
-vectorial_inline void simd4x4f_inverse(const simd4x4f* a, simd4x4f* out) {
+vectorial_inline simd4f simd4x4f_inverse(const simd4x4f* a, simd4x4f* out) {
 
     const simd4f c0 = a->x;
     const simd4f c1 = a->y;
@@ -374,9 +374,8 @@ vectorial_inline void simd4x4f_inverse(const simd4x4f* a, simd4x4f* out) {
     
     simd4x4f_transpose( &mt, out);
 
-
+    return det;
 }
-
 
 #ifdef __cplusplus
 
