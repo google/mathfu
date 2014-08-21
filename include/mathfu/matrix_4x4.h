@@ -33,8 +33,10 @@ class Matrix<float, 4> {
   Matrix<float, 4>() {}
 
   inline Matrix<float, 4>(const Matrix<float, 4>& m) {
-    data_.x = m.data_.x; data_.y = m.data_.y;
-    data_.z = m.data_.z; data_.w = m.data_.w;
+    data_.x = m.data_.x;
+    data_.y = m.data_.y;
+    data_.z = m.data_.z;
+    data_.w = m.data_.w;
   }
 
   explicit inline Matrix<float, 4>(const float& s) {
@@ -141,10 +143,16 @@ class Matrix<float, 4> {
     return return_m;
   }
 
-  Matrix<float, 4> Inverse() const {
+  inline Matrix<float, 4> Inverse() const {
     Matrix<float, 4> return_m;
     simd4x4f_inverse(&data_, &return_m.data_);
     return return_m;
+  }
+
+  inline bool InverseWithDeterminantCheck(
+      Matrix<float, 4, 4>* const inverse) const {
+    return fabs(simd4f_get_x(simd4x4f_inverse(&data_, &inverse->data_))) >=
+        Constants<float>::GetDeterminantThreshold();
   }
 
   inline Vector<float, 3> TranslationVector3D() const {
@@ -203,12 +211,14 @@ class Matrix<float, 4> {
     return return_m;
   }
 
-  static inline Matrix<float, 4> FromTranslationVector(const Vector<float, 3>& v) {
+  static inline Matrix<float, 4> FromTranslationVector(
+      const Vector<float, 3>& v) {
     return Matrix<float, 4>(
       1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);
   }
 
-  static inline Matrix<float, 4> FromRotationMatrix(const Matrix<float, 3>& m) {
+  static inline Matrix<float, 4> FromRotationMatrix(
+      const Matrix<float, 3>& m) {
     return Matrix<float, 4>(
       m[0], m[1], m[2], 0, m[3], m[4], m[5], 0,
       m[6], m[7], m[8], 0, 0, 0, 0, 1);

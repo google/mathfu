@@ -92,8 +92,9 @@ template<class T, int rows, int columns>
 inline const T ConstGetHelper(Matrix<T, rows, columns>& m, const int i);
 template<class T, int rows, int columns>
 inline Matrix<T, rows, columns> IdentityHelper();
-template<class T, int rows, int columns>
-inline Matrix<T, rows, columns> InverseHelper();
+template<bool check_invertible, class T, int rows, int columns>
+inline bool InverseHelper(const Matrix<T, rows, columns>& m,
+                          Matrix<T, rows, columns>* const inverse);
 template<class T, int rows, int columns>
 inline void TimesHelper(const Matrix<T, rows, columns>& m1,
                         const Matrix<T, rows, columns>& m2,
@@ -192,8 +193,8 @@ class Matrix {
   }
 
   /// Access an element of the matrix.
-  /// @param i The index of the row where the elment is located.
-  /// @param j The index of the column where the elment is located.
+  /// @param i The index of the row where the element is located.
+  /// @param j The index of the column where the element is located.
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
   inline const T& operator()(const int i, const int j) const {
@@ -201,8 +202,8 @@ class Matrix {
   }
 
   /// Access an element of the matrix.
-  /// @param i The index of the row where the elment is located.
-  /// @param j The index of the column where the elment is located.
+  /// @param i The index of the row where the element is located.
+  /// @param j The index of the column where the element is located.
   /// @return A reference to the accessed data that can be modified by the
   /// caller.
   inline T& operator()(const int i, const int j) {
@@ -218,7 +219,7 @@ class Matrix {
   }
 
   /// Access an element of the matrix.
-  /// @param i The index of the elment in flattened memory.
+  /// @param i The index of the element in flattened memory.
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
   inline const T &operator[](const int i) const {
@@ -226,7 +227,7 @@ class Matrix {
   }
 
   /// Access an element of the matrix.
-  /// @param i The index of the elment in flattened memory.
+  /// @param i The index of the element in flattened memory.
   /// @return A reference to the accessed data that can be modified by the
   /// caller.
   inline T& operator[](const int i) {
@@ -374,7 +375,24 @@ class Matrix {
   /// Find the inverse matrix such that m*m.Inverse() is the identity.
   /// @return A new matrix that stores the result.
   inline Matrix<T, rows, columns> Inverse() const {
-    return InverseHelper(*this);
+    Matrix<T, rows, columns> inverse;
+    InverseHelper<false>(*this, &inverse);
+    return inverse;
+  }
+
+  /// Find the inverse matrix such that m*m.Inverse() is the identity returning
+  /// whether the matrix is invertible.
+  /// The invertible check simply compares the calculated determinant with
+  /// Constants<T>::GetDeterminantThreshold() to roughly determine whether the
+  /// matrix is invertible.  This simple check works in common cases but will
+  /// fail for corner cases where the matrix is a combination of huge and tiny
+  /// values that can't be accurately represented by the floating point
+  /// datatype T.  More extensive checks (relative to the input values) are
+  /// possible but *far* more expensive, complicated and difficult to test.
+  /// @return Whether the matrix is invertible.
+  inline bool InverseWithDeterminantCheck(
+      Matrix<T, rows, columns>* const inverse) const {
+    return InverseHelper<true>(*this, inverse);
   }
 
   /// Return the 2 dimensional translation of a 2 dimensional affine transform.
@@ -802,67 +820,122 @@ static inline Matrix<T, 4, 4> OuterProductHelper(
       v1[0] * v2[3], v1[1] * v2[3], v1[2] * v2[3], v1[3] * v2[3]);
 }
 
+// Struct used for template specialization for functions that return constants.
+template<class T>
+class Constants {
+ public:
+  // Minimum absolute value of the determinant of an invertible matrix.
+  static T GetDeterminantThreshold()
+  {
+    // No constant defined for the general case.
+    assert(false);
+    return 0;
+  }
+};
+
+template<>
+class Constants<float> {
+ public:
+  // Minimum absolute value of the determinant of an invertible float matrix.
+  // float values have 23 bits of precision which is roughly 1e7f, given that
+  // the final step of matrix inversion is multiplication with the inverse of
+  // the determinant, the minimum value of the determinant is 1e-7f before
+  // the precision too low to accurately calculate the inverse.
+  static float GetDeterminantThreshold() { return 1e-7f; }
+};
+
+template<>
+class Constants<double> {
+ public:
+  // Minimum absolute value of the determinant of an invertible float matrix.
+  // float values have  bits of precision which is roughly 1e15f, given that
+  // the final step of matrix inversion is multiplication with the inverse of
+  // the determinant, the minimum value of the determinant is 1e-15f before
+  // the precision too low to accurately calculate the inverse.
+  static double GetDeterminantThreshold() { return 1e-15; }
+};
+
 // Compute the inverse of a matrix. There is template specialization
 // for 2x2, 3x3, and 4x4 matrices to increase performance. Inverse
 // is not implemented for dense matrices that are not of size 2x2,
-// 3x3, and 4x4.
-template<class T, int rows, int columns>
-inline Matrix<T, rows, columns> InverseHelper(
-  const Matrix<T, rows, columns>& m) {
+// 3x3, and 4x4.  If check_invertible is true the determine of the matrix
+// is compared with Constants<T>::GetDeterminantThreshold() to roughly
+// determine whether the matrix is invertible.
+template<bool check_invertible, class T, int rows, int columns>
+inline bool InverseHelper(const Matrix<T, rows, columns>& m,
+                          Matrix<T, rows, columns>* const inverse) {
   assert(false);
   (void)m;
-  return Matrix<T, rows, columns>::Identity();
+  *inverse = T::Identity();
+  return false;
 }
 
-template<class T>
-inline Matrix<T, 2, 2> InverseHelper(const Matrix<T, 2, 2>& m) {
-  T inverseDeterminant = 1 / (m[0] * m[3] - m[1] * m[2]);
-  return Matrix<T, 2, 2>(
-      inverseDeterminant * m[3], -inverseDeterminant * m[1],
-      -inverseDeterminant * m[2], inverseDeterminant * m[0]);
+template<bool check_invertible, class T>
+inline bool InverseHelper(const Matrix<T, 2, 2>& m,
+                          Matrix<T, 2, 2>* const inverse) {
+  T determinant = m[0] * m[3] - m[1] * m[2];
+  if (check_invertible &&
+      fabs(determinant) < Constants<T>::GetDeterminantThreshold()) {
+    return false;
+  }
+  T inverseDeterminant = 1 / determinant;
+  (*inverse)[0] = inverseDeterminant * m[3];
+  (*inverse)[1] = -inverseDeterminant * m[1];
+  (*inverse)[2] = -inverseDeterminant * m[2];
+  (*inverse)[3] = inverseDeterminant * m[0];
+  return true;
 }
 
-template<class T>
-inline Matrix<T, 3, 3> InverseHelper(const Matrix<T, 3, 3>& m) {
-  //Find determinant of matrix.
+template<bool check_invertible, class T>
+inline bool InverseHelper(const Matrix<T, 3, 3>& m,
+                          Matrix<T, 3, 3>* const inverse) {
+  // Find determinant of matrix.
   T sub11 = m[4] * m[8] - m[5] * m[7],
     sub12 = -m[1] * m[8] + m[2] * m[7],
     sub13 = m[1] * m[5] - m[2] * m[4];
-  T det = m[0] * sub11 + m[3] * sub12 + m[6] * sub13;
-  //Find determinants of 2x2 submatrices for the elements of the inverse.
-  return 1 / det * Matrix<T, 3, 3>(
-      sub11, sub12, sub13, m[6] * m[5] - m[3] * m[8],
+  T determinant = m[0] * sub11 + m[3] * sub12 + m[6] * sub13;
+  if (check_invertible &&
+      fabs(determinant) < Constants<T>::GetDeterminantThreshold()) {
+    return false;
+  }
+  // Find determinants of 2x2 submatrices for the elements of the inverse.
+  *inverse = Matrix<T, 3, 3>(
+      sub11, sub12, sub13,
+      m[6] * m[5] - m[3] * m[8],
       m[0] * m[8] - m[6] * m[2],
       m[3] * m[2] - m[0] * m[5],
       m[3] * m[7] - m[6] * m[4],
       m[6] * m[1] - m[0] * m[7],
       m[0] * m[4] - m[3] * m[1]);
+  *(inverse) *= 1 / determinant;
+  return true;
 }
 
 template<class T>
 inline int FindLargestPivotElem(const Matrix<T, 4, 4>& m) {
-  if (m[0] > m[1]) {
-    if (m[0] > m[2]) {
-      if (m[0] > m[3]) {
+  Vector<T, 4> fabs_column(fabs(m[0]), fabs(m[1]), fabs(m[2]), fabs(m[3]));
+  if (fabs_column[0] > fabs_column[1]) {
+    if (fabs_column[0] > fabs_column[2]) {
+      if (fabs_column[0] > fabs_column[3]) {
         return 0;
       }
       else {
         return 3;
       }
-    } else if (m[2] > m[3]) {
+    } else if (fabs_column[2] > fabs_column[3]) {
       return 2;
     }
     else {
       return 3;
     }
-  } else if (m[1] > m[2]) {
-    if (m[1] > m[3]) {
+  } else if (fabs_column[1] > fabs_column[2]) {
+    if (fabs_column[1] > fabs_column[3]) {
       return 1;
     }
     else {
       return 3;
     }
-  } else if (m[2] > m[3]) {
+  } else if (fabs_column[2] > fabs_column[3]) {
     return 2;
   }
   else {
@@ -870,8 +943,8 @@ inline int FindLargestPivotElem(const Matrix<T, 4, 4>& m) {
   }
 }
 
-template<class T>
-Matrix<T, 4, 4> InverseHelper(const Matrix<T, 4, 4>& m) {
+template<bool check_invertible, class T>
+bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
   // This will find the pivot element.
   int pivot_elem = FindLargestPivotElem(m);
   // This will perform the pivot and find the row, column, and 3x3 submatrix
@@ -899,39 +972,49 @@ Matrix<T, 4, 4> InverseHelper(const Matrix<T, 4, 4>& m) {
     matrix = Matrix<T, 3>(m[4], m[5], m[6], m[8], m[9],
                           m[10], m[12], m[13], m[14]);
   }
+  T pivot_value = m[pivot_elem];
+  if (check_invertible &&
+      fabs(pivot_value) < Constants<T>::GetDeterminantThreshold()) {
+    return false;
+  }
   // This will compute the inverse using the row, column, and 3x3 submatrix.
-  T inv = -1 / m[pivot_elem];
+  T inv = -1 / pivot_value;
   row *= inv;
   matrix += Matrix<T, 3>::OuterProduct(column, row);
-  Matrix<T, 3> mat_inverse = matrix.Inverse();
+  Matrix<T, 3> mat_inverse;
+  if (!InverseHelper<check_invertible>(matrix, &mat_inverse) &&
+      check_invertible) {
+    return false;
+  }
   Vector<T, 3> col_inverse = mat_inverse * (column * inv);
   Vector<T, 3> row_inverse = row * mat_inverse;
   T pivot_inverse = Vector<T, 3>::DotProduct(row, col_inverse) - inv;
   if (pivot_elem == 0) {
-    return Matrix<T, 4, 4>(
+    *inverse = Matrix<T, 4, 4>(
         pivot_inverse, col_inverse[0], col_inverse[1], col_inverse[2],
         row_inverse[0], mat_inverse[0], mat_inverse[1], mat_inverse[2],
         row_inverse[1], mat_inverse[3], mat_inverse[4], mat_inverse[5],
         row_inverse[2], mat_inverse[6], mat_inverse[7], mat_inverse[8]);
   } else if (pivot_elem == 1) {
-    return Matrix<T, 4, 4>(
+    *inverse = Matrix<T, 4, 4>(
         row_inverse[0], mat_inverse[0], mat_inverse[1], mat_inverse[2],
         pivot_inverse, col_inverse[0], col_inverse[1], col_inverse[2],
         row_inverse[1], mat_inverse[3], mat_inverse[4], mat_inverse[5],
         row_inverse[2], mat_inverse[6], mat_inverse[7], mat_inverse[8]);
   } else if (pivot_elem == 2) {
-    return Matrix<T, 4, 4>(
+    *inverse = Matrix<T, 4, 4>(
         row_inverse[0], mat_inverse[0], mat_inverse[1], mat_inverse[2],
         row_inverse[1], mat_inverse[3], mat_inverse[4], mat_inverse[5],
         pivot_inverse, col_inverse[0], col_inverse[1], col_inverse[2],
         row_inverse[2], mat_inverse[6], mat_inverse[7], mat_inverse[8]);
   } else {
-    return Matrix<T, 4, 4>(
+    *inverse = Matrix<T, 4, 4>(
         row_inverse[0], mat_inverse[0], mat_inverse[1], mat_inverse[2],
         row_inverse[1], mat_inverse[3], mat_inverse[4], mat_inverse[5],
         row_inverse[2], mat_inverse[6], mat_inverse[7], mat_inverse[8],
         pivot_inverse, col_inverse[0], col_inverse[1], col_inverse[2]);
   }
+  return true;
 }
 
 }  // namespace mathfu

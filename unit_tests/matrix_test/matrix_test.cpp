@@ -17,6 +17,10 @@
 #include "mathfu/matrix_4x4.h"
 #include "mathfu/quaternion.h"
 #include "mathfu/vector.h"
+#include "mathfu/utilities.h"
+
+#include <string>
+#include <sstream>
 
 #include "gtest/gtest.h"
 
@@ -30,20 +34,32 @@ class MatrixTests : public ::testing::Test {
 };
 
 // This will automatically generate tests for each template parameter.
-#define TEST_ALL_F(MY_TEST) \
-  TEST_F(MatrixTests, MY_TEST) { \
-    MY_TEST##_Test<float, 2>(FLOAT_PRECISION); \
-    MY_TEST##_Test<double, 2>(DOUBLE_PRECISION); \
-    MY_TEST##_Test<float, 3>(FLOAT_PRECISION); \
-    MY_TEST##_Test<double, 3>(DOUBLE_PRECISION); \
-    MY_TEST##_Test<float, 4>(FLOAT_PRECISION); \
-    MY_TEST##_Test<double, 4>(DOUBLE_PRECISION); \
+#define TEST_ALL_F(MY_TEST, FLOAT_PRECISION_VALUE, DOUBLE_PRECISION_VALUE) \
+  TEST_F(MatrixTests, MY_TEST##_float_2) { \
+    MY_TEST##_Test<float, 2>(FLOAT_PRECISION_VALUE); \
+  } \
+  TEST_F(MatrixTests, MY_TEST##_double_2) { \
+    MY_TEST##_Test<double, 2>(DOUBLE_PRECISION_VALUE); \
+  } \
+  TEST_F(MatrixTests, MY_TEST##_float_3) { \
+    MY_TEST##_Test<float, 3>(FLOAT_PRECISION_VALUE); \
+  } \
+  TEST_F(MatrixTests, MY_TEST##_double_3) { \
+    MY_TEST##_Test<double, 3>(DOUBLE_PRECISION_VALUE); \
+  } \
+  TEST_F(MatrixTests, MY_TEST##_float_4) { \
+    MY_TEST##_Test<float, 4>(FLOAT_PRECISION_VALUE); \
+  } \
+  TEST_F(MatrixTests, MY_TEST##_double_4) { \
+    MY_TEST##_Test<double, 4>(DOUBLE_PRECISION_VALUE); \
   }
 
 // This will automatically generate tests for each scalar template parameter.
 #define TEST_SCALAR_F(MY_TEST) \
-  TEST_F(MatrixTests, MY_TEST) { \
+  TEST_F(MatrixTests, MY_TEST##_float) { \
     MY_TEST##_Test<float>(FLOAT_PRECISION); \
+  } \
+  TEST_F(MatrixTests, MY_TEST##_double) { \
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
   }
 
@@ -96,7 +112,7 @@ void Initialize_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(Initialize);
+TEST_ALL_F(Initialize, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test initializaiton by specifying all values explictly.
 template<class T>
@@ -183,7 +199,7 @@ void AddSub_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(AddSub);
+TEST_ALL_F(AddSub, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test the mutiplication of matrices by matrices, vectors,
 // and scalars. The template parameter d corresponds to the number of rows and
@@ -229,7 +245,7 @@ void Mult_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(Mult);
+TEST_ALL_F(Mult, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test the outer product of two vectors. The template parameter d
 // corresponds to the number of rows and columns.
@@ -248,25 +264,111 @@ void OuterProduct_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(OuterProduct);
+TEST_ALL_F(OuterProduct, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Print the specified matrix to output_string in the form.
+template<class T, int rows, int columns>
+void MatrixToString(const mathfu::Matrix<T, rows, columns> &matrix,
+                    std::string* const output_string) {
+  std::stringstream ss;
+  ss.flags(std::ios::fixed);
+  ss.precision(4);
+  for (int col = 0; col < columns; ++col) {
+    for (int row = 0; row < rows; ++row) {
+      ss << (T)matrix[(col * rows) + row] << " ";
+    }
+    ss << "\n";
+  }
+  *output_string = ss.str();
+}
+
+// Test the inverse of a set of noninvertible matrices.
+template<class T, int d>
+void InverseNonInvertible_Test(const T& precision) {
+  (void)precision;
+  T m[d * d];
+  const size_t matrix_size = sizeof(m) / sizeof(m[0]);
+  static const T kDeterminantThreshold =
+      mathfu::Constants<T>::GetDeterminantThreshold();
+  static const T kDeterminantThresholdInverse = 1 / kDeterminantThreshold;
+  static const T kDeterminantThresholdSmall =
+      kDeterminantThresholdInverse / 100;
+  static const T kDeterminantThresholdInverseLarge =
+      kDeterminantThresholdInverse * 100;
+  // Create a matrix with all zeros.
+  for (size_t i = 0; i < matrix_size; ++i) m[i] = 0;
+  // Verify that it's not possible to invert the matrix.
+  {
+    mathfu::Matrix<T, d> matrix(m);
+    mathfu::Matrix<T, d> inverse_matrix;
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+  }
+  // Check a matrix with all elements at the determinant threshold.
+  for (size_t i = 0; i < matrix_size; ++i) m[i] = kDeterminantThreshold;
+  {
+    mathfu::Matrix<T, d> matrix(m);
+    mathfu::Matrix<T, d> inverse_matrix;
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+  }
+  // Check a matrix with all very large elements.
+  for (size_t i = 0; i < matrix_size - 1; ++i) {
+    m[i] = kDeterminantThresholdInverse;
+  }
+  m[matrix_size - 1] = kDeterminantThresholdInverseLarge;
+  // NOTE: Due to precision, this case will pass the determinant check with a
+  // 2x2 matrix since the determinant of the matrix will be calculated as 1.
+  if (d != 2) {
+    // Create a matrix with all elements at the determinant threshold and one
+    // large value in the matrix.
+    for (size_t i = 0; i < matrix_size - 1; ++i) {
+      m[i] = kDeterminantThresholdSmall;
+    }
+    m[matrix_size - 1] = kDeterminantThresholdInverseLarge;
+    {
+      mathfu::Matrix<T, d> matrix(m);
+      mathfu::Matrix<T, d> inverse_matrix;
+      EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+    }
+  }
+}
+TEST_ALL_F(InverseNonInvertible, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test calculating the inverse of a matrix. The template parameter d
 // corresponds to the number of rows and columns.
 template<class T, int d>
 void Inverse_Test(const T& precision) {
   T x[d * d];
-  for (int i = 0; i < d * d; ++i) x[i] = rand() / static_cast<T>(RAND_MAX);
-  mathfu::Matrix<T, d> matrix(x);
-  mathfu::Matrix<T, d> inverse_matrix(matrix.Inverse());
-  mathfu::Matrix<T, d> identity_matrix(matrix * inverse_matrix);
-  // This will verify that M * Minv is equal to the identity.
-  for (int i = 0; i < d; ++i) {
-    for (int j = 0; j < d; ++j) {
-      EXPECT_NEAR(i == j ? 1 : 0, identity_matrix(i, j), 100 * precision);
+  const int elements = d * d;
+  for (int iterations = 0; iterations < 1000; ++iterations) {
+    // NOTE: This assumes that matrices generated here are invertible since
+    // there is a tiny probability that a randomly generated matrix will be
+    // noninvertible.  This does mean that this test can be flakey by
+    // occasionally generating noninvertible matrices.
+    for (int i = 0; i < elements; ++i) x[i] = mathfu::RandomRange<T>(1);
+    mathfu::Matrix<T, d> matrix(x);
+    std::string error_string;
+    MatrixToString(matrix, &error_string);
+    error_string += "\n";
+    mathfu::Matrix<T, d> inverse_matrix(matrix.Inverse());
+    mathfu::Matrix<T, d> identity_matrix(matrix * inverse_matrix);
+
+    MatrixToString(inverse_matrix, &error_string);
+    error_string += "\n";
+    MatrixToString(identity_matrix, &error_string);
+
+    // This will verify that M * Minv is equal to the identity.
+    for (int i = 0; i < d; ++i) {
+      for (int j = 0; j < d; ++j) {
+        EXPECT_NEAR(i == j ? 1 : 0, identity_matrix(i, j), 100 * precision) <<
+            error_string << " row=" << i << " column=" << j;
+      }
     }
   }
 }
-TEST_ALL_F(Inverse);
+// Due to the number of operations involved and the random numbers used to
+// generate the test matrices, the precision the inverse matrix is calculated
+// to is relatively low.
+TEST_ALL_F(Inverse, 1e-4f, 1e-8);
 
 // This will test converting from a translation into a matrix and back again.
 template<class T>

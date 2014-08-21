@@ -102,6 +102,12 @@ template<class T> inline T Random() {
   return static_cast<T>(rand()) / static_cast<T>(RAND_MAX);
 }
 
+/// Generate a random value of type T in the range -range...+range
+/// This function uses rand() from math.h to generate the random number.
+template<class T> inline T RandomRange(T range) {
+  return (Random<T>() * range * 2) - range;
+}
+
 } // namespace mathfu
 
 #endif  // MATHFU_UTILITIES_H_
