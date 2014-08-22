@@ -28,24 +28,20 @@ LOCAL_C_INCLUDES:=\
 	$(MATHFU_DIR)/include \
 	$(DEPENDENCIES_VECTORIAL_DIR)/include
 LOCAL_LDLIBS:=-llog -landroid -lm_hard
+LOCAL_WHOLE_STATIC_LIBRARIES:=\
+	libfplutil_main \
+	libfplutil_print
 LOCAL_STATIC_LIBRARIES:=\
-	android_native_app_glue libgtest libandroidutil_static
+	android_native_app_glue \
+	libgtest
 LOCAL_CFLAGS:=-mhard-float -mfloat-abi=hard -Wno-narrowing -mfpu=neon
-# Override the default log tag in the AndroidUtil library.
-ANDROIDUTIL_ADDITIONAL_CFLAGS:=-DANDROID_LOG_PRINT_TAG="$(LOCAL_MODULE)"
-# Redirect gtest to AndroidUtil's buffered print functions.
-GTEST_ADDITIONAL_CFLAGS:=\
-    -include $(LOCAL_PATH)/../AndroidUtil/AndroidLogPrint.h \
-	-DGTEST_ANDROID_LOG_PRINT=AndroidLogPrint \
-	-DGTEST_ANDROID_LOG_VPRINT=AndroidLogVPrint \
-    -DANDROID_LOG_OVERRIDE_PRINTF=0
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-add-path,$(abspath $(MATHFU_DIR)))
+$(call import-add-path,$(abspath $(DEPENDENCIES_FPLUTIL_DIR)))
 $(call import-add-path,$(abspath $(DEPENDENCIES_GTEST_DIR)/..))
 
 # Import googletest and native_app_glue libraries.
-$(call import-module,unit_tests/AndroidUtil/jni)
+$(call import-module,libfplutil/jni)
 $(call import-module,googletest)
 $(call import-module,android/native_app_glue)
 

@@ -28,14 +28,18 @@ LOCAL_SRC_FILES:= \
 	$(LOCAL_PATH)/main.cpp
 LOCAL_CFLAGS:=-Wno-narrowing -Wall -Werror -Wno-long-long -Wno-variadic-macros\
 	      -Wno-array-bounds -mhard-float -mfloat-abi=hard -mfpu=neon
-LOCAL_STATIC_LIBRARIES:=libandroidutil_static android_native_app_glue
+LOCAL_WHOLE_STATIC_LIBRARIES:=\
+	libfplutil_main \
+	libfplutil_print
+LOCAL_STATIC_LIBRARIES:=\
+	android_native_app_glue
 LOCAL_LDLIBS:=-llog -landroid -lm_hard
 LOCAL_ARM_MODE:=arm
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-add-path,$(abspath $(MATHFU_DIR)))
+$(call import-add-path,$(abspath $(DEPENDENCIES_FPLUTIL_DIR)))
 
-$(call import-module,unit_tests/AndroidUtil/jni)
+$(call import-module,libfplutil/jni)
 $(call import-module,android/native_app_glue)
 
 LOCAL_BENCHMARK_NAME:=

@@ -20,7 +20,6 @@
 
 #include "gtest/gtest.h"
 
-#include "AndroidUtil/AndroidMainWrapper.h"
 #include "precision.h"
 
 class MatrixTests : public ::testing::Test {

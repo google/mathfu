@@ -19,7 +19,6 @@
 
 #include "gtest/gtest.h"
 
-#include "AndroidUtil/AndroidMainWrapper.h"
 #include "precision.h"
 
 class QuaternionTests : public ::testing::Test {
