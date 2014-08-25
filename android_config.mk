@@ -16,3 +16,5 @@
 DEPENDENCIES_VECTORIAL_DIR?=$(MATHFU_DIR)/../../../../external/vectorial
 # Location of the googletest library.
 DEPENDENCIES_GTEST_DIR?=$(MATHFU_DIR)/../googletest
+# Location of the fplutil library.
+DEPENDENCIES_FPLUTIL_DIR?=$(MATHFU_DIR)/../fplutil

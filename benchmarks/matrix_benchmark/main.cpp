@@ -22,11 +22,6 @@
 
 #include <vector>
 
-#if defined(__ANDROID__)
-#include "AndroidUtil/AndroidLogPrint.h"
-#include "AndroidUtil/AndroidMainWrapper.h"
-#endif  // defined(__ANDROID__)
-
 #include "benchmark_common.h"
 
 // Number of elements to iterate over
