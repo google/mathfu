@@ -106,7 +106,7 @@ class Vector {
   /// @param s1 Scalar value for the first element of the vector.
   /// @param s2 Scalar value for the second element of the vector.
   inline Vector(const T& s1, const T& s2) {
-    STATIC_ASSERT(d == 2);
+    MATHFU_STATIC_ASSERT(d == 2);
     data_[0] = s1;
     data_[1] = s2;
   }
@@ -117,7 +117,7 @@ class Vector {
   /// @param s2 Scalar value for the second element of the vector.
   /// @param s3 Scalar value for the third element of the vector.
   inline Vector(const T& s1, const T& s2, const T& s3) {
-    STATIC_ASSERT(d == 3);
+    MATHFU_STATIC_ASSERT(d == 3);
     data_[0] = s1;
     data_[1] = s2;
     data_[2] = s3;
@@ -130,7 +130,7 @@ class Vector {
   /// @param s3 Scalar value for the third element of the vector.
   /// @param s4 Scalar value for the forth element of the vector.
   inline Vector(const T& s1, const T& s2, const T& s3, const T& s4) {
-    STATIC_ASSERT(d == 4);
+    MATHFU_STATIC_ASSERT(d == 4);
     data_[0] = s1;
     data_[1] = s2;
     data_[2] = s3;
@@ -162,15 +162,15 @@ class Vector {
   }
 
   /// Convenient named element accessors.
-  inline T& x() { STATIC_ASSERT(d > 0); return data_[0]; }
-  inline T& y() { STATIC_ASSERT(d > 1); return data_[1]; }
-  inline T& z() { STATIC_ASSERT(d > 2); return data_[2]; }
-  inline T& w() { STATIC_ASSERT(d > 3); return data_[3]; }
+  inline T& x() { MATHFU_STATIC_ASSERT(d > 0); return data_[0]; }
+  inline T& y() { MATHFU_STATIC_ASSERT(d > 1); return data_[1]; }
+  inline T& z() { MATHFU_STATIC_ASSERT(d > 2); return data_[2]; }
+  inline T& w() { MATHFU_STATIC_ASSERT(d > 3); return data_[3]; }
 
-  inline const T& x() const { STATIC_ASSERT(d > 0); return data_[0]; }
-  inline const T& y() const { STATIC_ASSERT(d > 1); return data_[1]; }
-  inline const T& z() const { STATIC_ASSERT(d > 2); return data_[2]; }
-  inline const T& w() const { STATIC_ASSERT(d > 3); return data_[3]; }
+  inline const T& x() const { MATHFU_STATIC_ASSERT(d > 0); return data_[0]; }
+  inline const T& y() const { MATHFU_STATIC_ASSERT(d > 1); return data_[1]; }
+  inline const T& z() const { MATHFU_STATIC_ASSERT(d > 2); return data_[2]; }
+  inline const T& w() const { MATHFU_STATIC_ASSERT(d > 3); return data_[3]; }
 
   /// Vector negation.
   /// @return A new vector that stores the negation result.

@@ -21,19 +21,19 @@
 
 #include <algorithm>
 
-#if !defined(COMPILE_WITHOUT_SIMD_SUPPORT)
+#if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
 #if defined(__SSE__)
-#define COMPILE_WITH_SIMD
+#define MATHFU_COMPILE_WITH_SIMD
 #elif defined(__ARM_NEON__)
-#define COMPILE_WITH_SIMD
+#define MATHFU_COMPILE_WITH_SIMD
 #elif defined(_M_IX86_FP)  // MSVC
 #if _M_IX86_FP >= 1 // SSE enabled
-#define COMPILE_WITH_SIMD
+#define MATHFU_COMPILE_WITH_SIMD
 #endif  // _M_IX86_FP >= 1
 #endif
-#endif  // !defined(COMPILE_WITHOUT_SIMD_SUPPORT)
+#endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 #define MATHFU_CAST union_reinterpret_cast
 #else
 #define MATHFU_CAST reinterpret_cast
@@ -68,7 +68,7 @@ volatile __attribute__((weak)) const char *kMathFuVersionString =
 
 template<bool> struct static_assert_util;
 template<> struct static_assert_util<true> {};
-#define STATIC_ASSERT(x) static_assert_util<(x)>()
+#define MATHFU_STATIC_ASSERT(x) static_assert_util<(x)>()
 
 // This is done to avoid aliasing issues.
 // http://cellperformance.beyond3d.com/articles/2006/06/understanding-strict-aliasing.html

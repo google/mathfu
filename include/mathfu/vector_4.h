@@ -21,13 +21,13 @@
 
 #include <math.h>
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 #include "vectorial/simd4f.h"
 #endif
 
 namespace mathfu {
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 template<>
 class Vector<float, 4> {
  public:
@@ -166,7 +166,7 @@ class Vector<float, 4> {
  private:
   simd4f data_;
 };
-#endif  // COMPILE_WITH_SIMD
+#endif  // MATHFU_COMPILE_WITH_SIMD
 
 }  // namespace mathfu
 
