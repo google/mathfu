@@ -17,6 +17,7 @@
 #include "mathfu/vector_2.h"
 #include "mathfu/vector_3.h"
 #include "mathfu/vector_4.h"
+#include "mathfu/constants.h"
 
 #include "gtest/gtest.h"
 
@@ -47,6 +48,13 @@ class VectorTests : public ::testing::Test {
     MY_TEST##_Test<float>(FLOAT_PRECISION); \
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
   }
+
+// Tests float, double, and integer constants in one line.
+#define VECTOR_TEST_CONSTANT_EQ(kConst, index, value) \
+  EXPECT_FLOAT_EQ(mathfu::kConst##f[(index)], static_cast<float>(value)); \
+  EXPECT_DOUBLE_EQ(mathfu::kConst##d[(index)], static_cast<double>(value)); \
+  EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
+
 
 // This will test initializaiton by passing in values. The template paramter d
 // corresponds to the size of the vector.
@@ -292,6 +300,36 @@ TEST_F(VectorTests, SampleTest) {
     EXPECT_NEAR(-0.25f, normal[0], precision);
     EXPECT_NEAR(-0.05f, normal[1], precision);
     EXPECT_NEAR(-0.16f, normal[2], precision);
+}
+
+// This will test that the constants have the correct values.
+TEST_F(VectorTests, ConstantTest) {
+  // Check values of various kinds of Vector2s.
+  for (int i = 0; i < 2; ++i) {
+    VECTOR_TEST_CONSTANT_EQ(kZeros2, i, 0);
+    VECTOR_TEST_CONSTANT_EQ(kOnes2, i, 1);
+    VECTOR_TEST_CONSTANT_EQ(kAxisX2, i, i == 0 ? 1 : 0);
+    VECTOR_TEST_CONSTANT_EQ(kAxisY2, i, i == 1 ? 1 : 0);
+  }
+
+  // Check values of various kinds of Vector3s.
+  for (int i = 0; i < 3; ++i) {
+    VECTOR_TEST_CONSTANT_EQ(kZeros3, i, 0);
+    VECTOR_TEST_CONSTANT_EQ(kOnes3, i, 1);
+    VECTOR_TEST_CONSTANT_EQ(kAxisX3, i, i == 0 ? 1 : 0);
+    VECTOR_TEST_CONSTANT_EQ(kAxisY3, i, i == 1 ? 1 : 0);
+    VECTOR_TEST_CONSTANT_EQ(kAxisZ3, i, i == 2 ? 1 : 0);
+  }
+
+  // Check values of various kinds of Vector4s.
+  for (int i = 0; i < 4; ++i) {
+    VECTOR_TEST_CONSTANT_EQ(kZeros4, i, 0);
+    VECTOR_TEST_CONSTANT_EQ(kOnes4, i, 1);
+    VECTOR_TEST_CONSTANT_EQ(kAxisX4, i, i == 0 ? 1 : 0);
+    VECTOR_TEST_CONSTANT_EQ(kAxisY4, i, i == 1 ? 1 : 0);
+    VECTOR_TEST_CONSTANT_EQ(kAxisZ4, i, i == 2 ? 1 : 0);
+    VECTOR_TEST_CONSTANT_EQ(kAxisW4, i, i == 3 ? 1 : 0);
+  }
 }
 
 int main(int argc, char **argv) {
