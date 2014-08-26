@@ -132,7 +132,7 @@ class Matrix {
   /// @param s01 A scalar for the element in the first row, second column.
   /// @param s11 A scalar for the element in the second row and column.
   inline Matrix(const T& s00, const T& s10, const T& s01, const T& s11) {
-    STATIC_ASSERT(rows == 2 && columns == 2);
+    MATHFU_STATIC_ASSERT(rows == 2 && columns == 2);
     data_[0] = Vector<T, rows>(s00, s10);
     data_[1] = Vector<T, rows>(s01, s11);
   }
@@ -151,7 +151,7 @@ class Matrix {
   inline Matrix(const T& s00, const T& s10, const T& s20,
                 const T& s01, const T& s11, const T& s21,
                 const T& s02, const T& s12, const T& s22) {
-    STATIC_ASSERT(rows == 3 && columns == 3);
+    MATHFU_STATIC_ASSERT(rows == 3 && columns == 3);
     data_[0] = Vector<T, rows>(s00, s10, s20);
     data_[1] = Vector<T, rows>(s01, s11, s21);
     data_[2] = Vector<T, rows>(s02, s12, s22);
@@ -179,7 +179,7 @@ class Matrix {
                 const T& s01, const T& s11, const T& s21, const T& s31,
                 const T& s02, const T& s12, const T& s22, const T& s32,
                 const T& s03, const T& s13, const T& s23, const T& s33) {
-    STATIC_ASSERT(rows == 4 && columns == 4);
+    MATHFU_STATIC_ASSERT(rows == 4 && columns == 4);
     data_[0] = Vector<T, rows>(s00, s10, s20, s30);
     data_[1] = Vector<T, rows>(s01, s11, s21, s31);
     data_[2] = Vector<T, rows>(s02, s12, s22, s32);
@@ -399,7 +399,7 @@ class Matrix {
   /// Note: 2 dimensional affine transforms are represented by 3x3 matrices.
   /// @return A new Vector with the first two components of column 2.
   inline Vector<T, 2> TranslationVector2D() const {
-    STATIC_ASSERT(rows == 3 && columns == 3);
+    MATHFU_STATIC_ASSERT(rows == 3 && columns == 3);
     return Vector<T, 2>(data_[2][0], data_[2][1]);
   }
 
@@ -407,7 +407,7 @@ class Matrix {
   /// Note: 3 dimensional affine transforms are represented by 4x4 matrices.
   /// @return A new Vector with the first three components of column 3.
   inline Vector<T, 3> TranslationVector3D() const {
-    STATIC_ASSERT(rows == 4 && columns == 4);
+    MATHFU_STATIC_ASSERT(rows == 4 && columns == 4);
     return Vector<T, 3>(data_[3][0], data_[3][1], data_[3][2]);
   }
 
@@ -754,7 +754,7 @@ inline const T& ConstGetHelper(const Matrix<T, rows, columns>& m,
   return *(MATHFU_CAST<const T*>(&m) + i);
 }
 
-#if defined(COMPILE_WITH_SIMD) && defined(COMPILE_WITH_PADDING)
+#if defined(MATHFU_COMPILE_WITH_SIMD) && defined(MATHFU_COMPILE_WITH_PADDING)
 template<int columns>
 inline float& GetHelper(Matrix<float, 3, columns>& m, const int i) {
   const int index = 4 * (i / 3) + i % 3;

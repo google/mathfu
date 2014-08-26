@@ -20,13 +20,13 @@
 #include "mathfu/vector_4.h"
 #include "mathfu/utilities.h"
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 #include "vectorial/simd4x4f.h"
 #endif
 
 namespace mathfu {
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 template<>
 class Matrix<float, 4> {
  public:
@@ -110,7 +110,7 @@ class Matrix<float, 4> {
 
   inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
     Vector<float, 3> return_v;
-#ifdef COMPILE_WITH_PADDING
+#ifdef MATHFU_COMPILE_WITH_PADDING
     v.data_[3] = 1;
     simd4x4f_matrix_vector_mul(&data_, &v.data_, &return_v.data_);
     return_v *= (1 / return_v.data_[3]);
@@ -249,7 +249,7 @@ inline Vector<float, 4> operator*(
   const Vector<float, 4>& v, const Matrix<float, 4>& m) {
   return m.VecMatTimes(v);
 }
-#endif  // COMPILE_WITH_SIMD
+#endif  // MATHFU_COMPILE_WITH_SIMD
 }  // namespace mathfu
 
 #endif  // MATHFU_MATRIX_4X4_H_

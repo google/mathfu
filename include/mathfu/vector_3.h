@@ -21,7 +21,7 @@
 
 #include <math.h>
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 #include "vectorial/simd4f.h"
 #endif
 
@@ -31,7 +31,7 @@
 // non simd values from and to simd datatypes. If intrinsics are used these
 // amount to essentially noops. MATHFU_INIT either creates a simd datatype if
 // the intrinsic is used or sets the T values if not.
-#ifdef COMPILE_WITH_PADDING
+#ifdef MATHFU_COMPILE_WITH_PADDING
 #define MATHFU_STORE(v, data) { data = v; }
 #define MATHFU_LOAD(data) data
 #define MATHFU_INIT(data, v1, v2, v3) \
@@ -45,7 +45,7 @@
 
 namespace mathfu {
 
-#ifdef COMPILE_WITH_SIMD
+#ifdef MATHFU_COMPILE_WITH_SIMD
 // This class should remain plain old data.
 template<>
 class Vector<float, 3> {
@@ -55,7 +55,7 @@ class Vector<float, 3> {
   inline Vector() {}
 
   inline Vector(const Vector<float, 3>& v) {
-#ifdef COMPILE_WITH_PADDING
+#ifdef MATHFU_COMPILE_WITH_PADDING
     data_ = v.data_;
 #else
     data_[0] = v.data_[0];
@@ -236,13 +236,13 @@ class Vector<float, 3> {
   template<class T, int rows, int cols> friend class Matrix;
 
  private:
-#ifdef COMPILE_WITH_PADDING
+#ifdef MATHFU_COMPILE_WITH_PADDING
   simd4f data_;
 #else
   float data_[3];
 #endif
 };
-#endif  // COMPILE_WITH_SIMD
+#endif  // MATHFU_COMPILE_WITH_SIMD
 
 }  // namespace mathfu
 

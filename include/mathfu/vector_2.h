@@ -21,13 +21,13 @@
 
 #include <math.h>
 
-#if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
+#if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
 #include <vectorial/simd2f.h>
 #endif
 
 namespace mathfu {
 
-#if !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
+#if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
 template<>
 class Vector<float, 2> {
  public:
@@ -186,7 +186,8 @@ class Vector<float, 2> {
  private:
   simd2f data_;
 };
-#endif  //  !defined(COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
+#endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) &&
+        // defined(__ARM_NEON__)
 
 }  // namespace mathfu
 

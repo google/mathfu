@@ -34,7 +34,7 @@ if(CMAKE_CXX_COMPILER MATCHES ".*clang")
 endif()
 
 # Definitions that disable SIMD support.
-set(mathfu_disable_simd_defines -DCOMPILE_WITHOUT_SIMD_SUPPORT)
+set(mathfu_disable_simd_defines -DMATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
 
 # If SIMD build option is enabled.
 if(mathfu_enable_simd)
