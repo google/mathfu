@@ -198,7 +198,21 @@ class Matrix {
     data_[3] = Vector<T, rows>(s03, s13, s23, s33);
   }
 
-  /// Create a matirx form the first row*column elements of an array.
+  /// Create 4x4 matrix from 4, 4 element vectors.
+  /// @param column0 Vector used for the first column.
+  /// @param column1 Vector used for the second column.
+  /// @param column2 Vector used for the third column.
+  /// @param column3 Vector used for the fourth column.
+  inline Matrix(const Vector<T, 4> column0, const Vector<T, 4> column1,
+                const Vector<T, 4> column2, const Vector<T, 4> column3) {
+    MATHFU_STATIC_ASSERT(rows == 4 && columns == 4);
+    data_[0] = column0;
+    data_[1] = column1;
+    data_[2] = column2;
+    data_[3] = column3;
+  }
+
+  /// Create a matrix form the first row*column elements of an array.
   /// @param a Array of values that the matrix will be iniitlized to.
   explicit inline Matrix(const T* a) {
     MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(&a[i*columns])));
@@ -1056,21 +1070,32 @@ static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
       -(zfar + znear) / (zfar - znear), static_cast<T>(1));
 }
 
+// Calculate the axes required to construct a 3-dimensional camera matrix that
+// looks at "at" from eye position "eye" with the up vector "up".  The axes
+// are returned in a 4 element "axes" array.
+template<class T>
+static void LookAtHelperCalculateAxes(
+    const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up,
+    Vector<T, 3> * const axes) {
+  axes[2] = (at - eye).Normalized();
+  axes[0] = Vector<T, 3>::CrossProduct(up, axes[2]).Normalized();
+  axes[1] = Vector<T, 3>::CrossProduct(axes[2], axes[0]);
+  axes[3] = Vector<T, 3>(-Vector<T, 3>::DotProduct(axes[0], eye),
+                         -Vector<T, 3>::DotProduct(axes[1], eye),
+                         -Vector<T, 3>::DotProduct(axes[2], eye));
+}
+
 // Create a 3-dimensional camera matrix.
 template<class T>
 static inline Matrix<T, 4, 4> LookAtHelper(
     const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up) {
-  const Vector<T, 3> zaxis = (at - eye).Normalized();
-  const Vector<T, 3> xaxis =
-      Vector<T, 3>::CrossProduct(up, zaxis).Normalized();
-  const Vector<T, 3> yaxis = Vector<T, 3>::CrossProduct(zaxis, xaxis);
-  return Matrix<T, 4, 4>(
-      xaxis[0], yaxis[0], zaxis[0], static_cast<T>(0),
-      xaxis[1], yaxis[1], zaxis[1], static_cast<T>(0),
-      xaxis[2], yaxis[2], zaxis[2], static_cast<T>(0),
-      -Vector<T, 3>::DotProduct(xaxis, eye),
-      -Vector<T, 3>::DotProduct(yaxis, eye),
-      -Vector<T, 3>::DotProduct(zaxis, eye), static_cast<T>(1));
+  Vector<T, 3> axes[4];
+  LookAtHelperCalculateAxes(at, eye, up, axes);
+  const Vector<T, 4> column0(axes[0][0], axes[1][0], axes[2][0], 0);
+  const Vector<T, 4> column1(axes[0][1], axes[1][1], axes[2][1], 0);
+  const Vector<T, 4> column2(axes[0][2], axes[1][2], axes[2][2], 0);
+  const Vector<T, 4> column3(axes[3], 1);
+  return Matrix<T, 4, 4>(column0, column1, column2, column3);
 }
 
 

@@ -65,6 +65,8 @@ function(mathfu_configure_flags target)
   # If the SIMD build option is enabled.
   if(enable_simd)
     # Enable SSE4.1 when building with GCC / Clang.
+    # NOTE: It's also possible to build the library using using SSE2 with GCC /
+    # Clang, change -msse4.1 to -msse2.
     if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
         CMAKE_COMPILER_IS_CLANGXX)
       target_compile_options(${target} PRIVATE -msse4.1)

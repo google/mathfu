@@ -62,7 +62,27 @@ class Matrix<float, 4> {
                             simd4f_create(m[12], m[13], m[14], m[15]));
   }
 
+  inline Matrix<float, 4>(const Vector<float, 4>& column0,
+                          const Vector<float, 4>& column1,
+                          const Vector<float, 4>& column2,
+                          const Vector<float, 4>& column3) {
+#if defined(MATHFU_COMPILE_WITH_PADDING)
+    data_ = simd4x4f_create(column0.data_, column1.data_, column2.data_,
+                            column3.data_);
+#else
+    data_ = simd4x4f_create(
+        simd4f_create(column0[0], column0[1], column0[2], column0[3]),
+        simd4f_create(column1[0], column1[1], column1[2], column1[3]),
+        simd4f_create(column2[0], column2[1], column2[2], column2[3]),
+        simd4f_create(column3[0], column3[1], column3[2], column3[3]));
+#endif  // defined(MATHFU_COMPILE_WITH_PADDING)
+  }
+
   inline const float& operator()(const int i, const int j) const {
+    return FindElem(i, FindColumn(j));
+  }
+
+  inline float& operator()(const int i, const int j) {
     return FindElem(i, FindColumn(j));
   }
 
@@ -72,7 +92,19 @@ class Matrix<float, 4> {
     return FindElem(row, FindColumn(col));
   }
 
+  inline float& operator()(const int i) {
+    const int col = (i - 1) / 4;
+    const int row = (i - 1) % 4;
+    return FindElem(row, FindColumn(col));
+  }
+
   inline const float& operator[](const int i) const {
+    const int col = i / 4;
+    const int row = i % 4;
+    return FindElem(row, FindColumn(col));
+  }
+
+  inline float& operator[](const int i) {
     const int col = i / 4;
     const int row = i % 4;
     return FindElem(row, FindColumn(col));
@@ -119,8 +151,8 @@ class Matrix<float, 4> {
     simd4f vec = simd4f_create(v.data_[0], v.data_[1], v.data_[2], 1.0f);
     simd4x4f_matrix_vector_mul(&data_, &vec, &vec);
     simd4f_mul(vec, simd4f_splat(*(MATHFU_CAST<float*>(&vec) + 3)));
-    MATHFU_STORE(vec, return_v.data_);
-#endif
+    MATHFU_VECTOR3_STORE3(vec, return_v.data_);
+#endif // MATHFU_COMPILE_WITH_PADDING
     return return_v;
   }
 
@@ -158,7 +190,7 @@ class Matrix<float, 4> {
 
   inline Vector<float, 3> TranslationVector3D() const {
     Vector<float, 3> return_v;
-    MATHFU_STORE(FindColumn(3), return_v.data_);
+    MATHFU_VECTOR3_STORE3(FindColumn(3), return_v.data_);
     return return_v;
   }
 
@@ -269,7 +301,15 @@ class Matrix<float, 4> {
     return *(MATHFU_CAST<simd4f*>(&data_) + i);
   }
 
+  inline simd4f& FindColumn(const int i) {
+    return *(MATHFU_CAST<simd4f*>(&data_) + i);
+  }
+
   inline const float& FindElem(const int i, const simd4f& column) const {
+    return *(MATHFU_CAST<float*>(&column) + i);
+  }
+
+  inline float& FindElem(const int i, const simd4f& column) {
     return *(MATHFU_CAST<float*>(&column) + i);
   }
 
