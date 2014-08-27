@@ -162,5 +162,6 @@ TEST_F(QuaternionTests, QuaternionSample) {
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
+  printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);
   return RUN_ALL_TESTS();
 }
