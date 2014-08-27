@@ -14,7 +14,7 @@
 
 LOCAL_PATH:=$(call my-dir)/..
 
-source_directories:=include
+include $(LOCAL_PATH)/android_config.mk
 
 # Conditionally include libstlport (so include path is added to CFLAGS) if
 # it's not being built using the NDK build process.
@@ -25,8 +25,25 @@ $(eval \
   endif)
 endef
 
-# Configure common local variables to build box2d adding $(1) to the end of the
-# build target's name.
+# mathfu-cflags: disable_simd force_padding debug
+# Expands to the compiler flags for applications or libraries that use MathFu.
+# Where disable_simd specifies whether SIMD code should be disabled,
+# force_padding specifies whether padding should be added to data structures
+# in SIMD mode (-1 = default, 0 = padding off, 1 = padding on).
+define mathfu-cflags
+  $(if $(subst 0,,$(strip $(1))),-DMATHFU_COMPILE_WITHOUT_SIMD_SUPPORT,\
+    $(if $(subst -1,,$(strip $(2))),\
+               -DMATHFU_COMPILE_FORCE_PADDING=$(strip $(2)),)) \
+  $(if $(APP_DEBUG),-DDEBUG=1,-DDEBUG=0) \
+  $(if $(filter armeabi-v7a-hard,$(TARGET_ARCH_ABI)),\
+             -mfpu=neon -mhard-float -mfloat-abi=hard) \
+  $(if $(filter x86,$(TARGET_ARCH_ABI)),-msse) \
+  $(if $(filter x86_64,$(TARGET_ARCH_ABI)),-msse4.1)
+endef
+
+
+# Configure common local variables to build mathfu adding $(1) to the end of
+# the build target's name.
 define mathfu-module
 $(eval \
   LOCAL_MODULE:=libmathfu$(1)
@@ -34,30 +51,56 @@ $(eval \
   LOCAL_COPY_HEADERS_TO:=mathfu$(1))
 endef
 
-# Configure local variables to build box2d adding $(1) to the end of the
-# build target's name.
+# Configure local variables to build mathfu adding $(1) to the end of the
+# build target's name, disabling SIMD depending upon the value of $(2) (see
+# mathfu-cflags $(1)) and configuring padding (see mathfu-cflags $(2))
+# with $(3).
 define mathfu-build
 $(eval \
   $$(call mathfu-module,$(1))
   LOCAL_SRC_FILES:=
   LOCAL_COPY_HEADERS:=\
-    $(subst $(LOCAL_PATH)/,,\
-      $(foreach source_dir,$(source_directories),\
-        $(wildcard $(LOCAL_PATH)/$(source_dir)/*.h)))
-  LOCAL_CFLAGS:=$(if $(APP_DEBUG),-DDEBUG=1,-DDEBUG=0)
-  LOCAL_EXPORT_C_INCLUDES:=$(LOCAL_PATH)
+    $(subst $(LOCAL_PATH)/,,$(wildcard $(LOCAL_PATH)/include/mathfu/*.h))
+  LOCAL_CFLAGS:=$$(call mathfu-cflags,$(2),$(3))
+  LOCAL_EXPORT_CFLAGS:=$$(LOCAL_CFLAGS)
+  LOCAL_EXPORT_C_INCLUDES:=\
+	$(LOCAL_PATH)/include \
+	$(DEPENDENCIES_VECTORIAL_DIR)/include
+  LOCAL_EXPORT_LDLIBS:=-lm
   LOCAL_ARM_MODE:=arm
+  LOCAL_ARM_NEON:=$(if $(filter \
+    armeabi-v7a armeabi-v7a-hard,$(TARGET_ARCH_ABI)),true,)
   $$(call add-stlport-includes))
 endef
 
 # --- libmathfu ---
-# Build shared library.
+# Target which builds an empty static library so that it's possible for
+# projects using this module to add the appropriate flags and includes to
+# their compile command line.  This builds mathfu using the default build
+# configuration specified in ${mathfu}/android_config.mk
 include $(CLEAR_VARS)
-$(call mathfu-build,)
-include $(BUILD_SHARED_LIBRARY)
-
-# --- libmathfu_static ---
-# Build static library.
-include $(CLEAR_VARS)
-$(call mathfu-build,_static)
+$(call mathfu-build,,$(MATHFU_DISABLE_SIMD),$(MATHFU_FORCE_PADDING))
 include $(BUILD_STATIC_LIBRARY)
+
+# --- libmathfu_no_simd ---
+# Builds an empty static library (similar to libmathfu).
+# This build configuration has SIMD disabled.
+include $(CLEAR_VARS)
+$(call mathfu-build,_no_simd,1,-1)
+include $(BUILD_STATIC_LIBRARY)
+
+# --- libmathfu_simd ---
+# Builds an empty static library (similar to libmathfu).
+# This build configuration has SIMD enabled and padding enabled.
+include $(CLEAR_VARS)
+$(call mathfu-build,_simd_padding,0,1)
+include $(BUILD_STATIC_LIBRARY)
+
+# --- libmathfu_simd_no_padding ---
+# Builds an empty static library (similar to libmathfu).
+# This build configuration has SIMD enabled and padding disabled.
+include $(CLEAR_VARS)
+$(call mathfu-build,_simd_no_padding,0,1)
+include $(BUILD_STATIC_LIBRARY)
+
+mathfu_cflags:=

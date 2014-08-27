@@ -18,3 +18,9 @@ DEPENDENCIES_VECTORIAL_DIR?=$(MATHFU_DIR)/../../../../external/vectorial
 DEPENDENCIES_GTEST_DIR?=$(MATHFU_DIR)/../googletest
 # Location of the fplutil library.
 DEPENDENCIES_FPLUTIL_DIR?=$(MATHFU_DIR)/../fplutil
+
+# Whether to disable SIMD.
+MATHFU_DISABLE_SIMD?=0
+# Whether to force padding of data structures with SIMD enabled.
+# -1 = default, 0 = no padding, 1 = padding
+MATHFU_FORCE_PADDING?=-1

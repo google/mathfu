@@ -27,8 +27,8 @@ declare -r script_directory="$(cd "$(dirname "$0")"; pwd)"
 # Temporary file for the test log.
 declare -r test_log="$(mktemp /tmp/${script_name}.XXXXXXXX)"
 
-# List of tests that aren't currently working on Android.
-declare -r test_blacklist="HelloWorld"
+# List of tests / directories that should not be included.
+declare -r test_blacklist="bin"
 
 # Execute the build_apk script.
 build_apk() {
@@ -38,7 +38,7 @@ build_apk() {
 # Get the test directories, assumes the current directory is script_directory.
 get_test_directories() {
   local extended_re=$(( uname -s | grep -q Darwin ) && echo E || echo r)
-  find . -maxdepth 2 -type f -name 'AndroidManifest.xml' | \
+  find . -maxdepth 3 -type f -name 'AndroidManifest.xml' | \
     sed -${extended_re} 's@^\./@@;s@/[^/]+$@@' | \
     grep -Fv "${test_blacklist}"
 }

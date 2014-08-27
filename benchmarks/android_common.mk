@@ -14,34 +14,33 @@
 include $(CLEAR_VARS)
 
 # Configure the locations of MathFu's dependencies.
-MATHFU_DIR:=$(abspath $(LOCAL_PATH)/../../)
+MATHFU_DIR:=$(abspath $(LOCAL_PATH)/../..)
 include $(MATHFU_DIR)/android_config.mk
 
 namespace:=$(if $(NDK_PROJECT_PATH),,_mathfu)
 LOCAL_MODULE:=$(LOCAL_BENCHMARK_NAME)${namespace}
 LOCAL_MODULE_TAGS:=optional
-LOCAL_C_INCLUDES:= \
-	$(LOCAL_PATH)/../ \
-	$(MATHFU_DIR)/include \
-	$(DEPENDENCIES_VECTORIAL_DIR)/include
 LOCAL_SRC_FILES:= \
-	$(LOCAL_PATH)/main.cpp
-LOCAL_CFLAGS:=-Wno-narrowing -Wall -Werror -Wno-long-long -Wno-variadic-macros\
-	      -Wno-array-bounds -mhard-float -mfloat-abi=hard -mfpu=neon
+	$(abspath $(LOCAL_PATH)/main.cpp)
+LOCAL_C_INCLUDES:=$(MATHFU_DIR)/benchmarks
+LOCAL_LDLIBS:=-llog -landroid
 LOCAL_WHOLE_STATIC_LIBRARIES:=\
 	libfplutil_main \
 	libfplutil_print
 LOCAL_STATIC_LIBRARIES:=\
-	android_native_app_glue
-LOCAL_LDLIBS:=-llog -landroid -lm_hard
+	android_native_app_glue \
+	libgtest \
+	libmathfu
+LOCAL_CFLAGS:=-Wall -Werror
 LOCAL_ARM_MODE:=arm
 include $(BUILD_SHARED_LIBRARY)
 
+$(call import-add-path,$(abspath $(MATHFU_DIR)/..))
 $(call import-add-path,$(abspath $(DEPENDENCIES_FPLUTIL_DIR)))
 
+$(call import-module,mathfu/jni)
 $(call import-module,libfplutil/jni)
 $(call import-module,android/native_app_glue)
 
 LOCAL_BENCHMARK_NAME:=
 MATHFU_DIR:=
-
