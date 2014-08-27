@@ -22,6 +22,8 @@
 #include "mathfu/vector_4.h"
 #include "mathfu/utilities.h"
 
+#include <cmath>
+
 #include <assert.h>
 
 #ifdef _MSC_VER
@@ -102,6 +104,16 @@ inline void TimesHelper(const Matrix<T, rows, columns>& m1,
 template<class T, int rows, int columns>
 static inline Matrix<T, rows, columns> OuterProductHelper(
     const Vector<T, rows>& v1, const Vector<T, columns>& v2);
+template<class T>
+inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
+                                         T handedness);
+template<class T>
+static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
+                                          T znear, T zfar);
+template<class T>
+static inline Matrix<T, 4, 4> LookAtHelper(
+    const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up);
+
 
 /// @class Matrix
 /// Stores a Matrix of rows*columns elements with type T and provides a set of
@@ -480,27 +492,14 @@ class Matrix {
   /// Create a 4x4 perpective matrix.
   /// @handedness: 1.0f for RH, -1.0f for LH
   static inline Matrix<T, 4, 4> Perspective(T fovy, T aspect, T znear, T zfar,
-                                            T handedness = 1.0f) {
-    const float y = 1 / tanf(fovy * .5f);
-    const float x = y / aspect;
-    const float zdist = (znear - zfar) * handedness;
-    const float zfar_per_zdist = zfar / zdist;
-
-    return Matrix<T, 4, 4>(x, 0, 0, 0,
-                           0, y, 0, 0,
-                           0, 0, zfar_per_zdist, -1.f * handedness,
-                           0, 0, znear * zfar_per_zdist * handedness, 0);
+                                            T handedness = 1) {
+    return PerspectiveHelper(fovy, aspect, znear, zfar, handedness);
   }
 
   /// Create a 4x4 orthographic matrix.
   static inline Matrix<T, 4, 4> Ortho(T left, T right, T bottom, T top,
                                       T znear, T zfar) {
-    return Matrix<T, 4, 4>(
-        2.0f / (right - left), 0, 0, 0,
-        0, 2.0f / (top - bottom), 0, 0,
-        0, 0, -2.0f / (zfar - znear), 0,
-        -(right + left) / (right - left), -(top + bottom) / (top - bottom),
-        -(zfar + znear) / (zfar - znear), 1.0f);
+    return OrthoHelper(left, right, bottom, top, znear, zfar);
   }
 
   /// Create a 3-dimensional camera matrix.
@@ -510,18 +509,7 @@ class Matrix {
   /// y-axis is up.
   static inline Matrix<T, 4, 4> LookAt(const Vector<T, 3>& at,
       const Vector<T, 3>& eye, const Vector<T, 3>& up) {
-    const Vector<T, 3> zaxis = (at - eye).Normalized();
-    const Vector<T, 3> xaxis =
-        Vector<T, 3>::CrossProduct(up, zaxis).Normalized();
-    const Vector<T, 3> yaxis = Vector<T, 3>::CrossProduct(zaxis, xaxis);
-
-    return Matrix<T, 4, 4>(
-     xaxis[0], yaxis[0], zaxis[0], static_cast<T>(0.0),
-     xaxis[1], yaxis[1], zaxis[1], static_cast<T>(0.0),
-     xaxis[2], yaxis[2], zaxis[2], static_cast<T>(0.0),
-     -Vector<T, 3>::DotProduct(xaxis, eye),
-     -Vector<T, 3>::DotProduct(yaxis, eye),
-     -Vector<T, 3>::DotProduct(zaxis, eye), static_cast<T>(1.0));
+    return LookAtHelper(at, eye, up);
   }
 
   /// Vector/Matrix multiplication.
@@ -533,6 +521,14 @@ class Matrix {
     const int d = columns;
     MATHFU_VECTOR_OPERATOR((Vector<T, rows>::DotProduct(m.data_[i], v)));
   }
+
+  // Dimensions of the matrix.
+  /// Number of rows in the matrix.
+  static const int kRows = rows;
+  /// Number of columns in the matrix.
+  static const int kColumns = columns;
+  /// Total number of elements in the matrix.
+  static const int kElements = rows * columns;
 
  private:
   Vector<T, rows> data_[columns];
@@ -1032,6 +1028,51 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
   }
   return true;
 }
+
+// Create a 4x4 perpective matrix.
+template<class T>
+inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
+                                         T handedness)
+{
+  const float y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
+  const float x = y / aspect;
+  const float zdist = (znear - zfar) * handedness;
+  const float zfar_per_zdist = zfar / zdist;
+  return Matrix<T, 4, 4>(x, 0, 0, 0,
+                         0, y, 0, 0,
+                         0, 0, zfar_per_zdist, -1 * handedness,
+                         0, 0, znear * zfar_per_zdist * handedness, 0);
+}
+
+/// Create a 4x4 orthographic matrix.
+template<class T>
+static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
+                                          T znear, T zfar) {
+  return Matrix<T, 4, 4>(
+      static_cast<T>(2) / (right - left), 0, 0, 0,
+      0, static_cast<T>(2) / (top - bottom), 0, 0,
+      0, 0, static_cast<T>(-2) / (zfar - znear), 0,
+      -(right + left) / (right - left), -(top + bottom) / (top - bottom),
+      -(zfar + znear) / (zfar - znear), static_cast<T>(1));
+}
+
+// Create a 3-dimensional camera matrix.
+template<class T>
+static inline Matrix<T, 4, 4> LookAtHelper(
+    const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up) {
+  const Vector<T, 3> zaxis = (at - eye).Normalized();
+  const Vector<T, 3> xaxis =
+      Vector<T, 3>::CrossProduct(up, zaxis).Normalized();
+  const Vector<T, 3> yaxis = Vector<T, 3>::CrossProduct(zaxis, xaxis);
+  return Matrix<T, 4, 4>(
+      xaxis[0], yaxis[0], zaxis[0], static_cast<T>(0),
+      xaxis[1], yaxis[1], zaxis[1], static_cast<T>(0),
+      xaxis[2], yaxis[2], zaxis[2], static_cast<T>(0),
+      -Vector<T, 3>::DotProduct(xaxis, eye),
+      -Vector<T, 3>::DotProduct(yaxis, eye),
+      -Vector<T, 3>::DotProduct(zaxis, eye), static_cast<T>(1));
+}
+
 
 }  // namespace mathfu
 

@@ -229,6 +229,40 @@ class Matrix<float, 4> {
       m[6], m[7], m[8], 0, 0, 0, 0, 1);
   }
 
+  /// Create a 4x4 perpective matrix.
+  /// @handedness: 1.0f for RH, -1.0f for LH
+  static inline Matrix<float, 4, 4> Perspective(
+      float fovy, float aspect, float znear, float zfar,
+      float handedness = 1.0f) {
+    return PerspectiveHelper(fovy, aspect, znear, zfar, handedness);
+  }
+
+  /// Create a 4x4 orthographic matrix.
+  static inline Matrix<float, 4, 4> Ortho(float left, float right,
+                                          float bottom, float top,
+                                          float znear, float zfar) {
+    return OrthoHelper(left, right, bottom, top, znear, zfar);
+  }
+
+  /// Create a 3-dimensional camera matrix.
+  /// @param at The look-at target of the camera.
+  /// @param eye The position of the camera.
+  /// @param up The up vector in the world, for example (0, 1, 0) if the
+  /// y-axis is up.
+  static inline Matrix<float, 4, 4> LookAt(
+      const Vector<float, 3>& at, const Vector<float, 3>& eye,
+      const Vector<float, 3>& up) {
+    return LookAtHelper(at, eye, up);
+  }
+
+  // Dimensions of the matrix.
+  /// Number of rows in the matrix.
+  static const int kRows = 4;
+  /// Number of columns in the matrix.
+  static const int kColumns = 4;
+  /// Total number of elements in the matrix.
+  static const int kElements = 4 * 4;
+
  private:
   inline const simd4f& FindColumn(const int i) const {
     return *(MATHFU_CAST<simd4f*>(&data_) + i);

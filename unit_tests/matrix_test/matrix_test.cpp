@@ -19,6 +19,7 @@
 #include "mathfu/vector.h"
 #include "mathfu/utilities.h"
 
+#include <cmath>
 #include <string>
 #include <sstream>
 
@@ -31,6 +32,14 @@ class MatrixTests : public ::testing::Test {
   virtual void SetUp() {}
   virtual void TearDown() {}
 };
+
+template<class T, int rows, int columns>
+struct MatrixExpectation {
+  const char *description;
+  mathfu::Matrix<T, rows, columns> calculated;
+  mathfu::Matrix<T, rows, columns> expected;
+};
+
 
 // This will automatically generate tests for each template parameter.
 #define TEST_ALL_F(MY_TEST, FLOAT_PRECISION_VALUE, DOUBLE_PRECISION_VALUE) \
@@ -267,8 +276,7 @@ TEST_ALL_F(OuterProduct, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // Print the specified matrix to output_string in the form.
 template<class T, int rows, int columns>
-void MatrixToString(const mathfu::Matrix<T, rows, columns> &matrix,
-                    std::string* const output_string) {
+std::string MatrixToString(const mathfu::Matrix<T, rows, columns> &matrix) {
   std::stringstream ss;
   ss.flags(std::ios::fixed);
   ss.precision(4);
@@ -278,7 +286,7 @@ void MatrixToString(const mathfu::Matrix<T, rows, columns> &matrix,
     }
     ss << "\n";
   }
-  *output_string = ss.str();
+  return ss.str();
 }
 
 // Test the inverse of a set of noninvertible matrices.
@@ -337,23 +345,23 @@ TEST_ALL_F(InverseNonInvertible, FLOAT_PRECISION, DOUBLE_PRECISION);
 template<class T, int d>
 void Inverse_Test(const T& precision) {
   T x[d * d];
-  const int elements = d * d;
   for (int iterations = 0; iterations < 1000; ++iterations) {
     // NOTE: This assumes that matrices generated here are invertible since
     // there is a tiny probability that a randomly generated matrix will be
     // noninvertible.  This does mean that this test can be flakey by
     // occasionally generating noninvertible matrices.
-    for (int i = 0; i < elements; ++i) x[i] = mathfu::RandomRange<T>(1);
+    for (int i = 0; i < mathfu::Matrix<T, d>::kElements; ++i) {
+      x[i] = mathfu::RandomRange<T>(1);
+    }
     mathfu::Matrix<T, d> matrix(x);
-    std::string error_string;
-    MatrixToString(matrix, &error_string);
+    std::string error_string = MatrixToString(matrix);
     error_string += "\n";
     mathfu::Matrix<T, d> inverse_matrix(matrix.Inverse());
     mathfu::Matrix<T, d> identity_matrix(matrix * inverse_matrix);
 
-    MatrixToString(inverse_matrix, &error_string);
+    error_string += MatrixToString(inverse_matrix);
     error_string += "\n";
-    MatrixToString(identity_matrix, &error_string);
+    error_string += MatrixToString(identity_matrix);
 
     // This will verify that M * Minv is equal to the identity.
     for (int i = 0; i < d; ++i) {
@@ -435,6 +443,188 @@ void FromScaleVector_Test(const T& precision) {
 }
 // Precision is zero. Results must be perfect for this test.
 TEST_ALL_F(FromScaleVector, 0.0f, 0.0);
+
+// Compare a set of Matrix<T, rows, columns> with expected values.
+template<class T, int rows, int columns>
+void VerifyMatrixExpectations(
+    const MatrixExpectation<T, rows, columns>* test_cases,
+    const size_t number_of_test_cases, const T& precision) {
+  for (size_t i = 0; i < number_of_test_cases; ++i) {
+    const MatrixExpectation<T, rows, columns> &test = test_cases[i];
+    for (int j = 0; j < mathfu::Matrix<T, rows, columns>::kElements; ++j) {
+      const mathfu::Matrix<T, rows, columns> &calculated = test.calculated;
+      const mathfu::Matrix<T, rows, columns> &expected = test.expected;
+      EXPECT_NEAR(calculated[j], expected[j], precision) <<
+          "element " << j << " (" << (j / columns) << ", " << (j % columns) <<
+          "), case " << test.description << "\n" <<
+          MatrixToString(calculated) << "vs expected\n" <<
+          MatrixToString(expected);
+    }
+  }
+}
+
+// Test perspective matrix calculation.
+template<class T>
+void Perspective_Test(const T& precision) {
+  static const MatrixExpectation<T, 4, 4> kTestCases[] = {
+    {
+      "normalized handedness=1",
+      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 1, 0, 1, 1),
+      mathfu::Matrix<T, 4>(1, 0, 0, 0,
+                           0, 1, 0, 0,
+                           0, 0, -1, -1,
+                           0, 0, 0, 0),
+    },
+    {
+      "normalized handedness=-1",
+      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 1, 0, 1, -1),
+      mathfu::Matrix<T, 4>(1, 0, 0, 0,
+                           0, 1, 0, 0,
+                           0, 0, 1, 1,
+                           0, 0, 0, 0),
+    },
+    {
+      "widefov",
+      mathfu::Matrix<T, 4>::Perspective(atan(2) * 2, 1, 0, 1, 1),
+      mathfu::Matrix<T, 4>(0.5, 0, 0, 0,
+                           0, 0.5, 0, 0,
+                           0, 0, -1, -1,
+                           0, 0, 0, 0),
+    },
+    {
+      "narrowfov",
+      mathfu::Matrix<T, 4>::Perspective(atan(0.1) * 2, 1, 0, 1, 1),
+      mathfu::Matrix<T, 4>(10, 0, 0, 0,
+                           0, 10, 0, 0,
+                           0, 0, -1, -1,
+                           0, 0, 0, 0),
+    },
+    {
+      "2:1 aspect ratio",
+      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 0.5, 0, 1, 1),
+      mathfu::Matrix<T, 4>(2, 0, 0, 0,
+                           0, 1, 0, 0,
+                           0, 0, -1, -1,
+                           0, 0, 0, 0),
+    },
+    {
+      "deeper view frustrum",
+      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 1, -2, 2, 1),
+      mathfu::Matrix<T, 4>(1, 0, 0, 0,
+                           0, 1, 0, 0,
+                           0, 0, -0.5, -1,
+                           0, 0, 1, 0),
+    },
+  };
+  VerifyMatrixExpectations(
+      kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
+}
+TEST_SCALAR_F(Perspective);
+
+// Test orthographic matrix calculation.
+template<class T>
+void Ortho_Test(const T& precision) {
+  static const MatrixExpectation<T, 4, 4> kTestCases[] = {
+    {
+      "normalized",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 0, 2, 2, 0),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              -1, -1, 1, 1),
+    },
+    {
+      "narrow",
+      mathfu::Matrix<T, 4, 4>::Ortho(1, 3, 0, 2, 2, 0),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              -2, -1, 1, 1),
+
+    },
+    {
+      "squat",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 1, 3, 2, 0),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              -1, -2, 1, 1),
+
+    },
+    {
+      "deep",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 0, 2, 3, 1),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              -1, -1, 2, 1),
+
+    },
+  };
+  VerifyMatrixExpectations(
+      kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
+}
+TEST_SCALAR_F(Ortho);
+
+// Test look-at matrix calculation.
+template<class T>
+void LookAt_Test(const T& precision) {
+  static const MatrixExpectation<T, 4, 4> kTestCases[] = {
+    {
+      "origin along z",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 0, 1), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(0, 1, 0)),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              0, 0, 0, 1),
+    },
+    {
+      "origin along 2z",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 0, 2), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(0, 1, 0)),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              0, 0, 0, 1),
+    },
+    {
+      "origin along x",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(1, 0, 0), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(0, 1, 0)),
+      mathfu::Matrix<T, 4, 4>(0, 0, 1, 0,
+                              0, 1, 0, 0,
+                              -1, 0, 0, 0,
+                              0, 0, 0, 1),
+    },
+    {
+      "origin along y",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 1, 0), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(1, 0, 0)),
+      mathfu::Matrix<T, 4, 4>(0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              1, 0, 0, 0,
+                              0, 0, 0, 1),
+    },
+    {
+      "translated eye, looking along z",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(1, 1, 2), mathfu::Vector<T, 3>(1, 1, 1),
+          mathfu::Vector<T, 3>(0, 1, 0)),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              -1, -1, -1, 1),
+    },
+  };
+  VerifyMatrixExpectations(
+      kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
+}
+TEST_SCALAR_F(LookAt);
 
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix opertations given in the sample file.
