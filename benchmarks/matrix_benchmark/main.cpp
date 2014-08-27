@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
   }
   // Start matrix benchmark, running a number of loops for more accurate
   // numbers.
-  printf("Running matrix benchmark...\n");
+  printf("Running matrix benchmark (%s)...\n", MATHFU_BUILD_OPTIONS_STRING);
   Timer timer;
   PERFTEST_2D_VECTOR_LOOP(kIterations, kMatrixSize) mul += matrices[j];
   PERFTEST_2D_VECTOR_LOOP(kIterations, kMatrixSize) mul *= matrices[j];

@@ -11,11 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 2.8.12)
 
 get_filename_component(
     vectorial_dir_default
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../external/vectorial"
+    "${CMAKE_CURRENT_LIST_DIR}/../../../../external/vectorial"
     REALPATH)
 
 set(PROJECT_NAME MathFu)
@@ -25,47 +25,85 @@ set(dependencies_vectorial_dir "${vectorial_dir_default}"
     CACHE PATH "Directory containing the Vectorial library.")
 option(mathfu_enable_simd "Use SIMD implementations when available." ON)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-include_directories(${dependencies_vectorial_dir}/include)
-
 # Detect clang
 if(CMAKE_CXX_COMPILER MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
 
-# Definitions that disable SIMD support.
-set(mathfu_disable_simd_defines -DMATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
+# Save the mathfu directory, store this in the cache so that it's globally
+# accessible from mathfu_configure_flags().
+set(mathfu_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "mathfu directory")
 
-# If SIMD build option is enabled.
-if(mathfu_enable_simd)
-  # Enable SSE4.1 when building with GCC / Clang.
-  if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
-         CMAKE_COMPILER_IS_CLANGXX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.1")
+# Set build options for ${target} that are required to build with MathFu.
+# This takes the optional arguments "enable_simd force_padding".
+#
+# If enable_simd is specified it configures whether the project should be
+# built with SIMD optimized functions.  If force_padding is specified and
+# SIMD is enabled, some data structures are padded to work more efficiently
+# with SIMD instructions.
+#
+# If enable_simd is not specified, the mathfu_enable_simd option is used.
+# If force_padding isn't specified padding is enabled based upon the
+# best general configuration for the target architecture.
+function(mathfu_configure_flags target)
+  set(enable_simd ${mathfu_enable_simd})
+
+  # Add required includes to the target.
+  target_include_directories(${target}
+    PRIVATE ${mathfu_dir}/include ${dependencies_vectorial_dir}/include)
+
+  # Parse optional arguments.
+  set(additional_args ${ARGN})
+  list(LENGTH additional_args num_additional_args)
+  if(${num_additional_args} GREATER 0)
+    list(GET additional_args 0 enable_simd)
   endif()
-  # Enable SSE2 by default when building with MSVC.
+  if(${num_additional_args} GREATER 1)
+    list(GET additional_args 1 force_padding)
+  endif()
+
+  # If the SIMD build option is enabled.
+  if(enable_simd)
+    # Enable SSE4.1 when building with GCC / Clang.
+    if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
+        CMAKE_COMPILER_IS_CLANGXX)
+      target_compile_options(${target} PRIVATE -msse4.1)
+    endif()
+    # Enable SSE2 by default when building with MSVC.
+    if(MSVC)
+      target_compile_options(${target} PRIVATE /arch:SSE2)
+    endif()
+    # Conditionally enable padding.
+    if(DEFINED force_padding)
+      if(force_padding)
+        target_compile_definitions(${target} PRIVATE
+          -DMATHFU_COMPILE_FORCE_PADDING=1)
+      else()
+        target_compile_definitions(${target} PRIVATE
+          -DMATHFU_COMPILE_FORCE_PADDING=0)
+      endif()
+    endif()
+  else()
+    target_compile_definitions(${target} PRIVATE
+      -DMATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
+  endif()
+endfunction()
+
+# Modify CMAKE_C_FLAGS and CMAKE_CXX_FLAGS to enable a maximum reasonable
+# warning level.
+function(mathfu_enable_warnings target)
+  get_target_property(target_compile_flags ${target} COMPILE_FLAGS)
   if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:SSE2")
+    target_compile_options(${target} PRIVATE /W4 /WX)
+  elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
+      CMAKE_COMPILER_IS_CLANGXX)
+    # Set the maximum warning level for gcc.
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Werror
+      -Wno-long-long -Wno-variadic-macros)
   endif()
-else()
-  add_definitions(${mathfu_disable_simd_defines})
-endif()
-
-# Enable maximum reasonable warning level.
-set(C_FLAGS_WARNINGS "")
-if(MSVC)
-  set(C_FLAGS_WARNINGS "/W4 /WX")
-elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
-       CMAKE_COMPILER_IS_CLANGXX)
-  # Set the maximum warning level for gcc.
-  set(C_FLAGS_WARNINGS "-Wall -Wextra -Werror -Wno-long-long")
-  set(C_FLAGS_WARNINGS "${C_FLAGS_WARNINGS} -Wno-variadic-macros")
-endif()
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
+endfunction()
 
 file(GLOB_RECURSE MATHFU_HEADERS ${CMAKE_SOURCE_DIR}/include/mathfu *.h)
 
-add_subdirectory(../googletest googletest)
 add_subdirectory(benchmarks)
 add_subdirectory(unit_tests)

@@ -111,9 +111,10 @@ class Matrix<float, 4> {
   inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
     Vector<float, 3> return_v;
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    v.data_[3] = 1;
-    simd4x4f_matrix_vector_mul(&data_, &v.data_, &return_v.data_);
-    return_v *= (1 / return_v.data_[3]);
+    simd4f temp_v = v.data_;
+    MATHFU_CAST<float*>(&temp_v)[3] = 1;
+    simd4x4f_matrix_vector_mul(&data_, &temp_v, &return_v.data_);
+    return_v *= (1 / MATHFU_CAST<const float*>(&return_v.data_)[3]);
 #else
     simd4f vec = simd4f_create(v.data_[0], v.data_[1], v.data_[2], 1.0f);
     simd4x4f_matrix_vector_mul(&data_, &vec, &vec);

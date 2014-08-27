@@ -13,16 +13,15 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8)
 
-include_directories(${CMAKE_SOURCE_DIR}/benchmarks)
-
 # Generate a rule to build a performance test executable
-# ${benchmark_executable_name} from ${benchmark_source} using compile flags
-# ${cxx_flags}
-function(benchmark_executable benchmark_executable_name benchmark_source
-         cxx_flags)
+# ${benchmark_executable_name} from ${benchmark_source}.  For details of
+# additional arguments, see mathfu_configure_flags().
+function(benchmark_executable benchmark_executable_name benchmark_source)
   add_executable(${benchmark_executable_name} ${benchmark_source})
-  set_target_properties(${benchmark_executable_name}
-    PROPERTIES COMPILE_FLAGS "${cxx_flags}")
+  mathfu_configure_flags(${benchmark_executable_name} ${ARGN})
+  mathfu_enable_warnings(${benchmark_executable_name})
+  target_include_directories(${benchmark_executable_name}
+    PRIVATE ${CMAKE_CURRENT_LIST_DIR})
   if(UNIX AND NOT APPLE)
     target_link_libraries(${benchmark_executable_name} rt)
   endif(UNIX AND NOT APPLE)
@@ -33,11 +32,21 @@ endfunction()
 # or ${benchmark_name}_benchmarks and ${benchmark_name}_no_simd_benchmarks if
 # SIMD is enabled where the no_simd_benchmarks binary has SIMD disabled.
 function(benchmark_executables benchmark_name benchmark_source)
-  benchmark_executable(${benchmark_name}_benchmarks ${benchmark_source}
-    "${CMAKE_CXX_FLAGS}")
+  # Default build options.
+  benchmark_executable(${benchmark_name}_benchmarks ${benchmark_source})
   if(mathfu_enable_simd)
+    # NOTE: A build configuration below will deliberately duplicate the
+    # default build configuration, since these configs could result in
+    # different compile time preprocessor code paths.
+    # SIMD enabled, padding enabled.
+    benchmark_executable(${benchmark_name}_simd_padding_benchmarks
+      ${benchmark_source} TRUE TRUE)
+    # SIMD enabled, padding disabled.
+    benchmark_executable(${benchmark_name}_simd_no_padding_benchmarks
+      ${benchmark_source} TRUE FALSE)
+    # SIMD disabled, padding disabled.
     benchmark_executable(${benchmark_name}_no_simd_benchmarks
-      ${benchmark_source} "${CMAKE_CXX_FLAGS} ${mathfu_disable_simd_defines}")
+      ${benchmark_source} FALSE FALSE)
   endif()
 endfunction()
 

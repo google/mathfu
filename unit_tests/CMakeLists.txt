@@ -14,11 +14,13 @@
 cmake_minimum_required(VERSION 2.8)
 
 get_filename_component(gtest_dir_default
-                       "${CMAKE_CURRENT_SOURCE_DIR}/../../googletest" REALPATH)
+                       "${CMAKE_CURRENT_LIST_DIR}/../../googletest" REALPATH)
 
 # Set some variables describing file locations.
 set(dependencies_gtest_dir "${gtest_dir_default}"
     CACHE PATH "Directory containing the googletest (gtest) library.")
+
+add_subdirectory(${dependencies_gtest_dir} googletest)
 set(gtest_incdir ${dependencies_gtest_dir}/include)
 set(gtest_libdir ${dependencies_gtest_dir})
 
@@ -32,8 +34,8 @@ string(REPLACE "-Wextra" "" cxx_default "${cxx_default}")
 # This is the directory into which the executables are built.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${gtest_incdir} ${CMAKE_CURRENT_SOURCE_DIR}
-                                    ${CMAKE_CURRENT_SOURCE_DIR}/..)
+include_directories(${gtest_incdir} ${CMAKE_CURRENT_LIST_DIR}
+                                    ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # Common libraries for tests.
 if(NOT MSVC)
@@ -41,20 +43,36 @@ if(NOT MSVC)
 endif()
 set(COMMON_LIBS "gtest;${CMAKE_THREAD_LIBS_INIT}")
 
+# Generate a rule to build a unit test executable ${test_name} with
+# source file ${source}.  For details of additional arguments, see
+# mathfu_configure_flags().
+function(test_executable test_name source)
+  cxx_executable_with_flags(${test_name} "${cxx_default}" "${COMMON_LIBS}"
+    ${source} ${MATHFU_HEADERS})
+  mathfu_configure_flags(${test_name} ${ARGN})
+  mathfu_enable_warnings(${test_name})
+endfunction()
+
 # Generate a rule to build unit test executables.  This only builds
 # ${test_name}_tests if SIMD is disabled (see ${mathfu_enable_simd}) or
 # ${test_name}_tests and ${test_name}_no_simd_tests if SIMD is enabled where
 # the no_simd_tests binary has SIMD disabled.
-function(test_executable test_name source)
-  cxx_executable_with_flags(${test_name}_tests "${cxx_default}"
-    "${COMMON_LIBS}" ${source} ${MATHFU_HEADERS})
+function(test_executables test_name source)
+  # Default build options for the target architecture.
+  test_executable(${test_name}_tests ${source})
   if(mathfu_enable_simd)
-    cxx_executable_with_flags(${test_name}_no_simd_tests
-      "${cxx_default} ${mathfu_disable_simd_defines}" "${COMMON_LIBS}"
-      ${source} ${MATHFU_HEADERS})
+    # NOTE: A build configuration below will deliberately duplicate the
+    # default build configuration, since these configs could result in
+    # different compile time preprocessor code paths.
+    # SIMD enabled and padding enabled.
+    test_executable(${test_name}_simd_padding_tests ${source} TRUE TRUE)
+    # SIMD enabled and padding disabled.
+    test_executable(${test_name}_simd_no_padding_tests ${source} TRUE FALSE)
+    # SIMD disabled.
+    test_executable(${test_name}_no_simd_tests ${source} FALSE)
   endif()
 endfunction()
 
-test_executable(vector vector_test/vector_test.cpp)
-test_executable(quaternion quaternion_test/quaternion_test.cpp)
-test_executable(matrix matrix_test/matrix_test.cpp)
+test_executables(vector vector_test/vector_test.cpp)
+test_executables(quaternion quaternion_test/quaternion_test.cpp)
+test_executables(matrix matrix_test/matrix_test.cpp)

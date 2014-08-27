@@ -21,29 +21,64 @@
 
 #include <algorithm>
 
+// Enable SIMD compile based upon the target architecture and compiler options.
 #if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
-#if defined(__SSE__)
-#define MATHFU_COMPILE_WITH_SIMD
-#elif defined(__ARM_NEON__)
-#define MATHFU_COMPILE_WITH_SIMD
-#elif defined(_M_IX86_FP)  // MSVC
-#if _M_IX86_FP >= 1 // SSE enabled
-#define MATHFU_COMPILE_WITH_SIMD
-#endif  // _M_IX86_FP >= 1
-#endif
+#  if defined(__SSE__)
+#    define MATHFU_COMPILE_WITH_SIMD
+#  elif defined(__ARM_NEON__)
+#    define MATHFU_COMPILE_WITH_SIMD
+#  elif defined(_M_IX86_FP)  // MSVC
+#    if _M_IX86_FP >= 1 // SSE enabled
+#      define MATHFU_COMPILE_WITH_SIMD
+#    endif  // _M_IX86_FP >= 1
+#  endif
 #endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
 
 #ifdef MATHFU_COMPILE_WITH_SIMD
-#define MATHFU_CAST union_reinterpret_cast
+#  define MATHFU_CAST union_reinterpret_cast
 #else
-#define MATHFU_CAST reinterpret_cast
+#  define MATHFU_CAST reinterpret_cast
 #endif
+
+// Enable padding of some data structures to be more efficient with SIMD
+// operations.
+#ifdef MATHFU_COMPILE_WITH_SIMD
+#  define MATHFU_COMPILE_WITH_PADDING
+
+// If MATHFU_COMPILE_FORCE_PADDING is defined, enable / disable padding of
+// data structures depending upon the value of the symbol.
+#  if defined(MATHFU_COMPILE_FORCE_PADDING)
+#    if MATHFU_COMPILE_FORCE_PADDING == 1
+#      if !defined(MATHFU_COMPILE_WITH_PADDING)
+#        define MATHFU_COMPILE_WITH_PADDING
+#      endif // !defined(MATHFU_COMPILE_WITH_PADDING)
+#    else
+#      if defined(MATHFU_COMPILE_WITH_PADDING)
+#        undef MATHFU_COMPILE_WITH_PADDING
+#      endif  // MATHFU_COMPILE_WITH_PADDING
+#    endif  // MATHFU_COMPILE_FORCE_PADDING == 1
+#  endif  // MATHFU_COMPILE_FORCE_PADDING
+#endif  // MATHFU_COMPILE_WITH_SIMD
 
 #define MATHFU_VERSION_MAJOR 1
 #define MATHFU_VERSION_MINOR 0
 #define MATHFU_VERSION_REVISION 0
 #define MATHFU_STRING_EXPAND(X) #X
 #define MATHFU_STRING(X) MATHFU_STRING_EXPAND(X)
+
+// Generate string which contains build options for the library.
+#if defined(MATHFU_COMPILE_WITH_SIMD)
+#define MATHFU_BUILD_OPTIONS_SIMD "[simd]"
+#else
+#define MATHFU_BUILD_OPTIONS_SIMD "[no simd]"
+#endif  // defined(MATHFU_COMPILE_WITH_SIMD)
+#if defined(MATHFU_COMPILE_WITH_PADDING)
+#define MATHFU_BUILD_OPTIONS_PADDING "[padding]"
+#else
+#define MATHFU_BUILD_OPTIONS_PADDING "[no padding]"
+#endif  // defined(MATHFU_COMPILE_WITH_PADDING)
+#define MATHFU_BUILD_OPTIONS_STRING \
+  (MATHFU_BUILD_OPTIONS_SIMD " " MATHFU_BUILD_OPTIONS_PADDING)
 
 /// String which identifies the current version of MathFu.
 /// kMathFuVersionString is used by Google developers to identify which

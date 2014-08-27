@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 #include "mathfu/vector_3.h"
+#include "mathfu/utilities.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -49,7 +50,7 @@ int main(int argc, char** argv) {
     }
     vectors.push_back(vec);
   }
-  printf("Running vector benchmark...\n");
+  printf("Running vector benchmark (%s)...\n", MATHFU_BUILD_OPTIONS_STRING);
   // Start vector performance code. Run a number of loops for more accurate
   // numbers.
   Timer timer;
