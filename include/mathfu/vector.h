@@ -325,7 +325,7 @@ class Vector {
 
   /// Find a Normalized version of this vector.
   /// @return A copy of this vector normalized.
-  inline Vector<T, d> Normalized() {
+  inline Vector<T, d> Normalized() const {
     return *this*(1 / Length());
   }
 
