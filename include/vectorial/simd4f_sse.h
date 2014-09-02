@@ -7,8 +7,19 @@
 #ifndef VECTORIAL_SIMD4F_SSE_H
 #define VECTORIAL_SIMD4F_SSE_H
 
+// Conditionally enable SSE4.1 otherwise fallback to SSE.
+#if defined(_M_IX86_FP)
+    #if _M_IX86_FP >=2
+        #define VECTORIAL_USE_SSE4_1
+    #endif
+#elif defined(__SSE4_1__)
+        #define VECTORIAL_USE_SSE4_1
+#endif
+
 #include <xmmintrin.h>
-#include <smmintrin.h>
+#if defined(VECTORIAL_USE_SSE4_1)
+    #include <smmintrin.h>
+#endif
 #include <string.h>  // memcpy
 
 #ifdef __cplusplus
@@ -145,7 +156,13 @@ vectorial_inline float simd4f_get_z(simd4f s) { _simd4f_union u={s}; return u.f[
 vectorial_inline float simd4f_get_w(simd4f s) { _simd4f_union u={s}; return u.f[3]; }
 
 vectorial_inline simd4f simd4f_dot3_splat(simd4f lhs,simd4f rhs) {
+#if defined(VECTORIAL_USE_SSE4_1)
     return _mm_dp_ps(lhs, rhs, 0x71);
+#else
+    const simd4f m = _mm_mul_ps(lhs, rhs);
+    const simd4f s1 = _mm_add_ps(m, _mm_movehl_ps(m, m));
+    return _mm_add_ss(s1, _mm_shuffle_ps(s1, s1, 1));
+#endif
 }
 
 vectorial_inline float simd4f_dot3(simd4f lhs,simd4f rhs) {
@@ -213,4 +230,3 @@ vectorial_inline simd4f simd4f_max(simd4f a, simd4f b) {
 
 
 #endif
-
