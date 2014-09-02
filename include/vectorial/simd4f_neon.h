@@ -210,8 +210,11 @@ vectorial_inline simd4f simd4f_cross3(simd4f lhs, simd4f rhs) {
     simd4f s3 = simd4f_sub(simd4f_mul(rhs_yzx, lhs), simd4f_mul(lhs_yzx, rhs));
     // Permute cross to order xyz and zero out the fourth value
     simd2f low = vget_low_f32(s3);
+    static const uint32_t mask_array[] = {
+      0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0};
+    static const int32x4_t mask = vld1q_s32((const int32_t*)mask_array);
     s3 = vcombine_f32(vext_f32(low, vget_high_f32(s3), 1), low);
-    return (simd4f)vandq_s32((int32x4_t)s3,(int32x4_t){0xFFFFFFFF,0xFFFFFFFF,0xFFFFFFFF,0});
+    return (simd4f)vandq_s32((int32x4_t)s3,mask);
 }
 
 vectorial_inline simd4f simd4f_shuffle_wxyz(simd4f s) { 
@@ -275,4 +278,3 @@ vectorial_inline simd4f simd4f_max(simd4f a, simd4f b) {
 
 
 #endif
-
