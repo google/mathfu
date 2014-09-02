@@ -27,21 +27,22 @@
 
 // Add macros to account for both the case where the vector is stored as a simd
 // intrinsic using 4 elements or as 3 values of type T.
-// MATHFU_STORE/MATHFU_LOAD are additional operations used to load/store the
-// non simd values from and to simd datatypes. If intrinsics are used these
-// amount to essentially noops. MATHFU_INIT either creates a simd datatype if
-// the intrinsic is used or sets the T values if not.
+// MATHFU_VECTOR3_STORE3/MATHFU_VECTOR3_LOAD3 are additional operations used
+// to load/store the non simd values from and to simd datatypes. If intrinsics
+// are used these amount to essentially noops. MATHFU_VECTOR3_INIT3 either
+// creates a simd datatype if the intrinsic is used or sets the T values if
+// not.
 #ifdef MATHFU_COMPILE_WITH_PADDING
-#define MATHFU_STORE(v, data) { data = v; }
-#define MATHFU_LOAD(data) data
-#define MATHFU_INIT(data, v1, v2, v3) \
+#define MATHFU_VECTOR3_STORE3(v, data) { data = v; }
+#define MATHFU_VECTOR3_LOAD3(data) data
+#define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
   { data = simd4f_create(v1, v2, v3, 0); }
 #else
-#define MATHFU_STORE(v, data) { simd4f_ustore3(v, data); }
-#define MATHFU_LOAD(data) simd4f_uload3(data)
-#define MATHFU_INIT(data, v1, v2, v3) \
+#define MATHFU_VECTOR3_STORE3(v, data) { simd4f_ustore3(v, data); }
+#define MATHFU_VECTOR3_LOAD3(data) simd4f_uload3(data)
+#define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
   { data[0] = v1; data[1] = v2; data[2] = v3; }
-#endif
+#endif  // MATHFU_COMPILE_WITH_PADDING
 
 namespace mathfu {
 
@@ -61,23 +62,23 @@ class Vector<float, 3> {
     data_[0] = v.data_[0];
     data_[1] = v.data_[1];
     data_[2] = v.data_[2];
-#endif
+#endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   inline Vector(const simd4f& v) {
-    MATHFU_STORE(v, data_);
+    MATHFU_VECTOR3_STORE3(v, data_);
   }
 
   explicit inline Vector(const float& s) {
-    MATHFU_INIT(data_, s, s, s);
+    MATHFU_VECTOR3_INIT3(data_, s, s, s);
   }
 
   inline Vector(const float& v1, const float& v2, const float& v3) {
-    MATHFU_INIT(data_, v1, v2, v3);
+    MATHFU_VECTOR3_INIT3(data_, v1, v2, v3);
   }
 
   explicit inline Vector(const float* v) {
-    MATHFU_INIT(data_, v[0], v[1], v[2]);
+    MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
   }
 
   inline float& operator()(const int i) {
@@ -105,120 +106,131 @@ class Vector<float, 3> {
   inline const float& z() const { return (*this)[2]; }
 
   inline Vector<float, 3> operator-() const {
-    return Vector<float, 3>(simd4f_sub(simd4f_zero(), MATHFU_LOAD(data_)));
+    return Vector<float, 3>(simd4f_sub(simd4f_zero(),
+                                       MATHFU_VECTOR3_LOAD3(data_)));
   }
 
   inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_),
-                                       MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_VECTOR3_LOAD3(data_),
+                                       MATHFU_VECTOR3_LOAD3(v.data_)));
   }
 
   inline Vector<float, 3> operator/(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_div(MATHFU_LOAD(data_),
-                                       MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_div(MATHFU_VECTOR3_LOAD3(data_),
+                                       MATHFU_VECTOR3_LOAD3(v.data_)));
   }
 
   inline Vector<float, 3> operator+(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_add(MATHFU_LOAD(data_),
-                                       MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_add(MATHFU_VECTOR3_LOAD3(data_),
+                                       MATHFU_VECTOR3_LOAD3(v.data_)));
   }
 
   inline Vector<float, 3> operator-(const Vector<float, 3>& v) const {
-    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_),
-                                       MATHFU_LOAD(v.data_)));
+    return Vector<float, 3>(simd4f_sub(MATHFU_VECTOR3_LOAD3(data_),
+                                       MATHFU_VECTOR3_LOAD3(v.data_)));
   }
 
   inline Vector<float, 3> operator*(const float& s) const {
-    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(s)));
+    return Vector<float, 3>(simd4f_mul(MATHFU_VECTOR3_LOAD3(data_),
+                                       simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator/(const float& s) const {
-    return Vector<float, 3>(simd4f_mul(MATHFU_LOAD(data_),
+    return Vector<float, 3>(simd4f_mul(MATHFU_VECTOR3_LOAD3(data_),
                                        simd4f_splat(1 / s)));
   }
 
   inline Vector<float, 3> operator+(const float& s) const {
-    return Vector<float, 3>(simd4f_add(MATHFU_LOAD(data_), simd4f_splat(s)));
+    return Vector<float, 3>(simd4f_add(MATHFU_VECTOR3_LOAD3(data_),
+                                       simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator-(const float& s) const {
-    return Vector<float, 3>(simd4f_sub(MATHFU_LOAD(data_),
+    return Vector<float, 3>(simd4f_sub(MATHFU_VECTOR3_LOAD3(data_),
                                        simd4f_splat(1 / s)));
   }
 
   inline Vector<float, 3>& operator*=(const Vector<float, 3>& v) {
-    *this = simd4f_mul(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_),
+                       MATHFU_VECTOR3_LOAD3(v.data_));
     return *this;
   }
 
   inline Vector<float, 3>& operator/=(const Vector<float, 3>& v) {
-    *this = simd4f_div(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    *this = simd4f_div(MATHFU_VECTOR3_LOAD3(data_),
+                       MATHFU_VECTOR3_LOAD3(v.data_));
     return *this;
   }
 
   inline Vector<float, 3>& operator+=(const Vector<float, 3>& v) {
-    *this = simd4f_add(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    *this = simd4f_add(MATHFU_VECTOR3_LOAD3(data_),
+                       MATHFU_VECTOR3_LOAD3(v.data_));
     return *this;
   }
 
   inline Vector<float, 3>& operator-=(const Vector<float, 3>& v) {
-    *this = simd4f_sub(MATHFU_LOAD(data_), MATHFU_LOAD(v.data_));
+    *this = simd4f_sub(MATHFU_VECTOR3_LOAD3(data_),
+                       MATHFU_VECTOR3_LOAD3(v.data_));
     return *this;
   }
 
   inline Vector<float, 3>& operator*=(const float& s) {
-    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(s));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
     return *this;
   }
 
   inline Vector<float, 3>& operator/=(const float& s) {
-    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / s));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(1 / s));
     return *this;
   }
 
   inline Vector<float, 3>& operator+=(const float& s) {
-    *this = simd4f_add(MATHFU_LOAD(data_), simd4f_splat(s));
+    *this = simd4f_add(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
     return *this;
   }
 
   inline Vector<float, 3>& operator-=(const float& s) {
-    *this = simd4f_sub(MATHFU_LOAD(data_), simd4f_splat(s));
+    *this = simd4f_sub(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
     return *this;
   }
 
   inline float LengthSquared() const {
-    return simd4f_dot3(MATHFU_LOAD(data_), MATHFU_LOAD(data_));
+    return simd4f_dot3(MATHFU_VECTOR3_LOAD3(data_),
+                       MATHFU_VECTOR3_LOAD3(data_));
   }
 
   inline float Length() const {
-    return simd4f_get_x(simd4f_length3(MATHFU_LOAD(data_)));
+    return simd4f_get_x(simd4f_length3(MATHFU_VECTOR3_LOAD3(data_)));
   }
 
   inline float Normalize() {
     const float length = Length();
-    *this = simd4f_mul(MATHFU_LOAD(data_), simd4f_splat(1 / length));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(1 / length));
     return length;
   }
 
   inline Vector<float, 3> Normalized() const {
-    return simd4f_normalize3(MATHFU_LOAD(data_));
+    return simd4f_normalize3(MATHFU_VECTOR3_LOAD3(data_));
   }
 
   static inline float DotProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
-    return simd4f_dot3(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_));
+    return simd4f_dot3(MATHFU_VECTOR3_LOAD3(v1.data_),
+                       MATHFU_VECTOR3_LOAD3(v2.data_));
   }
 
   static inline Vector<float, 3> CrossProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
     return Vector<float, 3>(
-      simd4f_cross3(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_)));
+      simd4f_cross3(MATHFU_VECTOR3_LOAD3(v1.data_),
+                    MATHFU_VECTOR3_LOAD3(v2.data_)));
   }
 
   static inline Vector<float, 3> HadamardProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
     return Vector<float, 3>(
-      simd4f_mul(MATHFU_LOAD(v1.data_), MATHFU_LOAD(v2.data_)));
+      simd4f_mul(MATHFU_VECTOR3_LOAD3(v1.data_),
+                 MATHFU_VECTOR3_LOAD3(v2.data_)));
   }
 
   static inline Vector<float, 3> Lerp(
@@ -228,19 +240,21 @@ class Vector<float, 3> {
     const Vector<float, 3> one_minus_percent = one - percentv;
     return Vector<float, 3>(
         simd4f_add(
-            simd4f_mul(MATHFU_LOAD(one_minus_percent.data_),
-                       MATHFU_LOAD(v1.data_)),
-            simd4f_mul(MATHFU_LOAD(percentv.data_), MATHFU_LOAD(v2.data_))));
+            simd4f_mul(MATHFU_VECTOR3_LOAD3(one_minus_percent.data_),
+                       MATHFU_VECTOR3_LOAD3(v1.data_)),
+            simd4f_mul(MATHFU_VECTOR3_LOAD3(percentv.data_),
+                       MATHFU_VECTOR3_LOAD3(v2.data_))));
   }
 
   template<class T, int rows, int cols> friend class Matrix;
+  template<class T, int d> friend class Vector;
 
  private:
 #ifdef MATHFU_COMPILE_WITH_PADDING
   simd4f data_;
 #else
   float data_[3];
-#endif
+#endif  // MATHFU_COMPILE_WITH_PADDING
 };
 #endif  // MATHFU_COMPILE_WITH_SIMD
 

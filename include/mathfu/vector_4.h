@@ -56,6 +56,15 @@ class Vector<float, 4> {
     data_ = simd4f_create(v[0], v[1], v[2], v[3]);
   }
 
+  inline Vector(const Vector<float, 3>& vector3, const float& value) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    data_ = vector3.data_;
+    (*this)[3] = value;
+#else
+    data_ = simd4f_create(vector3[0], vector3[1], vector3[2], value);
+#endif  // MATHFU_COMPILE_WITH_PADDING
+  }
+
   inline float& operator()(const int i) {
     return *(union_reinterpret_cast<float*>(&data_) + i - 1);
   }

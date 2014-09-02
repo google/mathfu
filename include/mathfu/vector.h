@@ -137,6 +137,18 @@ class Vector {
     data_[3] = s4;
   }
 
+  /// Create a vector from a Vector<T, 3> initializing the last element to
+  /// the specified value.  This method only works for 4 element vectors.
+  /// @param vector3 Vector used to initialize the first 3 elements.
+  /// @param value Value used to set the last element of the vector.
+  inline Vector(const Vector<T, 3>& vector3, const T& value) {
+    MATHFU_STATIC_ASSERT(d == 4);
+    data_[0] = vector3[0];
+    data_[1] = vector3[1];
+    data_[2] = vector3[2];
+    data_[3] = value;
+  }
+
   inline T& operator()(const int i) {
     return data_[i - 1];
   }
