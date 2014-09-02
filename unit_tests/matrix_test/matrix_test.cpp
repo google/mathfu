@@ -282,7 +282,7 @@ std::string MatrixToString(const mathfu::Matrix<T, rows, columns> &matrix) {
   ss.precision(4);
   for (int col = 0; col < columns; ++col) {
     for (int row = 0; row < rows; ++row) {
-      ss << (T)matrix[(col * rows) + row] << " ";
+      ss << (T)matrix(col, row) << " ";
     }
     ss << "\n";
   }
@@ -469,7 +469,8 @@ void Perspective_Test(const T& precision) {
   static const MatrixExpectation<T, 4, 4> kTestCases[] = {
     {
       "normalized handedness=1",
-      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 1, 0, 1, 1),
+      mathfu::Matrix<T, 4>::Perspective(
+          atan(static_cast<T>(1)) * 2, 1, 0, 1, 1),
       mathfu::Matrix<T, 4>(1, 0, 0, 0,
                            0, 1, 0, 0,
                            0, 0, -1, -1,
@@ -477,7 +478,8 @@ void Perspective_Test(const T& precision) {
     },
     {
       "normalized handedness=-1",
-      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 1, 0, 1, -1),
+      mathfu::Matrix<T, 4>::Perspective(
+          atan(static_cast<T>(1)) * 2, 1, 0, 1, -1),
       mathfu::Matrix<T, 4>(1, 0, 0, 0,
                            0, 1, 0, 0,
                            0, 0, 1, 1,
@@ -485,7 +487,8 @@ void Perspective_Test(const T& precision) {
     },
     {
       "widefov",
-      mathfu::Matrix<T, 4>::Perspective(atan(2) * 2, 1, 0, 1, 1),
+      mathfu::Matrix<T, 4>::Perspective(
+          atan(static_cast<T>(2)) * 2, 1, 0, 1, 1),
       mathfu::Matrix<T, 4>(0.5, 0, 0, 0,
                            0, 0.5, 0, 0,
                            0, 0, -1, -1,
@@ -493,7 +496,8 @@ void Perspective_Test(const T& precision) {
     },
     {
       "narrowfov",
-      mathfu::Matrix<T, 4>::Perspective(atan(0.1) * 2, 1, 0, 1, 1),
+      mathfu::Matrix<T, 4>::Perspective(
+          atan(static_cast<T>(0.1)) * 2, 1, 0, 1, 1),
       mathfu::Matrix<T, 4>(10, 0, 0, 0,
                            0, 10, 0, 0,
                            0, 0, -1, -1,
@@ -501,7 +505,8 @@ void Perspective_Test(const T& precision) {
     },
     {
       "2:1 aspect ratio",
-      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 0.5, 0, 1, 1),
+      mathfu::Matrix<T, 4>::Perspective(
+          atan(static_cast<T>(1)) * 2, 0.5, 0, 1, 1),
       mathfu::Matrix<T, 4>(2, 0, 0, 0,
                            0, 1, 0, 0,
                            0, 0, -1, -1,
@@ -509,7 +514,8 @@ void Perspective_Test(const T& precision) {
     },
     {
       "deeper view frustrum",
-      mathfu::Matrix<T, 4>::Perspective(atan(1) * 2, 1, -2, 2, 1),
+      mathfu::Matrix<T, 4>::Perspective(
+          atan(static_cast<T>(1)) * 2, 1, -2, 2, 1),
       mathfu::Matrix<T, 4>(1, 0, 0, 0,
                            0, 1, 0, 0,
                            0, 0, -0.5, -1,
@@ -654,5 +660,6 @@ TEST_F(MatrixTests, MatrixSample) {
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
+  printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);
   return RUN_ALL_TESTS();
 }
