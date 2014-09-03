@@ -131,6 +131,13 @@ T Clamp(const T& x, const T& lower, const T& upper) {
   return std::max<T>(lower, std::min<T>(x, upper));
 }
 
+// Interpolates between range_start and range_end, based on percent.
+template<class T>
+T Lerp(const T& range_start, const T& range_end, const T& percent) {
+  const T one_minus_percent = static_cast<T>(1.0) - percent;
+  return range_start * one_minus_percent + range_end * percent;
+}
+
 /// Generate a random value of type T in the range 0.0...1.0.
 /// This function uses rand() from math.h to generate the random number.
 template<class T> inline T Random() {

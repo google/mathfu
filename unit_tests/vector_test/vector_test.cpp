@@ -282,6 +282,45 @@ TEST_F(VectorTests, Clamp) { \
   Clamp_Test<int>(); \
 }
 
+// Tests for int/float/double based lerp.  (i. e. not part of a vector)
+template<class T>
+void Numeric_Lerp_Test(const T& precision) {
+  const T zero = static_cast<T>(0);
+  const T one = static_cast<T>(1);
+
+  const T a = static_cast<T>(10);
+  const T b = static_cast<T>(20);
+  const T midpoint = static_cast<T>(0.5);
+  const T two_fifths = static_cast<T>(0.4);
+  const T seven_tenths = static_cast<T>(0.7);
+  const T midpoint_result = static_cast<T>(15);
+  const T two_fifths_result = static_cast<T>(14);
+  const T seven_tenths_result = static_cast<T>(17);
+
+  EXPECT_EQ(mathfu::Lerp<T>(a, b, zero), a);
+  EXPECT_EQ(mathfu::Lerp<T>(a, b, one), b);
+  EXPECT_EQ(mathfu::Lerp<T>(-a, b, zero), -a);
+  EXPECT_EQ(mathfu::Lerp<T>(-a, b, one), b);
+  EXPECT_EQ(mathfu::Lerp<T>(a, -b, zero), a);
+  EXPECT_EQ(mathfu::Lerp<T>(a, -b, one), -b);
+  EXPECT_EQ(mathfu::Lerp<T>(-a, -b, zero), -a);
+  EXPECT_EQ(mathfu::Lerp<T>(-a, -b, one), -b);
+
+  EXPECT_NE(mathfu::Lerp<T>(a, b, midpoint), a);
+
+  EXPECT_NEAR(mathfu::Lerp<T>(a, b, midpoint), midpoint_result,
+                              precision);
+  EXPECT_NEAR(mathfu::Lerp<T>(a, b, two_fifths), two_fifths_result,
+                              precision);
+  EXPECT_NEAR(mathfu::Lerp<T>(a, b, seven_tenths), seven_tenths_result,
+                                precision);
+}
+
+TEST_F(VectorTests, Lerp) { \
+  Numeric_Lerp_Test<float>(FLOAT_PRECISION); \
+  Numeric_Lerp_Test<double>(DOUBLE_PRECISION); \
+}
+
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
 TEST_F(VectorTests, SampleTest) {
