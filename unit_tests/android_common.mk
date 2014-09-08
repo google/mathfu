@@ -15,6 +15,7 @@ include $(CLEAR_VARS)
 
 # Configure the locations of MathFu's dependencies.
 MATHFU_DIR:=$(abspath $(LOCAL_PATH)/../../)
+MATHFU_DIR_BASENAME:=$(notdir $(MATHFU_DIR))
 TEST_DIR:=$(abspath $(LOCAL_PATH))
 include $(MATHFU_DIR)/android_config.mk
 
@@ -41,7 +42,7 @@ $(call import-add-path,$(abspath $(MATHFU_DIR)/..))
 $(call import-add-path,$(abspath $(DEPENDENCIES_FPLUTIL_DIR)))
 $(call import-add-path,$(abspath $(DEPENDENCIES_GTEST_DIR)/..))
 
-$(call import-module,mathfu/jni)
+$(call import-module,$(MATHFU_DIR_BASENAME)/jni)
 $(call import-module,libfplutil/jni)
 $(call import-module,googletest)
 $(call import-module,android/native_app_glue)

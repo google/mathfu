@@ -13,16 +13,34 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8.12)
 
+# Directory which contains the source for 3rd party libraries.
 get_filename_component(
-    vectorial_dir_default
-    "${CMAKE_CURRENT_LIST_DIR}/../../../../external/vectorial"
-    REALPATH)
+    third_party_root "${CMAKE_SOURCE_DIR}/../../../../external" REALPATH)
+# Directory which contains source for FPL libraries.
+get_filename_component(
+    fpl_root "${CMAKE_SOURCE_DIR}/../../libs" REALPATH)
+
+# If the dependencies directory exists, assume this is the root directory for
+# all libraries required by this project.
+set(dependencies_root "${CMAKE_SOURCE_DIR}/dependencies")
+if(EXISTS "${dependencies_root}")
+  set(third_party_root "${dependencies_root}")
+  set(fpl_root "${dependencies_root}")
+endif()
+
+get_filename_component(
+    vectorial_dir_default "${third_party_root}/vectorial" REALPATH)
+get_filename_component(
+    gtest_dir_default "${fpl_root}/googletest" REALPATH)
 
 set(PROJECT_NAME MathFu)
 project(MathFu)
 
+# Set some variables describing file locations.
 set(dependencies_vectorial_dir "${vectorial_dir_default}"
     CACHE PATH "Directory containing the Vectorial library.")
+set(dependencies_gtest_dir "${gtest_dir_default}"
+    CACHE PATH "Directory containing the googletest (gtest) library.")
 option(mathfu_enable_simd "Use SIMD implementations when available." ON)
 
 # Detect clang

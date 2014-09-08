@@ -13,13 +13,6 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8)
 
-get_filename_component(gtest_dir_default
-                       "${CMAKE_CURRENT_LIST_DIR}/../../googletest" REALPATH)
-
-# Set some variables describing file locations.
-set(dependencies_gtest_dir "${gtest_dir_default}"
-    CACHE PATH "Directory containing the googletest (gtest) library.")
-
 add_subdirectory(${dependencies_gtest_dir} googletest)
 set(gtest_incdir ${dependencies_gtest_dir}/include)
 set(gtest_libdir ${dependencies_gtest_dir})
