@@ -289,6 +289,11 @@ std::string MatrixToString(const mathfu::Matrix<T, rows, columns> &matrix) {
   return ss.str();
 }
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4127) // conditional expression is constant
+#endif  // _MSC_VER
+
 // Test the inverse of a set of noninvertible matrices.
 template<class T, int d>
 void InverseNonInvertible_Test(const T& precision) {
@@ -339,6 +344,10 @@ void InverseNonInvertible_Test(const T& precision) {
   }
 }
 TEST_ALL_F(InverseNonInvertible, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif  // _MSC_VER
 
 // This will test calculating the inverse of a matrix. The template parameter d
 // corresponds to the number of rows and columns.

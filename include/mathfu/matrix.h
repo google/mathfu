@@ -203,8 +203,8 @@ class Matrix {
   /// @param column1 Vector used for the second column.
   /// @param column2 Vector used for the third column.
   /// @param column3 Vector used for the fourth column.
-  inline Matrix(const Vector<T, 4> column0, const Vector<T, 4> column1,
-                const Vector<T, 4> column2, const Vector<T, 4> column3) {
+  inline Matrix(const Vector<T, 4>& column0, const Vector<T, 4>& column1,
+                const Vector<T, 4>& column2, const Vector<T, 4>& column3) {
     MATHFU_STATIC_ASSERT(rows == 4 && columns == 4);
     data_[0] = column0;
     data_[1] = column1;
@@ -1048,10 +1048,10 @@ template<class T>
 inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness)
 {
-  const float y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
-  const float x = y / aspect;
-  const float zdist = (znear - zfar) * handedness;
-  const float zfar_per_zdist = zfar / zdist;
+  const T y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
+  const T x = y / aspect;
+  const T zdist = (znear - zfar) * handedness;
+  const T zfar_per_zdist = zfar / zdist;
   return Matrix<T, 4, 4>(x, 0, 0, 0,
                          0, y, 0, 0,
                          0, 0, zfar_per_zdist, -1 * handedness,
