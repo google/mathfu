@@ -41,7 +41,13 @@ set(dependencies_vectorial_dir "${vectorial_dir_default}"
     CACHE PATH "Directory containing the Vectorial library.")
 set(dependencies_gtest_dir "${gtest_dir_default}"
     CACHE PATH "Directory containing the googletest (gtest) library.")
+
+# Options that control the build configuration.
+# To configure MathFu flags per build target, see the
+# mathfu_configure_flags() function.
 option(mathfu_enable_simd "Use SIMD implementations when available." ON)
+option(mathfu_build_benchmarks "Build MathFu benchmarks." ON)
+option(mathfu_build_tests "Build MathFu unit tests." ON)
 
 # Detect clang
 if(CMAKE_CXX_COMPILER MATCHES ".*clang")
@@ -125,5 +131,9 @@ endfunction()
 
 file(GLOB_RECURSE MATHFU_HEADERS ${CMAKE_SOURCE_DIR}/include/mathfu *.h)
 
-add_subdirectory(benchmarks)
-add_subdirectory(unit_tests)
+if(mathfu_build_benchmarks)
+  add_subdirectory(benchmarks)
+endif()
+if(mathfu_build_tests)
+  add_subdirectory(unit_tests)
+endif()
