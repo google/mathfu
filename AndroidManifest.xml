@@ -19,6 +19,9 @@
           package="com.google.fpl.mathfu"
           android:versionCode="1"
           android:versionName="1.0">
+    <!-- This is the platform API where NativeActivity was introduced. -->
+    <uses-sdk android:minSdkVersion="9" />
+
     <!-- Empty application since this project just builds the mathfu
          libraries -->
     <application android:label="mathfu" android:enabled="false"
