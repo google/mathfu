@@ -32,21 +32,26 @@ static const size_t kIterations = 50;
 using mathfu::Matrix;
 using mathfu::Random;
 
+#define MATRIX_DIMENSIONS 4
+
+typedef float T;
+
+typedef Matrix<T, MATRIX_DIMENSIONS> TestMatrix;
+
 // This test creates a number of matrices and performs some mathematical
 // operations on them in order to measure expected performance of matrix
 // operations.
 int main(int argc, char** argv) {
-  typedef float T;
   (void)argc;
   (void)argv;
   // Create an array of matrices containing random values.
-  std::vector<Matrix<T, 4> > matrices;
-  Matrix<T, 4> mul = Matrix<T, 4>::Identity();
-  for (size_t i = 0; i < kMatrixSize; i++) {
-    Matrix<T, 4> mat(Random<T>(), Random<T>(), Random<T>(), Random<T>(),
-                     Random<T>(), Random<T>(), Random<T>(), Random<T>(),
-                     Random<T>(), Random<T>(), Random<T>(), Random<T>(),
-                     Random<T>(), Random<T>(), Random<T>(), Random<T>());
+  std::vector<TestMatrix> matrices;
+  TestMatrix mul = TestMatrix::Identity();
+  for (size_t i = 0; i < kMatrixSize; ++i) {
+    TestMatrix mat;
+    for (size_t j = 0; j < MATRIX_DIMENSIONS; ++j) {
+      mat[j] = Random<T>();
+    }
     matrices.push_back(mat);
   }
   // Start matrix benchmark, running a number of loops for more accurate
@@ -55,12 +60,16 @@ int main(int argc, char** argv) {
   Timer timer;
   PERFTEST_2D_VECTOR_LOOP(kIterations, kMatrixSize) mul += matrices[j];
   PERFTEST_2D_VECTOR_LOOP(kIterations, kMatrixSize) mul *= matrices[j];
+
+#if MATRIX_DIMENSIONS == 4
   PERFTEST_2D_VECTOR_LOOP(kIterations, kMatrixSize) {
-    mathfu::Vector<T, 4> tmp =
-      matrices[j] * mathfu::Vector<T, 4>(matrices[i](0, 0), matrices[i](1, 0),
-                                         matrices[i](2, 0), matrices[i](3, 0));
-    mul -= Matrix<T, 4>::OuterProduct(tmp, tmp);
+    mathfu::Vector<T, MATRIX_DIMENSIONS> tmp =
+      matrices[j] * mathfu::Vector<T, MATRIX_DIMENSIONS>(
+          matrices[i](0, 0), matrices[i](1, 0),
+          matrices[i](2, 0), matrices[i](3, 0));
+    mul -= TestMatrix::OuterProduct(tmp, tmp);
   }
+#endif  // MATRIX_DIMENSIONS == 4
   PERFTEST_2D_VECTOR_LOOP(kIterations, kMatrixSize) {
     mul += matrices[j] * Random<T>();
   }

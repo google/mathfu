@@ -33,15 +33,21 @@
 // creates a simd datatype if the intrinsic is used or sets the T values if
 // not.
 #ifdef MATHFU_COMPILE_WITH_PADDING
-#define MATHFU_VECTOR3_STORE3(v, data) { data = v; }
-#define MATHFU_VECTOR3_LOAD3(data) data
+#define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
+  { data.simd = simd_to_store; }
+#define MATHFU_VECTOR3_LOAD3(data) data.simd
 #define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
-  { data = simd4f_create(v1, v2, v3, 0); }
+  { data.simd = simd4f_create(v1, v2, v3, 0); }
 #else
-#define MATHFU_VECTOR3_STORE3(v, data) { simd4f_ustore3(v, data); }
-#define MATHFU_VECTOR3_LOAD3(data) simd4f_uload3(data)
+#define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
+  { simd4f_ustore3(simd_to_store, data.float_array); }
+#define MATHFU_VECTOR3_LOAD3(data) simd4f_uload3(data.float_array)
 #define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
-  { data[0] = v1; data[1] = v2; data[2] = v3; }
+  { \
+    data.float_array[0] = v1; \
+    data.float_array[1] = v2; \
+    data.float_array[2] = v3; \
+  }
 #endif  // MATHFU_COMPILE_WITH_PADDING
 
 namespace mathfu {
@@ -57,11 +63,9 @@ class Vector<float, 3> {
 
   inline Vector(const Vector<float, 3>& v) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    data_ = v.data_;
+    data_.simd = v.data_.simd;
 #else
-    data_[0] = v.data_[0];
-    data_[1] = v.data_[1];
-    data_[2] = v.data_[2];
+    MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
@@ -82,19 +86,19 @@ class Vector<float, 3> {
   }
 
   inline float& operator()(const int i) {
-    return *(MATHFU_CAST<float*>(&data_) + i - 1);
+    return data_.float_array[i];
   }
 
   inline const float& operator()(const int i) const {
-    return *(MATHFU_CAST<const float*>(&data_) + i - 1);
+    return data_.float_array[i];
   }
 
   inline float& operator[](const int i) {
-    return *(MATHFU_CAST<float*>(&data_) + i);
+    return data_.float_array[i];
   }
 
   inline const float& operator[](const int i) const {
-    return *(MATHFU_CAST<const float*>(&data_) + i);
+    return data_.float_array[i];
   }
 
   inline float& x() { return (*this)[0]; }
@@ -256,11 +260,14 @@ class Vector<float, 3> {
   template<class T, int d> friend class Vector;
 
  private:
+  union {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-  simd4f data_;
+    simd4f simd;
+    float float_array[4];
 #else
-  float data_[3];
+    float float_array[3];
 #endif  // MATHFU_COMPILE_WITH_PADDING
+  } data_;
 };
 #endif  // MATHFU_COMPILE_WITH_SIMD
 

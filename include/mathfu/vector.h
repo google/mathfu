@@ -150,11 +150,11 @@ class Vector {
   }
 
   inline T& operator()(const int i) {
-    return data_[i - 1];
+    return data_[i];
   }
 
   inline const T& operator()(const int i) const {
-    return data_[i - 1];
+    return data_[i];
   }
 
   /// Access an element of the vector.

@@ -34,12 +34,6 @@
 #  endif
 #endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
 
-#ifdef MATHFU_COMPILE_WITH_SIMD
-#  define MATHFU_CAST union_reinterpret_cast
-#else
-#  define MATHFU_CAST reinterpret_cast
-#endif
-
 // Enable padding of some data structures to be more efficient with SIMD
 // operations.
 #ifdef MATHFU_COMPILE_WITH_SIMD
@@ -104,24 +98,6 @@ volatile __attribute__((weak)) const char *kMathFuVersionString =
 template<bool> struct static_assert_util;
 template<> struct static_assert_util<true> {};
 #define MATHFU_STATIC_ASSERT(x) static_assert_util<(x)>()
-
-// This is done to avoid aliasing issues.
-// http://cellperformance.beyond3d.com/articles/2006/06/understanding-strict-aliasing.html
-template<class T1, class T2>
-union ConversionUnion {
-  T1 data1;
-  T2 data2;
-};
-
-template<class T1, class T2>
-static T1& union_reinterpret_cast(T2& data) {
-  return reinterpret_cast<ConversionUnion<T1, T2> *>(&data)->data1;
-}
-
-template<class T1, class T2>
-static const T1& union_reinterpret_cast(const T2& data) {
-  return reinterpret_cast<const ConversionUnion<T1, T2> *>(&data)->data1;
-}
 
 namespace mathfu {
 

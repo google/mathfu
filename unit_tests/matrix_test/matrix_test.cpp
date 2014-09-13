@@ -81,6 +81,7 @@ void Initialize_Test(const T& precision) {
   for (int i = 0; i < d * d; ++i) {
     EXPECT_NEAR(3.1, matrix_splat[i], precision);
   }
+#if 0
   // This will verify that the value is correct when using the (i, j) form
   // of indexing.
   for (int i = 0; i < d; ++i) {
@@ -119,6 +120,7 @@ void Initialize_Test(const T& precision) {
       EXPECT_NEAR(i == j ? 1 : 0, identity(i, j), precision);
     }
   }
+#endif
 }
 TEST_ALL_F(Initialize, FLOAT_PRECISION, DOUBLE_PRECISION);
 

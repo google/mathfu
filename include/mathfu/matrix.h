@@ -64,7 +64,7 @@
 #define MATHFU_MAT_OPERATOR(OP) \
   { \
     Matrix<T, rows, columns> result; \
-    MATHFU_MAT_OPERATION(result.data_[i] = OP); \
+    MATHFU_MAT_OPERATION(result.data_[i] = (OP)); \
     return result; \
   }
 
@@ -78,20 +78,19 @@
 // This macro will take the dot product for a row from data1 and a column from
 // data2.
 #define MATHFU_MATRIX_4X4_DOT(data1, data2, r) \
-  (data1[r] * data2[0] + data1[r + 4] * data2[1] + \
-   data1[r + 8] * data2[2] + data1[r + 12] * data2[3])
+  ((data1)[r] * (data2)[0] + \
+   (data1)[(r) + 4] * (data2)[1] + \
+   (data1)[(r) + 8] * (data2)[2] + \
+   (data1)[(r) + 12] * (data2)[3])
 
 #define MATHFU_MATRIX_3X3_DOT(data1, data2, r, size) \
-  (data1[r] * data2[0] + data1[r + size] * data2[1] + \
-   data1[r + 2 * size] * data2[2])
+  ((data1)[r] * (data2)[0] + \
+   (data1)[(r) + (size)] * (data2)[1] +   \
+   (data1)[(r) + 2 * (size)] * (data2)[2])
 
 namespace mathfu {
 
 template<class T, int rows, int columns = rows> class Matrix;
-template<class T, int rows, int columns>
-inline T& GetHelper(Matrix<T, rows, columns>& m, const int i);
-template<class T, int rows, int columns>
-inline const T ConstGetHelper(Matrix<T, rows, columns>& m, const int i);
 template<class T, int rows, int columns>
 inline Matrix<T, rows, columns> IdentityHelper();
 template<bool check_invertible, class T, int rows, int columns>
@@ -237,11 +236,11 @@ class Matrix {
   }
 
   inline const T &operator()(const int i) const {
-    return ConstGetHelper(*this, i - 1);
+    return operator[](i);
   }
 
   inline T& operator()(const int i) {
-    return GetHelper(*this, i - 1);
+    return operator[](i);
   }
 
   /// Access an element of the matrix.
@@ -249,7 +248,7 @@ class Matrix {
   /// @return A const reference to the accessed data that cannot be modified
   /// by the caller.
   inline const T &operator[](const int i) const {
-    return ConstGetHelper(*this, i);
+    return const_cast<Matrix<T, rows, columns>* >(this)->operator[](i);
   }
 
   /// Access an element of the matrix.
@@ -257,7 +256,19 @@ class Matrix {
   /// @return A reference to the accessed data that can be modified by the
   /// caller.
   inline T& operator[](const int i) {
-    return GetHelper(*this, i);
+#if defined(MATHFU_COMPILE_WITH_PADDING)
+    // In this case Vector<T, 3> is padded, so the element offset must be
+    // accessed using the array operator.
+    if (rows == 3) {
+      const int row = i % rows;
+      const int col = i / rows;
+      return data_[col][row];
+    } else {
+      return reinterpret_cast<T*>(data_)[i];
+    }
+#else
+    return reinterpret_cast<T*>(data_)[i];
+#endif  // defined(MATHFU_COMPILE_WITH_PADDING)
   }
 
   /// Access a column vector of the matrix.
@@ -576,40 +587,33 @@ inline Vector<T, rows> operator*(const Matrix<T, rows, columns>& m,
 template<class T>
 inline Vector<T, 2> operator*(const Matrix<T, 2, 2>& m,
                               const Vector<T, 2>& v) {
-  const T* data1 = MATHFU_CAST<const T*>(&m);
-    return Vector<T, 2>(
-      data1[0] * v[0] + data1[2] * v[1], data1[1] * v[0] + data1[3] * v[1]);
+    return Vector<T, 2>(m[0] * v[0] + m[2] * v[1], m[1] * v[0] + m[3] * v[1]);
 }
 
 template<class T>
 inline Vector<T, 3> operator*(const Matrix<T, 3, 3>& m,
                               const Vector<T, 3>& v) {
-  const T* data1 = MATHFU_CAST<const T*>(&m);
-  return Vector<T, 3>(
-    MATHFU_MATRIX_3X3_DOT(data1, v, 0, 3),
-    MATHFU_MATRIX_3X3_DOT(data1, v, 1, 3),
-    MATHFU_MATRIX_3X3_DOT(data1, v, 2, 3));
+  return Vector<T, 3>(MATHFU_MATRIX_3X3_DOT(&m[0], v, 0, 3),
+                      MATHFU_MATRIX_3X3_DOT(&m[0], v, 1, 3),
+                      MATHFU_MATRIX_3X3_DOT(&m[0], v, 2, 3));
 }
 
 template<>
 inline Vector<float, 3> operator*(const Matrix<float, 3, 3>& m,
                                   const Vector<float, 3>& v) {
-  const float* data1 = MATHFU_CAST<const float*>(&m);
   return Vector<float, 3>(
-      MATHFU_MATRIX_3X3_DOT(data1, v, 0, MATHFU_VECTOR_STRIDE_FLOATS(v)),
-      MATHFU_MATRIX_3X3_DOT(data1, v, 1, MATHFU_VECTOR_STRIDE_FLOATS(v)),
-      MATHFU_MATRIX_3X3_DOT(data1, v, 2, MATHFU_VECTOR_STRIDE_FLOATS(v)));
+      MATHFU_MATRIX_3X3_DOT(&m[0], v, 0, MATHFU_VECTOR_STRIDE_FLOATS(v)),
+      MATHFU_MATRIX_3X3_DOT(&m[0], v, 1, MATHFU_VECTOR_STRIDE_FLOATS(v)),
+      MATHFU_MATRIX_3X3_DOT(&m[0], v, 2, MATHFU_VECTOR_STRIDE_FLOATS(v)));
 }
 
 template<class T>
 inline Vector<T, 4> operator*(const Matrix<T, 4, 4>& m,
                               const Vector<T, 4>& v) {
-  const T* data1 = MATHFU_CAST<const T*>(&m);
-  return Vector<T, 4>(
-    MATHFU_MATRIX_4X4_DOT(data1, v, 0),
-    MATHFU_MATRIX_4X4_DOT(data1, v, 1),
-    MATHFU_MATRIX_4X4_DOT(data1, v, 2),
-    MATHFU_MATRIX_4X4_DOT(data1, v, 3));
+  return Vector<T, 4>(MATHFU_MATRIX_4X4_DOT(&m[0], v, 0),
+                      MATHFU_MATRIX_4X4_DOT(&m[0], v, 1),
+                      MATHFU_MATRIX_4X4_DOT(&m[0], v, 2),
+                      MATHFU_MATRIX_4X4_DOT(&m[0], v, 3));
 }
 
 // Matrix/Vector multiplication of a 4x4 matrix with a vector of size 3.
@@ -644,140 +648,70 @@ inline void TimesHelper(const Matrix<T, size1, size2>& m1,
 template<class T>
 inline void TimesHelper(const Matrix<T, 2, 2>& m1, const Matrix<T, 2, 2>& m2,
                         Matrix<T, 2, 2>* out_m) {
-  T* data_out = MATHFU_CAST<T*>(out_m);
-  const T* data1 = MATHFU_CAST<const T*>(&m1);
-  const T* data2 = MATHFU_CAST<const T*>(&m2);
-  data_out[0] = data1[0] * data2[0] + data1[2] * data2[1];
-  data_out[1] = data1[1] * data2[0] + data1[3] * data2[1];
-  data_out[2] = data1[0] * data2[2] + data1[2] * data2[3];
-  data_out[3] = data1[1] * data2[2] + data1[3] * data2[3];
+  Matrix<T, 2, 2>& out = *out_m;
+  out[0] = m1[0] * m2[0] + m1[2] * m2[1];
+  out[1] = m1[1] * m2[0] + m1[3] * m2[1];
+  out[2] = m1[0] * m2[2] + m1[2] * m2[3];
+  out[3] = m1[1] * m2[2] + m1[3] * m2[3];
 }
 
-template<class T>
+template<typename T>
 inline void TimesHelper(const Matrix<T, 3, 3>& m1, const Matrix<T, 3, 3>& m2,
                         Matrix<T, 3, 3>* out_m) {
-  T* data_out = MATHFU_CAST<T*>(out_m);
-  const T* data1 = MATHFU_CAST<const T*>(&m1);
+  Matrix<T, 3, 3>& out = *out_m;
   {
-    Vector<T, 3> row(data1[0], data1[3], data1[6]);
-    data_out[0] = Vector<T, 3>::DotProduct(m2.GetColumn(0),row);
-    data_out[3] = Vector<T, 3>::DotProduct(m2.GetColumn(1),row);
-    data_out[6] = Vector<T, 3>::DotProduct(m2.GetColumn(2),row);
+    Vector<T, 3> row(m1[0], m1[3], m1[6]);
+    out[0] = Vector<T, 3>::DotProduct(m2.GetColumn(0), row);
+    out[3] = Vector<T, 3>::DotProduct(m2.GetColumn(1), row);
+    out[6] = Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
   }
   {
-    Vector<T, 3> row(data1[1], data1[4], data1[7]);
-    data_out[1] = Vector<T, 3>::DotProduct(m2.GetColumn(0),row);
-    data_out[4] = Vector<T, 3>::DotProduct(m2.GetColumn(1),row);
-    data_out[7] = Vector<T, 3>::DotProduct(m2.GetColumn(2),row);
+    Vector<T, 3> row(m1[1], m1[4], m1[7]);
+    out[1] = Vector<T, 3>::DotProduct(m2.GetColumn(0), row);
+    out[4] = Vector<T, 3>::DotProduct(m2.GetColumn(1), row);
+    out[7] = Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
   }
   {
-    Vector<T, 3> row(data1[2], data1[5], data1[8]);
-    data_out[2] = Vector<T, 3>::DotProduct(m2.GetColumn(0),row);
-    data_out[5] = Vector<T, 3>::DotProduct(m2.GetColumn(1),row);
-    data_out[8] = Vector<T, 3>::DotProduct(m2.GetColumn(2),row);
+    Vector<T, 3> row(m1[2], m1[5], m1[8]);
+    out[2] = Vector<T, 3>::DotProduct(m2.GetColumn(0), row);
+    out[5] = Vector<T, 3>::DotProduct(m2.GetColumn(1), row);
+    out[8] = Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
   }
-}
-
-template<>
-inline void TimesHelper(const Matrix<float, 3, 3>& m1,
-                        const Matrix<float, 3, 3>& m2,
-                        Matrix<float, 3, 3>* out_m) {
-  typedef float T;
-  T* data_out = MATHFU_CAST<T*>(out_m);
-  const T* data1 = MATHFU_CAST<const T*>(&m1);
-  Vector<T, 3> row;
-  row[0] = data1[0 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  row[1] = data1[1 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  row[2] = data1[2 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  data_out[0 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(0), row);
-  data_out[1 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(1), row);
-  data_out[2 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
-
-  row[0] = data1[1 + 0 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  row[1] = data1[1 + 1 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  row[2] = data1[1 + 2 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  data_out[1 + 0 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(0), row);
-  data_out[1 + 1 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(1), row);
-  data_out[1 + 2 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
-
-  row[0] = data1[2 + 0 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  row[1] = data1[2 + 1 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  row[2] = data1[2 + 2 * MATHFU_VECTOR_STRIDE_FLOATS(row)];
-  data_out[2] = Vector<T, 3>::DotProduct(m2.GetColumn(0), row);
-  data_out[2 + 1 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(1), row);
-  data_out[2 + 2 * MATHFU_VECTOR_STRIDE_FLOATS(row)] =
-      Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
 }
 
 template<class T>
 inline void TimesHelper(const Matrix<T, 4, 4>& m1, const Matrix<T, 4, 4>& m2,
                         Matrix<T, 4, 4>* out_m) {
-  T* data_out = MATHFU_CAST<T*>(out_m);
-  const T* data1 = MATHFU_CAST<const T*>(&m1);
+  Matrix<T, 4, 4> &out = *out_m;
   {
-    Vector<T, 4> row(data1[0], data1[4], data1[8], data1[12]);
-    data_out[0] = Vector<T, 4>::DotProduct(m2.GetColumn(0),row);
-    data_out[4] = Vector<T, 4>::DotProduct(m2.GetColumn(1),row);
-    data_out[8] = Vector<T, 4>::DotProduct(m2.GetColumn(2),row);
-    data_out[12] = Vector<T, 4>::DotProduct(m2.GetColumn(3),row);
+    Vector<T, 4> row(m1[0], m1[4], m1[8], m1[12]);
+    out[0] = Vector<T, 4>::DotProduct(m2.GetColumn(0), row);
+    out[4] = Vector<T, 4>::DotProduct(m2.GetColumn(1), row);
+    out[8] = Vector<T, 4>::DotProduct(m2.GetColumn(2), row);
+    out[12] = Vector<T, 4>::DotProduct(m2.GetColumn(3), row);
   }
   {
-    Vector<T, 4> row(data1[1], data1[5], data1[9], data1[13]);
-    data_out[1] = Vector<T, 4>::DotProduct(m2.GetColumn(0),row);
-    data_out[5] = Vector<T, 4>::DotProduct(m2.GetColumn(1),row);
-    data_out[9] = Vector<T, 4>::DotProduct(m2.GetColumn(2),row);
-    data_out[13] = Vector<T, 4>::DotProduct(m2.GetColumn(3),row);
+    Vector<T, 4> row(m1[1], m1[5], m1[9], m1[13]);
+    out[1] = Vector<T, 4>::DotProduct(m2.GetColumn(0), row);
+    out[5] = Vector<T, 4>::DotProduct(m2.GetColumn(1), row);
+    out[9] = Vector<T, 4>::DotProduct(m2.GetColumn(2), row);
+    out[13] = Vector<T, 4>::DotProduct(m2.GetColumn(3), row);
   }
   {
-    Vector<T, 4> row(data1[2], data1[6], data1[10], data1[14]);
-    data_out[2] = Vector<T, 4>::DotProduct(m2.GetColumn(0),row);
-    data_out[6] = Vector<T, 4>::DotProduct(m2.GetColumn(1),row);
-    data_out[10] = Vector<T, 4>::DotProduct(m2.GetColumn(2),row);
-    data_out[14] = Vector<T, 4>::DotProduct(m2.GetColumn(3),row);
+    Vector<T, 4> row(m1[2], m1[6], m1[10], m1[14]);
+    out[2] = Vector<T, 4>::DotProduct(m2.GetColumn(0), row);
+    out[6] = Vector<T, 4>::DotProduct(m2.GetColumn(1), row);
+    out[10] = Vector<T, 4>::DotProduct(m2.GetColumn(2), row);
+    out[14] = Vector<T, 4>::DotProduct(m2.GetColumn(3), row);
   }
   {
-    Vector<T, 4> row(data1[3], data1[7], data1[11], data1[15]);
-    data_out[3] = Vector<T, 4>::DotProduct(m2.GetColumn(0),row);
-    data_out[7] = Vector<T, 4>::DotProduct(m2.GetColumn(1),row);
-    data_out[11] = Vector<T, 4>::DotProduct(m2.GetColumn(2),row);
-    data_out[15] = Vector<T, 4>::DotProduct(m2.GetColumn(3),row);
+    Vector<T, 4> row(m1[3], m1[7], m1[11], m1[15]);
+    out[3] = Vector<T, 4>::DotProduct(m2.GetColumn(0), row);
+    out[7] = Vector<T, 4>::DotProduct(m2.GetColumn(1), row);
+    out[11] = Vector<T, 4>::DotProduct(m2.GetColumn(2), row);
+    out[15] = Vector<T, 4>::DotProduct(m2.GetColumn(3), row);
   }
 }
-
-// Access an element of a matrix. There is a specialization for 3x3
-// float matrices as the column vectors could be of length 4.
-template<class T, int rows, int columns>
-inline T& GetHelper(Matrix<T, rows, columns>& m, const int i) {
-  return *(MATHFU_CAST<T*>(&m) + i);
-}
-
-template<class T, int rows, int columns>
-inline const T& ConstGetHelper(const Matrix<T, rows, columns>& m,
-                               const int i) {
-  return *(MATHFU_CAST<const T*>(&m) + i);
-}
-
-#if defined(MATHFU_COMPILE_WITH_SIMD) && defined(MATHFU_COMPILE_WITH_PADDING)
-template<int columns>
-inline float& GetHelper(Matrix<float, 3, columns>& m, const int i) {
-  const int index = 4 * (i / 3) + i % 3;
-  return *(MATHFU_CAST<float*>(&m) + index);
-}
-
-template<int columns>
-inline const float& ConstGetHelper(const Matrix<float, 3, columns>& m,
-                                   const int i) {
-  const int index = 4 * (i / 3) + i % 3;
-  return *(MATHFU_CAST<const float*>(&m) + index);
-}
-#endif
 
 // Compute the identity matrix. There is template specialization for 2x2, 3x3,
 // and 4x4 matrices to increase performance.

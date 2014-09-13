@@ -36,39 +36,39 @@ class Vector<float, 2> {
   inline Vector() {}
 
   inline Vector(const Vector<float, 2>& v) {
-    data_ = v.data_;
+    data_.simd = v.data_.simd;
   }
 
   inline Vector(const simd2f& v) {
-    data_ = v;
+    data_.simd = v;
   }
 
   explicit inline Vector(const float& s) {
-    data_ = simd2f_create(s, s);
+    data_.simd = simd2f_create(s, s);
   }
 
   inline Vector(const float& s1, const float& s2) {
-    data_ = simd2f_create(s1, s2);
+    data_.simd = simd2f_create(s1, s2);
   }
 
   explicit inline Vector(const float* v) {
-    data_ = simd2f_create(v[0], v[1]);
+    data_.simd = simd2f_create(v[0], v[1]);
   }
 
   inline float& operator()(const int i) {
-    return *(MATHFU_CAST<float*>(&data_) + i - 1);
+    return data_.float_array[i];
   }
 
   inline const float& operator()(const int i) const {
-    return *(MATHFU_CAST<float*>(&data_) + i - 1);
+    return data_.float_array[i];
   }
 
   inline float& operator[](const int i) {
-    return *(MATHFU_CAST<float*>(&data_) + i);
+    return data_.float_array[i];
   }
 
   inline const float& operator[](const int i) const {
-    return *(MATHFU_CAST<float*>(&data_) + i);
+    return data_.float_array[i];
   }
 
   inline float& x() { return (*this)[0]; }
@@ -78,113 +78,134 @@ class Vector<float, 2> {
   inline const float& y() const { return (*this)[1]; }
 
   inline Vector<float, 2> operator-() const {
-    return Vector<float, 2>(simd2f_sub(simd2f_zero(), data_));
+    return Vector<float, 2>(simd2f_sub(simd2f_zero(), data_.simd));
   }
 
   inline Vector<float, 2> operator*(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_mul(data_, v.data_));
+    return Vector<float, 2>(simd2f_mul(data_.simd,
+                                       v.data_.simd));
   }
 
   inline Vector<float, 2> operator/(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_div(data_, v.data_));
+    return Vector<float, 2>(simd2f_div(data_.simd,
+                                       v.data_.simd));
   }
 
   inline Vector<float, 2> operator+(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_add(data_, v.data_));
+    return Vector<float, 2>(simd2f_add(data_.simd,
+                                       v.data_.simd));
   }
 
   inline Vector<float, 2> operator-(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_sub(data_, v.data_));
+    return Vector<float, 2>(simd2f_sub(data_.simd,
+                                       v.data_.simd));
   }
 
   inline Vector<float, 2> operator*(const float& s) const {
-    return Vector<float, 2>(simd2f_mul(data_, simd2f_splat(s)));
+    return Vector<float, 2>(simd2f_mul(data_.simd, simd2f_splat(s)));
   }
 
   inline Vector<float, 2> operator/(const float& s) const {
-    return Vector<float, 2>(simd2f_mul(data_, simd2f_splat(1 / s)));
+    return Vector<float, 2>(simd2f_mul(data_.simd,
+                                       simd2f_splat(1 / s)));
   }
 
   inline Vector<float, 2> operator+(const float& s) const {
-    return Vector<float, 2>(simd2f_add(data_, simd2f_splat(s)));
+    return Vector<float, 2>(simd2f_add(data_.simd, simd2f_splat(s)));
   }
 
   inline Vector<float, 2> operator-(const float& s) const {
-    return Vector<float, 2>(simd2f_sub(data_, simd2f_splat(s)));
+    return Vector<float, 2>(simd2f_sub(data_.simd, simd2f_splat(s)));
   }
 
   inline Vector<float, 2>& operator*=(const Vector<float, 2>& v) {
-    data_ = simd2f_mul(data_, v.data_); return *this;
+    data_.simd = simd2f_mul(data_.simd, v.data_.simd);
+    return *this;
   }
 
   inline Vector<float, 2>& operator/=(const Vector<float, 2>& v) {
-    data_ = simd2f_div(data_, v.data_); return *this;
+    data_.simd = simd2f_div(data_.simd, v.data_.simd);
+    return *this;
   }
 
   inline Vector<float, 2>& operator+=(const Vector<float, 2>& v) {
-    data_ = simd2f_add(data_, v.data_); return *this;
+    data_.simd = simd2f_add(data_.simd, v.data_.simd);
+    return *this;
   }
 
   inline Vector<float, 2>& operator-=(const Vector<float, 2>& v) {
-    data_ = simd2f_sub(data_, v.data_); return *this;
+    data_.simd = simd2f_sub(data_.simd, v.data_.simd);
+    return *this;
   }
 
   inline Vector<float, 2>& operator*=(const float& s) {
-    data_ = simd2f_mul(data_, simd2f_splat(s)); return *this;
+    data_.simd = simd2f_mul(data_.simd, simd2f_splat(s));
+    return *this;
   }
 
   inline Vector<float, 2>& operator/=(const float& s) {
-    data_ = simd2f_mul(data_, simd2f_splat(1 / s)); return *this;
+    data_.simd = simd2f_mul(data_.simd, simd2f_splat(1 / s));
+    return *this;
   }
 
   inline Vector<float, 2>& operator+=(const float& s) {
-    data_ = simd2f_add(data_, simd2f_splat(s)); return *this;
+    data_.simd = simd2f_add(data_.simd, simd2f_splat(s));
+    return *this;
   }
 
   inline Vector<float, 2>& operator-=(const float& s) {
-    data_ = simd2f_sub(data_, simd2f_splat(s)); return *this;
+    data_.simd = simd2f_sub(data_.simd, simd2f_splat(s));
+    return *this;
   }
 
   inline float LengthSquared() const {
-    return simd2f_get_x(simd2f_dot2(data_, data_));
+    return simd2f_get_x(simd2f_dot2(data_.simd, data_.simd));
   }
 
   inline float Length() const {
-    return simd2f_get_x(simd2f_length2(data_));
+    return simd2f_get_x(simd2f_length2(data_.simd));
   }
 
   inline float Normalize() {
     const float length = Length();
-    data_ = simd2f_mul(data_, simd2f_splat(1 / length));
+    data_.simd = simd2f_mul(data_.simd,
+                                    simd2f_splat(1 / length));
     return length;
   }
 
   inline Vector<float, 2> Normalized() const {
-    return simd2f_normalize2(data_);
+    return simd2f_normalize2(data_.simd);
   }
 
   static inline float DotProduct(
     const Vector<float, 2>& v1, const Vector<float, 2>& v2) {
-    return simd2f_get_x(simd2f_dot2(v1.data_, v2.data_));
+    return simd2f_get_x(simd2f_dot2(v1.data_.simd,
+                                    v2.data_.simd));
   }
 
   static inline Vector<float, 2> HadamardProduct(
     const Vector<float, 2>& v1, const Vector<float, 2>& v2) {
-    return Vector<float, 2>(simd2f_mul(v1.data_, v2.data_));
+    return Vector<float, 2>(simd2f_mul(v1.data_.simd,
+                                       v2.data_.simd));
   }
 
   static inline Vector<float, 2> Lerp(
     const Vector<float, 2>& v1, const Vector<float, 2>& v2, float percent) {
     const Vector<float, 2> percentv(percent);
     const Vector<float, 2> one_minus_percent(
-        simd2f_sub(simd2f_splat(1.0f), percentv.data_));
+        simd2f_sub(simd2f_splat(1.0f), percentv.data_.simd));
     return Vector<float, 2>(
-        simd2f_add(simd2f_mul(one_minus_percent.data_, v1.data_),
-                   simd2f_mul(percentv.data_, v2.data_)));
+        simd2f_add(simd2f_mul(one_minus_percent.data_.simd,
+                              v1.data_.simd),
+                   simd2f_mul(percentv.data_.simd,
+                              v2.data_.simd)));
   }
 
  private:
-  simd2f data_;
+  union {
+    simd2f simd;
+    float float_array[2];
+  } data_;
 };
 #endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) &&
         // defined(__ARM_NEON__)
