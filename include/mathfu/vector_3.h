@@ -105,6 +105,12 @@ class Vector<float, 3> {
   inline const float& y() const { return (*this)[1]; }
   inline const float& z() const { return (*this)[2]; }
 
+  /// GLSL style multi-component accessors.
+  inline Vector<float, 2> xy() { return Vector<float, 2>(x(), y()); }
+  inline const Vector<float, 2> xy() const {
+    return Vector<float, 2>(x(), y());
+  }
+
   inline Vector<float, 3> operator-() const {
     return Vector<float, 3>(simd4f_sub(simd4f_zero(),
                                        MATHFU_VECTOR3_LOAD3(data_)));

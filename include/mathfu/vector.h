@@ -184,6 +184,27 @@ class Vector {
   inline const T& z() const { MATHFU_STATIC_ASSERT(d > 2); return data_[2]; }
   inline const T& w() const { MATHFU_STATIC_ASSERT(d > 3); return data_[3]; }
 
+  /// GLSL style multi-component accessors.
+  inline Vector<T, 3> xyz() {
+    MATHFU_STATIC_ASSERT(d > 3);
+    return Vector<T, 3>(x(), y(), z());
+  }
+
+  inline const Vector<T, 3> xyz() const {
+    MATHFU_STATIC_ASSERT(d > 3);
+    return Vector<T, 3>(x(), y(), z());
+  }
+
+  inline Vector<T, 3> xy() {
+    MATHFU_STATIC_ASSERT(d > 2);
+    return Vector<T, 3>(x(), y());
+  }
+
+  inline const Vector<T, 3> xy() const {
+    MATHFU_STATIC_ASSERT(d > 2);
+    return Vector<T, 3>(x(), y());
+  }
+
   /// Vector negation.
   /// @return A new vector that stores the negation result.
   inline Vector<T, d> operator-() const {
