@@ -13,5 +13,5 @@
 # limitations under the License.
 LOCAL_PATH:=$(call my-dir)/../..
 LOCAL_BENCHMARK_NAME:=matrix_no_simd_benchmark
-MATHFU_LIB:=libmathfu_simd_no_padding
+MATHFU_LIB:=libmathfu_no_simd
 include $(LOCAL_PATH)/../android_common.mk

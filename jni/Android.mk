@@ -100,7 +100,7 @@ include $(BUILD_STATIC_LIBRARY)
 # Builds an empty static library (similar to libmathfu).
 # This build configuration has SIMD enabled and padding disabled.
 include $(CLEAR_VARS)
-$(call mathfu-build,_simd_no_padding,0,1)
+$(call mathfu-build,_simd_no_padding,0,0)
 include $(BUILD_STATIC_LIBRARY)
 
 mathfu_cflags:=
