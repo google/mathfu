@@ -28,10 +28,12 @@ LOCAL_LDLIBS:=-llog -landroid
 LOCAL_WHOLE_STATIC_LIBRARIES:=\
 	libfplutil_main \
 	libfplutil_print
+# MATHFU_LIB (by default libmathfu) is used to select the build configuration
+# for the target using mathfu.
 LOCAL_STATIC_LIBRARIES:=\
 	android_native_app_glue \
 	libgtest \
-	libmathfu
+	$(MATHFU_LIB)
 LOCAL_CFLAGS:=-Wall -Werror
 LOCAL_ARM_MODE:=arm
 include $(BUILD_SHARED_LIBRARY)
