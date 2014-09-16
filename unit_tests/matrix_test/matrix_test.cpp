@@ -63,12 +63,12 @@ struct MatrixExpectation {
   }
 
 // This will automatically generate tests for each scalar template parameter.
-#define TEST_SCALAR_F(MY_TEST) \
+#define TEST_SCALAR_F(MY_TEST, FLOAT_PRECISION_VALUE, DOUBLE_PRECISION_VALUE) \
   TEST_F(MatrixTests, MY_TEST##_float) { \
-    MY_TEST##_Test<float>(FLOAT_PRECISION); \
+    MY_TEST##_Test<float>(FLOAT_PRECISION_VALUE); \
   } \
   TEST_F(MatrixTests, MY_TEST##_double) { \
-    MY_TEST##_Test<double>(DOUBLE_PRECISION); \
+    MY_TEST##_Test<double>(DOUBLE_PRECISION_VALUE); \
   }
 
 // This will test initializaiton by passing in values. The template paramter d
@@ -168,7 +168,7 @@ void InitializePerDimension_Test(const T& precision) {
   EXPECT_NEAR(9.4, matrix_f4x4(2, 3), precision);
   EXPECT_NEAR(3.6, matrix_f4x4(3, 3), precision);
 }
-TEST_SCALAR_F(InitializePerDimension)
+TEST_SCALAR_F(InitializePerDimension, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test the Addition and Subtraction of matrices. The template
 // paramter d corresponds to the number of rows and columns.
@@ -401,7 +401,7 @@ void TranslationVector3D_Test(const T& precision) {
     EXPECT_EQ(trans[i], trans_back[i]);
   }
 }
-TEST_SCALAR_F(TranslationVector3D);
+TEST_SCALAR_F(TranslationVector3D, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test converting from a translation into a matrix and back again.
 template<class T>
@@ -418,7 +418,7 @@ void TranslationVector2D_Test(const T& precision) {
     EXPECT_EQ(trans[i], trans_back[i]);
   }
 }
-TEST_SCALAR_F(TranslationVector2D);
+TEST_SCALAR_F(TranslationVector2D, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test converting from a scale into a matrix, then multiply by
 // a vector of 1's, which should produce the original scale again.
@@ -534,7 +534,7 @@ void Perspective_Test(const T& precision) {
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(Perspective);
+TEST_SCALAR_F(Perspective, FLOAT_PRECISION, DOUBLE_PRECISION * 10);
 
 // Test orthographic matrix calculation.
 template<class T>
@@ -579,7 +579,7 @@ void Ortho_Test(const T& precision) {
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(Ortho);
+TEST_SCALAR_F(Ortho, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // Test look-at matrix calculation.
 template<class T>
@@ -639,7 +639,7 @@ void LookAt_Test(const T& precision) {
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(LookAt);
+TEST_SCALAR_F(LookAt, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix opertations given in the sample file.
