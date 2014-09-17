@@ -75,11 +75,11 @@ class Vector<float, 4> {
   }
 
   inline float& operator()(const int i) {
-    return data_.float_array[i + 1];
+    return data_.float_array[i];
   }
 
   inline const float& operator()(const int i) const {
-    return data_.float_array[i + 1];
+    return data_.float_array[i];
   }
 
   inline float& operator[](const int i) {

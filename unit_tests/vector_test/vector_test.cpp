@@ -376,6 +376,26 @@ TEST_F(VectorTests, Lerp) { \
   Numeric_Lerp_Test<double>(DOUBLE_PRECISION); \
 }
 
+// This will test initialization by passing in values. The template paramter d
+// corresponds to the size of the vector.
+template<class T, int d>
+void Accessor_Test(const T& precision) {
+  (void)precision;
+  T x[d];
+  for (int i = 0; i < d; ++i) {
+    x[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
+
+  mathfu::Vector<T, d> vector(x);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_FLOAT_EQ(x[i], vector[i]);
+  }
+  for (int i = 0; i < d; ++i) {
+    EXPECT_FLOAT_EQ(x[i], vector(i));
+  }
+}
+TEST_ALL_F(Accessor)
+
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
 TEST_F(VectorTests, SampleTest) {
