@@ -29,22 +29,7 @@
 #pragma clang diagnostic ignored "-Warray-bounds"
 #endif
 
-#define MATHFU_VECTOR_OPERATION(OP) \
-  { \
-    const int i = 0; OP; \
-    if (d > 1) { \
-      const int i = 1; OP; \
-      if (d > 2) { \
-        const int i = 2; OP; \
-        if (d > 3) { \
-          const int i = 3; OP; \
-          if (d > 4) { \
-            for (int i = 4; i < d; ++i) OP; \
-          } \
-        } \
-      } \
-    } \
-  }
+#define MATHFU_VECTOR_OPERATION(OP) MATHFU_UNROLLED_LOOP(i, d, OP)
 
 #define MATHFU_VECTOR_OPERATOR(OP) \
   { \

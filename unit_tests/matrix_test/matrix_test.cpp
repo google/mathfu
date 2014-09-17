@@ -674,6 +674,24 @@ void LookAt_Test(const T& precision) {
 }
 TEST_SCALAR_F(LookAt, FLOAT_PRECISION, DOUBLE_PRECISION);
 
+// Test matrix transposition.
+template<class T, int d>
+void Transpose_Test(const T& precision) {
+  (void)precision;
+  mathfu::Matrix<T, d> matrix;
+  for (int i = 0; i < d * d; ++i) {
+    matrix[i] = static_cast<T>(i);
+  }
+  mathfu::Matrix<T, d> transpose = matrix.Transpose();
+  for (int i = 0; i < d; ++i) {
+    for (int j = 0; j < d; ++j) {
+      EXPECT_FLOAT_EQ(matrix(i, j), transpose(j, i));
+    }
+  }
+}
+
+TEST_ALL_F(Transpose, FLOAT_PRECISION, DOUBLE_PRECISION);
+
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix opertations given in the sample file.
 // This will test transforming a vector with a matrix.

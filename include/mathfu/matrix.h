@@ -43,22 +43,7 @@
 #define MATHFU_VECTOR_STRIDE_FLOATS(vector) (sizeof(vector) / sizeof(float))
 
 // This will unroll loops for matrices with <= 4 columns
-#define MATHFU_MAT_OPERATION(OP) \
-  { \
-    const int i = 0; OP; \
-    if (columns > 1) { \
-      const int i = 1; OP; \
-      if (columns > 2) { \
-        const int i = 2; OP; \
-        if (columns > 3) { \
-          const int i = 3; OP; \
-          if (columns > 4) { \
-            for (int i = 4; i < columns; ++i) { OP; } \
-          } \
-        } \
-      } \
-    } \
-  }
+#define MATHFU_MAT_OPERATION(OP) MATHFU_UNROLLED_LOOP(i, columns, OP)
 
 // This will perform a given OP on each matrix column and return the result
 #define MATHFU_MAT_OPERATOR(OP) \
@@ -444,6 +429,15 @@ class Matrix {
   inline bool InverseWithDeterminantCheck(
       Matrix<T, rows, columns>* const inverse) const {
     return InverseHelper<true>(*this, inverse);
+  }
+
+  /// Calculate the transpose of matrix.
+  /// @return The transpose of the specified matrix.
+  inline Matrix<T, columns, rows> Transpose() const {
+    Matrix<T, columns, rows> transpose;
+    MATHFU_UNROLLED_LOOP(i, columns, MATHFU_UNROLLED_LOOP(
+        j, rows, transpose.GetColumn(j)[i] = GetColumn(i)[j]))
+    return transpose;
   }
 
   /// Return the 2 dimensional translation of a 2 dimensional affine transform.
@@ -994,8 +988,7 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
 // Create a 4x4 perpective matrix.
 template<class T>
 inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
-                                         T handedness)
-{
+                                         T handedness) {
   const T y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
   const T x = y / aspect;
   const T zdist = (znear - zfar) * handedness;

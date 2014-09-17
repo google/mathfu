@@ -99,6 +99,30 @@ template<bool> struct static_assert_util;
 template<> struct static_assert_util<true> {};
 #define MATHFU_STATIC_ASSERT(x) static_assert_util<(x)>()
 
+// Unroll an loop up to 4 iterations, where iterator is the identifier
+// used in each operation (e.g "i"), number_of_iterations is a constant which
+// specifies the number of times to perform the operation and "operation" is
+// the statement to execute for each iteration of the loop (e.g data[i] = v).
+#define MATHFU_UNROLLED_LOOP(iterator, number_of_iterations, operation) \
+  { \
+    const int iterator = 0;  { operation ; } \
+    if ((number_of_iterations) > 1) { \
+      const int iterator = 1;  { operation ; } \
+      if ((number_of_iterations) > 2) { \
+        const int iterator = 2;  { operation ; } \
+        if ((number_of_iterations) > 3) { \
+          const int iterator = 3;  { operation ; } \
+          if ((number_of_iterations) > 4) { \
+            for (int iterator = 4; iterator < (number_of_iterations); \
+                 ++iterator) { \
+              operation ; \
+            } \
+          } \
+        } \
+      } \
+    } \
+  }
+
 namespace mathfu {
 
 /// Clamp x within [lower, upper]. Results are undefined if lower > upper.

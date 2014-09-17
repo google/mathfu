@@ -212,6 +212,14 @@ class Matrix<float, 4> {
         Constants<float>::GetDeterminantThreshold();
   }
 
+  /// Calculate the transpose of matrix.
+  /// @return The transpose of the specified matrix.
+  inline Matrix<float, 4, 4> Transpose() const {
+    Matrix<float, 4, 4> transpose;
+    simd4x4f_transpose(&data_.simd_matrix, &transpose.data_.simd_matrix);
+    return transpose;
+  }
+
   inline Vector<float, 3> TranslationVector3D() const {
     Vector<float, 3> return_v;
     MATHFU_VECTOR3_STORE3(FindColumn(3).simd, return_v.data_);
