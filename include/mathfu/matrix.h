@@ -217,6 +217,13 @@ class Matrix {
     MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(&a[i*columns])));
   }
 
+  /// Create a matrix from an array of "columns", "rows" element packed
+  /// vectors.
+  /// @param vectors Array of "columns", "rows" element packed vectors.
+  explicit inline Matrix(const VectorPacked<T, rows> * const vectors) {
+    MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(vectors[i])));
+  }
+
   /// Access an element of the matrix.
   /// @param i The index of the row where the element is located.
   /// @param j The index of the column where the element is located.
@@ -269,6 +276,13 @@ class Matrix {
 #else
     return reinterpret_cast<T*>(data_)[i];
 #endif  // defined(MATHFU_COMPILE_WITH_PADDING)
+  }
+
+  /// Pack the matrix to an array of "rows" element vectors,
+  /// one vector per matrix column.
+  /// @param vector Array of "columns" in size to write to.
+  inline void Pack(VectorPacked<T, rows> * const vector) const {
+    MATHFU_MAT_OPERATION(GetColumn(i).Pack(&vector[i]));
   }
 
   /// Access a column vector of the matrix.

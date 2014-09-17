@@ -85,6 +85,11 @@ class Vector<float, 3> {
     MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
   }
 
+  explicit inline Vector(const VectorPacked<float, 3>& vector) {
+    MATHFU_VECTOR3_INIT3(data_, vector.data[0], vector.data[1],
+                         vector.data[2]);
+  }
+
   inline float& operator()(const int i) {
     return data_.float_array[i];
   }
@@ -113,6 +118,16 @@ class Vector<float, 3> {
   inline Vector<float, 2> xy() { return Vector<float, 2>(x(), y()); }
   inline const Vector<float, 2> xy() const {
     return Vector<float, 2>(x(), y());
+  }
+
+  inline void Pack(VectorPacked<float, 3> * const vector) const {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    simd4f_ustore3(data_.simd, vector->data);
+#else
+    vector->data[0] = data_.float_array[0];
+    vector->data[1] = data_.float_array[1];
+    vector->data[2] = data_.float_array[2];
+#endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   inline Vector<float, 3> operator-() const {

@@ -55,6 +55,10 @@ class Vector<float, 2> {
     data_.simd = simd2f_create(v[0], v[1]);
   }
 
+  explicit inline Vector(const VectorPacked<float, 2>& vector) {
+	data_.simd = simd2f_uload2(vector.data);
+  }
+
   inline float& operator()(const int i) {
     return data_.float_array[i];
   }
@@ -76,6 +80,10 @@ class Vector<float, 2> {
 
   inline const float& x() const { return (*this)[0]; }
   inline const float& y() const { return (*this)[1]; }
+
+  inline void Pack(VectorPacked<float, 2> * const vector) const {
+    simd2f_ustore2(data_.simd, vector->data);
+  }
 
   inline Vector<float, 2> operator-() const {
     return Vector<float, 2>(simd2f_sub(simd2f_zero(), data_.simd));

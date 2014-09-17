@@ -37,6 +37,14 @@ typedef Matrix<float, 2, 2> mat2;
 typedef Matrix<float, 3, 3> mat3;
 typedef Matrix<float, 4, 4> mat4;
 
+typedef VectorPacked<float, 2> vec2_packed;
+typedef VectorPacked<float, 3> vec3_packed;
+typedef VectorPacked<float, 4> vec4_packed;
+
+typedef VectorPacked<int, 2> vec2i_packed;
+typedef VectorPacked<int, 3> vec3i_packed;
+typedef VectorPacked<int, 4> vec4i_packed;
+
 template<class T>
 inline Vector<T, 3> cross(const Vector<T, 3>& v1, const Vector<T, 3>& v2) {
   return Vector<T, 3>::CrossProduct(v1,v2);

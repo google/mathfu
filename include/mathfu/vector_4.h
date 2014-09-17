@@ -66,9 +66,12 @@ class Vector<float, 4> {
     data_.simd = vector3.data_.simd;
     (*this)[3] = value;
 #else
-    data_.simd = simd4f_create(vector3[0], vector3[1], vector3[2],
-                                       value);
+    data_.simd = simd4f_create(vector3[0], vector3[1], vector3[2], value);
 #endif  // MATHFU_COMPILE_WITH_PADDING
+  }
+
+  explicit inline Vector(const VectorPacked<float, 4>& vector) {
+    data_.simd = simd4f_uload4(vector.data);
   }
 
   inline float& operator()(const int i) {
@@ -106,6 +109,10 @@ class Vector<float, 4> {
   inline Vector<float, 2> xy() { return Vector<float, 2>(x(), y()); }
   inline const Vector<float, 2> xy() const {
     return Vector<float, 2>(x(), y());
+  }
+
+  inline void Pack(VectorPacked<float, 4> * const vector) const {
+    simd4f_ustore4(data_.simd, vector->data);
   }
 
   inline Vector<float, 4> operator-() const {

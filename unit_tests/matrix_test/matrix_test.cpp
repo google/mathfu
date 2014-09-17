@@ -81,7 +81,6 @@ void Initialize_Test(const T& precision) {
   for (int i = 0; i < d * d; ++i) {
     EXPECT_NEAR(3.1, matrix_splat[i], precision);
   }
-#if 0
   // This will verify that the value is correct when using the (i, j) form
   // of indexing.
   for (int i = 0; i < d; ++i) {
@@ -120,7 +119,6 @@ void Initialize_Test(const T& precision) {
       EXPECT_NEAR(i == j ? 1 : 0, identity(i, j), precision);
     }
   }
-#endif
 }
 TEST_ALL_F(Initialize, FLOAT_PRECISION, DOUBLE_PRECISION);
 
@@ -171,6 +169,39 @@ void InitializePerDimension_Test(const T& precision) {
   EXPECT_NEAR(3.6, matrix_f4x4(3, 3), precision);
 }
 TEST_SCALAR_F(InitializePerDimension, FLOAT_PRECISION, DOUBLE_PRECISION)
+
+// Test initialization of a matrix from an array of packed vectors.
+template<class T, int d>
+void InitializePacked_Test(const T& precision) {
+  (void)precision;
+  mathfu::VectorPacked<T, d> packed[d];
+  for (int i = 0; i < d; ++i) {
+    for (int j = 0; j < d; ++j) {
+      packed[i].data[j] = static_cast<T>((i * d) + j);
+    }
+  }
+  mathfu::Matrix<T, d> matrix(packed);
+  for (int i = 0; i < d * d; ++i) {
+    EXPECT_FLOAT_EQ(packed[i / d].data[i % d], matrix[i]) << "Element " << i;
+  }
+}
+TEST_ALL_F(InitializePacked, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Test serialization to a packed array of vectors.
+template<class T, int d>
+void PackedSerialization_Test(const T& precision) {
+  (void)precision;
+  mathfu::Matrix<T, d> matrix;
+  for (int i = 0; i < d * d; ++i) {
+    matrix[i] = static_cast<T>(i);
+  }
+  mathfu::VectorPacked<T, d> packed[d];
+  matrix.Pack(packed);
+  for (int i = 0; i < d * d; ++i) {
+    EXPECT_FLOAT_EQ(matrix[i], packed[i / d].data[i % d]) << "Element " << i;
+  }
+}
+TEST_ALL_F(PackedSerialization, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test the Addition and Subtraction of matrices. The template
 // paramter d corresponds to the number of rows and columns.

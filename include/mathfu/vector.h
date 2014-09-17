@@ -61,6 +61,45 @@
 
 namespace mathfu {
 
+template<class T, int d> class Vector;
+
+/// Packed N dimensional vector.
+/// Some Vector classes are padded so that it's possible to use the data
+/// structures with SIMD instructions.  This structure can be used in
+/// conjunction with unpacked Vector classes to pack data
+/// into flat arrays suitable for sending to a GPU (e.g vertex buffers).
+///
+/// For example, to pack (store) an unpacked to packed vector:
+/// VectorPacked<float, 3> packed;
+/// Vector<float, 3> vector(3, 2, 1);
+/// vector.Pack(&packed);
+///
+/// or
+///
+/// Vector<float, 3> vector(3, 2, 1);
+/// VectorPacked<float, 3> packed = vector;
+///
+/// To initialize a vector from a packed vector:
+/// VectorPacked<float, 3> packed = { 3, 2, 1 };
+/// Vector<float, 3> vector(packed);
+///
+template<class T, int d>
+struct VectorPacked {
+  VectorPacked() {}
+
+  explicit VectorPacked(const Vector<T, d> &vector) {
+    vector.Pack(this);
+  }
+
+  VectorPacked& operator=(const Vector<T, d> &vector) {
+    vector.Pack(this);
+    return *this;
+  }
+
+  T data[d];
+};
+
+
 /// @class Vector
 /// Stores a vector of d elements with type T and provides a set of utility
 /// operations on each vector.
@@ -149,6 +188,12 @@ class Vector {
     data_[3] = value;
   }
 
+  /// Create a vector from packed vector.
+  /// @param vector Packed vector used to initialize an unpacked.
+  explicit inline Vector(const VectorPacked<T, d>& vector) {
+    MATHFU_VECTOR_OPERATION(data_[i] = vector.data[i]);
+  }
+
   inline T& operator()(const int i) {
     return data_[i];
   }
@@ -203,6 +248,12 @@ class Vector {
   inline const Vector<T, 3> xy() const {
     MATHFU_STATIC_ASSERT(d > 2);
     return Vector<T, 3>(x(), y());
+  }
+
+  /// Pack a vector to a packed "d" element vector structure.
+  /// @param vector Packed "d" element vector to write to.
+  inline void Pack(VectorPacked<T, d> * const vector) const {
+    MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
   }
 
   /// Vector negation.

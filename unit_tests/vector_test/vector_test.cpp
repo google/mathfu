@@ -31,21 +31,38 @@ class VectorTests : public ::testing::Test {
 
 // This will automatically generate tests for each template parameter.
 #define TEST_ALL_F(MY_TEST) \
-  TEST_F(VectorTests, MY_TEST) { \
+  TEST_F(VectorTests, MY_TEST##_float_2) { \
     MY_TEST##_Test<float, 2>(FLOAT_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_double_2) { \
     MY_TEST##_Test<double, 2>(DOUBLE_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_float_3) { \
     MY_TEST##_Test<float, 3>(FLOAT_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_double_3) { \
     MY_TEST##_Test<double, 3>(DOUBLE_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_float_4) { \
     MY_TEST##_Test<float, 4>(FLOAT_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_double_4) { \
     MY_TEST##_Test<double, 4>(DOUBLE_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_float_5) { \
     MY_TEST##_Test<float, 5>(FLOAT_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_double_5) { \
     MY_TEST##_Test<double, 5>(DOUBLE_PRECISION); \
   }
 
+
 // This will automatically generate tests for each scalar template parameter.
 #define TEST_SCALAR_F(MY_TEST) \
-  TEST_F(VectorTests, MY_TEST) { \
+  TEST_F(VectorTests, MY_TEST##_float) { \
     MY_TEST##_Test<float>(FLOAT_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_double) { \
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
   }
 
@@ -56,7 +73,7 @@ class VectorTests : public ::testing::Test {
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
 
-// This will test initializaiton by passing in values. The template paramter d
+// This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
 template<class T, int d>
 void Initialization_Test(const T& precision) {
@@ -89,7 +106,7 @@ void Initialization_Test(const T& precision) {
 }
 TEST_ALL_F(Initialization)
 
-// This will test initializaiton by specifying all values explictly.
+// This will test initialization by specifying all values explictly.
 template<class T>
 void InitializationPerDimension_Test(const T& precision) {
   mathfu::Vector<T, 2> f2_vector(static_cast<T>(5.3), static_cast<T>(7.1));
@@ -108,6 +125,44 @@ void InitializationPerDimension_Test(const T& precision) {
   EXPECT_NEAR(15.5, f4_vector[3], precision);
 }
 TEST_SCALAR_F(InitializationPerDimension);
+
+// Test initialization from a packed vector.
+template<class T, int d>
+void InitializationPacked_Test(const T& precision) {
+  (void)precision;
+  mathfu::VectorPacked<T, d> packed;
+  for (int i = 0; i < d; ++i) {
+    packed.data[i] = static_cast<T>(i);
+  }
+  mathfu::Vector<T, d> unpacked(packed);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_FLOAT_EQ(packed.data[i], unpacked[i]) << "Element " << i;
+  }
+}
+TEST_ALL_F(InitializationPacked);
+
+// Test vector packing.
+template<class T, int d>
+void PackedSerialization_Test(const T& precision) {
+  (void)precision;
+  mathfu::Vector<T, d> unpacked;
+  for (int i = 0; i < d; ++i) {
+    unpacked[i] = static_cast<T>(i);
+  }
+
+  mathfu::VectorPacked<T, d> packed_construction(unpacked);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_FLOAT_EQ(unpacked[i], packed_construction.data[i]) <<
+        "Element " << i;
+  }
+
+  mathfu::VectorPacked<T, d> packed_assignment;
+  packed_assignment = unpacked;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_FLOAT_EQ(unpacked[i], packed_assignment.data[i]) << "Element " << i;
+  }
+}
+TEST_ALL_F(PackedSerialization);
 
 // This will test the Addition and Subtraction of vectors. The template
 // parameter d corresponds to the size of the vector.
@@ -261,7 +316,7 @@ void Lerp1_Test(const T& precision) {
 }
 TEST_ALL_F(Lerp1)
 
-// This will test initializaiton by specifying all values explictly.
+// This will test initialization by specifying all values explictly.
 template<class T>
 void Clamp_Test() {
   const T min = static_cast<T>(-1);

@@ -50,9 +50,9 @@ class Matrix<float, 4> {
     const float& s02, const float& s12, const float& s22, const float& s32,
     const float& s03, const float& s13, const float& s23, const float& s33) {
     data_.simd_matrix = simd4x4f_create(simd4f_create(s00, s10, s20, s30),
-                                       simd4f_create(s01, s11, s21, s31),
-                                       simd4f_create(s02, s12, s22, s32),
-                                       simd4f_create(s03, s13, s23, s33));
+										simd4f_create(s01, s11, s21, s31),
+										simd4f_create(s02, s12, s22, s32),
+										simd4f_create(s03, s13, s23, s33));
   }
 
   explicit inline Matrix<float, 4>(const float* m) {
@@ -80,6 +80,14 @@ class Matrix<float, 4> {
 #endif  // defined(MATHFU_COMPILE_WITH_PADDING)
   }
 
+  explicit inline Matrix(const VectorPacked<float, 4> * const vectors) {
+	data_.simd_matrix.x = simd4f_uload4(vectors[0].data);
+	data_.simd_matrix.y = simd4f_uload4(vectors[1].data);
+	data_.simd_matrix.z = simd4f_uload4(vectors[2].data);
+	data_.simd_matrix.w = simd4f_uload4(vectors[3].data);
+  }
+
+
   inline const float& operator()(const int i, const int j) const {
     return FindElem(i, FindColumn(j));
   }
@@ -106,6 +114,13 @@ class Matrix<float, 4> {
     const int col = i / 4;
     const int row = i % 4;
     return FindElem(row, FindColumn(col));
+  }
+
+  inline void Pack(VectorPacked<float, 4> * const vector) const {
+    simd4f_ustore4(data_.simd_matrix.x, vector[0].data);
+    simd4f_ustore4(data_.simd_matrix.y, vector[1].data);
+    simd4f_ustore4(data_.simd_matrix.z, vector[2].data);
+    simd4f_ustore4(data_.simd_matrix.w, vector[3].data);
   }
 
   inline Matrix<float, 4> operator-() const {
