@@ -17,7 +17,9 @@
 #define MATHFU_QUATERNION_H_
 
 #ifdef _WIN32
+#if !defined(_USE_MATH_DEFINES)
 #define _USE_MATH_DEFINES // For M_PI.
+#endif  // !defined(_USE_MATH_DEFINES)
 #endif  // _WIN32
 
 #include "mathfu/matrix.h"
