@@ -209,6 +209,15 @@ class Vector<float, 2> {
                               v2.data_.simd)));
   }
 
+  /// Generates a random vector, where the range for each component is
+  /// bounded by min and max.
+  static inline Vector<float, 2> RandomInRange(
+      const Vector<float, 2>& min, const Vector<float, 4>& max) {
+    return Vector<float, 2>(
+        mathfu::RandomInRange<float>(min[0], max[0]),
+        mathfu::RandomInRange<float>(min[1], max[1]));
+  }
+
  private:
   union {
     simd2f simd;

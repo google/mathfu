@@ -446,6 +446,16 @@ class Vector {
     MATHFU_VECTOR_OPERATOR(one_minus_percent * v1[i] + percent * v2[i]);
   }
 
+  /// Generates a random vector, where the range for each component is
+  /// bounded by min and max.
+  static inline Vector<T, d> RandomInRange(
+      const Vector<T, d>& min, const Vector<T, d>& max) {
+    Vector<T, d> result;
+    MATHFU_VECTOR_OPERATION(result[i] =
+        mathfu::RandomInRange<T>(min[i], max[i]));
+    return result;
+  }
+
  private:
   T data_[d];
 };

@@ -205,6 +205,17 @@ class Vector<float, 4> {
             simd4f_mul(percentv.data_.simd, v2.data_.simd)));
   }
 
+  /// Generates a random vector, where the range for each component is
+  /// bounded by min and max.
+  static inline Vector<float, 4> RandomInRange(
+      const Vector<float, 4>& min, const Vector<float, 4>& max) {
+    return Vector<float, 4>(
+        mathfu::RandomInRange<float>(min[0], max[0]),
+        mathfu::RandomInRange<float>(min[1], max[1]),
+        mathfu::RandomInRange<float>(min[2], max[2]),
+        mathfu::RandomInRange<float>(min[3], max[3]));
+  }
+
   template<class T, int rows, int cols> friend class Matrix;
 
  private:

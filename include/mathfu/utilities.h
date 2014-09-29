@@ -138,16 +138,38 @@ T Lerp(const T& range_start, const T& range_end, const T& percent) {
   return range_start * one_minus_percent + range_end * percent;
 }
 
-/// Generate a random value of type T in the range 0.0...1.0.
-/// This function uses rand() from math.h to generate the random number.
+/// Generate a random value of type T greater than or equal to 0.0 and
+/// less than 1.0.  This function uses rand() from math.h to generate the
+/// random number.
 template<class T> inline T Random() {
   return static_cast<T>(rand()) / static_cast<T>(RAND_MAX);
+}
+
+template<> inline float Random() {
+  return static_cast<float>(rand() >> 8) /
+      (static_cast<float>((RAND_MAX >> 8) + 1));
+}
+
+template<> inline double Random() {
+  return static_cast<double>(rand()) / (static_cast<double>(RAND_MAX + 1LL));
 }
 
 /// Generate a random value of type T in the range -range...+range
 /// This function uses rand() from math.h to generate the random number.
 template<class T> inline T RandomRange(T range) {
   return (Random<T>() * range * 2) - range;
+}
+
+/// Returns a random number between [range_start, range_end]
+/// This function uses rand() from math.h to generate the random number.
+template<class T> inline T RandomInRange(T range_start, T range_end) {
+  return Lerp(range_start, range_end, Random<T>());
+}
+
+template<> inline int RandomInRange<int>(int range_start, int range_end) {
+    return static_cast<int>(RandomInRange<float>(
+                              static_cast<float>(range_start),
+                              static_cast<float>(range_end)));
 }
 
 } // namespace mathfu

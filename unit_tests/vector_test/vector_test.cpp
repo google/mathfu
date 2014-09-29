@@ -56,6 +56,19 @@ class VectorTests : public ::testing::Test {
     MY_TEST##_Test<double, 5>(DOUBLE_PRECISION); \
   }
 
+#define TEST_ALL_INTS_F(MY_TEST) \
+  TEST_F(VectorTests, MY_INT_TEST##_2) { \
+    MY_TEST##_Test<int, 2>(0); \
+  } \
+  TEST_F(VectorTests, MY_INT_TEST##_3) { \
+    MY_TEST##_Test<int, 3>(0); \
+  } \
+  TEST_F(VectorTests, MY_INT_TEST##_4) { \
+    MY_TEST##_Test<int, 4>(0); \
+  } \
+  TEST_F(VectorTests, MY_INT_TEST##_5) { \
+    MY_TEST##_Test<int, 5>(0); \
+  }
 
 // This will automatically generate tests for each scalar template parameter.
 #define TEST_SCALAR_F(MY_TEST) \
@@ -64,6 +77,18 @@ class VectorTests : public ::testing::Test {
   } \
   TEST_F(VectorTests, MY_TEST##_double) { \
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
+  }
+
+// This will automatically generate tests for each scalar template parameter.
+#define TEST_SCALAR_AND_INT_F(MY_TEST) \
+  TEST_F(VectorTests, MY_TEST##_float) { \
+    MY_TEST##_Test<float>(FLOAT_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_double) { \
+    MY_TEST##_Test<double>(DOUBLE_PRECISION); \
+  } \
+  TEST_F(VectorTests, MY_TEST##_int) { \
+    MY_TEST##_Test<int>(0); \
   }
 
 // Tests float, double, and integer constants in one line.
@@ -370,11 +395,54 @@ void Numeric_Lerp_Test(const T& precision) {
   EXPECT_NEAR(mathfu::Lerp<T>(a, b, seven_tenths), seven_tenths_result,
                                 precision);
 }
+TEST_SCALAR_F(Numeric_Lerp)
 
-TEST_F(VectorTests, Lerp) { \
-  Numeric_Lerp_Test<float>(FLOAT_PRECISION); \
-  Numeric_Lerp_Test<double>(DOUBLE_PRECISION); \
+// Tests the random-in-range function for vectors.
+// Given a pair of vectors, it should return a third vector whose elements
+// are bounded by the corresponding elements in the argument vectors.
+template<class T, int d>
+void Vector_RandomInRange_Test(const T& precision) {
+  (void) precision;
+  mathfu::Vector<T, d> min, max, result1, result2;
+
+  for (int count = 0; count < 100; count++) {
+    for (int i = 0; i < d; i++) {
+      min[i] = -i - 10;
+      max[i] = i * 2 + 2;
+    }
+    result1 = mathfu::Vector<T, d>::RandomInRange(min, max);
+    result2 = mathfu::Vector<T, d>::RandomInRange(max, min);
+    for (int i = 0; i < d; i++) {
+      EXPECT_GE(result1[i], min[i]);
+      EXPECT_LT(result1[i], max[i]);
+
+      EXPECT_GE(result2[i], min[i]);
+      EXPECT_LT(result2[i], max[i]);
+    }
+  }
 }
+TEST_ALL_INTS_F(Vector_RandomInRange)
+
+// Tests the generic Random in Range function in Mathfu.
+template<class T>
+void RandomInRange_Test(const T& precision) {
+  (void) precision;
+  for (int count = 0; count < 100; count++) {
+    T result = mathfu::RandomInRange(0, 100);
+    EXPECT_GE(result, 0);
+    EXPECT_LT(result, 100);
+  }
+  for (int count = 0; count < 100; count++) {
+    T result = mathfu::RandomInRange(-100, 0);
+    EXPECT_GT(result, -100);
+    EXPECT_LE(result, 0);
+  }
+  EXPECT_EQ(0, mathfu::RandomInRange(0, 0));
+  EXPECT_EQ(-5, mathfu::RandomInRange(-5, -5));
+  EXPECT_EQ(23, mathfu::RandomInRange(23, 23));
+
+}
+TEST_SCALAR_AND_INT_F(RandomInRange)
 
 // This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
