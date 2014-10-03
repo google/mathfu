@@ -289,7 +289,7 @@ class Vector {
   /// @param s A scalar to divide this vector with.
   /// @return A new vector that stores the result.
   inline Vector<T, d> operator/(const T& s) const {
-    return (*this) * (1 / s);
+    MATHFU_VECTOR_OPERATOR(data_[i] / s);
   }
 
   /// Vector/Scalar addition. Note that this is defined as addition between
@@ -322,7 +322,7 @@ class Vector {
   /// @param v A vector to divide this vector by.
   /// @return A reference to this class.
   inline Vector<T, d>& operator/=(const Vector<T, d>& v) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] *= v[i]);
+    MATHFU_VECTOR_SELF_OPERATOR(data_[i] /= v[i]);
   }
 
   /// In place vector addition.
@@ -351,7 +351,7 @@ class Vector {
   /// @param s A scalar to divide this vector by.
   /// @return A reference to this class.
   inline Vector<T, d>& operator/=(const T& s) {
-    return (*this) *= (1 / s);
+    MATHFU_VECTOR_SELF_OPERATOR(data_[i] /= s);
   }
 
   /// In place vector/scalar addition. Note that this is defined as addition

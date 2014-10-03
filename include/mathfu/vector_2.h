@@ -56,7 +56,7 @@ class Vector<float, 2> {
   }
 
   explicit inline Vector(const VectorPacked<float, 2>& vector) {
-	data_.simd = simd2f_uload2(vector.data);
+  data_.simd = simd2f_uload2(vector.data);
   }
 
   inline float& operator()(const int i) {
@@ -90,23 +90,19 @@ class Vector<float, 2> {
   }
 
   inline Vector<float, 2> operator*(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_mul(data_.simd,
-                                       v.data_.simd));
+    return Vector<float, 2>(simd2f_mul(data_.simd, v.data_.simd));
   }
 
   inline Vector<float, 2> operator/(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_div(data_.simd,
-                                       v.data_.simd));
+    return Vector<float, 2>(simd2f_div(data_.simd, v.data_.simd));
   }
 
   inline Vector<float, 2> operator+(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_add(data_.simd,
-                                       v.data_.simd));
+    return Vector<float, 2>(simd2f_add(data_.simd, v.data_.simd));
   }
 
   inline Vector<float, 2> operator-(const Vector<float, 2>& v) const {
-    return Vector<float, 2>(simd2f_sub(data_.simd,
-                                       v.data_.simd));
+    return Vector<float, 2>(simd2f_sub(data_.simd, v.data_.simd));
   }
 
   inline Vector<float, 2> operator*(const float& s) const {
@@ -114,8 +110,7 @@ class Vector<float, 2> {
   }
 
   inline Vector<float, 2> operator/(const float& s) const {
-    return Vector<float, 2>(simd2f_mul(data_.simd,
-                                       simd2f_splat(1 / s)));
+    return Vector<float, 2>(simd2f_div(data_.simd, simd2f_splat(s)));
   }
 
   inline Vector<float, 2> operator+(const float& s) const {
@@ -152,7 +147,7 @@ class Vector<float, 2> {
   }
 
   inline Vector<float, 2>& operator/=(const float& s) {
-    data_.simd = simd2f_mul(data_.simd, simd2f_splat(1 / s));
+    data_.simd = simd2f_div(data_.simd, simd2f_splat(s));
     return *this;
   }
 
@@ -176,8 +171,7 @@ class Vector<float, 2> {
 
   inline float Normalize() {
     const float length = Length();
-    data_.simd = simd2f_mul(data_.simd,
-                                    simd2f_splat(1 / length));
+    data_.simd = simd2f_mul(data_.simd, simd2f_splat(1 / length));
     return length;
   }
 

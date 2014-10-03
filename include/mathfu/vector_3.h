@@ -161,8 +161,8 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3> operator/(const float& s) const {
-    return Vector<float, 3>(simd4f_mul(MATHFU_VECTOR3_LOAD3(data_),
-                                       simd4f_splat(1 / s)));
+    return Vector<float, 3>(simd4f_div(MATHFU_VECTOR3_LOAD3(data_),
+                                       simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator+(const float& s) const {
@@ -205,7 +205,7 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3>& operator/=(const float& s) {
-    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(1 / s));
+    *this = simd4f_div(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
     return *this;
   }
 
