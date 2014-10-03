@@ -522,6 +522,64 @@ class Matrix {
         m[6], m[7], m[8], 0, 0, 0, 0, 1);
   }
 
+
+  /// Create a 3x3 rotation matrix from a 2D normalized directional vector
+  /// around the X axis.
+  /// @param v The 2D normalized directional vector.
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> RotationX(const Vector<T, 2>& v) {
+    return Matrix<T, 3>(
+        1, 0,     0,
+        0, v.x(), v.y(),
+        0,-v.y(), v.x());
+  }
+
+  /// Create a 3x3 rotation matrix from a 2D normalized directional vector
+  /// around the Y axis.
+  /// @param v The 2D normalized directional vector.
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> RotationY(const Vector<T, 2>& v) {
+    return Matrix<T, 3>(
+        v.x(), 0,-v.y(),
+        0,     1, 0,
+        v.y(), 0, v.x());
+  }
+
+  /// Create a 3x3 rotation matrix from a 2D normalized directional vector
+  /// around the Z axis.
+  /// @param v The 2D normalized directional vector.
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> RotationZ(const Vector<T, 2>& v) {
+    return Matrix<T, 3>(
+         v.x(), v.y(), 0,
+        -v.y(), v.x(), 0,
+         0,     0,     1);
+  }
+
+  /// Create a 3x3 rotation matrix from an angle (in radians)
+  /// around the X axis.
+  /// @param a The angle (in radians).
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> RotationX(T a) {
+    return RotationX(Vector<T, 2>(cosf(a), sinf(a)));
+  }
+
+  /// Create a 3x3 rotation matrix from an angle (in radians)
+  /// around the Y axis.
+  /// @param a The angle (in radians).
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> RotationY(T a) {
+    return RotationY(Vector<T, 2>(cosf(a), sinf(a)));
+  }
+
+  /// Create a 3x3 rotation matrix from an angle (in radians)
+  /// around the Z axis.
+  /// @param a The angle (in radians).
+  /// @return A new matrix that stores the result.
+  static inline Matrix<T, 3> RotationZ(T a) {
+    return RotationZ(Vector<T, 2>(cosf(a), sinf(a)));
+  }
+
   /// Create a 4x4 perpective matrix.
   /// @handedness: 1.0f for RH, -1.0f for LH
   static inline Matrix<T, 4, 4> Perspective(T fovy, T aspect, T znear, T zfar,
