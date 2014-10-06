@@ -172,6 +172,10 @@ template<> inline int RandomInRange<int>(int range_start, int range_end) {
                               static_cast<float>(range_end)));
 }
 
+template<class T> T RoundUpToPowerOf2(T x) {
+  return pow(2, ceil(log(x) / log(2)));
+}
+
 } // namespace mathfu
 
 #endif  // MATHFU_UTILITIES_H_
