@@ -18,8 +18,10 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <algorithm>
+#include <memory>
 
 // Enable SIMD compile based upon the target architecture and compiler options.
 #if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
@@ -175,6 +177,69 @@ template<> inline int RandomInRange<int>(int range_start, int range_end) {
 template<class T> T RoundUpToPowerOf2(T x) {
   return pow(2, ceil(log(x) / log(2)));
 }
+
+// If you use MathFU with SIMD (SSE in particular), you need to have all
+// your allocations be 16-byte aligned (which isn't the case with the default
+// allocators on most platforms except OS X).
+
+// You can either use simd_allocator below, which solves the problem for
+// any STL containers, but not for manual dynamic allocations.
+// The new/delete override MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE will solve
+// it for all allocations, at the cost of 16 bytes per allocation.
+
+#define MATHFU_ALIGNMENT 16
+
+inline void *AllocateAligned(size_t n) {
+  // We need to allocate extra bytes to guarantee alignment,
+  // and to store the pointer to the original buffer.
+  auto buf = reinterpret_cast<uint8_t *>(malloc(n + MATHFU_ALIGNMENT));
+  // Align to next higher multiple of MATHFU_ALIGNMENT.
+  auto aligned_buf = reinterpret_cast<uint8_t *>(
+                       (reinterpret_cast<size_t>(buf) + MATHFU_ALIGNMENT) &
+                        ~(MATHFU_ALIGNMENT - 1));
+  // Write out original buffer pointer before aligned buffer.
+  // The assert will fail if the allocator granularity is less than the pointer
+  // size, or if MATHFU_ALIGNMENT doesn't fit two pointers.
+  assert(static_cast<size_t>(aligned_buf - buf) > sizeof(void *));
+  *(reinterpret_cast<uint8_t **>(aligned_buf) - 1) = buf;
+  return aligned_buf;
+}
+
+inline void FreeAligned(void *p) {
+  free(*(reinterpret_cast<uint8_t **>(p) - 1));
+}
+
+// A SIMD-safe memory allocator, for use with std::vector.
+// e.g.
+// std::vector<vec4, mathfu::simd_allocator<vec4>> myvector
+template <typename T> class simd_allocator : public std::allocator<T> {
+ public:
+  typedef size_t size_type;
+  typedef T *pointer;
+  typedef const T *const_pointer;
+
+  simd_allocator() throw(): std::allocator<T>() {}
+  simd_allocator(const simd_allocator &a) throw() : std::allocator<T>(a) {}
+  template <class U> simd_allocator(const simd_allocator<U> &a) throw()
+      : std::allocator<T>(a) {}
+  ~simd_allocator() throw() {}
+
+  template<typename _Tp1> struct rebind { typedef simd_allocator<_Tp1> other; };
+
+  pointer allocate(size_type n) {
+    return reinterpret_cast<pointer>(AllocateAligned(n * sizeof(T)));
+  }
+
+  void deallocate(pointer p, size_type) { FreeAligned(p); }
+};
+
+// To globally override new and delete, simply add a line saying just
+// MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE to the end of your main .cpp file.
+#define MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE \
+  void *operator new(std::size_t n) { return mathfu::AllocateAligned(n); } \
+  void *operator new[](std::size_t n) { return mathfu::AllocateAligned(n); } \
+  void operator delete(void *p) noexcept { mathfu::FreeAligned(p); } \
+  void operator delete[](void *p) noexcept { mathfu::FreeAligned(p); }
 
 } // namespace mathfu
 
