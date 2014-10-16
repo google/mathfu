@@ -175,7 +175,7 @@ template<> inline int RandomInRange<int>(int range_start, int range_end) {
 }
 
 template<class T> T RoundUpToPowerOf2(T x) {
-  return pow(2, ceil(log(x) / log(2)));
+  return pow(2, ceil(log(x) / log(static_cast<T>(2))));
 }
 
 // If you use MathFU with SIMD (SSE in particular), you need to have all
@@ -192,9 +192,9 @@ template<class T> T RoundUpToPowerOf2(T x) {
 inline void *AllocateAligned(size_t n) {
   // We need to allocate extra bytes to guarantee alignment,
   // and to store the pointer to the original buffer.
-  auto buf = reinterpret_cast<uint8_t *>(malloc(n + MATHFU_ALIGNMENT));
+  uint8_t* buf = reinterpret_cast<uint8_t *>(malloc(n + MATHFU_ALIGNMENT));
   // Align to next higher multiple of MATHFU_ALIGNMENT.
-  auto aligned_buf = reinterpret_cast<uint8_t *>(
+  uint8_t* aligned_buf = reinterpret_cast<uint8_t *>(
                        (reinterpret_cast<size_t>(buf) + MATHFU_ALIGNMENT) &
                         ~(MATHFU_ALIGNMENT - 1));
   // Write out original buffer pointer before aligned buffer.
