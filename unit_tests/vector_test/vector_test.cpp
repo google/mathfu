@@ -56,18 +56,18 @@ class VectorTests : public ::testing::Test {
     MY_TEST##_Test<double, 5>(DOUBLE_PRECISION); \
   }
 
-#define TEST_ALL_INTS_F(MY_TEST) \
+#define TEST_ALL_INTS_F(MY_INT_TEST) \
   TEST_F(VectorTests, MY_INT_TEST##_2) { \
-    MY_TEST##_Test<int, 2>(0); \
+    MY_INT_TEST##_Test<int, 2>(0); \
   } \
   TEST_F(VectorTests, MY_INT_TEST##_3) { \
-    MY_TEST##_Test<int, 3>(0); \
+    MY_INT_TEST##_Test<int, 3>(0); \
   } \
   TEST_F(VectorTests, MY_INT_TEST##_4) { \
-    MY_TEST##_Test<int, 4>(0); \
+    MY_INT_TEST##_Test<int, 4>(0); \
   } \
   TEST_F(VectorTests, MY_INT_TEST##_5) { \
-    MY_TEST##_Test<int, 5>(0); \
+    MY_INT_TEST##_Test<int, 5>(0); \
   }
 
 // This will automatically generate tests for each scalar template parameter.
@@ -161,7 +161,8 @@ void InitializationPacked_Test(const T& precision) {
   }
   mathfu::Vector<T, d> unpacked(packed);
   for (int i = 0; i < d; ++i) {
-    EXPECT_FLOAT_EQ(packed.data[i], unpacked[i]) << "Element " << i;
+    EXPECT_NEAR(packed.data[i], unpacked[i],
+                static_cast<T>(0)) << "Element " << i;
   }
 }
 TEST_ALL_F(InitializationPacked);
@@ -177,14 +178,15 @@ void PackedSerialization_Test(const T& precision) {
 
   mathfu::VectorPacked<T, d> packed_construction(unpacked);
   for (int i = 0; i < d; ++i) {
-    EXPECT_FLOAT_EQ(unpacked[i], packed_construction.data[i]) <<
-        "Element " << i;
+    EXPECT_NEAR(unpacked[i], packed_construction.data[i],
+                static_cast<T>(0)) << "Element " << i;
   }
 
   mathfu::VectorPacked<T, d> packed_assignment;
   packed_assignment = unpacked;
   for (int i = 0; i < d; ++i) {
-    EXPECT_FLOAT_EQ(unpacked[i], packed_assignment.data[i]) << "Element " << i;
+    EXPECT_NEAR(unpacked[i], packed_assignment.data[i],
+                static_cast<T>(0)) << "Element " << i;
   }
 }
 TEST_ALL_F(PackedSerialization);
@@ -414,10 +416,10 @@ void Vector_RandomInRange_Test(const T& precision) {
     result2 = mathfu::Vector<T, d>::RandomInRange(max, min);
     for (int i = 0; i < d; i++) {
       EXPECT_GE(result1[i], min[i]);
-      EXPECT_LT(result1[i], max[i]);
+      EXPECT_LE(result1[i], max[i]);
 
       EXPECT_GE(result2[i], min[i]);
-      EXPECT_LT(result2[i], max[i]);
+      EXPECT_LE(result2[i], max[i]);
     }
   }
 }
@@ -428,12 +430,14 @@ template<class T>
 void RandomInRange_Test(const T& precision) {
   (void) precision;
   for (int count = 0; count < 100; count++) {
-    T result = mathfu::RandomInRange(0, 100);
+    T result = mathfu::RandomInRange(
+      static_cast<T>(0), static_cast<T>(100));
     EXPECT_GE(result, 0);
     EXPECT_LT(result, 100);
   }
   for (int count = 0; count < 100; count++) {
-    T result = mathfu::RandomInRange(-100, 0);
+    T result = mathfu::RandomInRange(
+      static_cast<T>(-100), static_cast<T>(0));
     EXPECT_GT(result, -100);
     EXPECT_LE(result, 0);
   }
@@ -456,10 +460,10 @@ void Accessor_Test(const T& precision) {
 
   mathfu::Vector<T, d> vector(x);
   for (int i = 0; i < d; ++i) {
-    EXPECT_FLOAT_EQ(x[i], vector[i]);
+    EXPECT_NEAR(x[i], vector[i], static_cast<T>(0));
   }
   for (int i = 0; i < d; ++i) {
-    EXPECT_FLOAT_EQ(x[i], vector(i));
+    EXPECT_NEAR(x[i], vector(i), static_cast<T>(0));
   }
 }
 TEST_ALL_F(Accessor)

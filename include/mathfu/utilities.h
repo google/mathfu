@@ -175,7 +175,7 @@ template<> inline int RandomInRange<int>(int range_start, int range_end) {
 }
 
 template<class T> T RoundUpToPowerOf2(T x) {
-  return pow(2, ceil(log(x) / log(static_cast<T>(2))));
+  return pow(static_cast<T>(2), ceil(log(x) / log(static_cast<T>(2))));
 }
 
 // If you use MathFU with SIMD (SSE in particular), you need to have all
@@ -232,6 +232,14 @@ template <typename T> class simd_allocator : public std::allocator<T> {
 
   void deallocate(pointer p, size_type) { FreeAligned(p); }
 };
+
+#if defined(_MSC_VER)
+#if _MSC_VER <= 1700  // MSVC 2012
+#if !defined(noexcept)
+#define noexcept
+#endif  // !defined(noexcept)
+#endif  // _MSC_VER <= 1700
+#endif  //  defined(_MSC_VER)
 
 // To globally override new and delete, simply add a line saying just
 // MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE to the end of your main .cpp file.

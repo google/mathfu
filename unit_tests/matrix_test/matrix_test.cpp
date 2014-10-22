@@ -182,7 +182,8 @@ void InitializePacked_Test(const T& precision) {
   }
   mathfu::Matrix<T, d> matrix(packed);
   for (int i = 0; i < d * d; ++i) {
-    EXPECT_FLOAT_EQ(packed[i / d].data[i % d], matrix[i]) << "Element " << i;
+    EXPECT_NEAR(packed[i / d].data[i % d], matrix[i],
+                static_cast<T>(0)) << "Element " << i;
   }
 }
 TEST_ALL_F(InitializePacked, FLOAT_PRECISION, DOUBLE_PRECISION);
@@ -198,7 +199,8 @@ void PackedSerialization_Test(const T& precision) {
   mathfu::VectorPacked<T, d> packed[d];
   matrix.Pack(packed);
   for (int i = 0; i < d * d; ++i) {
-    EXPECT_FLOAT_EQ(matrix[i], packed[i / d].data[i % d]) << "Element " << i;
+    EXPECT_NEAR(matrix[i], packed[i / d].data[i % d],
+                static_cast<T>(0)) << "Element " << i;
   }
 }
 TEST_ALL_F(PackedSerialization, FLOAT_PRECISION, DOUBLE_PRECISION);
@@ -685,7 +687,8 @@ void Transpose_Test(const T& precision) {
   mathfu::Matrix<T, d> transpose = matrix.Transpose();
   for (int i = 0; i < d; ++i) {
     for (int j = 0; j < d; ++j) {
-      EXPECT_FLOAT_EQ(matrix(i, j), transpose(j, i));
+      EXPECT_NEAR(matrix(i, j), transpose(j, i),
+                  static_cast<T>(0));
     }
   }
 }
