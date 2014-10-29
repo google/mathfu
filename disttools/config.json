@@ -1,0 +1,28 @@
+{
+  "package": {
+    "name": "mathfu",
+    "url": "http://github.com/google/mathfu.git",
+    "branch": "develop",
+    "is_library": 1,
+    "third_party": 0,
+    "push": 1
+  },
+  "dependencies": [
+    {
+      "name": "googletest",
+      "url": "http://github.com/google/fplutil.git",
+      "branch": "googletest",
+      "is_library": 1,
+      "third_party": 0,
+      "push": 0
+    },
+    {
+      "name": "vectorial",
+      "url": "http://github.com/google/mathfu.git",
+      "branch": "vectorial",
+      "is_library": 1,
+      "third_party": 1,
+      "push": 0
+    }
+  ]
+}

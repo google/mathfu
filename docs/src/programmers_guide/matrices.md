@@ -1,25 +1,29 @@
-# Matrices
+Matrices    {#mathfu_guide_matrices}
+========
 
-[About](#about)<br/>
-[Data](#data)<br/>
-[Operations](#op)<br/>
-[SIMD](#simd)<br/>
-<br/>
+TODO outline
+   * Declaring matrices
+   * How are elements accessed?
+   * What operations are supported?
+   * Arithmetic
+   * Translation
+   * Scaling
+   * Rotation
+   * Camera matrices (Perspective / Orthographic / Lookat)
 
-<a name="about">
-## About
+# About    {#mathfu_guide_matrices_about}
 In the distribution of MathFu is a Matrix class which stores data and
 defines a number of operations that can be performed.
 
 <a name="data"></a><br/>
-## Data
+# Data
 
 The data in a Matrix is stored as a columns sized array of Vector<T, rows>.
 T can be any element type and the size and the Matrix class is created using
 Matrix<T, rows, columns>.
 
 <a name="op"></a><br/>
-## Operations
+# Operations
 
 Once a matrix is created, a number of operations can be applied. Matrices
 define arithmatic operations (+,-,*,/), accessors ((),[]), and a few others
@@ -46,13 +50,3 @@ a transformation matrix:
 
 For complete details please visit the api docs.
 
-<a name="simd"></a><br/>
-## SIMD
-
-The matrix class uses simd intrinsics in a number of different ways. First,
-if the Matrix is a Matrix<float, 4, 4> (or Matrix<float, 4>) the data is stored
-as an array of 4 float32x4_ts. Each operation is then defined to use intrinsics
-on this data. For other sized matrices intrinsics are not explicitly used
-but due to the use of an array of Vectors the operations will use simd
-datatypes and instrinsics through that class. Please see the documentation for
-Vector for more information about how it uses simd types and intrinsics.

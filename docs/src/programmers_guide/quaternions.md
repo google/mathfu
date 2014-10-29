@@ -1,26 +1,24 @@
-# Quaternions
+Quaternions    {#mathfu_guide_quaternions}
+===========
 
-[About](#about)<br/>
-[Data](#data)<br/>
-[Operations](#op)<br/>
-[SIMD](#simd)<br/>
-<br/>
+TODO outline
+   * Declaring quaternions
+   * Convert to euler angles
+   * Rotation matrices
+   * Interpolation
 
-<a name="about">
-## About
+# About
 In the distribution of MathFu is a Quaternion class which stores data and
 defines a number of operations that can be performed. For more details on
 what a quaternion is please see http://en.wikipedia.org/wiki/Quaternion.
 
-<a name="data"></a><br/>
-## Data
+# Data
 
 The data in a Quaternion is stored as scalar of type T and Vector<T, 3>.
 Please see the vector documentation for more information about Vector.
 Creation of a Quaternion looks like Quaternion<T>.
 
-<a name="op"></a><br/>
-## Operations
+# Operations
 
 Once a quaternion is created, a number of operations can be applied.
 Quaternions define arithmatic multiplication, inversion, interpolation,
@@ -45,11 +43,3 @@ angles and store the result as angles:
 
 For complete details please visit the api docs.
 
-<a name="simd"></a><br/>
-## SIMD
-
-The quaternion class itself does not explicitly use any simd data types
-or operations but because it stores the vector component as a Vector<T, 3>
-the Quaternion<float> class will take advantage of simd intrinsics through
-the vector class. Please see the documentation on Vector for more information
-about how it uses simd types and intrinsics.

@@ -26,6 +26,14 @@
 
 #include <assert.h>
 
+/// @file mathfu/matrix.h
+/// @brief Matrix class and functions.
+/// @addtogroup mathfu_matrix
+///
+/// MathFu provides a generic Matrix implementation which is specialized
+/// for 4x4 matrices to take advantage of optimization oppotunities using
+/// SIMD instructions.
+
 #ifdef _MSC_VER
   #pragma warning(push)
   // The following disables warnings for MATHFU_MAT_OPERATION.
@@ -39,42 +47,55 @@
   #pragma warning(disable:4789) // buffer overrun
 #endif
 
-// The stride of a vector (e.g Vector<T, 3>) when cast as an array of floats.
+/// @cond MATHFU_INTERNAL
+/// The stride of a vector (e.g Vector<T, 3>) when cast as an array of floats.
 #define MATHFU_VECTOR_STRIDE_FLOATS(vector) (sizeof(vector) / sizeof(float))
+/// @endcond
 
-// This will unroll loops for matrices with <= 4 columns
+/// @cond MATHFU_INTERNAL
+/// This will unroll loops for matrices with <= 4 columns
 #define MATHFU_MAT_OPERATION(OP) MATHFU_UNROLLED_LOOP(i, columns, OP)
+/// @endcond
 
-// This will perform a given OP on each matrix column and return the result
+/// @cond MATHFU_INTERNAL
+/// This will perform a given OP on each matrix column and return the result
 #define MATHFU_MAT_OPERATOR(OP) \
   { \
     Matrix<T, rows, columns> result; \
     MATHFU_MAT_OPERATION(result.data_[i] = (OP)); \
     return result; \
   }
+/// @endcond
 
-// This will perform a given OP on each matrix column
+/// @cond MATHFU_INTERNAL
+/// This will perform a given OP on each matrix column
 #define MATHFU_MAT_SELF_OPERATOR(OP) \
   { \
     MATHFU_MAT_OPERATION(OP); \
     return *this; \
   }
+/// @endcond
 
-// This macro will take the dot product for a row from data1 and a column from
-// data2.
+/// @cond MATHFU_INTERNAL
+/// This macro will take the dot product for a row from data1 and a column from
+/// data2.
 #define MATHFU_MATRIX_4X4_DOT(data1, data2, r) \
   ((data1)[r] * (data2)[0] + \
    (data1)[(r) + 4] * (data2)[1] + \
    (data1)[(r) + 8] * (data2)[2] + \
    (data1)[(r) + 12] * (data2)[3])
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 #define MATHFU_MATRIX_3X3_DOT(data1, data2, r, size) \
   ((data1)[r] * (data2)[0] + \
    (data1)[(r) + (size)] * (data2)[1] +   \
    (data1)[(r) + 2 * (size)] * (data2)[2])
+/// @endcond
 
 namespace mathfu {
 
+/// @cond MATHFU_INTERNAL
 template<class T, int rows, int columns = rows> class Matrix;
 template<class T, int rows, int columns>
 inline Matrix<T, rows, columns> IdentityHelper();
@@ -97,53 +118,65 @@ static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
 template<class T>
 static inline Matrix<T, 4, 4> LookAtHelper(
     const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up);
+/// @endcond
 
 
+/// @addtogroup mathfu_matrix
+/// @{
 /// @class Matrix
-/// Stores a Matrix of rows*columns elements with type T and provides a set of
-/// utility operations on each matrix.
+/// @brief Matrix stores a set of "rows" by "columns" elements of type T
+/// and provides functions that operate on the set of elements.
+///
+/// @tparam T type of each element in the matrix.
+/// @tparam rows Number of rows in the matrix.
+/// @tparam columns Number of columns in the matrix.
 template<class T, int rows, int columns>
 class Matrix {
  public:
-  /// Create a matrix of uninitialized values.
+  /// @brief Construct a Matrix of uninitialized values.
   inline Matrix() {}
 
-  /// Create a matrix from another matrix copying each element.
+  /// @brief Construct a Matrix from another Matrix copying each element.
+  ////
   /// @param m Matrix that the data will be copied from.
   inline Matrix(const Matrix<T, rows, columns>& m) {
     MATHFU_MAT_OPERATION(data_[i] = m.data_[i]);
   }
 
-  /// Create a matrix from a single float. Each elements is set to be equal to
-  /// the value given.
-  /// @param s Scalar value that the matrix will be initialized to.
+  /// @brief Construct a Matrix from a single float.
+  ///
+  /// @param s Scalar value used to initialize each element of the matrix.
   explicit inline Matrix(const T& s) {
     MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(s)));
   }
 
-  /// Create a matrix from four floats. This method only works for a 2x2
-  /// matrix.
-  /// @param s00 A scalar for the element in the first row and column.
-  /// @param s10 A scalar for the element in the second row, first column.
-  /// @param s01 A scalar for the element in the first row, second column.
-  /// @param s11 A scalar for the element in the second row and column.
+  /// @brief Construct a Matrix from four floats.
+  ///
+  /// @note This method only works with a 2x2 Matrix.
+  ///
+  /// @param s00 Value of the first row and column.
+  /// @param s10 Value of the second row, first column.
+  /// @param s01 Value of the first row, second column.
+  /// @param s11 Value of the second row and column.
   inline Matrix(const T& s00, const T& s10, const T& s01, const T& s11) {
     MATHFU_STATIC_ASSERT(rows == 2 && columns == 2);
     data_[0] = Vector<T, rows>(s00, s10);
     data_[1] = Vector<T, rows>(s01, s11);
   }
 
-  /// Create a matrix from nine floats. This method only works for a 3x3
-  /// matrix.
-  /// @param s00 A scalar for the element in the first row and column.
-  /// @param s10 A scalar for the element in the second row, first column.
-  /// @param s20 A scalar for the element in the third row, first column.
-  /// @param s01 A scalar for the element in the first row, second column.
-  /// @param s11 A scalar for the element in the second row and column.
-  /// @param s21 A scalar for the element in the third row, second column.
-  /// @param s02 A scalar for the element in the first row, third column.
-  /// @param s12 A scalar for the element in the second row, third column.
-  /// @param s22 A scalar for the element in the third row and column.
+  /// @brief Create a Matrix from nine floats.
+  ///
+  /// @note This method only works with a 3x3 Matrix.
+  ///
+  /// @param s00 Value of the first row and column.
+  /// @param s10 Value of the second row, first column.
+  /// @param s20 Value of the third row, first column.
+  /// @param s01 Value of the first row, second column.
+  /// @param s11 Value of the second row and column.
+  /// @param s21 Value of the third row, second column.
+  /// @param s02 Value of the first row, third column.
+  /// @param s12 Value of the second row, third column.
+  /// @param s22 Value of the third row and column.
   inline Matrix(const T& s00, const T& s10, const T& s20,
                 const T& s01, const T& s11, const T& s21,
                 const T& s02, const T& s12, const T& s22) {
@@ -153,24 +186,26 @@ class Matrix {
     data_[2] = Vector<T, rows>(s02, s12, s22);
   }
 
-  /// Create a matrix from sixteen floats. This method only works for a
-  /// 4x4 matrix.
-  /// @param s00 A scalar for the element in the first row and column.
-  /// @param s10 A scalar for the element in the second row, first column.
-  /// @param s20 A scalar for the element in the third row, first column.
-  /// @param s30 A scalar for the element in the fourth row, first column.
-  /// @param s01 A scalar for the element in the first row, second column.
-  /// @param s11 A scalar for the element in the second row and column.
-  /// @param s21 A scalar for the element in the third row, second column.
-  /// @param s31 A scalar for the element in the fourth row, second column.
-  /// @param s02 A scalar for the element in the first row, third column.
-  /// @param s12 A scalar for the element in the second row, third column.
-  /// @param s22 A scalar for the element in the third row and column.
-  /// @param s32 A scalar for the element in the fourth row, third column.
-  /// @param s03 A scalar for the element in the first row, fourth column.
-  /// @param s13 A scalar for the element in the second row, fourth column.
-  /// @param s23 A scalar for the element in the third row, fourth column.
-  /// @param s33 A scalar for the element in the fourth row and column.
+  /// @brief Create a Matrix from sixteen floats.
+  ///
+  /// @note This method only works with a 4x4 Matrix.
+  ///
+  /// @param s00 Value of the first row and column.
+  /// @param s10 Value of the second row, first column.
+  /// @param s20 Value of the third row, first column.
+  /// @param s30 Value of the fourth row, first column.
+  /// @param s01 Value of the first row, second column.
+  /// @param s11 Value of the second row and column.
+  /// @param s21 Value of the third row, second column.
+  /// @param s31 Value of the fourth row, second column.
+  /// @param s02 Value of the first row, third column.
+  /// @param s12 Value of the second row, third column.
+  /// @param s22 Value of the third row and column.
+  /// @param s32 Value of the fourth row, third column.
+  /// @param s03 Value of the first row, fourth column.
+  /// @param s13 Value of the second row, fourth column.
+  /// @param s23 Value of the third row, fourth column.
+  /// @param s33 Value of the fourth row and column.
   inline Matrix(const T& s00, const T& s10, const T& s20, const T& s30,
                 const T& s01, const T& s11, const T& s21, const T& s31,
                 const T& s02, const T& s12, const T& s22, const T& s32,
@@ -182,7 +217,10 @@ class Matrix {
     data_[3] = Vector<T, rows>(s03, s13, s23, s33);
   }
 
-  /// Create 4x4 matrix from 4, 4 element vectors.
+  /// @brief Create 4x4 Matrix from 4, 4 element vectors.
+  ///
+  /// @note This method only works with a 4x4 Matrix.
+  ///
   /// @param column0 Vector used for the first column.
   /// @param column1 Vector used for the second column.
   /// @param column2 Vector used for the third column.
@@ -196,57 +234,71 @@ class Matrix {
     data_[3] = column3;
   }
 
-  /// Create a matrix form the first row*column elements of an array.
+  /// @brief Create a Matrix form the first row * column elements of an array.
+  ///
   /// @param a Array of values that the matrix will be iniitlized to.
-  explicit inline Matrix(const T* a) {
+  explicit inline Matrix(const T* const a) {
     MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(&a[i*columns])));
   }
 
-  /// Create a matrix from an array of "columns", "rows" element packed
+  /// @brief Create a Matrix from an array of "columns", "rows" element packed
   /// vectors.
+  ///
   /// @param vectors Array of "columns", "rows" element packed vectors.
   explicit inline Matrix(const VectorPacked<T, rows> * const vectors) {
     MATHFU_MAT_OPERATION((data_[i] = Vector<T, rows>(vectors[i])));
   }
 
-  /// Access an element of the matrix.
-  /// @param i The index of the row where the element is located.
-  /// @param j The index of the column where the element is located.
-  /// @return A const reference to the accessed data that cannot be modified
-  /// by the caller.
-  inline const T& operator()(const int i, const int j) const {
-    return data_[j][i];
+  /// @brief Access an element of the matrix.
+  ///
+  /// @param row Index of the row to access.
+  /// @param column Index of the column to access.
+  /// @return Const reference to the element.
+  inline const T& operator()(const int row, const int column) const {
+    return data_[column][row];
   }
 
-  /// Access an element of the matrix.
-  /// @param i The index of the row where the element is located.
-  /// @param j The index of the column where the element is located.
-  /// @return A reference to the accessed data that can be modified by the
-  /// caller.
-  inline T& operator()(const int i, const int j) {
-    return data_[j][i];
+  /// @brief Access an element of the Matrix.
+  ///
+  /// @param row Index of the row to access.
+  /// @param column Index of the column to access.
+  /// @return Reference to the data that can be modified by the caller.
+  inline T& operator()(const int row, const int column) {
+    return data_[column][row];
   }
 
+  /// @brief Access an element of the Matrix.
+  ///
+  /// @param i Index of the element to access in flattened memory.  Where
+  /// the column accessed is i / rows and the row is i % rows.
+  /// @return Reference to the data that can be modified by the caller.
   inline const T &operator()(const int i) const {
     return operator[](i);
   }
 
+  /// @brief Access an element of the Matrix.
+  ///
+  /// @param i Index of the element to access in flattened memory.  Where
+  /// the column accessed is i / rows and the row is i % rows.
+  /// @return Reference to the data that can be modified by the caller.
   inline T& operator()(const int i) {
     return operator[](i);
   }
 
-  /// Access an element of the matrix.
-  /// @param i The index of the element in flattened memory.
-  /// @return A const reference to the accessed data that cannot be modified
-  /// by the caller.
+  /// @brief Access an element of the Matrix.
+  ///
+  /// @param i Index of the element to access in flattened memory.  Where
+  /// the column accessed is i / rows and the row is i % rows.
+  /// @return Const reference to the data.
   inline const T &operator[](const int i) const {
     return const_cast<Matrix<T, rows, columns>* >(this)->operator[](i);
   }
 
-  /// Access an element of the matrix.
-  /// @param i The index of the element in flattened memory.
-  /// @return A reference to the accessed data that can be modified by the
-  /// caller.
+  /// @brief Access an element of the Matrix.
+  ///
+  /// @param i Index of the element to access in flattened memory.  Where
+  /// the column accessed is i / rows and the row is i % rows.
+  /// @return Reference to the data that can be modified by the caller.
   inline T& operator[](const int i) {
 #if defined(MATHFU_COMPILE_WITH_PADDING)
     // In this case Vector<T, 3> is padded, so the element offset must be
@@ -263,86 +315,91 @@ class Matrix {
 #endif  // defined(MATHFU_COMPILE_WITH_PADDING)
   }
 
-  /// Pack the matrix to an array of "rows" element vectors,
+  /// @brief Pack the matrix to an array of "rows" element vectors,
   /// one vector per matrix column.
-  /// @param vector Array of "columns" in size to write to.
+  ///
+  /// @param vector Array of "columns" entries to write to.
   inline void Pack(VectorPacked<T, rows> * const vector) const {
     MATHFU_MAT_OPERATION(GetColumn(i).Pack(&vector[i]));
   }
 
-  /// Access a column vector of the matrix.
-  /// @param i The index of the column.
-  /// @return A reference to the accessed data that can be modified by the
-  /// caller.
+  /// @brief Access a column vector of the Matrix.
+  ///
+  /// @param i Index of the column to access.
+  /// @return Reference to the data that can be modified by the caller.
   inline Vector<T, rows>& GetColumn(const int i) {
     return data_[i];
   }
 
-  /// Access a column vector of the matrix.
-  /// @param i The index of the column.
-  /// @return A const reference to the accessed data that cannot be modified
-  /// by the caller.
+  /// @brief Access a column vector of the Matrix.
+  ///
+  /// @param i Index of the column to access.
+  /// @return Const reference to the data.
   inline const Vector<T, rows>& GetColumn(const int i) const {
     return data_[i];
   }
 
-  /// Matrix negation.
-  /// @return A new matrix that stores the negation result.
+  /// @brief Negate this Matrix.
+  ///
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator-() const {
     MATHFU_MAT_OPERATOR(-data_[i]);
   }
 
-  /// Matrix addition.
-  /// @param m A matrix to add this matrix with.
-  /// @return A new matrix that stores the result.
+  /// @brief Add a Matrix to this Matrix.
+  ///
+  /// @param m Matrix to add to this Matrix.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator+(
       const Matrix<T, rows, columns>& m) const {
     MATHFU_MAT_OPERATOR(data_[i] + m.data_[i]);
   }
 
-  /// Matrix subtraction.
-  /// @param m A matrix to subtract this matrix with.
-  /// @return A new matrix that stores the result.
+  /// @brief Subtract a Matrix from this Matrix.
+  ///
+  /// @param m Matrix to subtract from this Matrix.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator-(
       const Matrix<T, rows, columns>& m) const {
     MATHFU_MAT_OPERATOR(data_[i] - m.data_[i]);
   }
 
-  /// Matrix/Scalar addition. Note that this is defined as addition between
-  /// the origional matrix and the scalar multiplied by a matrix of ones.
-  /// @param s A scalar to add to this matrix.
-  /// @return A new matrix that stores the result.
+  /// @brief Add a scalar to each element of this Matrix.
+  ///
+  /// @param s Scalar to add to this Matrix.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator+(const T& s) const {
     MATHFU_MAT_OPERATOR(data_[i] + s);
   }
 
-  /// Matrix/Scalar subtraction. Note that this is defined as subtraction
-  /// between the origional matrix and the scalar multiplied by a matrix of
-  /// ones.
-  /// @param s A scalar to subtract from this matrix.
-  /// @return A new matrix that stores the result.
+  /// @brief Subtract a scalar from each element of this Matrix.
+  ///
+  /// @param s Scalar to subtract from this matrix.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator-(const T& s) const {
     MATHFU_MAT_OPERATOR(data_[i] - s);
   }
 
-  /// Matrix/Scalar multiplication.
-  /// @param s A scalar to multiply this matrix with.
-  /// @return A new matrix that stores the result.
+  /// @brief Multiply each element of this Matrix with a scalar.
+  ///
+  /// @param s Scalar to multiply with this Matrix.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator*(const T& s) const {
     MATHFU_MAT_OPERATOR(data_[i] * s);
   }
 
-  /// Matrix/Scalar division. Note that this is defined as multiplication by
-  /// the inverse of the scalar.
-  /// @param s A scalar to divide this matrix with.
-  /// @return A new matrix that stores the result.
+  /// @brief Divide each element of this Matrix with a scalar.
+  ///
+  /// @param s Scalar to divide this Matrix with.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator/(const T& s) const {
     return (*this) * (1 / s);
   }
 
-  /// Matrix mulitplication.
-  /// @param m A matrix to multiply this matrix with.
-  /// @return A new matrix that stores the result.
+  /// @brief Multiply this Matrix with another Matrix.
+  ///
+  /// @param m Matrix to multiply with this Matrix.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> operator*(
       const Matrix<T, rows, columns>& m) const {
     Matrix<T, rows, columns> result;
@@ -350,89 +407,100 @@ class Matrix {
     return result;
   }
 
-  /// In place matrix addition.
-  /// @param m A matrix to add this matrix with.
-  /// @return A reference to this class.
+  /// @brief Add a Matrix to this Matrix (in-place).
+  ///
+  /// @param m Matrix to add to this Matrix.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator+=(
       const Matrix<T, rows, columns>& m) {
     MATHFU_MAT_SELF_OPERATOR(data_[i] += m.data_[i]);
   }
 
-  /// In place matrix subtraction.
-  /// @param m A matrix to subtract this matrix with.
-  /// @return A reference to this class.
+  /// @brief Subtract a Matrix from this Matrix (in-place).
+  ///
+  /// @param m Matrix to subtract from this Matrix.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator-=(
       const Matrix<T, rows, columns>& m) {
     MATHFU_MAT_SELF_OPERATOR(data_[i] -= m.data_[i]);
   }
 
-  /// In place matrix/scalar addition. Note that this is defined as addition
-  /// between the origional matrix and the scalar multiplied by a matrix of
-  /// ones.
-  /// @param s A scalar to add to this matrix.
-  /// @return A reference to this class.
+  /// @brief Add a scalar to each element of this Matrix (in-place).
+  ///
+  /// @param s Scalar to add to each element of this Matrix.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator+=(const T& s) {
     MATHFU_MAT_SELF_OPERATOR(data_[i] += s);
   }
 
-  /// In place matrix/scalar subtraction. Note that this is defined as
-  /// subtraction between the origional matrix and the scalar multiplied by
-  /// a matrix of ones.
-  /// @param s A scalar to subtract from this matrix.
-  /// @return A reference to this class.
+  /// @brief Subtract a scalar from each element of this Matrix (in-place).
+  ///
+  /// @param s Scalar to subtract from each element of this Matrix.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator-=(const T& s) {
     MATHFU_MAT_SELF_OPERATOR(data_[i] -= s);
   }
 
-  /// In place matrix/scalar multiplication.
-  /// @param s A scalar to multiply this matrix with.
-  /// @return A reference to this class.
+  /// @brief Multiply each element of this Matrix with a scalar (in-place).
+  ///
+  /// @param s Scalar to multiply with each element of this Matrix.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator*=(const T& s) {
     MATHFU_MAT_SELF_OPERATOR(data_[i] *= s);
   }
 
-  /// In place matrix/scalar division. Note that this is defined as
-  /// multiplication by the inverse of the scalar.
-  /// @param s A scalar to divide this matrix with.
-  /// @return A reference to this class.
+  /// @brief Divide each element of this Matrix by a scalar (in-place).
+  ///
+  /// @param s Scalar to divide this Matrix by.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator/=(const T& s) {
     return (*this) *= (1 / s);
   }
 
-  /// In place matrix mulitplication.
-  /// @param m A matrix to multiply this matrix with.
-  /// @return A new matrix that stores the result.
+  /// @brief Multiply this Matrix with another Matrix (in-place).
+  ///
+  /// @param m Matrix to multiply with this Matrix.
+  /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator*=(
       const Matrix<T, rows, columns>& m) {
     TimesHelper(*this, m, this);
     return *this;
   }
 
-  /// Find the inverse matrix such that m*m.Inverse() is the identity.
-  /// @return A new matrix that stores the result.
+  /// @brief Calculate the inverse of this Matrix.
+  ///
+  /// This calculates the inverse Matrix such that
+  /// <code>(m * m).Inverse()</code> is the identity.
+  /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> Inverse() const {
     Matrix<T, rows, columns> inverse;
     InverseHelper<false>(*this, &inverse);
     return inverse;
   }
 
-  /// Find the inverse matrix such that m*m.Inverse() is the identity returning
-  /// whether the matrix is invertible.
+  /// @brief Calculate the inverse of this Matrix.
+  ///
+  /// This calculates the inverse Matrix such that
+  /// <code>(m * m).Inverse()</code> is the identity.
+  /// By contrast to Inverse() this returns whether the matrix is invertible.
+  ///
   /// The invertible check simply compares the calculated determinant with
   /// Constants<T>::GetDeterminantThreshold() to roughly determine whether the
   /// matrix is invertible.  This simple check works in common cases but will
   /// fail for corner cases where the matrix is a combination of huge and tiny
   /// values that can't be accurately represented by the floating point
   /// datatype T.  More extensive checks (relative to the input values) are
-  /// possible but *far* more expensive, complicated and difficult to test.
+  /// possible but <b>far</b> more expensive, complicated and difficult to
+  /// test.
   /// @return Whether the matrix is invertible.
   inline bool InverseWithDeterminantCheck(
       Matrix<T, rows, columns>* const inverse) const {
     return InverseHelper<true>(*this, inverse);
   }
 
-  /// Calculate the transpose of matrix.
-  /// @return The transpose of the specified matrix.
+  /// @brief Calculate the transpose of this Matrix.
+  ///
+  /// @return The transpose of the specified Matrix.
   inline Matrix<T, columns, rows> Transpose() const {
     Matrix<T, columns, rows> transpose;
     MATHFU_UNROLLED_LOOP(i, columns, MATHFU_UNROLLED_LOOP(
@@ -440,68 +508,80 @@ class Matrix {
     return transpose;
   }
 
-  /// Return the 2 dimensional translation of a 2 dimensional affine transform.
-  /// Note: 2 dimensional affine transforms are represented by 3x3 matrices.
-  /// @return A new Vector with the first two components of column 2.
+  /// @brief Get the 2-dimensional translation of a 2-dimensional affine
+  /// transform.
+  ///
+  /// @note 2-dimensional affine transforms are represented by 3x3 matrices.
+  /// @return Vector with the first two components of column 2 of this Matrix.
   inline Vector<T, 2> TranslationVector2D() const {
     MATHFU_STATIC_ASSERT(rows == 3 && columns == 3);
     return Vector<T, 2>(data_[2][0], data_[2][1]);
   }
 
-  /// Return the 3 dimensional translation of a 3 dimensional affine transform.
-  /// Note: 3 dimensional affine transforms are represented by 4x4 matrices.
-  /// @return A new Vector with the first three components of column 3.
+  /// @brief Get the 3-dimensional translation of a 3-dimensional affine
+  /// transform.
+  ///
+  /// @note 3-dimensional affine transforms are represented by 4x4 matrices.
+  /// @return Vector with the first three components of column 3.
   inline Vector<T, 3> TranslationVector3D() const {
     MATHFU_STATIC_ASSERT(rows == 4 && columns == 4);
     return Vector<T, 3>(data_[3][0], data_[3][1], data_[3][2]);
   }
 
-  /// Find the outer product of two vectors.
-  /// @return A new matrix that stores the result.
+  /// @brief Calculate the outer product of two Vectors.
+  ///
+  /// @return Matrix containing the result.
   static inline Matrix<T, rows, columns> OuterProduct(
     const Vector<T, rows>& v1, const Vector<T, columns>& v2) {
     return OuterProductHelper(v1, v2);
   }
 
-  /// Calculate the hadamard or componentwise product of two matrices.
-  /// @param m1 First matrix.
-  /// @param m2 Second matrix.
-  /// @return A new matrix that stores the result.
+  /// @brief Calculate the hadamard / component-wise product of two matrices.
+  ///
+  /// @param m1 First Matrix.
+  /// @param m2 Second Matrix.
+  /// @return Matrix containing the result.
   static inline Matrix<T, rows, columns> HadamardProduct(
     const Matrix<T, rows, columns>& m1, const Matrix<T, rows, columns>& m2) {
     MATHFU_MAT_OPERATOR(m1[i] * m2[i]);
   }
 
-  /// Calculate the identity matrix.
-  /// @return A new matrix that stores the result.
+  /// @brief Calculate the identity Matrix.
+  ///
+  /// @return Matrix containing the result.
   static inline Matrix<T, rows, columns> Identity() {
     return IdentityHelper<T, rows, columns>();
   }
 
-  /// Create a 3x3 matrix from a Vector of size 2. This matrix will have an
-  /// empty or zero rotation component.
-  /// @param m The vector of size 2.
-  /// @return A new matrix that stores the result.
+  /// @brief Create a 3x3 translation Matrix from a 2-dimensional Vector.
+  ///
+  /// This matrix will have an empty or zero rotation component.
+  ///
+  /// @param v Vector of size 2.
+  /// @return Matrix containing the result.
   static inline Matrix<T, 3> FromTranslationVector(const Vector<T, 2>& v) {
     return Matrix<T, 3>(
       1, 0, 0, 0, 1, 0, v[0], v[1], 1);
   }
 
-  /// Create a 4x4 matrix from a Vector of size 3. This matrix will have an
-  /// empty or zero rotation component.
-  /// @param m The vector of size 3.
-  /// @return A new matrix that stores the result.
+  /// @brief Create a 4x4 translation Matrix from a 3-dimensional Vector.
+  ///
+  /// This matrix will have an empty or zero rotation component.
+  ///
+  /// @param v The vector of size 3.
+  /// @return Matrix containing the result.
   static inline Matrix<T, 4> FromTranslationVector(const Vector<T, 3>& v) {
     return Matrix<T, 4>(
         1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);
   }
 
-  /// Create a square matrix with the diagonal component set to v.
+  /// @brief Create a square Matrix with the diagonal component set to v.
+  ///
   /// This is an affine transform matrix, so the dimension of the vector is
   /// one less than the dimension of the matrix.
-  /// @param v The vector containing components for scaling.
-  /// @return A new matrix with v along the diagonal, and 1 in the bottom
-  /// right.
+  ///
+  /// @param v Vector containing components for scaling.
+  /// @return Matrix with v along the diagonal, and 1 in the bottom right.
   static inline Matrix<T, rows> FromScaleVector(const Vector<T, rows - 1>& v) {
     // TODO OPT: Use a helper function in a similar way to Identity to
     // construct the matrix for the specialized cases 2, 3, 4, and only run
@@ -512,10 +592,12 @@ class Matrix {
     return return_matrix;
   }
 
-  /// Create a 4x4 matrix from a 3x3 rotation matrix. This matrix will have an
-  /// empty or zero translation component.
-  /// @param m The 3x3 rotation matrix.
-  /// @return A new matrix that stores the result.
+  /// @brief Create a 4x4 Matrix from a 3x3 rotation Matrix.
+  ///
+  /// This Matrix will have an empty or zero translation component.
+  ///
+  /// @param m 3x3 rotation Matrix.
+  /// @return Matrix containing the result.
   static inline Matrix<T, 4> FromRotationMatrix(const Matrix<T, 3>& m) {
     return Matrix<T, 4>(
         m[0], m[1], m[2], 0, m[3], m[4], m[5], 0,
@@ -523,10 +605,11 @@ class Matrix {
   }
 
 
-  /// Create a 3x3 rotation matrix from a 2D normalized directional vector
-  /// around the X axis.
-  /// @param v The 2D normalized directional vector.
-  /// @return A new matrix that stores the result.
+  /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
+  /// Vector around the X axis.
+  ///
+  /// @param v 2D normalized directional Vector.
+  /// @return Matrix containing the result.
   static inline Matrix<T, 3> RotationX(const Vector<T, 2>& v) {
     return Matrix<T, 3>(
         1, 0,     0,
@@ -534,10 +617,11 @@ class Matrix {
         0,-v.y(), v.x());
   }
 
-  /// Create a 3x3 rotation matrix from a 2D normalized directional vector
-  /// around the Y axis.
-  /// @param v The 2D normalized directional vector.
-  /// @return A new matrix that stores the result.
+  /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
+  /// Vector around the Y axis.
+  ///
+  /// @param v 2D normalized directional Vector.
+  /// @return Matrix containing the result.
   static inline Matrix<T, 3> RotationY(const Vector<T, 2>& v) {
     return Matrix<T, 3>(
         v.x(), 0,-v.y(),
@@ -545,10 +629,11 @@ class Matrix {
         v.y(), 0, v.x());
   }
 
-  /// Create a 3x3 rotation matrix from a 2D normalized directional vector
-  /// around the Z axis.
-  /// @param v The 2D normalized directional vector.
-  /// @return A new matrix that stores the result.
+  /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
+  /// Vector around the Z axis.
+  ///
+  /// @param v 2D normalized directional Vector.
+  /// @return Matrix containing the result.
   static inline Matrix<T, 3> RotationZ(const Vector<T, 2>& v) {
     return Matrix<T, 3>(
          v.x(), v.y(), 0,
@@ -556,57 +641,77 @@ class Matrix {
          0,     0,     1);
   }
 
-  /// Create a 3x3 rotation matrix from an angle (in radians)
-  /// around the X axis.
-  /// @param a The angle (in radians).
-  /// @return A new matrix that stores the result.
-  static inline Matrix<T, 3> RotationX(T a) {
-    return RotationX(Vector<T, 2>(cosf(a), sinf(a)));
+  /// @brief Create a 3x3 rotation Matrix from an angle (in radians) around
+  /// the X axis.
+  ///
+  /// @param angle Angle (in radians).
+  /// @return Matrix containing the result.
+  static inline Matrix<T, 3> RotationX(T angle) {
+    return RotationX(Vector<T, 2>(cosf(angle), sinf(angle)));
   }
 
-  /// Create a 3x3 rotation matrix from an angle (in radians)
-  /// around the Y axis.
-  /// @param a The angle (in radians).
-  /// @return A new matrix that stores the result.
-  static inline Matrix<T, 3> RotationY(T a) {
-    return RotationY(Vector<T, 2>(cosf(a), sinf(a)));
+  /// @brief Create a 3x3 rotation Matrix from an angle (in radians) around
+  /// the Y axis.
+  ///
+  /// @param angle Angle (in radians).
+  /// @return Matrix containing the result.
+  static inline Matrix<T, 3> RotationY(T angle) {
+    return RotationY(Vector<T, 2>(cosf(angle), sinf(angle)));
   }
 
-  /// Create a 3x3 rotation matrix from an angle (in radians)
+  /// @brief Create a 3x3 rotation Matrix from an angle (in radians)
   /// around the Z axis.
-  /// @param a The angle (in radians).
-  /// @return A new matrix that stores the result.
-  static inline Matrix<T, 3> RotationZ(T a) {
-    return RotationZ(Vector<T, 2>(cosf(a), sinf(a)));
+  ///
+  /// @param angle Angle (in radians).
+  /// @return Matrix containing the result.
+  static inline Matrix<T, 3> RotationZ(T angle) {
+    return RotationZ(Vector<T, 2>(cosf(angle), sinf(angle)));
   }
 
-  /// Create a 4x4 perpective matrix.
-  /// @handedness: 1.0f for RH, -1.0f for LH
+  /// @brief Create a 4x4 perpective Matrix.
+  ///
+  /// @param fovy Field of view.
+  /// @param aspect Aspect ratio.
+  /// @param znear Near plane location.
+  /// @param zfar Far plane location.
+  /// @param handedness 1.0f for RH, -1.0f for LH
+  /// @return 4x4 perspective Matrix.
   static inline Matrix<T, 4, 4> Perspective(T fovy, T aspect, T znear, T zfar,
                                             T handedness = 1) {
     return PerspectiveHelper(fovy, aspect, znear, zfar, handedness);
   }
 
-  /// Create a 4x4 orthographic matrix.
+  /// @brief Create a 4x4 orthographic Matrix.
+  ///
+  /// @param left Left extent.
+  /// @param right Right extent.
+  /// @param bottom Bottom extent.
+  /// @param top Top extent.
+  /// @param znear Near plane location.
+  /// @param zfar Far plane location.
+  /// @return 4x4 orthographic Matrix.
   static inline Matrix<T, 4, 4> Ortho(T left, T right, T bottom, T top,
                                       T znear, T zfar) {
     return OrthoHelper(left, right, bottom, top, znear, zfar);
   }
 
-  /// Create a 3-dimensional camera matrix.
+  /// @brief Create a 3-dimensional camera Matrix.
+  ///
   /// @param at The look-at target of the camera.
   /// @param eye The position of the camera.
   /// @param up The up vector in the world, for example (0, 1, 0) if the
   /// y-axis is up.
+  /// @return 3-dimensional camera Matrix.
   static inline Matrix<T, 4, 4> LookAt(const Vector<T, 3>& at,
       const Vector<T, 3>& eye, const Vector<T, 3>& up) {
     return LookAtHelper(at, eye, up);
   }
 
-  /// Vector/Matrix multiplication.
-  /// @param v The vector to use for mulitplication.
-  /// @param m The matrix to use for multiplication.
-  /// @return A new vector that stores the result.
+  /// @brief Multiply a Vector by a Matrix.
+  ///
+  /// @param v Vector to multiply.
+  /// @param m Matrix to multiply.
+  /// @return Matrix containing the result.
   friend inline Vector<T, columns> operator*(
       const Vector<T, rows>& v, const Matrix<T, rows, columns>& m) {
     const int d = columns;
@@ -624,18 +729,38 @@ class Matrix {
  private:
   Vector<T, rows> data_[columns];
 };
+/// @}
 
-// Scalar/Matrix multiplication
+/// @addtogroup mathfu_matrix
+/// @{
+
+/// @brief Multiply each element of a Matrix by a scalar.
+///
+/// @param s Scalar to multiply by.
+/// @param m Matrix to multiply.
+/// @return Matrix containing the result.
+/// @tparam T Type of each element in the Matrix and the scalar type.
+/// @tparam rows Number of rows in the matrix.
+/// @tparam columns Number of columns in the matrix.
+///
+/// @related mathfu::Matrix
 template<class T, int rows, int columns>
 inline Matrix<T, rows, columns> operator*(const T& s,
                                           const Matrix<T, columns, rows>& m) {
   return m * s;
 }
 
-// Matrix/Vector multiplication. Template specialized versions are
-// implemented for 2x2, 3x3, and 4x4 matrices to increase performance.
-// 3x3 float is also specialized because if SIMD is used the vectors of
-// this type of length 4.
+/// @brief Multiply a Matrix by a Vector.
+///
+/// @note Template specialized versions are implemented for 2x2, 3x3, and 4x4
+/// matrices to increase performance.  The 3x3 float is also specialized
+/// to supported padded the 3-dimensional Vector in SIMD build configurations.
+///
+/// @param m Matrix to multiply.
+/// @param v Vector to multiply.
+/// @return Vector containing the result.
+///
+/// @related mathfu::Matrix
 template<class T, int rows, int columns>
 inline Vector<T, rows> operator*(const Matrix<T, rows, columns>& m,
                                  const Vector<T, columns>& v) {
@@ -650,12 +775,15 @@ inline Vector<T, rows> operator*(const Matrix<T, rows, columns>& m,
   return result;
 }
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline Vector<T, 2> operator*(const Matrix<T, 2, 2>& m,
                               const Vector<T, 2>& v) {
     return Vector<T, 2>(m[0] * v[0] + m[2] * v[1], m[1] * v[0] + m[3] * v[1]);
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline Vector<T, 3> operator*(const Matrix<T, 3, 3>& m,
                               const Vector<T, 3>& v) {
@@ -663,7 +791,9 @@ inline Vector<T, 3> operator*(const Matrix<T, 3, 3>& m,
                       MATHFU_MATRIX_3X3_DOT(&m[0], v, 1, 3),
                       MATHFU_MATRIX_3X3_DOT(&m[0], v, 2, 3));
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<>
 inline Vector<float, 3> operator*(const Matrix<float, 3, 3>& m,
                                   const Vector<float, 3>& v) {
@@ -672,7 +802,9 @@ inline Vector<float, 3> operator*(const Matrix<float, 3, 3>& m,
       MATHFU_MATRIX_3X3_DOT(&m[0], v, 1, MATHFU_VECTOR_STRIDE_FLOATS(v)),
       MATHFU_MATRIX_3X3_DOT(&m[0], v, 2, MATHFU_VECTOR_STRIDE_FLOATS(v)));
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline Vector<T, 4> operator*(const Matrix<T, 4, 4>& m,
                               const Vector<T, 4>& v) {
@@ -681,10 +813,18 @@ inline Vector<T, 4> operator*(const Matrix<T, 4, 4>& m,
                       MATHFU_MATRIX_4X4_DOT(&m[0], v, 2),
                       MATHFU_MATRIX_4X4_DOT(&m[0], v, 3));
 }
+/// @endcond
 
-// Matrix/Vector multiplication of a 4x4 matrix with a vector of size 3.
-// This is provided as a convenience and assumes the vector has a fourth
-// component equal to 1.
+/// @brief Multiply a 4x4 Matrix by a 3-dimensional Vector.
+///
+/// This is provided as a convenience and assumes the vector has a fourth
+/// component equal to 1.
+///
+/// @param m 4x4 Matrix.
+/// @param v 3-dimensional Vector.
+/// @return 3-dimensional Vector result.
+///
+/// @related mathfu::Matrix
 template<class T>
 inline Vector<T, 3> operator*(const Matrix<T, 4, 4>& m,
                               const Vector<T, 3>& v) {
@@ -693,13 +833,25 @@ inline Vector<T, 3> operator*(const Matrix<T, 4, 4>& m,
   return Vector<T, 3>(v4[0] / v4[3], v4[1] / v4[3], v4[2] / v4[3]);
 }
 
-// Matrix/Matrix Multiplication. Template specialized versions are implemented
-// for 2x2, 3x3, and 4x4 matrices to improve performance. 3x3 float is also
-// specialized because if SIMD is used the vectors of this type of length 4.
+/// @cond MATHFU_INTERNAL
+/// @brief Multiply a Matrix with another Matrix.
+///
+/// @note Template specialized versions are implemented for 2x2, 3x3, and 4x4
+/// matrices to improve performance. 3x3 float is also specialized because if
+/// SIMD is used the vectors of this type of length 4.
+///
+/// @param m1 Matrix to multiply.
+/// @param m2 Matrix to multiply.
+/// @param out_m Pointer to a Matrix which receives the result.
+///
+/// @tparam T Type of each element in the returned Matrix.
+/// @tparam size1 Number of rows in the returned Matrix and columns in m1.
+/// @tparam size2 Number of columns in the returned Matrix and rows in m2.
+/// @tparam size3 Number of columns in m3.
 template<class T, int size1, int size2, int size3>
 inline void TimesHelper(const Matrix<T, size1, size2>& m1,
                         const Matrix<T, size2, size3>& m2,
-  Matrix<T, size1, size3>* out_m) {
+                        Matrix<T, size1, size3>* out_m) {
   for(int i = 0; i < size1; i++) {
     for(int j = 0; j < size3; j++) {
       Vector<T, size2> row;
@@ -710,7 +862,9 @@ inline void TimesHelper(const Matrix<T, size1, size2>& m1,
     }
   }
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline void TimesHelper(const Matrix<T, 2, 2>& m1, const Matrix<T, 2, 2>& m2,
                         Matrix<T, 2, 2>* out_m) {
@@ -720,7 +874,9 @@ inline void TimesHelper(const Matrix<T, 2, 2>& m1, const Matrix<T, 2, 2>& m2,
   out[2] = m1[0] * m2[2] + m1[2] * m2[3];
   out[3] = m1[1] * m2[2] + m1[3] * m2[3];
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<typename T>
 inline void TimesHelper(const Matrix<T, 3, 3>& m1, const Matrix<T, 3, 3>& m2,
                         Matrix<T, 3, 3>* out_m) {
@@ -744,7 +900,9 @@ inline void TimesHelper(const Matrix<T, 3, 3>& m1, const Matrix<T, 3, 3>& m2,
     out[8] = Vector<T, 3>::DotProduct(m2.GetColumn(2), row);
   }
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline void TimesHelper(const Matrix<T, 4, 4>& m1, const Matrix<T, 4, 4>& m2,
                         Matrix<T, 4, 4>* out_m) {
@@ -778,9 +936,18 @@ inline void TimesHelper(const Matrix<T, 4, 4>& m1, const Matrix<T, 4, 4>& m2,
     out[15] = Vector<T, 4>::DotProduct(m2.GetColumn(3), row);
   }
 }
+/// @endcond
 
-// Compute the identity matrix. There is template specialization for 2x2, 3x3,
-// and 4x4 matrices to increase performance.
+/// @cond MATHFU_INTERNAL
+/// @brief Compute the identity matrix.
+///
+/// @note There are template specializations for 2x2, 3x3, and 4x4 matrices to
+/// increase performance.
+///
+/// @return Identity Matrix.
+/// @tparam T Type of each element in the returned Matrix.
+/// @tparam rows Number of rows in the returned Matrix.
+/// @tparam columns Number of columns in the returned Matrix.
 template<class T, int rows, int columns>
 inline Matrix<T, rows, columns> IdentityHelper() {
   Matrix<T, rows, columns> return_matrix(0.f);
@@ -788,24 +955,34 @@ inline Matrix<T, rows, columns> IdentityHelper() {
   for (int i = 0; i < min_d; ++i) return_matrix(i,i) = 1;
   return return_matrix;
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline Matrix<T, 2, 2> IdentityHelper() {
   return Matrix<T, 2, 2>(1, 0, 0, 1);
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline Matrix<T, 3, 3> IdentityHelper() {
   return Matrix<T, 3, 3>(1, 0, 0, 0, 1, 0, 0, 0, 1);
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline Matrix<T, 4, 4> IdentityHelper() {
   return Matrix<T, 4, 4>(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 }
+/// @endcond
 
-// Compute the outer product of two vectors. There is template specialization
-// for 2x2, 3x3, and 4x4 matrices to increase performance.
+/// @cond MATHFU_INTERNAL
+/// @brief Compute the outer product of two vectors.
+///
+/// @note There are template specialization for 2x2, 3x3, and 4x4 matrices to
+/// increase performance.
 template<class T, int rows, int columns>
 static inline Matrix<T, rows, columns> OuterProductHelper(
   const Vector<T, rows>& v1, const Vector<T, columns>& v2) {
@@ -819,14 +996,18 @@ static inline Matrix<T, rows, columns> OuterProductHelper(
   }
   return result;
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 static inline Matrix<T, 2, 2> OuterProductHelper(
   const Vector<T, 2>& v1, const Vector<T, 2>& v2) {
   return Matrix<T, 2, 2>(
       v1[0] * v2[0], v1[1] * v2[0], v1[0] * v2[1], v1[1] * v2[1]);
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 static inline Matrix<T, 3, 3> OuterProductHelper(
   const Vector<T, 3>& v1, const Vector<T, 3>& v2) {
@@ -835,7 +1016,9 @@ static inline Matrix<T, 3, 3> OuterProductHelper(
       v1[0] * v2[1], v1[1] * v2[1], v1[2] * v2[1],
       v1[0] * v2[2], v1[1] * v2[2], v1[2] * v2[2]);
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 static inline Matrix<T, 4, 4> OuterProductHelper(
   const Vector<T, 4>& v1, const Vector<T, 4>& v2) {
@@ -845,12 +1028,15 @@ static inline Matrix<T, 4, 4> OuterProductHelper(
       v1[0] * v2[2], v1[1] * v2[2], v1[2] * v2[2], v1[3] * v2[2],
       v1[0] * v2[3], v1[1] * v2[3], v1[2] * v2[3], v1[3] * v2[3]);
 }
+/// @endcond
 
-// Struct used for template specialization for functions that return constants.
+/// @cond MATHFU_INTERNAL
+/// Struct used for template specialization for functions that
+/// returns constants.
 template<class T>
 class Constants {
  public:
-  // Minimum absolute value of the determinant of an invertible matrix.
+  /// Minimum absolute value of the determinant of an invertible matrix.
   static T GetDeterminantThreshold()
   {
     // No constant defined for the general case.
@@ -858,35 +1044,55 @@ class Constants {
     return 0;
   }
 };
+/// @endcond
 
+/// Functions that return constants for <code>float</code> values.
 template<>
 class Constants<float> {
  public:
-  // Minimum absolute value of the determinant of an invertible float matrix.
-  // float values have 23 bits of precision which is roughly 1e7f, given that
-  // the final step of matrix inversion is multiplication with the inverse of
-  // the determinant, the minimum value of the determinant is 1e-7f before
-  // the precision too low to accurately calculate the inverse.
+  /// @brief Minimum absolute value of the determinant of an invertible
+  /// <code>float</code> Matrix.
+  ///
+  /// <code>float</code> values have 23 bits of precision which is roughly
+  /// 1e7f, given that the final step of matrix inversion is multiplication
+  /// with the inverse of the determinant, the minimum value of the
+  /// determinant is 1e-7f before the precision too low to accurately
+  /// calculate the inverse.
+  /// @returns Minimum absolute value of the determinant of an invertible
+  /// <code>float</code> Matrix.
+  ///
+  /// @related mathfu::Matrix::InverseWithDeterminantCheck()
   static float GetDeterminantThreshold() { return 1e-7f; }
 };
 
+/// Functions that return constants for <code>double</code> values.
 template<>
 class Constants<double> {
  public:
-  // Minimum absolute value of the determinant of an invertible float matrix.
-  // float values have  bits of precision which is roughly 1e15f, given that
-  // the final step of matrix inversion is multiplication with the inverse of
-  // the determinant, the minimum value of the determinant is 1e-15f before
-  // the precision too low to accurately calculate the inverse.
+  /// @brief Minimum absolute value of the determinant of an invertible
+  /// <code>double</code> Matrix.
+  ///
+  /// <code>double</code> values have 46 bits of precision which is roughly
+  /// 1e15, given that the final step of matrix inversion is multiplication
+  /// with the inverse of the determinant, the minimum value of the
+  /// determinant is 1e-15 before the precision too low to accurately
+  /// calculate the inverse.
+  /// @returns Minimum absolute value of the determinant of an invertible
+  /// <code>double</code> Matrix.
+  ///
+  /// @related mathfu::Matrix::InverseWithDeterminantCheck()
   static double GetDeterminantThreshold() { return 1e-15; }
 };
 
-// Compute the inverse of a matrix. There is template specialization
-// for 2x2, 3x3, and 4x4 matrices to increase performance. Inverse
-// is not implemented for dense matrices that are not of size 2x2,
-// 3x3, and 4x4.  If check_invertible is true the determine of the matrix
-// is compared with Constants<T>::GetDeterminantThreshold() to roughly
-// determine whether the matrix is invertible.
+/// @cond MATHFU_INTERNAL
+/// @brief Compute the inverse of a matrix.
+///
+/// There is template specialization  for 2x2, 3x3, and 4x4 matrices to
+/// increase performance. Inverse is not implemented for dense matrices that
+/// are not of size 2x2, 3x3, and 4x4.  If check_invertible is true the
+/// determine of the matrix is compared with
+/// Constants<T>::GetDeterminantThreshold() to roughly determine whether the
+/// Matrix is invertible.
 template<bool check_invertible, class T, int rows, int columns>
 inline bool InverseHelper(const Matrix<T, rows, columns>& m,
                           Matrix<T, rows, columns>* const inverse) {
@@ -895,7 +1101,9 @@ inline bool InverseHelper(const Matrix<T, rows, columns>& m,
   *inverse = T::Identity();
   return false;
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<bool check_invertible, class T>
 inline bool InverseHelper(const Matrix<T, 2, 2>& m,
                           Matrix<T, 2, 2>* const inverse) {
@@ -911,7 +1119,9 @@ inline bool InverseHelper(const Matrix<T, 2, 2>& m,
   (*inverse)[3] = inverseDeterminant * m[0];
   return true;
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<bool check_invertible, class T>
 inline bool InverseHelper(const Matrix<T, 3, 3>& m,
                           Matrix<T, 3, 3>* const inverse) {
@@ -936,7 +1146,9 @@ inline bool InverseHelper(const Matrix<T, 3, 3>& m,
   *(inverse) *= 1 / determinant;
   return true;
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<class T>
 inline int FindLargestPivotElem(const Matrix<T, 4, 4>& m) {
   Vector<T, 4> fabs_column(fabs(m[0]), fabs(m[1]), fabs(m[2]), fabs(m[3]));
@@ -968,7 +1180,9 @@ inline int FindLargestPivotElem(const Matrix<T, 4, 4>& m) {
     return 3;
   }
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 template<bool check_invertible, class T>
 bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
   // This will find the pivot element.
@@ -1042,8 +1256,10 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
   }
   return true;
 }
+/// @endcond
 
-// Create a 4x4 perpective matrix.
+/// @cond MATHFU_INTERNAL
+/// Create a 4x4 perpective matrix.
 template<class T>
 inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness) {
@@ -1056,7 +1272,9 @@ inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                          0, 0, zfar_per_zdist, -1 * handedness,
                          0, 0, znear * zfar_per_zdist * handedness, 0);
 }
+/// @endcond
 
+/// @cond MATHFU_INTERNAL
 /// Create a 4x4 orthographic matrix.
 template<class T>
 static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
@@ -1068,10 +1286,12 @@ static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
       -(right + left) / (right - left), -(top + bottom) / (top - bottom),
       -(zfar + znear) / (zfar - znear), static_cast<T>(1));
 }
+/// @endcond
 
-// Calculate the axes required to construct a 3-dimensional camera matrix that
-// looks at "at" from eye position "eye" with the up vector "up".  The axes
-// are returned in a 4 element "axes" array.
+/// @cond MATHFU_INTERNAL
+/// Calculate the axes required to construct a 3-dimensional camera matrix that
+/// looks at "at" from eye position "eye" with the up vector "up".  The axes
+/// are returned in a 4 element "axes" array.
 template<class T>
 static void LookAtHelperCalculateAxes(
     const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up,
@@ -1083,8 +1303,10 @@ static void LookAtHelperCalculateAxes(
                          -Vector<T, 3>::DotProduct(axes[1], eye),
                          -Vector<T, 3>::DotProduct(axes[2], eye));
 }
+/// @endcond
 
-// Create a 3-dimensional camera matrix.
+/// @cond MATHFU_INTERNAL
+/// Create a 3-dimensional camera matrix.
 template<class T>
 static inline Matrix<T, 4, 4> LookAtHelper(
     const Vector<T, 3>& at, const Vector<T, 3>& eye, const Vector<T, 3>& up) {
@@ -1096,7 +1318,9 @@ static inline Matrix<T, 4, 4> LookAtHelper(
   const Vector<T, 4> column3(axes[3], 1);
   return Matrix<T, 4, 4>(column0, column1, column2, column3);
 }
+/// @endcond
 
+/// @}
 
 }  // namespace mathfu
 

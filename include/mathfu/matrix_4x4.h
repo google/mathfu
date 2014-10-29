@@ -24,9 +24,14 @@
 #include "vectorial/simd4x4f.h"
 #endif
 
+/// @file mathfu/matrix_4x4.h MathFu Matrix<T, 4, 4> Specialization
+/// @brief 4x4 specialization of mathfu::Matrix for SIMD optimized builds.
+/// @see mathfu::Matrix
+
 namespace mathfu {
 
 #ifdef MATHFU_COMPILE_WITH_SIMD
+/// @cond MATHFU_INTERNAL
 template<>
 class Matrix<float, 4> {
  public:
@@ -370,6 +375,7 @@ inline Vector<float, 4> operator*(
   const Vector<float, 4>& v, const Matrix<float, 4>& m) {
   return m.VecMatTimes(v);
 }
+/// @endcond
 #endif  // MATHFU_COMPILE_WITH_SIMD
 }  // namespace mathfu
 

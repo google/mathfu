@@ -25,13 +25,19 @@
 #include "vectorial/simd4f.h"
 #endif
 
-// Add macros to account for both the case where the vector is stored as a simd
-// intrinsic using 4 elements or as 3 values of type T.
-// MATHFU_VECTOR3_STORE3/MATHFU_VECTOR3_LOAD3 are additional operations used
-// to load/store the non simd values from and to simd datatypes. If intrinsics
-// are used these amount to essentially noops. MATHFU_VECTOR3_INIT3 either
-// creates a simd datatype if the intrinsic is used or sets the T values if
-// not.
+/// @file mathfu/vector_3.h MathFu Vector<T, 3> Specialization
+/// @brief 3-dimensional specialization of mathfu::Vector for SIMD optimized
+/// builds.
+/// @see mathfu::Vector
+
+/// @cond MATHFU_INTERNAL
+/// Add macros to account for both the case where the vector is stored as a
+/// simd intrinsic using 4 elements or as 3 values of type T.
+/// MATHFU_VECTOR3_STORE3/MATHFU_VECTOR3_LOAD3 are additional operations used
+/// to load/store the non simd values from and to simd datatypes. If intrinsics
+/// are used these amount to essentially noops. MATHFU_VECTOR3_INIT3 either
+/// creates a simd datatype if the intrinsic is used or sets the T values if
+/// not.
 #ifdef MATHFU_COMPILE_WITH_PADDING
 #define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
   { data.simd = simd_to_store; }
@@ -49,10 +55,12 @@
     data.float_array[2] = v3; \
   }
 #endif  // MATHFU_COMPILE_WITH_PADDING
+/// @endcond
 
 namespace mathfu {
 
 #ifdef MATHFU_COMPILE_WITH_SIMD
+/// @cond MATHFU_INTERNAL
 // This class should remain plain old data.
 template<>
 class Vector<float, 3> {
@@ -294,6 +302,7 @@ class Vector<float, 3> {
 #endif  // MATHFU_COMPILE_WITH_PADDING
   } data_;
 };
+/// @endcond
 #endif  // MATHFU_COMPILE_WITH_SIMD
 
 }  // namespace mathfu

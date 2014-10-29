@@ -21,6 +21,11 @@
 
 #include <math.h>
 
+/// @file mathfu/vector_2.h MathFu Vector<T, 2> Specialization
+/// @brief 2-dimensional specialization of mathfu::Vector for SIMD optimized
+/// builds.
+/// @see mathfu::Vector
+
 #if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
 #include <vectorial/simd2f.h>
 #endif
@@ -28,6 +33,7 @@
 namespace mathfu {
 
 #if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) && defined(__ARM_NEON__)
+/// @cond MATHFU_INTERNAL
 template<>
 class Vector<float, 2> {
  public:
@@ -218,6 +224,7 @@ class Vector<float, 2> {
     float float_array[2];
   } data_;
 };
+/// @endcond
 #endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT) &&
         // defined(__ARM_NEON__)
 

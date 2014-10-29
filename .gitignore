@@ -1,6 +1,10 @@
 **/bin/**
 **/libs/**
 **/obj/**
+*.pyc
+apks/**
+docs/html/
+docs/linklint_results/
 CMakeCache.txt
 CMakeFiles
 CMakeScripts/

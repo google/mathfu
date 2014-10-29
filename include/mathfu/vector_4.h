@@ -25,9 +25,15 @@
 #include "vectorial/simd4f.h"
 #endif
 
+/// @file mathfu/vector_4.h MathFu Vector<T, 4> Specialization
+/// @brief 4-dimensional specialization of mathfu::Vector for SIMD optimized
+/// builds.
+/// @see mathfu::Vector
+
 namespace mathfu {
 
 #ifdef MATHFU_COMPILE_WITH_SIMD
+/// @cond MATHFU_INTERNAL
 union Simd4fUnion {
   simd4f simd;
   float float_array[4];
@@ -220,6 +226,7 @@ class Vector<float, 4> {
  private:
   Simd4fUnion data_;
 };
+/// @endcond
 #endif  // MATHFU_COMPILE_WITH_SIMD
 
 }  // namespace mathfu
