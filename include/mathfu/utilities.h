@@ -19,6 +19,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdint.h>
 
 #include <algorithm>
 #include <memory>

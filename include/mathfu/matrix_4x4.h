@@ -50,9 +50,9 @@ class Matrix<float, 4> {
     const float& s02, const float& s12, const float& s22, const float& s32,
     const float& s03, const float& s13, const float& s23, const float& s33) {
     data_.simd_matrix = simd4x4f_create(simd4f_create(s00, s10, s20, s30),
-										simd4f_create(s01, s11, s21, s31),
-										simd4f_create(s02, s12, s22, s32),
-										simd4f_create(s03, s13, s23, s33));
+                                        simd4f_create(s01, s11, s21, s31),
+                                        simd4f_create(s02, s12, s22, s32),
+                                        simd4f_create(s03, s13, s23, s33));
   }
 
   explicit inline Matrix<float, 4>(const float* m) {
@@ -81,10 +81,10 @@ class Matrix<float, 4> {
   }
 
   explicit inline Matrix(const VectorPacked<float, 4> * const vectors) {
-	data_.simd_matrix.x = simd4f_uload4(vectors[0].data);
-	data_.simd_matrix.y = simd4f_uload4(vectors[1].data);
-	data_.simd_matrix.z = simd4f_uload4(vectors[2].data);
-	data_.simd_matrix.w = simd4f_uload4(vectors[3].data);
+    data_.simd_matrix.x = simd4f_uload4(vectors[0].data);
+    data_.simd_matrix.y = simd4f_uload4(vectors[1].data);
+    data_.simd_matrix.z = simd4f_uload4(vectors[2].data);
+    data_.simd_matrix.w = simd4f_uload4(vectors[3].data);
   }
 
 
