@@ -29,7 +29,7 @@
 ///
 /// To simplify the use of MathFu template classes and make it possible to
 /// write code that looks similar to
-/// <a href="https://www.opengl.org/documentation/glsl/">GLSL</a> in C++,
+/// <a href="http://www.opengl.org/documentation/glsl/">GLSL</a> in C++,
 /// MathFu provides a set of data types that are similar in style to
 /// GLSL Vector and Matrix data types.
 

@@ -107,8 +107,26 @@
           </tab>
         </tab>
       </tab>
-      <tab type="user" url="@ref mathfu_guide_vectors"
-           title="Vectors"/>
+      <tab type="usergroup" url="@ref mathfu_guide_vectors"
+           title="Vectors">
+        <tab type="usergroup" url="@ref mathfu_guide_vectors_declaration"
+             title="Declaration">
+          <tab type="user" url="@ref mathfu_guide_vectors_initialization"
+               title="Initialization"/>
+          <tab type="user" url="@ref mathfu_guide_vectors_assignment"
+               title="Assignment"/>
+        </tab>
+        <tab type="user" url="@ref mathfu_guide_vectors_arithmetic"
+             title="Arithmetic"/>
+        <tab type="user" url="@ref mathfu_guide_vectors_constants"
+             title="Constants"/>
+        <tab type="user" url="@ref mathfu_guide_vectors_geometric"
+             title="Geometric Operations"/>
+        <tab type="user" url="@ref mathfu_guide_vectors_other"
+             title="Other Operations"/>
+        <tab type="user" url="@ref mathfu_guide_vectors_packing"
+             title="Packing"/>
+      </tab>
       <tab type="user" url="@ref mathfu_guide_quaternions"
            title="Quaternions"/>
       <tab type="user" url="@ref mathfu_guide_matrices"
