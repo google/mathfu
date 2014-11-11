@@ -260,6 +260,25 @@ class Quaternion {
     return q1 * ((q1.Inverse() * q2) * s1);
   }
 
+  /// @brief Access an element of the quaternion.
+  ///
+  /// @param i Index of the element to access.
+  /// @return A reference to the accessed data that can be modified by the
+  /// caller.
+  inline T& operator[](const int i) {
+    if (i == 0) return s_;
+    return v_[i - 1];
+  }
+
+  /// @brief Access an element of the quaternion.
+  ///
+  /// @param i Index of the element to access.
+  /// @return A const reference to the accessed.
+  inline const T& operator[](const int i) const {
+    return const_cast<Quaternion<T>*>(this)->operator[](i);
+  }
+
+
  private:
   T s_;
   Vector<T, 3> v_;

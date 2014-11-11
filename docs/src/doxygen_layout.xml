@@ -130,8 +130,25 @@
         <tab type="user" url="@ref mathfu_guide_vectors_packing"
              title="Packing"/>
       </tab>
-      <tab type="user" url="@ref mathfu_guide_quaternions"
-           title="Quaternions"/>
+      <tab type="usergroup" url="@ref mathfu_guide_quaternions"
+           title="Quaternions">
+        <tab type="usergroup" url="@ref mathfu_guide_quaternions_declaration"
+             title="Declaration">
+          <tab type="user" url="@ref mathfu_guide_quaternions_initialization"
+               title="Initialization"/>
+        </tab>
+        <tab type="usergroup" url="@ref mathfu_guide_quaternions_accessors"
+             title="Accessors">
+          <tab type="user" url="@ref mathfu_guide_quaternions_assignment"
+               title="Assignment"/>
+        </tab>
+        <tab type="user" url="@ref mathfu_guide_quaternions_repr"
+             title="Converting Between Representations"/>
+        <tab type="user" url="@ref mathfu_guide_quaternions_manipulation"
+             title="Manipulation"/>
+        <tab type="user" url="@ref mathfu_guide_quaternions_application"
+             title="Application"/>
+      </tab>
       <tab type="usergroup" url="@ref mathfu_guide_matrices"
            title="Matrices">
         <tab type="usergroup" url="@ref mathfu_guide_matrices_declaration"
