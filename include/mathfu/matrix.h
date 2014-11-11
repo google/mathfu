@@ -323,6 +323,7 @@ class Matrix {
     MATHFU_MAT_OPERATION(GetColumn(i).Pack(&vector[i]));
   }
 
+  /// @cond MATHFU_INTERNAL
   /// @brief Access a column vector of the Matrix.
   ///
   /// @param i Index of the column to access.
@@ -338,6 +339,7 @@ class Matrix {
   inline const Vector<T, rows>& GetColumn(const int i) const {
     return data_[i];
   }
+  /// @endcond
 
   /// @brief Negate this Matrix.
   ///

@@ -113,6 +113,9 @@
              title="Declaration">
           <tab type="user" url="@ref mathfu_guide_vectors_initialization"
                title="Initialization"/>
+        </tab>
+        <tab type="usergroup" url="@ref mathfu_guide_vectors_accessors"
+             title="Accessors">
           <tab type="user" url="@ref mathfu_guide_vectors_assignment"
                title="Assignment"/>
         </tab>
@@ -129,8 +132,25 @@
       </tab>
       <tab type="user" url="@ref mathfu_guide_quaternions"
            title="Quaternions"/>
-      <tab type="user" url="@ref mathfu_guide_matrices"
-           title="Matrices"/>
+      <tab type="usergroup" url="@ref mathfu_guide_matrices"
+           title="Matrices">
+        <tab type="usergroup" url="@ref mathfu_guide_matrices_declaration"
+             title="Declaration">
+          <tab type="user" url="@ref mathfu_guide_matrices_initialization"
+               title="Initialization"/>
+        </tab>
+        <tab type="usergroup" url="@ref mathfu_guide_matrices_accessors"
+             title="Accessors">
+          <tab type="user" url="@ref mathfu_guide_matrices_assignment"
+               title="Assignment"/>
+        </tab>
+        <tab type="user" url="@ref mathfu_guide_matrices_arithmetic"
+             title="Arithmetic"/>
+        <tab type="user" url="@ref mathfu_guide_matrices_matrix_ops"
+             title="Matrix Operations"/>
+        <tab type="user" url="@ref mathfu_guide_matrices_packing"
+             title="Packing"/>
+      </tab>
       <tab type="user" url="@ref mathfu_guide_utilities"
            title="Utilities"/>
     </tab>
