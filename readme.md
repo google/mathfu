@@ -1,7 +1,7 @@
 MathFu Version 1.0.0    {#mathfu_readme}
 ====================
 
-[MathFu][] is a C++ math library developed primarily for games focused on
+MathFu is a C++ math library developed primarily for games focused on
 simplicity and efficiency.
 
 It provides a suite of [vector][], [matrix][] and [quaternion][] classes
@@ -40,7 +40,6 @@ you would leave it in.
   [Linux]: http://en.m.wikipedia.org/wiki/Linux
   [MathFu Google Group]: http://group.google.com/group/mathfulib
   [MathFu Issues Tracker]: http://github.com/google/mathfu/issues
-  [MathFu]: @ref mathfu_overview
   [OS X]: http://www.apple.com/osx/
   [OpenGL]: http://www.opengl.org/
   [SIMD]: http://en.wikipedia.org/wiki/SIMD

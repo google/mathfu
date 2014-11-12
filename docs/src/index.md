@@ -11,6 +11,9 @@ to perform basic [geometry][] suitable for game developers.  This functionality
 can be used to construct geometry for graphics libraries like [OpenGL][] or
 perform calculations for animation or physics systems.
 
+[MathFu] can be downloaded from [GitHub](http://github.com/google/mathfu) or
+the [releases page](http://github.com/google/mathfu/releases).
+
 # Functionality
 
 Each [vector][], [matrix][] and [quaternion][] class implements basic
