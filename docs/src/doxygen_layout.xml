@@ -168,8 +168,16 @@
         <tab type="user" url="@ref mathfu_guide_matrices_packing"
              title="Packing"/>
       </tab>
-      <tab type="user" url="@ref mathfu_guide_utilities"
-           title="Utilities"/>
+      <tab type="usergroup" url="@ref mathfu_guide_utilities"
+           title="Utilities">
+        <tab type="user" url="@ref mathfu_guide_utilities_allocation"
+             title="Memory Allocation"/>
+        <tab type="usergroup" url="@ref mathfu_guide_utilities_misc"
+             title="Miscellaneous Functions">
+          <tab type="user" url="@ref mathfu_guide_utilities_random"
+               title="Random Number Generation"/>
+        </tab>
+      </tab>
     </tab>
     <tab type="usergroup" url="@ref mathfu_api_reference"
          title="API reference">

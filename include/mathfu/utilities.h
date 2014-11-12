@@ -276,6 +276,7 @@ namespace mathfu {
 /// @{
 
 /// @brief Clamp x within [lower, upper].
+/// @anchor mathfu_Clamp
 ///
 /// @note Results are undefined if lower > upper.
 ///
@@ -290,6 +291,7 @@ T Clamp(const T& x, const T& lower, const T& upper) {
 
 /// @brief Linearly interpolate between range_start and range_end, based on
 /// percent.
+/// @anchor mathfu_Lerp
 ///
 /// @param range_start Start of the range.
 /// @param range_end End of the range.
@@ -297,13 +299,35 @@ T Clamp(const T& x, const T& lower, const T& upper) {
 /// range_start and range_end.  Where a value of 0.0 results in a return
 /// value of range_start and 1.0 results in a return value of range_end.
 /// @return Value between range_start and range_end.
-template<class T>
-T Lerp(const T& range_start, const T& range_end, const T& percent) {
-  const T one_minus_percent = static_cast<T>(1.0) - percent;
+///
+/// @tparam T Type of the range to interpolate over.
+/// @tparam T2 Type of the value used to perform interpolation
+///         (e.g float or double).
+template<class T, class T2>
+T Lerp(const T& range_start, const T& range_end, const T2& percent) {
+  const T2 one_minus_percent = static_cast<T2>(1.0) - percent;
   return range_start * one_minus_percent + range_end * percent;
 }
 
+/// @brief Linearly interpolate between range_start and range_end, based on
+/// percent.
+/// @anchor mathfu_Lerp2
+///
+/// @param range_start Start of the range.
+/// @param range_end End of the range.
+/// @param percent Value between 0.0 and 1.0 used to interpolate between
+/// range_start and range_end.  Where a value of 0.0 results in a return
+/// value of range_start and 1.0 results in a return value of range_end.
+/// @return Value between range_start and range_end.
+///
+/// @tparam T Type of the range to interpolate over.
+template<class T>
+T Lerp(const T& range_start, const T& range_end, const T& percent) {
+  return Lerp<T, T>(range_start, range_end, percent);
+}
+
 /// @brief  Generate a random value of type T.
+/// @anchor mathfu_Random
 ///
 /// This method generates a random value of type T, greater than or equal to
 /// 0.0 and less than 1.0.
@@ -333,6 +357,7 @@ template<> inline double Random() {
 /// @endcond
 
 /// @brief Generate a random value of type T in the range -range...+range
+/// @anchor mathfu_RandomRange
 ///
 /// This function uses the standard C library function rand() from math.h to
 /// generate the random number.
@@ -346,6 +371,7 @@ template<class T> inline T RandomRange(T range) {
 }
 
 /// @brief Generate a random number between [range_start, range_end]
+/// @anchor mathfu_RandomInRange
 ///
 /// This function uses the standard C library function rand() from math.h to
 /// generate the random number.
@@ -401,6 +427,7 @@ template<class T> T RoundUpToPowerOf2(T x) {
 #define MATHFU_ALIGNMENT 16
 
 /// @brief Allocate an aligned block of memory.
+/// @anchor mathfu_AllocateAligned
 ///
 /// This function allocates a block of memory aligned to MATHFU_ALIGNMENT
 /// bytes.
@@ -426,6 +453,7 @@ inline void *AllocateAligned(size_t n) {
 }
 
 /// @brief Deallocate a block of memory allocated with AllocateAligned().
+/// @anchor mathfu_FreeAligned
 ///
 /// @param p Pointer to memory to deallocate.
 inline void FreeAligned(void *p) {
