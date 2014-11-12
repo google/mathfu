@@ -14,15 +14,14 @@
 include $(CLEAR_VARS)
 
 # Configure the locations of MathFu's dependencies.
-MATHFU_DIR:=$(abspath $(LOCAL_PATH)/../..)
-MATHFU_DIR_BASENAME:=$(notdir $(MATHFU_DIR))
+MATHFU_DIR:=$(LOCAL_PATH)/../..
+MATHFU_DIR_BASENAME:=$(notdir $(abspath $(MATHFU_DIR)))
 include $(MATHFU_DIR)/android_config.mk
 
 namespace:=$(if $(NDK_PROJECT_PATH),,_mathfu)
 LOCAL_MODULE:=$(LOCAL_BENCHMARK_NAME)${namespace}
 LOCAL_MODULE_TAGS:=optional
-LOCAL_SRC_FILES:= \
-	$(abspath $(LOCAL_PATH)/main.cpp)
+LOCAL_SRC_FILES:= main.cpp
 LOCAL_C_INCLUDES:=$(MATHFU_DIR)/benchmarks
 LOCAL_LDLIBS:=-llog -landroid
 LOCAL_WHOLE_STATIC_LIBRARIES:=\

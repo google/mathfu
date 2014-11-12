@@ -19,7 +19,7 @@ FPL_ROOT:=$(MATHFU_DIR)/../../libs
 # container of this project directory, assume the dependencies directory is
 # the root directory for all libraries required by this project.
 $(foreach dep_dir,$(wildcard $(MATHFU_DIR)/dependencies) \
-                  $(wildcard $(abspath $(MATHFU_DIR)/../../dependencies)),\
+                  $(wildcard $(MATHFU_DIR)/../../dependencies),\
   $(eval DEPENDENCIES_ROOT?=$(dep_dir)))
 ifneq ($(DEPENDENCIES_ROOT),)
   THIRD_PARTY_ROOT:=$(DEPENDENCIES_ROOT)

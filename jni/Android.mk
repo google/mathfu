@@ -14,7 +14,7 @@
 
 LOCAL_PATH:=$(call my-dir)/..
 
-MATHFU_DIR?=$(abspath $(LOCAL_PATH))
+MATHFU_DIR?=$(LOCAL_PATH)
 include $(LOCAL_PATH)/android_config.mk
 
 # Conditionally include libstlport (so include path is added to CFLAGS) if
