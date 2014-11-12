@@ -9,6 +9,14 @@
   },
   "dependencies": [
     {
+      "name": "fplutil",
+      "url": "http://github.com/google/fplutil.git",
+      "branch": "develop",
+      "is_library": 1,
+      "third_party": 0,
+      "push": 0
+    },
+    {
       "name": "googletest",
       "url": "http://github.com/google/fplutil.git",
       "branch": "googletest",
@@ -22,7 +30,7 @@
       "branch": "vectorial",
       "is_library": 1,
       "third_party": 1,
-      "push": 0
+      "push": 1
     }
   ]
 }
