@@ -25,7 +25,10 @@ Go to our [landing page][] to browse our documentation and see some examples.
    * Post your questions to [stackoverflow.com][] with a mention of
      **mathfu**.
 
-Please see the `docs` folder to learn how to use MathFu and run the tests.
+**Important**: MathFu uses submodules to reference other components it depends
+upon so download the source using:
+
+    git clone --recursive https://github.com/google/mathfu.git
 
 For applications on Google Play that integrate this tool, usage is tracked.
 This tracking is done automatically using the embedded version string
