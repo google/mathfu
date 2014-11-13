@@ -14,6 +14,13 @@ perform calculations for animation or physics systems.
 [MathFu] can be downloaded from [GitHub](http://github.com/google/mathfu) or
 the [releases page](http://github.com/google/mathfu/releases).
 
+**Important**: MathFu uses submodules to reference other components it depends
+upon so download the source using:
+
+~~~{.sh}
+    git clone --recursive https://github.com/google/mathfu.git
+~~~
+
 # Functionality
 
 Each [vector][], [matrix][] and [quaternion][] class implements basic
