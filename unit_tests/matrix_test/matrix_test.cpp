@@ -71,7 +71,7 @@ struct MatrixExpectation {
     MY_TEST##_Test<double>(DOUBLE_PRECISION_VALUE); \
   }
 
-// This will test initializaiton by passing in values. The template paramter d
+// This will test initialization by passing in values. The template parameter d
 // corresponds to the number of rows and columns.
 template<class T, int d>
 void Initialize_Test(const T& precision) {
@@ -109,7 +109,7 @@ void Initialize_Test(const T& precision) {
     }
   }
   // This will verify that the copy was deep and changing the values of the
-  // copied matrix does not effect the origional.
+  // copied matrix does not effect the original.
   matrix_copy = matrix_copy - mathfu::Matrix<T, d>(1);
   EXPECT_NE(matrix_copy(0, 0), matrix_arr(0, 0));
   // This will test creation of the identity matrix.
@@ -122,7 +122,7 @@ void Initialize_Test(const T& precision) {
 }
 TEST_ALL_F(Initialize, FLOAT_PRECISION, DOUBLE_PRECISION);
 
-// This will test initializaiton by specifying all values explictly.
+// This will test initialization by specifying all values explicitly.
 template<class T>
 void InitializePerDimension_Test(const T& precision) {
   mathfu::Matrix<T, 2> matrix_f2x2(static_cast<T>(4.5), static_cast<T>(3.4),
@@ -206,7 +206,7 @@ void PackedSerialization_Test(const T& precision) {
 TEST_ALL_F(PackedSerialization, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test the Addition and Subtraction of matrices. The template
-// paramter d corresponds to the number of rows and columns.
+// parameter d corresponds to the number of rows and columns.
 template<class T, int d>
 void AddSub_Test(const T& precision) {
   T x1[d * d], x2[d * d];
@@ -244,7 +244,7 @@ void AddSub_Test(const T& precision) {
 }
 TEST_ALL_F(AddSub, FLOAT_PRECISION, DOUBLE_PRECISION);
 
-// This will test the mutiplication of matrices by matrices, vectors,
+// This will test the multiplication of matrices by matrices, vectors,
 // and scalars. The template parameter d corresponds to the number of rows and
 // columns.
 template<class T, int d>
@@ -253,7 +253,7 @@ void Mult_Test(const T& precision) {
   for (int i = 0; i < d * d; ++i) x1[i] = rand() / static_cast<T>(RAND_MAX);
   for (int i = 0; i < d * d; ++i) x2[i] = rand() / static_cast<T>(RAND_MAX);
   mathfu::Matrix<T, d> matrix1(x1), matrix2(x2);
-  // This will test sclar matrix multiplication and verify that each element
+  // This will test scalar matrix multiplication and verify that each element
   // is equal to multiplication by the scalar.
   mathfu::Matrix<T, d> matrix_mults(matrix1 * static_cast<T>(1.1));
   for (int i = 0; i < d; ++i) {
@@ -265,7 +265,7 @@ void Mult_Test(const T& precision) {
   for (int i = 0; i < d; ++i) v[i] = rand() / static_cast<T>(RAND_MAX);
   mathfu::Vector<T, d> vector(v);
   // This will test matrix vector multiplication and verify that the resulting
-  // vector is matematically correct.
+  // vector is mathematically correct.
   mathfu::Vector<T, d> vector_multv(matrix1 * vector);
   for (int i = 0; i < d; ++i) {
     T v1[d];
@@ -275,7 +275,7 @@ void Mult_Test(const T& precision) {
     EXPECT_NEAR(dot, vector_multv[i], precision);
   }
   // This will test matrix multiplication and verify that the resulting
-  // matrix is matematically correct.
+  // matrix is mathematically correct.
   mathfu::Matrix<T, d> matrix_multm(matrix1 * matrix2);
   for (int i = 0; i < d; ++i) {
     for (int j = 0; j < d; ++j) {
@@ -696,7 +696,7 @@ void Transpose_Test(const T& precision) {
 TEST_ALL_F(Transpose, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 // This will test converting from a translation into a matrix and back again.
-// Test the compilation of basic matrix opertations given in the sample file.
+// Test the compilation of basic matrix operations given in the sample file.
 // This will test transforming a vector with a matrix.
 TEST_F(MatrixTests, MatrixSample) {
     using namespace mathfu;

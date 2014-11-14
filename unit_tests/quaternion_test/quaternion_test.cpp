@@ -124,7 +124,7 @@ void Inverse_Test(const T& precision) {
 }
 TEST_ALL_F(Inverse);
 
-// This will test the multiplcation of quaternions.
+// This will test the multiplication of quaternions.
 template<class T>
 void Mult_Test(const T& precision) {
   mathfu::Vector<T, 3> axis(static_cast<T>(4.3), static_cast<T>(7.6),
@@ -140,12 +140,12 @@ void Mult_Test(const T& precision) {
                                                                   axis));
   mathfu::Vector<T, 3> convertedAxis;
   T convertedAngle;
-  // This will verify that mutliplying two quaternions corresponds to the sum
+  // This will verify that multiplying two quaternions corresponds to the sum
   // of the rotations.
   (qaa1 * qaa2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 + angle2, convertedAngle, precision);
-  // This will verify that mutliplying a quaternions with a scalar corresponds
-  // to scalaing the rotation.
+  // This will verify that multiplying a quaternions with a scalar corresponds
+  // to scaling the rotation.
   (qaa1 * 2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 * 2, convertedAngle, precision);
   mathfu::Vector<T, 3> v(3.5f, 6.4f, 7.0f);
@@ -171,7 +171,7 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult);
 
-// Test the compilation of basic quaternion opertations given in the sample
+// Test the compilation of basic quaternion operations given in the sample
 // file. This will test interpolating two rotations.
 TEST_F(QuaternionTests, QuaternionSample) {
     using namespace mathfu;
