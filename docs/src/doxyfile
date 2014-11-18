@@ -756,7 +756,8 @@ INPUT                  = "index.md" \
                          "programmers_guide/matrices.md" \
                          "programmers_guide/utilities.md" \
                          "api_reference.md" \
-                         "../../readme.md" \
+                         "readme.md" \
+                         "contributing.md" \
                          "groups" \
                          "../../include"
 
