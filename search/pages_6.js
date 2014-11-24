@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vectors',['Vectors',['../mathfu_guide_vectors.html',1,'']]]
+  ['utilities',['Utilities',['../mathfu_guide_utilities.html',1,'']]]
 ];

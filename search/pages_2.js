@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['introduction',['Introduction',['../mathfu_guide_introduction.html',1,'']]]
+  ['contributing',['Contributing',['../contributing.html',1,'']]]
 ];

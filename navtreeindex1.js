@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"group__mathfu__constants.html#ga2b70786247b2ff8a3d0620345b931d60":[2,0,2,34],
 "group__mathfu__constants.html#ga2c0d584d7b735f15f0331e127b4b438e":[2,0,2,43],
 "group__mathfu__constants.html#ga32ac4981d82643711982092700544c8c":[2,0,2,23],
 "group__mathfu__constants.html#ga36ce138c6560ce2f82211d7d2ec9648a":[2,0,2,11],
@@ -69,8 +70,8 @@ var NAVTREEINDEX1 =
 "group__mathfu__vector.html":[2,0,3],
 "group__mathfu__vector.html#ga8b3b81801ceac6ac372ed1fea668ee27":[2,0,3,2],
 "group__mathfu__vector.html#ga8b3b81801ceac6ac372ed1fea668ee27":[2,0,3,1,54],
-"group__mathfu__vector.html#gaa34216cdd46e59d3a353a43279b9e02b":[2,0,3,3],
 "group__mathfu__vector.html#gaa34216cdd46e59d3a353a43279b9e02b":[2,0,3,1,55],
+"group__mathfu__vector.html#gaa34216cdd46e59d3a353a43279b9e02b":[2,0,3,3],
 "group__mathfu__vector.html#gab37a30cc95a734792763670aacd18985":[2,0,3,1,57],
 "group__mathfu__vector.html#gab37a30cc95a734792763670aacd18985":[2,0,3,5],
 "group__mathfu__vector.html#gaed5e853244c99cadf65c02933b3fdced":[2,0,3,1,56],

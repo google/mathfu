@@ -112,14 +112,15 @@ var NAVTREE =
         ] ]
       ] ]
     ] ],
-    [ "readme", "mathfu_readme.html", null ]
+    [ "readme", "mathfu_readme.html", null ],
+    [ "contributing", "contributing.html", null ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
 ".html",
-"group__mathfu__constants.html#ga2c0d584d7b735f15f0331e127b4b438e"
+"group__mathfu__constants.html#ga2b70786247b2ff8a3d0620345b931d60"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

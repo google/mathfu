@@ -15,7 +15,7 @@ var indexSectionsWithContent =
   5: "cmopsv",
   6: "o",
   7: "abcgmquv",
-  8: "abimquv"
+  8: "abcimquv"
 };
 
 var indexSectionNames =
