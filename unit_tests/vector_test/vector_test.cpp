@@ -98,7 +98,7 @@ class VectorTests : public ::testing::Test {
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
 
-// This will test initialization by passing in values. The template paramter d
+// This will test initialization by passing in values. The template parameter d
 // corresponds to the size of the vector.
 template<class T, int d>
 void Initialization_Test(const T& precision) {
@@ -124,14 +124,14 @@ void Initialization_Test(const T& precision) {
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x[i], vector_copy[i], precision);
   }
-  // This will make sure the copy was deep and chaning the values of the
-  // copied matrix does not effect the origional.
+  // This will make sure the copy was deep and changing the values of the
+  // copied matrix does not effect the original.
   vector_copy -= mathfu::Vector<T, d>(1);
   EXPECT_NE(vector_copy[0], vector_arr[0]);
 }
 TEST_ALL_F(Initialization)
 
-// This will test initialization by specifying all values explictly.
+// This will test initialization by specifying all values explicitly.
 template<class T>
 void InitializationPerDimension_Test(const T& precision) {
   mathfu::Vector<T, 2> f2_vector(static_cast<T>(5.3), static_cast<T>(7.1));
@@ -224,8 +224,8 @@ void AddSub_Test(const T& precision) {
 }
 TEST_ALL_F(AddSub)
 
-// This will test the mutiplication of vectors by vectors and scalars. The
-// template paramter d corresponds to the size of the vector.
+// This will test the multiplication of vectors by vectors and scalars. The
+// template parameter d corresponds to the size of the vector.
 template<class T, int d>
 void Mult_Test(const T& precision) {
   T x1[d], x2[d], scalar(static_cast<T>(1.4));
@@ -240,7 +240,7 @@ void Mult_Test(const T& precision) {
     EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
   }
   // This will test multiplication by a scalar and verify that each
-  // element is the input element multipled by the scalar.
+  // element is the input element multiplied by the scalar.
   mathfu::Vector<T, d> smult_vec1(vector1 * scalar);
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] * 1.4, smult_vec1[i], precision);
@@ -343,7 +343,7 @@ void Lerp1_Test(const T& precision) {
 }
 TEST_ALL_F(Lerp1)
 
-// This will test initialization by specifying all values explictly.
+// This will test initialization by specifying all values explicitly.
 template<class T>
 void Clamp_Test() {
   const T min = static_cast<T>(-1);

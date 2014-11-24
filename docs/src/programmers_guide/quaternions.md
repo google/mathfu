@@ -191,7 +191,7 @@ the rotation -PI / 2 degrees around the X axis can be calculated by:
 # Application    {#mathfu_guide_quaternions_application}
 
 A rotation expressed by a [Quaternion][] is applied to a [Vector][] by
-multipling the [Quaternion][] with the [Vector][].
+multiplying the [Quaternion][] with the [Vector][].
 
 For example, to rotate a [Vector][] by PI / 2 radians around the X axis:
 

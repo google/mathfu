@@ -358,7 +358,7 @@ class Vector {
   /// @brief Multiply this Vector by another Vector.
   ///
   /// In line with GLSL, this performs component-wise multiplication.
-  /// @param v A Vector to mulitply this Vector with.
+  /// @param v A Vector to multiply this Vector with.
   /// @return A new Vector containing the result.
   inline Vector<T, d> operator*(const Vector<T, d>& v) const {
     return HadamardProduct(*this, v);

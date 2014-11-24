@@ -31,7 +31,7 @@
 /// @addtogroup mathfu_matrix
 ///
 /// MathFu provides a generic Matrix implementation which is specialized
-/// for 4x4 matrices to take advantage of optimization oppotunities using
+/// for 4x4 matrices to take advantage of optimization opportunities using
 /// SIMD instructions.
 
 #ifdef _MSC_VER
@@ -1261,7 +1261,7 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
 /// @endcond
 
 /// @cond MATHFU_INTERNAL
-/// Create a 4x4 perpective matrix.
+/// Create a 4x4 perspective matrix.
 template<class T>
 inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness) {
