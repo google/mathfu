@@ -30,6 +30,8 @@ upon so download the source using:
 
     git clone --recursive https://github.com/google/mathfu.git
 
+To contribute to this project see [CONTRIBUTING][].
+
 For applications on Google Play that integrate this tool, usage is tracked.
 This tracking is done automatically using the embedded version string
 (kMathFuFunVersionString), and helps us continue to optimize it. Aside from
@@ -53,3 +55,4 @@ you would leave it in.
   [quaternion]: http://en.wikipedia.org/wiki/Quaternion
   [stackoverflow.com]: http://www.stackoverflow.com
   [vector]: http://en.wikipedia.org/wiki/Euclidean_vector
+  [CONTRIBUTING]: http://github.com/google/mathfu/blob/master/CONTRIBUTING
