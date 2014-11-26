@@ -213,6 +213,19 @@ class Vector {
     data_[2] = s3;
   }
 
+  /// @brief Create a vector from a 2 component vector and a third value.
+  ///
+  /// @note This method only works when the vector is of size three.
+  ///
+  /// @param v12 Vector containing the first 2 values.
+  /// @param s3 Scalar value for the third element of the vector.
+  inline Vector(const Vector<T, 2>& v12, const T& s3) {
+    MATHFU_STATIC_ASSERT(d == 3);
+    data_[0] = v12.x();
+    data_[1] = v12.y();
+    data_[2] = s3;
+  }
+
   /// @brief Create a vector from four values.
   ///
   /// @note This method only works when the vector is of size four.

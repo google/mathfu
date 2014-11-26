@@ -89,6 +89,10 @@ class Vector<float, 3> {
     MATHFU_VECTOR3_INIT3(data_, v1, v2, v3);
   }
 
+  inline Vector(const Vector<float, 2>& v12, const float& v3) {
+    MATHFU_VECTOR3_INIT3(data_, v12.x(), v12.y(), v3);
+  }
+
   explicit inline Vector(const float* v) {
     MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
   }
