@@ -574,6 +574,112 @@ class Vector {
     return result;
   }
 
+# if defined(MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS)
+
+  /// @brief Determines if this Vector equals another Vector.
+  ///
+  /// The comparison passes if all of the components in the vectors
+  /// are equal.
+  /// 
+  /// This operator is non-standard and is not present in GLSL. To gain
+  /// access to this operator @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+  /// must be defined.
+  ///
+  /// @param v A vector to compare this vector with.
+  /// @return A bool containing the result of the comparison.
+  inline bool operator==(const Vector<T, d>& v) const {
+    bool result = true;
+    MATHFU_VECTOR_OPERATION(result &= data_[i] == v[i]);
+    return result;
+  }
+
+  /// @brief Determines if this Vector does not equal another Vector.
+  ///
+  /// The comparison passes if any one of the components in the vectors
+  /// are not equal. 
+  /// 
+  /// This operator is non-standard and is not present in GLSL. To gain
+  /// access to this operator @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+  /// must be defined.
+  ///
+  /// @param v A vector to compare this vector with.
+  /// @return A bool containing the result of the comparison.
+  inline bool operator!=(const Vector<T, d>& v) const {
+    bool result = false;
+    MATHFU_VECTOR_OPERATION(result |= data_[i] != v[i]);
+    return result;
+  }
+
+  /// @brief Determines if this Vector is less than another Vector.
+  ///
+  /// The comparison passes if any one of the components in the vectors
+  /// is less.
+  /// 
+  /// This operator is non-standard and is not present in GLSL. To gain
+  /// access to this operator @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+  /// must be defined.
+  ///
+  /// @param v A vector to compare this vector with.
+  /// @return A bool containing the result of the comparison.
+  inline bool operator<(const Vector<T, d>& v) const {
+    bool result = false;
+    MATHFU_VECTOR_OPERATION(result |= data_[i] < v[i]);
+    return result;
+  }
+
+  /// @brief Determines if this Vector is greater than another Vector.
+  ///
+  /// The comparison passes if any one of the components in the vectors
+  /// is greater. 
+  /// 
+  /// This operator is non-standard and is not present in GLSL. To gain
+  /// access to this operator @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+  /// must be defined.
+  ///
+  /// @param v A vector to compare this vector with.
+  /// @return A bool containing the result of the comparison.
+  inline bool operator>(const Vector<T, d>& v) const {
+    bool result = false;
+    MATHFU_VECTOR_OPERATION(result |= data_[i] > v[i]);
+    return result;
+  }
+
+  /// @brief Determines if this Vector is less than or equal to another Vector.
+  ///
+  /// The comparison passes if any one of the components in the vectors
+  /// is less or equal. 
+  /// 
+  /// This operator is non-standard and is not present in GLSL. To gain
+  /// access to this operator @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+  /// must be defined.
+  ///
+  /// @param v A vector to compare this vector with.
+  /// @return A bool containing the result of the comparison.
+  inline bool operator<=(const Vector<T, d>& v) const {
+    bool result = false;
+    MATHFU_VECTOR_OPERATION(result |= data_[i] <= v[i]);
+    return result;
+  }
+
+  /// @brief Determines if this Vector is greater than or equal to another Vector.
+  ///
+  /// The comparison passes if any one of the components in the vectors
+  /// is greater or equal. 
+  /// 
+  /// This operator is non-standard and is not present in GLSL. To gain
+  /// access to this operator @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+  /// must be defined.
+  ///
+  /// @param v A vector to compare this vector with.
+  /// @return A bool containing the result of the comparison.
+  inline bool operator>=(const Vector<T, d>& v) const {
+    bool result = false;
+    MATHFU_VECTOR_OPERATION(result |= data_[i] >= v[i]);
+    return result;
+  }
+
+# endif // MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+
  private:
   /// Elements of the vector.
   T data_[d];

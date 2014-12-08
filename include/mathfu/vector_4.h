@@ -221,6 +221,34 @@ class Vector<float, 4> {
         mathfu::RandomInRange<float>(min[3], max[3]));
   }
 
+# if defined(MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS)
+
+  inline bool operator==(const Vector<float, 4>& v) const {
+    return simd4f_getsigns(simd4f_eq(data_.simd, v.data_.simd)) == 0xF;
+  }
+
+  inline bool operator!=(const Vector<float, 4>& v) const {
+    return simd4f_getsigns(simd4f_eq(data_.simd, v.data_.simd)) != 0xF;
+  }
+
+  inline bool operator<(const Vector<float, 4>& v) const {
+    return simd4f_getsigns(simd4f_lt(data_.simd, v.data_.simd)) != 0x0;
+  }
+
+  inline bool operator>(const Vector<float, 4>& v) const {
+    return simd4f_getsigns(simd4f_gt(data_.simd, v.data_.simd)) != 0x0;
+  }
+
+  inline bool operator<=(const Vector<float, 4>& v) const {
+    return simd4f_getsigns(simd4f_le(data_.simd, v.data_.simd)) != 0x0;
+  }
+
+  inline bool operator>=(const Vector<float, 4>& v) const {
+    return simd4f_getsigns(simd4f_ge(data_.simd, v.data_.simd)) != 0x0;
+  }
+
+# endif // MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+
   template<class T, int rows, int cols> friend class Matrix;
 
  private:

@@ -36,6 +36,7 @@
 ///
 /// @li @ref MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT
 /// @li @ref MATHFU_COMPILE_FORCE_PADDING
+/// @li @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
 ///
 /// <table>
 /// <tr>
@@ -120,6 +121,28 @@
 #define MATHFU_COMPILE_FORCE_PADDING
 /// @}
 #endif  // DOXYGEN
+
+#ifdef DOXYGEN
+/// @addtogroup mathfu_build_config
+/// @{
+/// @def MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+/// @brief Enable / disable non-standard extensions.
+///
+/// By default, when @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS is 
+/// <b>not</b> defined, only the interface defined by GLSL is present.
+///
+/// If @ref MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS is defined, additional
+/// functionality is added outside of the GLSL standard.
+///
+/// The additional interface includes comparison operators on Vector.
+///
+/// To use this build option, this macro <b>must</b> be defined in all modules
+/// of the project.
+///
+#define MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+/// @}
+#endif  // DOXYGEN
+
 
 #ifdef MATHFU_COMPILE_WITH_SIMD
 /// @cond MATHFU_INTERNAL

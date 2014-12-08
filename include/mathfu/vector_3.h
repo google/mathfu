@@ -289,6 +289,37 @@ class Vector<float, 3> {
         mathfu::RandomInRange<float>(min[2], max[2]));
   }
 
+# if defined(MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS)
+
+  // NB: The 4th bit after simd4f_getsigns will be a constant depending on the operator,
+  // this either needs to be removed or taken into account.
+
+  inline bool operator==(const Vector<float, 3>& v) const {
+    return simd4f_getsigns(simd4f_eq(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_))) == 0xF; // 0xF = 1111
+  }
+
+  inline bool operator!=(const Vector<float, 3>& v) const {
+    return simd4f_getsigns(simd4f_eq(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_))) != 0xF;
+  }
+
+  inline bool operator<(const Vector<float, 3>& v) const {
+    return (simd4f_getsigns(simd4f_lt(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_))) & 0x7) != 0x0; // 0x7 = 1110
+  }
+
+  inline bool operator>(const Vector<float, 3>& v) const {
+    return (simd4f_getsigns(simd4f_gt(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_))) & 0x7) != 0x0;
+  }
+
+  inline bool operator<=(const Vector<float, 3>& v) const {
+    return (simd4f_getsigns(simd4f_le(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_))) & 0x7) != 0x0;
+  }
+
+  inline bool operator>=(const Vector<float, 3>& v) const {
+    return (simd4f_getsigns(simd4f_ge(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_))) & 0x7) != 0x0;
+  }
+
+# endif // MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+
   template<class T, int rows, int cols> friend class Matrix;
   template<class T, int d> friend class Vector;
 
