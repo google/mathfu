@@ -13,6 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+// Allow non-standard extensions so that they can be
+// tested.
+#define MATHFU_COMPILE_WITH_NON_STANDARD_EXTENSIONS
+
 #include "mathfu/vector.h"
 #include "mathfu/vector_2.h"
 #include "mathfu/vector_3.h"
@@ -258,6 +263,87 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult)
 
+// This will test the comparison of vectors by vectors and scalars. The
+// template paramter d corresponds to the size of the vector.
+template<class T, int d>
+void Comp_Test(const T&) {
+  T x1[d], x2[d];
+  for (int i = 0; i < d; ++i) x1[i] = rand() / static_cast<T>(RAND_MAX);
+  for (int i = 0; i < d; ++i) x2[i] = rand() / static_cast<T>(RAND_MAX);
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
+  // This will test the equality of two vectors and verify that each
+  // element is equal.
+  bool truth = true;
+  for (int i = 0; i < d; ++i) {
+    truth &= x1[i] == x2[i];
+  }
+  EXPECT_EQ(truth, vector1 == vector2);
+  // This will test the inequality of two vectors and verify that any
+  // element is unequal.
+  truth = false;
+  for (int i = 0; i < d; ++i) {
+    truth |= x1[i] != x2[i];
+  }
+  EXPECT_EQ(truth, vector1 != vector2);
+  // This will test the value of two vectors and verify that any
+  // element is less-than.
+  truth = false;
+  for (int i = 0; i < d; ++i) {
+    truth |= x1[i] < x2[i];
+  }
+  EXPECT_EQ(truth, vector1 < vector2);
+  // This will test the value of two vectors and verify that any
+  // element is greater-than.
+  truth = false;
+  for (int i = 0; i < d; ++i) {
+    truth |= x1[i] > x2[i];
+  }
+  EXPECT_EQ(truth, vector1 > vector2);
+  // This will test the value of two vectors and verify that any
+  // element is less-than or equal.
+  truth = false;
+  for (int i = 0; i < d; ++i) {
+    truth |= x1[i] <= x2[i];
+  }
+  EXPECT_EQ(truth, vector1 <= vector2);
+  // This will test the value of two vectors and verify that any
+  // element is greater-than or equal.
+  truth = false;
+  for (int i = 0; i < d; ++i) {
+    truth |= x1[i] >= x2[i];
+  }
+  EXPECT_EQ(truth, vector1 >= vector2);
+  // Tests with all values satisfying the condition.
+  for (int i = 0; i < d; ++i) x1[i] = static_cast<T>(1);
+  for (int i = 0; i < d; ++i) x2[i] = static_cast<T>(0);
+  vector1 = mathfu::Vector<T, d>(x1), vector2 = mathfu::Vector<T, d>(x2);
+  EXPECT_FALSE(vector1 == vector2);
+  EXPECT_TRUE (vector1 != vector2);
+  EXPECT_FALSE(vector1 < vector2);
+  EXPECT_TRUE (vector1 > vector2);
+  EXPECT_FALSE(vector1 <= vector2);
+  EXPECT_TRUE (vector1 >= vector2);
+  EXPECT_TRUE (vector2 < vector1);
+  EXPECT_FALSE(vector2 > vector1);
+  EXPECT_TRUE (vector2 <= vector1);
+  EXPECT_FALSE(vector2 >= vector1);
+  // Tests with one value satisfying the condition.
+  for (int i = 1; i < d; ++i) x1[i] = static_cast<T>(1);
+  for (int i = 1; i < d; ++i) x2[i] = static_cast<T>(0);
+  vector1 = mathfu::Vector<T, d>(x1), vector2 = mathfu::Vector<T, d>(x2);
+  EXPECT_FALSE(vector1 == vector2);
+  EXPECT_TRUE(vector1 != vector2);
+  EXPECT_FALSE(vector1 < vector2);
+  EXPECT_TRUE(vector1 > vector2);
+  EXPECT_FALSE(vector1 <= vector2);
+  EXPECT_TRUE(vector1 >= vector2);
+  EXPECT_TRUE(vector2 < vector1);
+  EXPECT_FALSE(vector2 > vector1);
+  EXPECT_TRUE(vector2 <= vector1);
+  EXPECT_FALSE(vector2 >= vector1);
+}
+TEST_ALL_F(Comp)
+
 // This will test normalizing a vector. The template parameter d corresponds to
 // the size of the vector.
 template<class T, int d>
@@ -438,7 +524,7 @@ void RandomInRange_Test(const T& precision) {
   for (int count = 0; count < 100; count++) {
     T result = mathfu::RandomInRange(
       static_cast<T>(-100), static_cast<T>(0));
-    EXPECT_GT(result, -100);
+    EXPECT_GE(result, -100);
     EXPECT_LE(result, 0);
   }
   EXPECT_EQ(0, mathfu::RandomInRange(0, 0));

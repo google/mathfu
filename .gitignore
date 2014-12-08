@@ -1,6 +1,7 @@
 **/bin/**
 **/libs/**
 **/obj/**
+**/Debug/**
 *.pyc
 apks/**
 docs/html/
@@ -34,3 +35,9 @@ googletest/
 local.properties
 proguard-project.txt
 project.properties
+*.vcxproj
+*.vcxproj.*
+*.sln
+*.*sdf
+*.sln
+*.suo
