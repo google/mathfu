@@ -327,20 +327,18 @@ void Comp_Test(const T&) {
   EXPECT_FALSE(vector2 > vector1);
   EXPECT_TRUE (vector2 <= vector1);
   EXPECT_FALSE(vector2 >= vector1);
-  // Tests with one value satisfying the condition.
-  for (int i = 1; i < d; ++i) x1[i] = static_cast<T>(1);
-  for (int i = 1; i < d; ++i) x2[i] = static_cast<T>(0);
-  vector1 = mathfu::Vector<T, d>(x1), vector2 = mathfu::Vector<T, d>(x2);
+  // Tests with different values.
+  vector1[0] = static_cast<T>(0);
   EXPECT_FALSE(vector1 == vector2);
-  EXPECT_TRUE(vector1 != vector2);
+  EXPECT_TRUE (vector1 != vector2);
   EXPECT_FALSE(vector1 < vector2);
-  EXPECT_TRUE(vector1 > vector2);
-  EXPECT_FALSE(vector1 <= vector2);
-  EXPECT_TRUE(vector1 >= vector2);
-  EXPECT_TRUE(vector2 < vector1);
+  EXPECT_TRUE (vector1 > vector2);
+  EXPECT_TRUE (vector1 <= vector2);
+  EXPECT_TRUE (vector1 >= vector2);
+  EXPECT_TRUE (vector2 < vector1);
   EXPECT_FALSE(vector2 > vector1);
-  EXPECT_TRUE(vector2 <= vector1);
-  EXPECT_FALSE(vector2 >= vector1);
+  EXPECT_TRUE (vector2 <= vector1);
+  EXPECT_TRUE (vector2 >= vector1);
 }
 TEST_ALL_F(Comp)
 
