@@ -148,6 +148,24 @@ class Vector<float, 4> {
     return Vector<float, 4>(simd4f_div(data_.simd, simd4f_splat(s)));
   }
 
+  inline Vector<float, 4> operator+(const float& s) const {
+    return Vector<float, 4>(simd4f_add(data_.simd, simd4f_splat(s)));
+  }
+
+  inline Vector<float, 4> operator-(const float& s) const {
+    return Vector<float, 4>(simd4f_sub(data_.simd, simd4f_splat(s)));
+  }
+
+  inline Vector<float, 4>& operator*=(const Vector<float, 4>& v) {
+    data_.simd = simd4f_mul(data_.simd, v.data_.simd);
+    return *this;
+  }
+
+  inline Vector<float, 4>& operator/=(const Vector<float, 4>& v) {
+    data_.simd = simd4f_div(data_.simd, v.data_.simd);
+    return *this;
+  }
+
   inline Vector<float, 4>& operator+=(const Vector<float, 4>& v) {
     data_.simd = simd4f_add(data_.simd, v.data_.simd);
     return *this;
@@ -165,6 +183,16 @@ class Vector<float, 4> {
 
   inline Vector<float, 4>& operator/=(const float& s) {
     data_.simd = simd4f_div(data_.simd, simd4f_splat(s));
+    return *this;
+  }
+
+  inline Vector<float, 4>& operator+=(const float& s) {
+    data_.simd = simd4f_add(data_.simd, simd4f_splat(s));
+    return *this;
+  }
+
+  inline Vector<float, 4>& operator-=(const float& s) {
+    data_.simd = simd4f_sub(data_.simd, simd4f_splat(s));
     return *this;
   }
 
