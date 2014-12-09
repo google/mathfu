@@ -117,6 +117,11 @@ class Vector<float, 4> {
     return Vector<float, 2>(x(), y());
   }
 
+  inline Vector<float, 2> zw() { return Vector<float, 2>(z(), w()); }
+  inline const Vector<float, 2> zw() const {
+    return Vector<float, 2>(z(), w());
+  }
+
   inline void Pack(VectorPacked<float, 4> * const vector) const {
     simd4f_ustore4(data_.simd, vector->data);
   }

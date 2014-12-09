@@ -338,20 +338,38 @@ class Vector {
 
   /// @brief GLSL style 2 element accessor.
   ///
-  /// This only works with vectors that contain more than 3 elements.
-  /// @returns A 3-dimensional Vector with the first 2 elements of this Vector.
-  inline Vector<T, 3> xy() {
+  /// This only works with vectors that contain more than 2 elements.
+  /// @returns A 2-dimensional Vector with the first 2 elements of this Vector.
+  inline Vector<T, 2> xy() {
     MATHFU_STATIC_ASSERT(d > 2);
-    return Vector<T, 3>(x(), y());
+    return Vector<T, 2>(x(), y());
   }
 
   /// @brief GLSL style 2 element accessor.
   ///
-  /// This only works with vectors that contain more than 3 elements.
-  /// @returns A 3-dimensional Vector with the first 2 elements of this Vector.
-  inline const Vector<T, 3> xy() const {
+  /// This only works with vectors that contain more than 2 elements.
+  /// @returns A 2-dimensional Vector with the first 2 elements of this Vector.
+  inline const Vector<T, 2> xy() const {
     MATHFU_STATIC_ASSERT(d > 2);
-    return Vector<T, 3>(x(), y());
+    return Vector<T, 2>(x(), y());
+  }
+
+  /// @brief GLSL style 2 element accessor.
+  ///
+  /// This only works with vectors that contain 4 elements.
+  /// @returns A 2-dimensional Vector with the last 2 elements of this Vector.
+  inline Vector<T, 2> zw() {
+    MATHFU_STATIC_ASSERT(d == 4);
+    return Vector<T, 2>(z(), w());
+  }
+
+  /// @brief GLSL style 2 element accessor.
+  ///
+  /// This only works with vectors that contain 4 elements.
+  /// @returns A 2-dimensional Vector with the last 2 elements of this Vector.
+  inline const Vector<T, 2> zw() const {
+    MATHFU_STATIC_ASSERT(d == 4);
+    return Vector<T, 2>(z(), w());
   }
 
   /// @brief Pack a Vector to a packed "d" element vector structure.
