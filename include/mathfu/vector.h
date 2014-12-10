@@ -662,6 +662,23 @@ inline Vector<T, d> operator-(const T& s, const Vector<T, d>& v) {
   return v - s;
 }
 
+/// @brief Check if val is within [range_start..range_end), denoting a
+/// rectangular area.
+///
+/// @param val 2D vector to be tested.
+/// @param range_start Starting point of the range (inclusive).
+/// @param range_end Ending point of the range (non-inclusive).
+/// @return Bool indicating success.
+///
+/// @tparam T Type of vector components to test.
+template<class T>
+bool InRange2D(const mathfu::Vector<T, 2> &val,
+               const mathfu::Vector<T, 2> &range_start,
+               const mathfu::Vector<T, 2> &range_end) {
+  return InRange(val.x(), range_start.x(), range_end.x()) &&
+         InRange(val.y(), range_start.y(), range_end.y());
+}
+
 /// @cond MATHFU_INTERNAL
 /// @brief Calculate the dot product of two vectors.
 ///

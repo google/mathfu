@@ -326,6 +326,20 @@ T Lerp(const T& range_start, const T& range_end, const T& percent) {
   return Lerp<T, T>(range_start, range_end, percent);
 }
 
+/// @brief Check if val is within [range_start..range_end).
+/// @anchor mathfu_InRange
+///
+/// @param val Value to be tested.
+/// @param range_start Starting point of the range (inclusive).
+/// @param range_end Ending point of the range (non-inclusive).
+/// @return Bool indicating success.
+///
+/// @tparam T Type of values to test.
+template<class T>
+bool InRange(T val, T range_start, T range_end) {
+  return val >= range_start && val < range_end;
+}
+
 /// @brief  Generate a random value of type T.
 /// @anchor mathfu_Random
 ///
