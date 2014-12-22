@@ -171,6 +171,42 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult);
 
+// This will test normalization of quaternions.
+template<class T>
+void Normalize_Test(const T& precision) {
+  mathfu::Quaternion<T> quat_1(static_cast<T>(12), static_cast<T>(0),
+                               static_cast<T>(0), static_cast<T>(0));
+  mathfu::Quaternion<T> normalized_quat_1 = quat_1.Normalized();
+  mathfu::Quaternion<T> reference_quat_1(static_cast<T>(1), static_cast<T>(0),
+                                         static_cast<T>(0), static_cast<T>(0));
+  EXPECT_NEAR(reference_quat_1[0], quat_1[0], precision);
+  EXPECT_NEAR(reference_quat_1[1], quat_1[1], precision);
+  EXPECT_NEAR(reference_quat_1[2], quat_1[2], precision);
+  EXPECT_NEAR(reference_quat_1[3], quat_1[3], precision);
+  EXPECT_NEAR(reference_quat_1[0], normalized_quat_1[0], precision);
+  EXPECT_NEAR(reference_quat_1[1], normalized_quat_1[1], precision);
+  EXPECT_NEAR(reference_quat_1[2], normalized_quat_1[2], precision);
+  EXPECT_NEAR(reference_quat_1[3], normalized_quat_1[3], precision);
+
+  mathfu::Quaternion<T> quat_2(static_cast<T>(123), static_cast<T>(123),
+                               static_cast<T>(123), static_cast<T>(123));
+  mathfu::Quaternion<T> normalized_quat_2 = quat_2.Normalized();
+  quat_2.Normalize();
+  mathfu::Quaternion<T> reference_quat_2(static_cast<T>(sqrt(.25)),
+                                         static_cast<T>(sqrt(.25)),
+                                         static_cast<T>(sqrt(.25)),
+                                         static_cast<T>(sqrt(.25)));
+  EXPECT_NEAR(reference_quat_2[0], quat_2[0], precision);
+  EXPECT_NEAR(reference_quat_2[1], quat_2[1], precision);
+  EXPECT_NEAR(reference_quat_2[2], quat_2[2], precision);
+  EXPECT_NEAR(reference_quat_2[3], quat_2[3], precision);
+  EXPECT_NEAR(reference_quat_2[0], normalized_quat_2[0], precision);
+  EXPECT_NEAR(reference_quat_2[1], normalized_quat_2[1], precision);
+  EXPECT_NEAR(reference_quat_2[2], normalized_quat_2[2], precision);
+  EXPECT_NEAR(reference_quat_2[3], normalized_quat_2[3], precision);
+}
+TEST_ALL_F(Normalize);
+
 // Test the compilation of basic quaternion opertations given in the sample
 // file. This will test interpolating two rotations.
 TEST_F(QuaternionTests, QuaternionSample) {
