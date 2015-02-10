@@ -97,6 +97,59 @@ class VectorTests : public ::testing::Test {
   EXPECT_DOUBLE_EQ(mathfu::kConst##d[(index)], static_cast<double>(value)); \
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
+template<class T, int d>
+std::string FormatVector(const char* expr,
+                         const mathfu::Vector<T, d>& v) {
+  std::string ret(expr);
+  ret += "(";
+  for (int32_t i = 0; i < d; ++i) {
+    ret += std::to_string(v[i]);
+    if (i != d - 1) ret += ", ";
+  }
+  ret += ")";
+  return ret;
+}
+
+// A predicate-formatter for asserting that compares 2 vectors are equal.
+template<class T, int d>
+::testing::AssertionResult AssertVectorEqual(const char* m_expr,
+                                             const char* n_expr,
+                                             const mathfu::Vector<T, d>& v1,
+                                             const mathfu::Vector<T, d>& v2) {
+  for (int32_t i = 0; i < d; ++i) {
+    if (v1[i] != v2[i]) {
+      return ::testing::AssertionFailure()
+             << FormatVector(m_expr, v1) << " and "
+             << FormatVector(n_expr, v2) << " are not same value.";
+    }
+  }
+
+  return ::testing::AssertionSuccess();
+}
+
+// A predicate-formatter for asserting that compares 2 vectors are nealy equal
+// with an error of abs_error.
+template<class T, int d>
+::testing::AssertionResult AssertVectorNear(const char* expr1,
+                                            const char* expr2,
+                                            const char* abs_error_expr,
+                                            const mathfu::Vector<T, d>& v1,
+                                            const mathfu::Vector<T, d>& v2,
+                                            const T abs_error) {
+  T diff;
+  for (int32_t i = 0; i < d; ++i) {
+    diff = fabs(v1[i] - v2[i]);
+    if (diff > abs_error) {
+      return ::testing::AssertionFailure()
+             << "The difference between "
+             << FormatVector(expr1, v1) << " and "
+             << FormatVector(expr2, v2) << " is "
+             << diff << ", which exceeds " << abs_error_expr;
+    }
+  }
+
+  return ::testing::AssertionSuccess();
+}
 
 // This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
@@ -467,6 +520,95 @@ void Accessor_Test(const T& precision) {
   }
 }
 TEST_ALL_F(Accessor)
+
+// This will test initialization by passing in values. The template paramter d
+// corresponds to the size of the vector.
+template<class T, int d>
+void Max_Test(const T& precision) {
+  (void)precision;
+  T value1[] = {0, 0, 0, 0, 0};
+  T value2[] = {1, 2, 3, 4, 5};
+  mathfu::Vector<T, d> v1(value1);
+  mathfu::Vector<T, d> v2(value2);
+
+  // vs. zero vector.
+  mathfu::Vector<T, d> v3 = mathfu::Vector<T, d>::Max(v1, v2);
+
+  // Comparing to {1, 2, 3, 4, 5}
+  mathfu::Vector<T, d> r1(value2);
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v3, r1);
+
+  // inverse vs. zero vector.
+  mathfu::Vector<T, d> v4 = mathfu::Vector<T, d>::Max(v2, v1);
+
+  // Comparing to {1, 2, 3, 4, 5}
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v4, r1);
+
+  // vs. negative vector.
+  T negative_value[] = {-1, -2, -3, -4, -5};
+  v2 = mathfu::Vector<T, d>(negative_value);
+  mathfu::Vector<T, d> v5 = mathfu::Vector<T, d>::Max(v1, v2);
+
+  // Comparing to {0, 0, 0, 0, 0}
+  mathfu::Vector<T, d> r2(value1);
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v5, r2);
+
+  // vs. interleaving 2 vectors.
+  T value3[] = {0, 2, 0, 4, 0};
+  T value4[] = {1, 0, 3, 0, 5};
+  v1 = mathfu::Vector<T, d>(value3);
+  v2 = mathfu::Vector<T, d>(value4);
+  mathfu::Vector<T, d> v6 = mathfu::Vector<T, d>::Max(v1, v2);
+
+  // Comparing to {1, 2, 3, 4, 5}
+  mathfu::Vector<T, d> r3(value2);
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v6, r3);
+}
+TEST_ALL_F(Max)
+
+// This will test initialization by passing in values. The template paramter d
+// corresponds to the size of the vector.
+template<class T, int d>
+void Min_Test(const T& precision) {
+  (void)precision;
+  T value1[] = {0, 0, 0, 0, 0};
+  T value2[] = {1, 2, 3, 4, 5};
+  mathfu::Vector<T, d> v1(value1);
+  mathfu::Vector<T, d> v2(value2);
+
+  // vs. zero vector.
+  mathfu::Vector<T, d> v3 = mathfu::Vector<T, d>::Min(v1, v2);
+
+  // Comparing to {0, 0, 0, 0, 0}
+  mathfu::Vector<T, d> r1(value1);
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v3, r1);
+
+  // inverse vs. zero vector.
+  mathfu::Vector<T, d> v4 = mathfu::Vector<T, d>::Min(v2, v1);
+
+  // Comparing to {0, 0, 0, 0, 0}
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v4, r1);
+
+  // vs. negative vector.
+  T negative_value[] = {-1, -2, -3, -4, -5};
+  v2 = mathfu::Vector<T, d>(negative_value);
+  mathfu::Vector<T, d> v5 = mathfu::Vector<T, d>::Min(v1, v2);
+
+  // Comparing to {-1, -2, -3, -4, -5}
+  mathfu::Vector<T, d> r2(negative_value);
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v5, r2);
+
+  // vs. interleaving 2 vectors.
+  T value3[] = {0, 2, 0, 4, 0};
+  T value4[] = {1, 0, 3, 0, 5};
+  v1 = mathfu::Vector<T, d>(value3);
+  v2 = mathfu::Vector<T, d>(value4);
+  mathfu::Vector<T, d> v6 = mathfu::Vector<T, d>::Min(v1, v2);
+
+  // Comparing to {0, 0, 0, 0, 0}
+  EXPECT_PRED_FORMAT2(AssertVectorEqual, v6, r1);
+}
+TEST_ALL_F(Min)
 
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
