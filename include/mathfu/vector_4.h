@@ -76,6 +76,12 @@ class Vector<float, 4> {
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
+  inline Vector(const Vector<float, 2>& vector12,
+                const Vector<float, 2>& vector34) {
+    data_.simd = simd4f_create(vector12[0], vector12[1],
+                               vector34[0], vector34[1]);
+  }
+
   explicit inline Vector(const VectorPacked<float, 4>& vector) {
     data_.simd = simd4f_uload4(vector.data);
   }
@@ -252,6 +258,16 @@ class Vector<float, 4> {
         mathfu::RandomInRange<float>(min[1], max[1]),
         mathfu::RandomInRange<float>(min[2], max[2]),
         mathfu::RandomInRange<float>(min[3], max[3]));
+  }
+
+  static inline Vector<float, 4> Max(
+      const Vector<float, 4>& v1, const Vector<float, 4>& v2) {
+    return Vector<float, 4>(simd4f_max(v1.data_.simd, v2.data_.simd));
+  }
+
+  static inline Vector<float, 4> Min(
+      const Vector<float, 4>& v1, const Vector<float, 4>& v2) {
+    return Vector<float, 4>(simd4f_min(v1.data_.simd, v2.data_.simd));
   }
 
   template<class T, int rows, int cols> friend class Matrix;

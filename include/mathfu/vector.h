@@ -257,6 +257,20 @@ class Vector {
     data_[3] = value;
   }
 
+  /// @brief Create a vector from two 2 component vectors.
+  ///
+  /// @note This method only works when the vector is of size four.
+  ///
+  /// @param v12 Vector containing the first 2 values.
+  /// @param v34 Vector containing the last 2 values.
+  inline Vector(const Vector<T, 2>& v12, const Vector<T, 2>& v34) {
+    MATHFU_STATIC_ASSERT(d == 4);
+    data_[0] = v12.x();
+    data_[1] = v12.y();
+    data_[2] = v34.x();
+    data_[3] = v34.y();
+  }
+
   /// @brief Create a vector from packed vector (VectorPacked).
   ///
   /// @param vector Packed vector used to initialize an unpacked.
@@ -602,6 +616,32 @@ class Vector {
     Vector<T, d> result;
     MATHFU_VECTOR_OPERATION(result[i] =
         mathfu::RandomInRange<T>(min[i], max[i]));
+    return result;
+  }
+
+  /// @brief Compare each component and returns max values.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Max value of v1 and v2.
+  static inline Vector<T, d> Max(
+      const Vector<T, d>& v1, const Vector<T, d>& v2) {
+    Vector<T, d> result;
+    MATHFU_VECTOR_OPERATION(result[i] =
+        std::max(v1[i], v2[i]));
+    return result;
+  }
+
+  /// @brief Compare each component and returns min values.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Min value of v1 and v2.
+  static inline Vector<T, d> Min(
+      const Vector<T, d>& v1, const Vector<T, d>& v2) {
+    Vector<T, d> result;
+    MATHFU_VECTOR_OPERATION(result[i] =
+        std::min(v1[i], v2[i]));
     return result;
   }
 

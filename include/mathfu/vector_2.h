@@ -218,6 +218,20 @@ class Vector<float, 2> {
         mathfu::RandomInRange<float>(min[1], max[1]));
   }
 
+  static inline Vector<float, 2> Max(
+      const Vector<float, 2>& v1, const Vector<float, 2>& v2) {
+    return Vector<float, 2>(
+        std::max(v1[0], v2[0]),
+        std::max(v1[1], v2[1]));
+  }
+
+  static inline Vector<float, 2> Min(
+      const Vector<float, 2>& v1, const Vector<float, 2>& v2) {
+    return Vector<float, 2>(
+        std::min(v1[0], v2[0]),
+        std::min(v1[1], v2[1]));
+  }
+
  private:
   union {
     simd2f simd;

@@ -293,6 +293,32 @@ class Vector<float, 3> {
         mathfu::RandomInRange<float>(min[2], max[2]));
   }
 
+  static inline Vector<float, 3> Max(
+      const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    return Vector<float, 3>(simd4f_max(MATHFU_VECTOR3_LOAD3(v1.data_),
+                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+#else
+    return Vector<float, 3>(
+        std::max(v1[0], v2[0]),
+        std::max(v1[1], v2[1]),
+        std::max(v1[2], v2[2]));
+#endif  // MATHFU_COMPILE_WITH_PADDING
+  }
+
+  static inline Vector<float, 3> Min(
+      const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    return Vector<float, 3>(simd4f_min(MATHFU_VECTOR3_LOAD3(v1.data_),
+                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+#else
+    return Vector<float, 3>(
+        std::min(v1[0], v2[0]),
+        std::min(v1[1], v2[1]),
+        std::min(v1[2], v2[2]));
+#endif  // MATHFU_COMPILE_WITH_PADDING
+  }
+
   template<class T, int rows, int cols> friend class Matrix;
   template<class T, int d> friend class Vector;
 
