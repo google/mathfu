@@ -166,7 +166,7 @@
 /// @def MATHFU_VERSION_REVISION
 /// @brief Revision number of the library.
 /// @see kMathFuVersionString
-#define MATHFU_VERSION_REVISION 0
+#define MATHFU_VERSION_REVISION 1
 
 /// @}
 
