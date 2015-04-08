@@ -465,7 +465,8 @@ class Matrix {
   /// @return Reference to this class.
   inline Matrix<T, rows, columns>& operator*=(
       const Matrix<T, rows, columns>& m) {
-    TimesHelper(*this, m, this);
+    const Matrix<T, rows, columns> copy_of_this(*this);
+    TimesHelper(copy_of_this, m, this);
     return *this;
   }
 

@@ -213,6 +213,19 @@ class Vector {
     data_[2] = s3;
   }
 
+  /// @brief Create a vector from a 2 component vector and a third value.
+  ///
+  /// @note This method only works when the vector is of size three.
+  ///
+  /// @param v12 Vector containing the first 2 values.
+  /// @param s3 Scalar value for the third element of the vector.
+  inline Vector(const Vector<T, 2>& v12, const T& s3) {
+    MATHFU_STATIC_ASSERT(d == 3);
+    data_[0] = v12.x();
+    data_[1] = v12.y();
+    data_[2] = s3;
+  }
+
   /// @brief Create a vector from four values.
   ///
   /// @note This method only works when the vector is of size four.
@@ -242,6 +255,20 @@ class Vector {
     data_[1] = vector3[1];
     data_[2] = vector3[2];
     data_[3] = value;
+  }
+
+  /// @brief Create a vector from two 2 component vectors.
+  ///
+  /// @note This method only works when the vector is of size four.
+  ///
+  /// @param v12 Vector containing the first 2 values.
+  /// @param v34 Vector containing the last 2 values.
+  inline Vector(const Vector<T, 2>& v12, const Vector<T, 2>& v34) {
+    MATHFU_STATIC_ASSERT(d == 4);
+    data_[0] = v12.x();
+    data_[1] = v12.y();
+    data_[2] = v34.x();
+    data_[3] = v34.y();
   }
 
   /// @brief Create a vector from packed vector (VectorPacked).
@@ -325,20 +352,38 @@ class Vector {
 
   /// @brief GLSL style 2 element accessor.
   ///
-  /// This only works with vectors that contain more than 3 elements.
-  /// @returns A 3-dimensional Vector with the first 2 elements of this Vector.
-  inline Vector<T, 3> xy() {
+  /// This only works with vectors that contain more than 2 elements.
+  /// @returns A 2-dimensional Vector with the first 2 elements of this Vector.
+  inline Vector<T, 2> xy() {
     MATHFU_STATIC_ASSERT(d > 2);
-    return Vector<T, 3>(x(), y());
+    return Vector<T, 2>(x(), y());
   }
 
   /// @brief GLSL style 2 element accessor.
   ///
-  /// This only works with vectors that contain more than 3 elements.
-  /// @returns A 3-dimensional Vector with the first 2 elements of this Vector.
-  inline const Vector<T, 3> xy() const {
+  /// This only works with vectors that contain more than 2 elements.
+  /// @returns A 2-dimensional Vector with the first 2 elements of this Vector.
+  inline const Vector<T, 2> xy() const {
     MATHFU_STATIC_ASSERT(d > 2);
-    return Vector<T, 3>(x(), y());
+    return Vector<T, 2>(x(), y());
+  }
+
+  /// @brief GLSL style 2 element accessor.
+  ///
+  /// This only works with vectors that contain 4 elements.
+  /// @returns A 2-dimensional Vector with the last 2 elements of this Vector.
+  inline Vector<T, 2> zw() {
+    MATHFU_STATIC_ASSERT(d == 4);
+    return Vector<T, 2>(z(), w());
+  }
+
+  /// @brief GLSL style 2 element accessor.
+  ///
+  /// This only works with vectors that contain 4 elements.
+  /// @returns A 2-dimensional Vector with the last 2 elements of this Vector.
+  inline const Vector<T, 2> zw() const {
+    MATHFU_STATIC_ASSERT(d == 4);
+    return Vector<T, 2>(z(), w());
   }
 
   /// @brief Pack a Vector to a packed "d" element vector structure.
@@ -574,6 +619,32 @@ class Vector {
     return result;
   }
 
+  /// @brief Compare each component and returns max values.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Max value of v1 and v2.
+  static inline Vector<T, d> Max(
+      const Vector<T, d>& v1, const Vector<T, d>& v2) {
+    Vector<T, d> result;
+    MATHFU_VECTOR_OPERATION(result[i] =
+        std::max(v1[i], v2[i]));
+    return result;
+  }
+
+  /// @brief Compare each component and returns min values.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Min value of v1 and v2.
+  static inline Vector<T, d> Min(
+      const Vector<T, d>& v1, const Vector<T, d>& v2) {
+    Vector<T, d> result;
+    MATHFU_VECTOR_OPERATION(result[i] =
+        std::min(v1[i], v2[i]));
+    return result;
+  }
+
  private:
   /// Elements of the vector.
   T data_[d];
@@ -629,6 +700,23 @@ inline Vector<T, d> operator+(const T& s, const Vector<T, d>& v) {
 template<class T, int d>
 inline Vector<T, d> operator-(const T& s, const Vector<T, d>& v) {
   return v - s;
+}
+
+/// @brief Check if val is within [range_start..range_end), denoting a
+/// rectangular area.
+///
+/// @param val 2D vector to be tested.
+/// @param range_start Starting point of the range (inclusive).
+/// @param range_end Ending point of the range (non-inclusive).
+/// @return Bool indicating success.
+///
+/// @tparam T Type of vector components to test.
+template<class T>
+bool InRange2D(const mathfu::Vector<T, 2> &val,
+               const mathfu::Vector<T, 2> &range_start,
+               const mathfu::Vector<T, 2> &range_end) {
+  return InRange(val.x(), range_start.x(), range_end.x()) &&
+         InRange(val.y(), range_start.y(), range_end.y());
 }
 
 /// @cond MATHFU_INTERNAL

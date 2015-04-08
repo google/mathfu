@@ -77,6 +77,36 @@ class Quaternion {
     v_ = v1;
   }
 
+  /// @brief Return the scalar component of the quaternion.
+  ///
+  /// @return The scalar component
+  inline T& scalar() { return s_; }
+
+  /// @brief Return the scalar component of the quaternion.
+  ///
+  /// @return The scalar component
+  inline const T& scalar() const { return s_; }
+
+  /// @brief Set the scalar component of the quaternion.
+  ///
+  /// @param s Scalar component.
+  inline void set_scalar(const T& s) { s_ = s; }
+
+  /// @brief Return the vector component of the quaternion.
+  ///
+  /// @return The scalar component
+  inline Vector<T, 3>& vector() { return v_; }
+
+  /// @brief Return the vector component of the quaternion.
+  ///
+  /// @return The scalar component
+  inline const Vector<T, 3>& vector() const { return v_; }
+
+  /// @brief Set the vector component of the quaternion.
+  ///
+  /// @param v Vector component.
+  inline void set_vector(const Vector<T, 3>& v) { v_ = v; }
+
   /// @brief Calculate the inverse Quaternion.
   ///
   /// This calculates the inverse such that <code>(q * q).Inverse()</code>
@@ -130,11 +160,20 @@ class Quaternion {
   ///
   /// @return Length of the quaternion.
   inline T Normalize() {
-    T length = sqrt(s_ * s_ + v_ * v_);
+    T length = sqrt(s_ * s_ + Vector<T, 3>::DotProduct(v_, v_));
     T scale = (1 / length);
     s_ *= scale;
     v_ *= scale;
     return length;
+  }
+
+  /// @brief Calculate the normalized version of this quaternion.
+  ///
+  /// @return The normalized quaternion.
+  inline Quaternion<T> Normalized() {
+    Quaternion<T> q(*this);
+    q.Normalize();
+    return q;
   }
 
   /// @brief Convert this Quaternion to an Angle and axis.
@@ -305,3 +344,4 @@ inline Quaternion<T> operator*(const T& s, const Quaternion<T>& q) {
 
 }  // namespace mathfu
 #endif  // MATHFU_QUATERNION_H_
+

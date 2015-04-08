@@ -89,6 +89,10 @@ class Vector<float, 3> {
     MATHFU_VECTOR3_INIT3(data_, v1, v2, v3);
   }
 
+  inline Vector(const Vector<float, 2>& v12, const float& v3) {
+    MATHFU_VECTOR3_INIT3(data_, v12.x(), v12.y(), v3);
+  }
+
   explicit inline Vector(const float* v) {
     MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
   }
@@ -180,7 +184,7 @@ class Vector<float, 3> {
 
   inline Vector<float, 3> operator-(const float& s) const {
     return Vector<float, 3>(simd4f_sub(MATHFU_VECTOR3_LOAD3(data_),
-                                       simd4f_splat(1 / s)));
+                                       simd4f_splat(s)));
   }
 
   inline Vector<float, 3>& operator*=(const Vector<float, 3>& v) {
@@ -287,6 +291,32 @@ class Vector<float, 3> {
         mathfu::RandomInRange<float>(min[0], max[0]),
         mathfu::RandomInRange<float>(min[1], max[1]),
         mathfu::RandomInRange<float>(min[2], max[2]));
+  }
+
+  static inline Vector<float, 3> Max(
+      const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    return Vector<float, 3>(simd4f_max(MATHFU_VECTOR3_LOAD3(v1.data_),
+                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+#else
+    return Vector<float, 3>(
+        std::max(v1[0], v2[0]),
+        std::max(v1[1], v2[1]),
+        std::max(v1[2], v2[2]));
+#endif  // MATHFU_COMPILE_WITH_PADDING
+  }
+
+  static inline Vector<float, 3> Min(
+      const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    return Vector<float, 3>(simd4f_min(MATHFU_VECTOR3_LOAD3(v1.data_),
+                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+#else
+    return Vector<float, 3>(
+        std::min(v1[0], v2[0]),
+        std::min(v1[1], v2[1]),
+        std::min(v1[2], v2[2]));
+#endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   template<class T, int rows, int cols> friend class Matrix;

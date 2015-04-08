@@ -695,6 +695,170 @@ void Transpose_Test(const T& precision) {
 
 TEST_ALL_F(Transpose, FLOAT_PRECISION, DOUBLE_PRECISION);
 
+// Return one of the numbers:
+//   offset, offset + width/d, offset + 2*width/d, ... , offset + (d-1)*width/d
+// For each i=0..d-1, the number returned is different.
+//
+// The order of the numbers is determined by 'prime' which should be a prime
+// number > d.
+template<class T, int d>
+static T WellSpacedNumber(int i, int prime, T width, T offset) {
+  // Reorder the i's from 0..(d-1) by using a prime number.
+  // The numbers get reordered (i.e. no duplicates) because 'd' and 'prime' are
+  // relatively prime.
+  const int remapped = ((i + 1) * prime) % d;
+
+  // Map to [0,1) range. That is, inclusive of 0, exclusive of 1.
+  const T zero_to_one = static_cast<T>(remapped) / static_cast<T>(d);
+
+  // Map to [offset, offset + width) range.
+  const T offset_and_scaled = zero_to_one * width + offset;
+  return offset_and_scaled;
+}
+
+// Generate a (probably) invertable matrix. I haven't gone through the math
+// to verify that it's actually invertable for all d, but for small d it is.
+//
+// We adjusting each element of an identity matrix by a small amount.
+// The amount must be small so that the matrix stays reasonably close to
+// the identity. Matrices become progressively less numerically stable the
+// further the get from identity.
+template<class T, int d>
+static mathfu::Matrix<T, d> InvertableMatrix() {
+  mathfu::Matrix<T, d> invertable = mathfu::Matrix<T, d>::Identity();
+
+  for (int i = 0; i < d; ++i) {
+    // The width and offset constants are arbitrary. We do want to keep the
+    // pseudo-random values centered near 0 though.
+    const T rand_i = WellSpacedNumber<T, d>(i, 7, 0.8f, -0.33f);
+
+    for (int j = 0; j < d; ++j) {
+      const T rand_j = WellSpacedNumber<T, d>(j, 13, 0.6f, -0.4f);
+      invertable(i, j) += rand_i * rand_j;
+    }
+  }
+  return invertable;
+}
+
+template<class T, int d>
+static void ExpectEqualMatrices(const mathfu::Matrix<T, d>& a,
+                                const mathfu::Matrix<T, d>& b, T precision) {
+  for (int i = 0; i < d; ++i) {
+    for (int j = 0; j < d; ++j) {
+      EXPECT_NEAR(a(i, j), b(i, j), precision);
+    }
+  }
+}
+
+// Test matrix operator*() by multiplying an invertable matrix by its
+// inverse. Should end up with identity.
+template<class T, int d>
+void MultiplyOperatorInverse_Test(const T& precision) {
+  typedef typename mathfu::Matrix<T, d> Mat;
+  const Mat identity = Mat::Identity();
+  const Mat invertable = InvertableMatrix<T, d>();
+
+  // Use operator*() to go way from the identity and then get back to it.
+  Mat product = identity;
+  product *= invertable;
+  product *= invertable.Inverse();
+
+  // Test that operator*() gets is back to where we need to go.
+  ExpectEqualMatrices(product, identity, precision);
+}
+
+TEST_ALL_F(MultiplyOperatorInverse, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Test static operator*(a, b) by multiplying an invertable matrix by its
+// inverse. Should end up with identity.
+template<class T, int d>
+void ExternalMultiplyOperatorInverse_Test(const T& precision) {
+  typedef typename mathfu::Matrix<T, d> Mat;
+  const Mat identity = Mat::Identity();
+  const Mat invertable = InvertableMatrix<T, d>();
+
+  // Use operator*() to go way from the identity and then get back to it.
+  Mat product = identity;
+  product = product * invertable;
+  product = product * invertable.Inverse();
+
+  // Test that operator*() gets is back to where we need to go.
+  ExpectEqualMatrices(product, identity, precision);
+}
+
+TEST_ALL_F(ExternalMultiplyOperatorInverse, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Test matrix operator*() by multiplying a non-zero matrix by identity.
+// Should be no change.
+template<class T, int d>
+void MultiplyOperatorIdentity_Test(const T& precision) {
+  typedef typename mathfu::Matrix<T, d> Mat;
+  const Mat identity = Mat::Identity();
+  const Mat invertable = InvertableMatrix<T, d>();
+
+  // Use operator*() to multipy by the identity.
+  Mat product = invertable;
+  product *= identity;
+
+  // Test that operator*() didn't change anything when multiplying by identity.
+  ExpectEqualMatrices(product, invertable, precision);
+}
+
+TEST_ALL_F(MultiplyOperatorIdentity, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Test static operator*(a, b) by multiplying a non-zero matrix by identity.
+// Should be no change.
+template<class T, int d>
+void ExternalMultiplyOperatorIdentity_Test(const T& precision) {
+  typedef typename mathfu::Matrix<T, d> Mat;
+  const Mat identity = Mat::Identity();
+  const Mat invertable = InvertableMatrix<T, d>();
+
+  // Use operator*() to multipy by the identity.
+  const Mat product = invertable * identity;
+
+  // Test that operator*() didn't change anything when multiplying by identity.
+  ExpectEqualMatrices(product, invertable, precision);
+}
+
+TEST_ALL_F(ExternalMultiplyOperatorIdentity, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Test matrix operator*() by multiplying a non-zero matrix by zero.
+// Should be no change.
+template<class T, int d>
+void MultiplyOperatorZero_Test(const T& precision) {
+  typedef typename mathfu::Matrix<T, d> Mat;
+  const Mat zero(static_cast<T>(0));
+  const Mat invertable = InvertableMatrix<T, d>();
+
+  // Use operator*() to multipy by the zero.
+  Mat product = invertable;
+  product *= zero;
+
+  // Test that operator*() didn't change anything when multiplying by zero.
+  ExpectEqualMatrices(product, zero, precision);
+}
+
+TEST_ALL_F(MultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+// Test static operator*(a, b) by multiplying a non-zero matrix by zero.
+// Should be no change.
+template<class T, int d>
+void ExternalMultiplyOperatorZero_Test(const T& precision) {
+  typedef typename mathfu::Matrix<T, d> Mat;
+  const Mat zero(static_cast<T>(0));
+  const Mat invertable = InvertableMatrix<T, d>();
+
+  // Use operator*() to multipy by the zero.
+  const Mat product = invertable * zero;
+
+  // Test that operator*() didn't change anything when multiplying by zero.
+  ExpectEqualMatrices(product, zero, precision);
+}
+
+TEST_ALL_F(ExternalMultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION);
+
+
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix opertations given in the sample file.
 // This will test transforming a vector with a matrix.

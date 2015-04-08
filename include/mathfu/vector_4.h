@@ -76,6 +76,12 @@ class Vector<float, 4> {
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
+  inline Vector(const Vector<float, 2>& vector12,
+                const Vector<float, 2>& vector34) {
+    data_.simd = simd4f_create(vector12[0], vector12[1],
+                               vector34[0], vector34[1]);
+  }
+
   explicit inline Vector(const VectorPacked<float, 4>& vector) {
     data_.simd = simd4f_uload4(vector.data);
   }
@@ -117,6 +123,11 @@ class Vector<float, 4> {
     return Vector<float, 2>(x(), y());
   }
 
+  inline Vector<float, 2> zw() { return Vector<float, 2>(z(), w()); }
+  inline const Vector<float, 2> zw() const {
+    return Vector<float, 2>(z(), w());
+  }
+
   inline void Pack(VectorPacked<float, 4> * const vector) const {
     simd4f_ustore4(data_.simd, vector->data);
   }
@@ -148,6 +159,24 @@ class Vector<float, 4> {
     return Vector<float, 4>(simd4f_div(data_.simd, simd4f_splat(s)));
   }
 
+  inline Vector<float, 4> operator+(const float& s) const {
+    return Vector<float, 4>(simd4f_add(data_.simd, simd4f_splat(s)));
+  }
+
+  inline Vector<float, 4> operator-(const float& s) const {
+    return Vector<float, 4>(simd4f_sub(data_.simd, simd4f_splat(s)));
+  }
+
+  inline Vector<float, 4>& operator*=(const Vector<float, 4>& v) {
+    data_.simd = simd4f_mul(data_.simd, v.data_.simd);
+    return *this;
+  }
+
+  inline Vector<float, 4>& operator/=(const Vector<float, 4>& v) {
+    data_.simd = simd4f_div(data_.simd, v.data_.simd);
+    return *this;
+  }
+
   inline Vector<float, 4>& operator+=(const Vector<float, 4>& v) {
     data_.simd = simd4f_add(data_.simd, v.data_.simd);
     return *this;
@@ -165,6 +194,16 @@ class Vector<float, 4> {
 
   inline Vector<float, 4>& operator/=(const float& s) {
     data_.simd = simd4f_div(data_.simd, simd4f_splat(s));
+    return *this;
+  }
+
+  inline Vector<float, 4>& operator+=(const float& s) {
+    data_.simd = simd4f_add(data_.simd, simd4f_splat(s));
+    return *this;
+  }
+
+  inline Vector<float, 4>& operator-=(const float& s) {
+    data_.simd = simd4f_sub(data_.simd, simd4f_splat(s));
     return *this;
   }
 
@@ -219,6 +258,16 @@ class Vector<float, 4> {
         mathfu::RandomInRange<float>(min[1], max[1]),
         mathfu::RandomInRange<float>(min[2], max[2]),
         mathfu::RandomInRange<float>(min[3], max[3]));
+  }
+
+  static inline Vector<float, 4> Max(
+      const Vector<float, 4>& v1, const Vector<float, 4>& v2) {
+    return Vector<float, 4>(simd4f_max(v1.data_.simd, v2.data_.simd));
+  }
+
+  static inline Vector<float, 4> Min(
+      const Vector<float, 4>& v1, const Vector<float, 4>& v2) {
+    return Vector<float, 4>(simd4f_min(v1.data_.simd, v2.data_.simd));
   }
 
   template<class T, int rows, int cols> friend class Matrix;

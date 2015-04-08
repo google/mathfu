@@ -4,7 +4,7 @@ Building for OS X    {#mathfu_guide_building_osx}
 # Version Requirements    {#mathfu_guide_building_osx_version}
 
 Following are the minimum required versions of tools and libraries you
-need to build [MathFu][] for Android:
+need to build [MathFu][] for [OS X][]:
 
    * [OS X][]: Mavericks 10.9.1.
    * [Xcode][]: 5.0.1

@@ -258,7 +258,8 @@ class Matrix<float, 4> {
   }
 
   inline Matrix<float, 4> operator*=(const Matrix<float, 4>& m) {
-    simd4x4f_matrix_mul(&data_.simd_matrix, &m.data_.simd_matrix,
+    Matrix<float, 4> copy_of_this(*this);
+    simd4x4f_matrix_mul(&copy_of_this.data_.simd_matrix, &m.data_.simd_matrix,
                         &data_.simd_matrix);
     return *this;
   }
