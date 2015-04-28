@@ -20,6 +20,7 @@
 #include "mathfu/vector_2.h"
 #include "mathfu/vector_3.h"
 #include "mathfu/vector_4.h"
+#include "mathfu/quaternion.h"
 
 namespace mathfu {
 
@@ -149,6 +150,11 @@ static const Vector<int, 4> kAxisY4i(0, 1, 0, 0);
 static const Vector<int, 4> kAxisZ4i(0, 0, 1, 0);
 /// 4-dimensional <code>int</code> unit Vector pointing along the W axis.
 static const Vector<int, 4> kAxisW4i(0, 0, 0, 1);
+
+/// Quaternion Identity
+static const Quaternion<float> kQuatIdentityf(0.0f, 0.0f, 0.0f, 1.0f);
+/// Quaternion Identity
+static const Quaternion<double> kQuatIdentityd(0.0, 0.0, 0.0, 1.0);
 
 /// @}
 
