@@ -34,6 +34,18 @@ class QuaternionTests : public ::testing::Test {
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
   }
 
+// helper macro for comparing vectors
+#define EXPECT_EQ_VEC(v1, v2) { \
+    EXPECT_EQ((v1)[0], (v2)[0]); \
+    EXPECT_EQ((v1)[1], (v2)[1]); \
+    EXPECT_EQ((v1)[2], (v2)[2]); \
+  }
+#define EXPECT_NEAR_VEC3(v1, v2, precision) { \
+    EXPECT_NEAR((v1)[0], (v2)[0], precision); \
+    EXPECT_NEAR((v1)[1], (v2)[1], precision); \
+    EXPECT_NEAR((v1)[2], (v2)[2], precision); \
+  }
+
 // Test accessing elements of the quaternion using the const array accessor.
 template<class T>
 void ConstAccessor_Test(const T& precision) {
@@ -283,6 +295,75 @@ void Normalize_Test(const T& precision) {
   EXPECT_NEAR(reference_quat_2[3], normalized_quat_2[3], precision);
 }
 TEST_ALL_F(Normalize);
+
+// This will test normalization of quaternions.
+template<class T>
+void RotateFromTo_Test(const T& precision) {
+  mathfu::Vector<T, 3> x_axis = mathfu::Vector<T, 3>(
+      static_cast<T>(1), static_cast<T>(0), static_cast<T>(0));
+  mathfu::Vector<T, 3> y_axis = mathfu::Vector<T, 3>(
+      static_cast<T>(0), static_cast<T>(1), static_cast<T>(0));
+  mathfu::Vector<T, 3> z_axis = mathfu::Vector<T, 3>(
+      static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
+
+  mathfu::Quaternion<T> x_to_y =
+      mathfu::Quaternion<T>::RotateFromTo(x_axis, y_axis);
+  mathfu::Quaternion<T> y_to_z =
+      mathfu::Quaternion<T>::RotateFromTo(y_axis, z_axis);
+  mathfu::Quaternion<T> z_to_x =
+      mathfu::Quaternion<T>::RotateFromTo(z_axis, x_axis);
+
+  // Check some axis rotations:
+  // By definition, rotateFromTo(v1, v2) * v2 should always equal v2.
+  // if v1 and v2 are 90 degrees apart (as they are in the case of axes)
+  // then applying the same rotation twice should invert the vector.
+  mathfu::Vector<T, 3>x_to_y_result = x_to_y * x_axis;
+  mathfu::Vector<T, 3>x_to_y_twice_result = x_to_y * x_to_y * x_axis;
+  EXPECT_NEAR_VEC3(x_to_y_result, y_axis, precision);
+  EXPECT_NEAR_VEC3(x_to_y_twice_result, -x_axis, precision);
+
+  mathfu::Vector<T, 3>y_to_z_result = y_to_z * y_axis;
+  mathfu::Vector<T, 3>y_to_z_twice_result = y_to_z * y_to_z * y_axis;
+  EXPECT_NEAR_VEC3(y_to_z_result, z_axis, precision);
+  EXPECT_NEAR_VEC3(y_to_z_twice_result, -y_axis, precision);
+
+  mathfu::Vector<T, 3>z_to_x_result = z_to_x * z_axis;
+  mathfu::Vector<T, 3>z_to_x_twice_result = z_to_x * z_to_x * z_axis;
+  EXPECT_NEAR_VEC3(z_to_x_result, x_axis, precision);
+  EXPECT_NEAR_VEC3(z_to_x_twice_result, -z_axis, precision);
+
+  // Try some weirder vectors:
+  mathfu::Vector<T, 3> arbitrary_1 = mathfu::Vector<T, 3>(
+      static_cast<T>(2), static_cast<T>(-5), static_cast<T>(9));
+  mathfu::Vector<T, 3> arbitrary_2 = mathfu::Vector<T, 3>(
+      static_cast<T>(-1), static_cast<T>(3), static_cast<T>(16));
+
+  mathfu::Quaternion<T> arbitrary_to_arbitrary =
+      mathfu::Quaternion<T>::RotateFromTo(arbitrary_1, arbitrary_2);
+
+  mathfu::Vector<T, 3>arbitrary_1_to_2 = arbitrary_to_arbitrary * arbitrary_1;
+  arbitrary_1_to_2.Normalize();
+  mathfu::Vector<T, 3> arbitrary_2_normalized = arbitrary_2.Normalized();
+
+  EXPECT_NEAR_VEC3(arbitrary_1_to_2, arbitrary_2_normalized, precision);
+
+  // Using RotateFromTo on one vector should give us the identity quaternion:
+  mathfu::Quaternion<T> identity = mathfu::Quaternion<T>::RotateFromTo(
+      arbitrary_1, arbitrary_1);
+
+  mathfu::Vector<T, 3>arbitrary_2_identity = identity * arbitrary_2;
+  EXPECT_NEAR_VEC3(arbitrary_2_identity, arbitrary_2, precision);
+
+  // Using RotateFromTo on an inverted vector should give a 180 degree rotation:
+  mathfu::Quaternion<T> reverse = mathfu::Quaternion<T>::RotateFromTo(
+      arbitrary_1, -arbitrary_1);
+
+  // Relaxing the precision slightly, because there are a lot of chained
+  // float operations in here.
+  mathfu::Vector<T, 3>arbitrary_1_reversed = reverse * arbitrary_1;
+  EXPECT_NEAR_VEC3(arbitrary_1_reversed, -arbitrary_1, precision * 2.0);
+}
+TEST_ALL_F(RotateFromTo);
 
 // Test the compilation of basic quaternion opertations given in the sample
 // file. This will test interpolating two rotations.

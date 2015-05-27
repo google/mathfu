@@ -18,6 +18,7 @@
 
 #include "mathfu/matrix.h"
 #include "mathfu/matrix_4x4.h"
+#include "mathfu/quaternion.h"
 #include "mathfu/vector.h"
 #include "mathfu/vector_2.h"
 #include "mathfu/vector_3.h"
@@ -72,6 +73,10 @@ typedef VectorPacked<int, 2> vec2i_packed;
 typedef VectorPacked<int, 3> vec3i_packed;
 /// 4-dimensional <code>int</code> packed Vector (VectorPacked).
 typedef VectorPacked<int, 4> vec4i_packed;
+
+/// Float-based quaternion.  Note that this is not technically
+/// a GLES type, but is included for convenience.
+typedef mathfu::Quaternion<float> quat;
 
 /// @brief Calculate the cross product of two 3-dimensional Vectors.
 ///

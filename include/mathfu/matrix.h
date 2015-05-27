@@ -1273,7 +1273,7 @@ inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
   return Matrix<T, 4, 4>(x, 0, 0, 0,
                          0, y, 0, 0,
                          0, 0, zfar_per_zdist, -1 * handedness,
-                         0, 0, znear * zfar_per_zdist * handedness, 0);
+                         0, 0, 2.0f * znear * zfar_per_zdist * handedness, 0);
 }
 /// @endcond
 
