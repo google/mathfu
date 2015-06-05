@@ -232,7 +232,7 @@ class Vector<float, 3> {
   }
 
   inline float LengthSquared() const {
-    return simd4f_dot3(MATHFU_VECTOR3_LOAD3(data_),
+    return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(data_),
                        MATHFU_VECTOR3_LOAD3(data_));
   }
 
@@ -252,7 +252,7 @@ class Vector<float, 3> {
 
   static inline float DotProduct(
     const Vector<float, 3>& v1, const Vector<float, 3>& v2) {
-    return simd4f_dot3(MATHFU_VECTOR3_LOAD3(v1.data_),
+    return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(v1.data_),
                        MATHFU_VECTOR3_LOAD3(v2.data_));
   }
 

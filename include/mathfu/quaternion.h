@@ -315,7 +315,7 @@ class Quaternion {
   /// @return A vector perpendicular to v1.  Normally this will just be
   /// the cross product of v1, v2.  If they are parallel or opposite though,
   /// the routine will attempt to pick a vector.
-  static inline Vector<T, 3> PerpendicularVector(Vector<T, 3> v) {
+  static inline Vector<T, 3> PerpendicularVector(const Vector<T, 3>& v) {
     // We start out by taking the cross product of the vector and the x-axis to
     // find something parallel to the input vectors.  If that cross product
     // turns out to be length 0 (i. e. the vectors already lie along the x axis)

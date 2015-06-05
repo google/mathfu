@@ -23,6 +23,9 @@
 
 #include "precision.h"
 
+#include <string>
+#include <sstream>
+
 class VectorTests : public ::testing::Test {
  protected:
   virtual void SetUp() {}
@@ -103,7 +106,9 @@ std::string FormatVector(const char* expr,
   std::string ret(expr);
   ret += "(";
   for (int32_t i = 0; i < d; ++i) {
-    ret += std::to_string(v[i]);
+    std::stringstream ss;
+    ss << v[i];
+    ret += ss.str();
     if (i != d - 1) ret += ", ";
   }
   ret += ")";
