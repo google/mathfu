@@ -6,4 +6,4 @@
 	url = http://github.com/google/fplutil.git
 [submodule "dependencies/vectorial"]
 	path = dependencies/vectorial
-	url = http://github.com/google/mathfu.git
+	url = http://github.com/scoopr/vectorial.git
