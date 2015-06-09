@@ -191,10 +191,10 @@ class Matrix<float, 4> {
 
   inline Vector<float, 4> VecMatTimes(const Vector<float, 4>& v) const {
     return Vector<float, 4>(
-      simd4f_dot3(v.data_.simd, data_.simd_matrix.x),
-      simd4f_dot3(v.data_.simd, data_.simd_matrix.y),
-      simd4f_dot3(v.data_.simd, data_.simd_matrix.w),
-      simd4f_dot3(v.data_.simd, data_.simd_matrix.z));
+      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.x),
+      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.y),
+      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.w),
+      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.z));
   }
 
   inline Matrix<float, 4> operator*(const Matrix<float, 4>& m) const {
