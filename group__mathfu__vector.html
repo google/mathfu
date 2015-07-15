@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.6-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,6 +22,8 @@
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,700" rel="stylesheet">
+<link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -120,6 +123,10 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga83dd5c549955259ecce6e40c13e21392"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga83dd5c549955259ecce6e40c13e21392"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__vector.html#ga83dd5c549955259ecce6e40c13e21392">mathfu::InRange2D</a> (const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;val, const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;range_start, const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;range_end)</td></tr>
+<tr class="memdesc:ga83dd5c549955259ecce6e40c13e21392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if val is within [range_start..range_end), denoting a rectangular area.  <a href="#ga83dd5c549955259ecce6e40c13e21392">More...</a><br/></td></tr>
+<tr class="separator:ga83dd5c549955259ecce6e40c13e21392"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8b3b81801ceac6ac372ed1fea668ee27"><td class="memTemplParams" colspan="2">template&lt;class T , int d&gt; </td></tr>
 <tr class="memitem:ga8b3b81801ceac6ac372ed1fea668ee27"><td class="memTemplItemLeft" align="right" valign="top">Vector&lt; T, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__vector.html#ga8b3b81801ceac6ac372ed1fea668ee27">operator*</a> (const T &amp;s, const Vector&lt; T, d &gt; &amp;v)</td></tr>
 <tr class="memdesc:ga8b3b81801ceac6ac372ed1fea668ee27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply a <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> by a scalar.  <a href="#ga8b3b81801ceac6ac372ed1fea668ee27">More...</a><br/></td></tr>
@@ -138,6 +145,57 @@ Functions</h2></td></tr>
 <tr class="separator:gaed5e853244c99cadf65c02933b3fdced"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga83dd5c549955259ecce6e40c13e21392"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool mathfu::InRange2D </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>range_start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>range_end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if val is within [range_start..range_end), denoting a rectangular area. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">val</td><td>2D vector to be tested. </td></tr>
+    <tr><td class="paramname">range_start</td><td>Starting point of the range (inclusive). </td></tr>
+    <tr><td class="paramname">range_end</td><td>Ending point of the range (non-inclusive). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Bool indicating success.</dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type of vector components to test. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ga8b3b81801ceac6ac372ed1fea668ee27"></a>
 <div class="memitem">
 <div class="memproto">
@@ -332,7 +390,7 @@ template&lt;class T , int d&gt; </div>
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46159502-1', 'google.github.io');
+ga('create', 'UA-49880327-7', 'google.github.io');
 ga('send', 'pageview');
 </script>
 </body>

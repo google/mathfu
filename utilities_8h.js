@@ -13,6 +13,7 @@ var utilities_8h =
     [ "AllocateAligned", "utilities_8h.html#ga176d9d50a5e25b6be25ba67ccc6d2113", null ],
     [ "Clamp", "utilities_8h.html#gaa3101b3b5f9d1413d90815ed7005e7bc", null ],
     [ "FreeAligned", "utilities_8h.html#ga8be70a7660cac5e80e25118382acc7f0", null ],
+    [ "InRange", "utilities_8h.html#gadef59a74291e773a9af56630f5899ab5", null ],
     [ "Lerp", "utilities_8h.html#ga648dc46cf56a1b06dce593184b54ccb2", null ],
     [ "Lerp", "utilities_8h.html#gaadac241fa4aa52df14f8bba8cf80e9ac", null ],
     [ "Random", "utilities_8h.html#ga833c741b9ea5fa0dc17fa8fd49ac795c", null ],

@@ -2,6 +2,7 @@ var group__mathfu__utilities =
 [
     [ "MATHFU_STATIC_ASSERT", "group__mathfu__utilities.html#ga638ebdd153e07fdbf71d22b7b92c9986", null ],
     [ "Clamp", "group__mathfu__utilities.html#gaa3101b3b5f9d1413d90815ed7005e7bc", null ],
+    [ "InRange", "group__mathfu__utilities.html#gadef59a74291e773a9af56630f5899ab5", null ],
     [ "Lerp", "group__mathfu__utilities.html#ga648dc46cf56a1b06dce593184b54ccb2", null ],
     [ "Lerp", "group__mathfu__utilities.html#gaadac241fa4aa52df14f8bba8cf80e9ac", null ],
     [ "Random", "group__mathfu__utilities.html#ga833c741b9ea5fa0dc17fa8fd49ac795c", null ],

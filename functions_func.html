@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.6-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,6 +22,8 @@
   $(document).ready(function() { searchBox.OnSelectItem(0); });
 </script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,700" rel="stylesheet">
+<link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -244,6 +247,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>Matrix()
 : <a class="el" href="classmathfu_1_1_matrix.html#a0bfaef04d5d30c9b3b4a08b07034dffc">mathfu::Matrix&lt; T, rows, columns &gt;</a>
 </li>
+<li>Max()
+: <a class="el" href="classmathfu_1_1_vector.html#a32da10f40ca3cb1b3ce0f84d356c2e44">mathfu::Vector&lt; T, d &gt;</a>
+</li>
+<li>Min()
+: <a class="el" href="classmathfu_1_1_vector.html#ae790253f925f3f12957d9d6f192bf581">mathfu::Vector&lt; T, d &gt;</a>
+</li>
 </ul>
 
 
@@ -253,7 +262,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="classmathfu_1_1_vector.html#afd45459a057a1655d447a7b803a9f304">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>Normalized()
-: <a class="el" href="classmathfu_1_1_vector.html#ac69a680a2fe54b6005790089bf043e5a">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_quaternion.html#a5872d532154605ea15cc6edcdc9d3eba">mathfu::Quaternion&lt; T &gt;</a>
+, <a class="el" href="classmathfu_1_1_vector.html#ac69a680a2fe54b6005790089bf043e5a">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 </ul>
 
@@ -318,6 +328,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classmathfu_1_1_matrix.html#a38b75fe2109ba34d6e076f1254c72ead">mathfu::Matrix&lt; T, rows, columns &gt;</a>
 , <a class="el" href="classmathfu_1_1_vector.html#a53f3883d2116a717d7562714de086e78">mathfu::Vector&lt; T, d &gt;</a>
 </li>
+<li>PerpendicularVector()
+: <a class="el" href="classmathfu_1_1_quaternion.html#ac0c0f1cd4c91149eee4d0cb1ecb33bda">mathfu::Quaternion&lt; T &gt;</a>
+</li>
 <li>Perspective()
 : <a class="el" href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a">mathfu::Matrix&lt; T, rows, columns &gt;</a>
 </li>
@@ -335,6 +348,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>RandomInRange()
 : <a class="el" href="classmathfu_1_1_vector.html#a3400862f46278cfcb048624b5914d884">mathfu::Vector&lt; T, d &gt;</a>
 </li>
+<li>RotateFromTo()
+: <a class="el" href="classmathfu_1_1_quaternion.html#a68b0f7747e017f5c03826118cdc9a116">mathfu::Quaternion&lt; T &gt;</a>
+</li>
+<li>RotateFromToWithAxis()
+: <a class="el" href="classmathfu_1_1_quaternion.html#ac0f3f6729ded926d656cf8fddae5f995">mathfu::Quaternion&lt; T &gt;</a>
+</li>
 <li>RotationX()
 : <a class="el" href="classmathfu_1_1_matrix.html#a2d2ee3c519b576a422bd91f6f88f1d49">mathfu::Matrix&lt; T, rows, columns &gt;</a>
 </li>
@@ -348,6 +367,15 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>scalar()
+: <a class="el" href="classmathfu_1_1_quaternion.html#aa8cbcaa7cf8c24418e8ff6909aa9c03e">mathfu::Quaternion&lt; T &gt;</a>
+</li>
+<li>set_scalar()
+: <a class="el" href="classmathfu_1_1_quaternion.html#a9ae8b057e0a23219dcc18d5a2a2bf0ff">mathfu::Quaternion&lt; T &gt;</a>
+</li>
+<li>set_vector()
+: <a class="el" href="classmathfu_1_1_quaternion.html#aadf213592150cc626f65edcbadcecdb1">mathfu::Quaternion&lt; T &gt;</a>
+</li>
 <li>simd_allocator()
 : <a class="el" href="classmathfu_1_1simd__allocator.html#a3538f7c918b26ffc383f860a5e294287">mathfu::simd_allocator&lt; T &gt;</a>
 </li>
@@ -380,11 +408,14 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
+<li>vector()
+: <a class="el" href="classmathfu_1_1_quaternion.html#a805ca6f87a5868ba99be8c591be498ce">mathfu::Quaternion&lt; T &gt;</a>
+</li>
 <li>Vector()
-: <a class="el" href="classmathfu_1_1_vector.html#a14b2e1d6a5bb7a8ae211c953b998349b">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_vector.html#a923bebb719cf76c60ce33c5bbca37643">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>VectorPacked()
-: <a class="el" href="structmathfu_1_1_vector_packed.html#a0d0aa440c0ca6e9209af1aa9ea77a602">mathfu::VectorPacked&lt; T, d &gt;</a>
+: <a class="el" href="structmathfu_1_1_vector_packed.html#a1c342acd4eaa5fba51920480e5d9e07e">mathfu::VectorPacked&lt; T, d &gt;</a>
 </li>
 </ul>
 
@@ -401,7 +432,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>xy()
-: <a class="el" href="classmathfu_1_1_vector.html#a49e43f51961cbbb52a69ab47e242dace">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_vector.html#a46f2ddeca07eeb8d883c03f83ea538c8">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>xyz()
 : <a class="el" href="classmathfu_1_1_vector.html#af61e8140523ca20a9577499ce4e6c7fd">mathfu::Vector&lt; T, d &gt;</a>
@@ -420,6 +451,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>z()
 : <a class="el" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">mathfu::Vector&lt; T, d &gt;</a>
 </li>
+<li>zw()
+: <a class="el" href="classmathfu_1_1_vector.html#a1465454841e6bf0525156f66958bb968">mathfu::Vector&lt; T, d &gt;</a>
+</li>
 </ul>
 
 
@@ -436,7 +470,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46159502-1', 'google.github.io');
+ga('create', 'UA-49880327-7', 'google.github.io');
 ga('send', 'pageview');
 </script>
 </body>

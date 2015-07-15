@@ -36,6 +36,8 @@ var constants_8h =
     [ "kOnes4d", "constants_8h.html#gace8fd44f461faf4f03b4527ecec2374c", null ],
     [ "kOnes4f", "constants_8h.html#ga2b70786247b2ff8a3d0620345b931d60", null ],
     [ "kOnes4i", "constants_8h.html#ga052a89913938f4223d8ca440e82d7761", null ],
+    [ "kQuatIdentityd", "constants_8h.html#ga2472118da6532c8d20eeca924804c3df", null ],
+    [ "kQuatIdentityf", "constants_8h.html#ga838cf4a75bbbe6346d05f54f2c1733d3", null ],
     [ "kZeros2d", "constants_8h.html#ga3dfec04bab41f65b500a07fc7b782d2f", null ],
     [ "kZeros2f", "constants_8h.html#ga550e5419565bc6305fb9c850a5f1b00a", null ],
     [ "kZeros2i", "constants_8h.html#ga22b7940c91a266af27cb14f1e44ebaf6", null ],

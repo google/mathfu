@@ -3,6 +3,7 @@ var glsl__mappings_8h =
     [ "mat2", "glsl__mappings_8h.html#ga6df1542d4281f8be653257f127730343", null ],
     [ "mat3", "glsl__mappings_8h.html#gab8d23417d091ed1da437cf816c8c8b4e", null ],
     [ "mat4", "glsl__mappings_8h.html#ga61f45f82fef7e9f1f577d75cf44abae7", null ],
+    [ "quat", "glsl__mappings_8h.html#ga40ace97dc88e437be09d3275062dd513", null ],
     [ "vec2", "glsl__mappings_8h.html#gad9c3a60203b278aad94a4d0be3d36ce9", null ],
     [ "vec2_packed", "glsl__mappings_8h.html#ga2a1c25dfe98aa58ae552cc4ac6da4698", null ],
     [ "vec2i", "glsl__mappings_8h.html#ga1b61ca90466ea14a29e612c12fe0ec03", null ],
