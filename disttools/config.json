@@ -26,11 +26,11 @@
     },
     {
       "name": "vectorial",
-      "url": "http://github.com/google/mathfu.git",
-      "branch": "vectorial",
+      "url": "http://github.com/scoopr/vectorial.git",
+      "branch": "master",
       "is_library": 1,
       "third_party": 1,
-      "push": 1
+      "push": 0
     }
   ]
 }
