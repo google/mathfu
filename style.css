@@ -12,10 +12,14 @@ dl,
   font-family: roboto, sans-serif;
 }
 
+#commonprojectlogo {
+  padding: 5px 0px 5px 15px;
+}
+
 #projectname {
   color: #00bcd4;
   font-size: 280%;
-  padding: 15px 10px;
+  padding: 15px 0px;
   font-weight: 300;
 }
 
