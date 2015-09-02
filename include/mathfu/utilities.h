@@ -413,7 +413,8 @@ template<> inline int RandomInRange<int>(int range_start, int range_end) {
 /// @param x Value to round up.
 /// @returns Value rounded up to the nearest power of 2.
 template<class T> T RoundUpToPowerOf2(T x) {
-  return pow(static_cast<T>(2), ceil(log(x) / log(static_cast<T>(2))));
+  return static_cast<T>(
+      pow(static_cast<T>(2), ceil(log(x) / log(static_cast<T>(2)))));
 }
 
 /// @}
