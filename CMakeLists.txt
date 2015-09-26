@@ -51,7 +51,7 @@ option(mathfu_build_benchmarks "Build MathFu benchmarks." ON)
 option(mathfu_build_tests "Build MathFu unit tests." ON)
 
 # Detect clang
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" OR 
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" OR
    CMAKE_CXX_COMPILER_ID MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
@@ -72,7 +72,12 @@ set(mathfu_dir ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "mathfu directory")
 # If force_padding isn't specified padding is enabled based upon the
 # best general configuration for the target architecture.
 function(mathfu_configure_flags target)
-  set(enable_simd ${mathfu_enable_simd})
+  if(fpl_ios)
+    set(enable_simd NO)
+  else()
+    set(enable_simd ${mathfu_enable_simd})
+  endif()
+
 
   # Add required includes to the target.
   target_include_directories(${target}
@@ -130,6 +135,22 @@ function(mathfu_enable_warnings target)
       -Wno-long-long -Wno-variadic-macros)
   endif()
 endfunction()
+
+# Macro defined here so that it can be used by all projects included
+macro(mathfu_set_ios_attributes project)
+  if(fpl_ios)
+    set_target_properties(${project} PROPERTIES
+      XCODE_ATTRIBUTE_SDKROOT "iphoneos")
+    set_target_properties(${project} PROPERTIES
+      XCODE_ATTRIBUTE_ARCHS "$(ARCHS_STANDARD)")
+    set_target_properties(${project} PROPERTIES
+      XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO")
+    set_target_properties(${project} PROPERTIES
+      XCODE_ATTRIBUTE_VALID_ARCHS "$(ARCHS_STANDARD)")
+    set_target_properties(${project} PROPERTIES
+      XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "8.0")
+  endif()
+endmacro(mathfu_set_ios_attributes)
 
 file(GLOB_RECURSE MATHFU_HEADERS ${CMAKE_SOURCE_DIR}/include/mathfu *.h)
 
