@@ -51,7 +51,8 @@ option(mathfu_build_benchmarks "Build MathFu benchmarks." ON)
 option(mathfu_build_tests "Build MathFu unit tests." ON)
 
 # Detect clang
-if(CMAKE_CXX_COMPILER MATCHES ".*clang")
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" OR 
+   CMAKE_CXX_COMPILER_ID MATCHES ".*clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
 
