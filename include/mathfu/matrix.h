@@ -186,6 +186,32 @@ class Matrix {
     data_[2] = Vector<T, rows>(s02, s12, s22);
   }
 
+  /// @brief Creates a Matrix from twelve floats.
+  ///
+  /// @note This method only works with Matrix<float, 4, 3>.
+  ///
+  ///
+  /// @param s00 Value of the first row and column.
+  /// @param s10 Value of the second row, first column.
+  /// @param s20 Value of the third row, first column.
+  /// @param s30 Value of the fourth row, first column.
+  /// @param s01 Value of the first row, second column.
+  /// @param s11 Value of the second row and column.
+  /// @param s21 Value of the third row, second column.
+  /// @param s31 Value of the fourth row, second column.
+  /// @param s02 Value of the first row, third column.
+  /// @param s12 Value of the second row, third column.
+  /// @param s22 Value of the third row and column.
+  /// @param s32 Value of the fourth row, third column.
+  inline Matrix(const T& s00, const T& s10, const T& s20, const T& s30,
+                const T& s01, const T& s11, const T& s21, const T& s31,
+                const T& s02, const T& s12, const T& s22, const T& s32) {
+    MATHFU_STATIC_ASSERT(rows == 4 && columns == 3);
+    data_[0] = Vector<T, rows>(s00, s10, s20, s30);
+    data_[1] = Vector<T, rows>(s01, s11, s21, s31);
+    data_[2] = Vector<T, rows>(s02, s12, s22, s32);
+  }
+
   /// @brief Create a Matrix from sixteen floats.
   ///
   /// @note This method only works with a 4x4 Matrix.

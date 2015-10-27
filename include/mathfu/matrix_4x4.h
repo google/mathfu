@@ -30,6 +30,15 @@
 
 namespace mathfu {
 
+/// @typedef AffineTransform
+///
+/// @brief A typedef representing a 4x3 float affine transformation.
+/// Since the last row ('w' row) of an affine transformation is fixed,
+/// this data type only includes the variable information for the transform.
+typedef Matrix<float, 4, 3> AffineTransform;
+
+static const Vector<float, 4> kAffineWColumn(0.0f, 0.0f, 0.0f, 1.0f);
+
 #ifdef MATHFU_COMPILE_WITH_SIMD
 /// @cond MATHFU_INTERNAL
 template<>
@@ -92,6 +101,17 @@ class Matrix<float, 4> {
     data_.simd_matrix.w = simd4f_uload4(vectors[3].data);
   }
 
+  /// @brief Constructs a Matrix<float, 4> from an AffineTransform.
+  ///
+  /// @param affine An AffineTransform reference to be used to construct
+  /// a Matrix<float, 4> by adding in the 'w' row of [0, 0, 0, 1].
+  explicit inline Matrix(const AffineTransform& affine) {
+    data_.simd_matrix.x = simd4f_uload4(&affine[0]);
+    data_.simd_matrix.y = simd4f_uload4(&affine[4]);
+    data_.simd_matrix.z = simd4f_uload4(&affine[8]);
+    data_.simd_matrix.w = simd4f_uload4(&kAffineWColumn[0]);
+    *this = Transpose();
+  }
 
   inline const float& operator()(const int i, const int j) const {
     return FindElem(i, FindColumn(j));
@@ -126,6 +146,22 @@ class Matrix<float, 4> {
     simd4f_ustore4(data_.simd_matrix.y, vector[1].data);
     simd4f_ustore4(data_.simd_matrix.z, vector[2].data);
     simd4f_ustore4(data_.simd_matrix.w, vector[3].data);
+  }
+
+  /// @brief Converts a Matrix<float, 4> into an AffineTransform.
+  ///
+  /// @param m A Matrix<float, 4> reference to be converted into an
+  /// AffineTransform by dropping the fixed 'w' row.
+  ///
+  /// @return Returns an AffineTransform that contains the essential
+  /// transformation data from the Matrix<float, 4>.
+  static inline AffineTransform PackAffine(const Matrix<float, 4>& m) {
+    AffineTransform affine;
+    const Matrix<float, 4> mt = m.Transpose();
+    simd4f_ustore4(mt.data_.simd_matrix.x, &affine[0]);
+    simd4f_ustore4(mt.data_.simd_matrix.y, &affine[4]);
+    simd4f_ustore4(mt.data_.simd_matrix.z, &affine[8]);
+    return affine;
   }
 
   inline Matrix<float, 4> operator-() const {

@@ -16,6 +16,7 @@
 #ifndef MATHFU_CONSTANTS_H
 #define MATHFU_CONSTANTS_H
 
+#include "mathfu/matrix_4x4.h"
 #include "mathfu/vector.h"
 #include "mathfu/vector_2.h"
 #include "mathfu/vector_3.h"
@@ -155,6 +156,11 @@ static const Vector<int, 4> kAxisW4i(0, 0, 0, 1);
 static const Quaternion<float> kQuatIdentityf(0.0f, 0.0f, 0.0f, 1.0f);
 /// Quaternion Identity
 static const Quaternion<double> kQuatIdentityd(0.0, 0.0, 0.0, 1.0);
+
+/// An AffineTransform version of the mat4 Identity matrix.
+static const AffineTransform kAffineIdentity(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+                                             0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+                                             0.0f);
 
 /// @}
 
