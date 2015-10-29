@@ -633,6 +633,32 @@ class Matrix {
         m[6], m[7], m[8], 0, 0, 0, 0, 1);
   }
 
+  /// @brief Constructs a Matrix<float, 4> from an AffineTransform.
+  ///
+  /// @param affine An AffineTransform reference to be used to construct
+  /// a Matrix<float, 4> by adding in the 'w' row of [0, 0, 0, 1].
+  static inline Matrix<T, 4> FromAffineTransform(
+      const Matrix<T, 4, 3>& affine) {
+    return Matrix<T, 4>(
+        affine[0], affine[4], affine[8], static_cast<T>(0),
+        affine[1], affine[5], affine[9], static_cast<T>(0),
+        affine[2], affine[6], affine[10], static_cast<T>(0),
+        affine[3], affine[7], affine[11], static_cast<T>(1));
+  }
+
+  /// @brief Converts a Matrix<float, 4> into an AffineTransform.
+  ///
+  /// @param m A Matrix<float, 4> reference to be converted into an
+  /// AffineTransform by dropping the fixed 'w' row.
+  ///
+  /// @return Returns an AffineTransform that contains the essential
+  /// transformation data from the Matrix<float, 4>.
+  static inline Matrix<T, 4, 3> ToAffineTransform(const Matrix<T, 4>& m) {
+    return Matrix<T, 4, 3>(
+        m[0], m[4], m[8], m[12],
+        m[1], m[5], m[9], m[13],
+        m[2], m[6], m[10], m[14]);
+  }
 
   /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
   /// Vector around the X axis.
@@ -1348,6 +1374,13 @@ static inline Matrix<T, 4, 4> LookAtHelper(
   return Matrix<T, 4, 4>(column0, column1, column2, column3);
 }
 /// @endcond
+
+/// @typedef AffineTransform
+///
+/// @brief A typedef representing a 4x3 float affine transformation.
+/// Since the last row ('w' row) of an affine transformation is fixed,
+/// this data type only includes the variable information for the transform.
+typedef Matrix<float, 4, 3> AffineTransform;
 
 /// @}
 
