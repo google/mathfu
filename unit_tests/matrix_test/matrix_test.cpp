@@ -859,51 +859,6 @@ void ExternalMultiplyOperatorZero_Test(const T& precision) {
 TEST_ALL_F(ExternalMultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION);
 
 
-// Test Matrix<>::ToAffineTransform().
-template<class T>
-void Mat4ToAffine_Test(const T& precision) {
-  typedef typename mathfu::Matrix<T, 4> Mat4;
-  typedef typename mathfu::Matrix<T, 4, 3> Affine;
-  const Mat4 indices4(0,   1,  2,  0,
-                      4,   5,  6,  0,
-                      8,   9, 10,  0,
-                      12, 13, 14,  1);
-  const Affine indices_affine(0, 4, 8,  12,
-                              1, 5, 9,  13,
-                              2, 6, 10, 14);
-
-  const Affine to_affine = Mat4::ToAffineTransform(indices4);
-  for (int i = 0; i < 4; ++i) {
-    for (int j = 0; j < 3; ++j) {
-      EXPECT_EQ(to_affine(i, j), indices_affine(i, j));
-    }
-  }
-
-  const Mat4 back_to_mat4 = Mat4::FromAffineTransform(to_affine);
-  ExpectEqualMatrices(back_to_mat4, indices4, static_cast<T>(0));
-}
-
-TEST_SCALAR_F(Mat4ToAffine, FLOAT_PRECISION, DOUBLE_PRECISION);
-
-// Test Matrix<>::FromAffineTransform().
-template<class T>
-void Mat4FromAffine_Test(const T& precision) {
-  typedef typename mathfu::Matrix<T, 4> Mat4;
-  typedef typename mathfu::Matrix<T, 4, 3> Affine;
-  const Mat4 indices4(0,   1,  2,  0,
-                      4,   5,  6,  0,
-                      8,   9, 10,  0,
-                      12, 13, 14,  1);
-  const Affine indices_affine(0, 4, 8,  12,
-                              1, 5, 9,  13,
-                              2, 6, 10, 14);
-
-  const Mat4 to_mat4 = Mat4::FromAffineTransform(indices_affine);
-  ExpectEqualMatrices(to_mat4, indices4, static_cast<T>(0));
-}
-
-TEST_SCALAR_F(Mat4FromAffine, FLOAT_PRECISION, DOUBLE_PRECISION);
-
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix opertations given in the sample file.
 // This will test transforming a vector with a matrix.

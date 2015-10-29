@@ -186,32 +186,6 @@ class Matrix {
     data_[2] = Vector<T, rows>(s02, s12, s22);
   }
 
-  /// @brief Creates a Matrix from twelve floats.
-  ///
-  /// @note This method only works with Matrix<float, 4, 3>.
-  ///
-  ///
-  /// @param s00 Value of the first row and column.
-  /// @param s10 Value of the second row, first column.
-  /// @param s20 Value of the third row, first column.
-  /// @param s30 Value of the fourth row, first column.
-  /// @param s01 Value of the first row, second column.
-  /// @param s11 Value of the second row and column.
-  /// @param s21 Value of the third row, second column.
-  /// @param s31 Value of the fourth row, second column.
-  /// @param s02 Value of the first row, third column.
-  /// @param s12 Value of the second row, third column.
-  /// @param s22 Value of the third row and column.
-  /// @param s32 Value of the fourth row, third column.
-  inline Matrix(const T& s00, const T& s10, const T& s20, const T& s30,
-                const T& s01, const T& s11, const T& s21, const T& s31,
-                const T& s02, const T& s12, const T& s22, const T& s32) {
-    MATHFU_STATIC_ASSERT(rows == 4 && columns == 3);
-    data_[0] = Vector<T, rows>(s00, s10, s20, s30);
-    data_[1] = Vector<T, rows>(s01, s11, s21, s31);
-    data_[2] = Vector<T, rows>(s02, s12, s22, s32);
-  }
-
   /// @brief Create a Matrix from sixteen floats.
   ///
   /// @note This method only works with a 4x4 Matrix.
@@ -633,32 +607,6 @@ class Matrix {
         m[6], m[7], m[8], 0, 0, 0, 0, 1);
   }
 
-  /// @brief Constructs a Matrix<float, 4> from an AffineTransform.
-  ///
-  /// @param affine An AffineTransform reference to be used to construct
-  /// a Matrix<float, 4> by adding in the 'w' row of [0, 0, 0, 1].
-  static inline Matrix<T, 4> FromAffineTransform(
-      const Matrix<T, 4, 3>& affine) {
-    return Matrix<T, 4>(
-        affine[0], affine[4], affine[8], static_cast<T>(0),
-        affine[1], affine[5], affine[9], static_cast<T>(0),
-        affine[2], affine[6], affine[10], static_cast<T>(0),
-        affine[3], affine[7], affine[11], static_cast<T>(1));
-  }
-
-  /// @brief Converts a Matrix<float, 4> into an AffineTransform.
-  ///
-  /// @param m A Matrix<float, 4> reference to be converted into an
-  /// AffineTransform by dropping the fixed 'w' row.
-  ///
-  /// @return Returns an AffineTransform that contains the essential
-  /// transformation data from the Matrix<float, 4>.
-  static inline Matrix<T, 4, 3> ToAffineTransform(const Matrix<T, 4>& m) {
-    return Matrix<T, 4, 3>(
-        m[0], m[4], m[8], m[12],
-        m[1], m[5], m[9], m[13],
-        m[2], m[6], m[10], m[14]);
-  }
 
   /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
   /// Vector around the X axis.
@@ -1374,13 +1322,6 @@ static inline Matrix<T, 4, 4> LookAtHelper(
   return Matrix<T, 4, 4>(column0, column1, column2, column3);
 }
 /// @endcond
-
-/// @typedef AffineTransform
-///
-/// @brief A typedef representing a 4x3 float affine transformation.
-/// Since the last row ('w' row) of an affine transformation is fixed,
-/// this data type only includes the variable information for the transform.
-typedef Matrix<float, 4, 3> AffineTransform;
 
 /// @}
 
