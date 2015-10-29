@@ -472,7 +472,7 @@ inline void *AllocateAligned(size_t n) {
 ///
 /// @param p Pointer to memory to deallocate.
 inline void FreeAligned(void *p) {
-  if (p == nullptr) return;
+  if (p == NULL) return;
   free(*(reinterpret_cast<uint8_t **>(p) - 1));
 }
 
