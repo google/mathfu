@@ -193,8 +193,8 @@ class Matrix<float, 4> {
     return Vector<float, 4>(
       simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.x),
       simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.y),
-      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.w),
-      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.z));
+      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.z),
+      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.w));
   }
 
   inline Matrix<float, 4> operator*(const Matrix<float, 4>& m) const {
