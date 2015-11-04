@@ -3,13 +3,13 @@ Building for Android    {#mathfu_guide_building_android}
 
 # Version Requirements    {#mathfu_guide_building_android_version}
 
-Following are the minimum required versions of tools and libraries you
+Following are the minimum tested versions of the tools and libraries you
 need to build [MathFu][] for Android:
 
    * [Android SDK][]:  Android 2.3.3 (API Level 10) or above.
    * [Android Developer Tools][] ([ADT][]): 20140702
       - NDK plugn for Eclipse (bundled with [ADT][]) if using Eclipse to build.
-   * [Android NDK][]: android-ndk-r10c
+   * [Android NDK][]: android-ndk-r10e
    * [fplutil][]: 1.0 or above, if using [fplutil][] to build, install and run.
 
 # Prerequisites    {#mathfu_guide_building_android_prerequisites}
