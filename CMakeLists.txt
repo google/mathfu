@@ -27,6 +27,16 @@ set(dependencies_root "${CMAKE_SOURCE_DIR}/dependencies")
 if(EXISTS "${dependencies_root}")
   set(third_party_root "${dependencies_root}")
   set(fpl_root "${dependencies_root}")
+else()
+  # Check for the dependencies directory when mathfu is *in* the dependencies
+  # directory. Note that we're using CMAKE_CURRENT_SOURCE_DIR, which is the
+  # directory of *this* file we're in now. Above we use CMAKE_SOURCE_DIR, which
+  # is the directory of the top level cmake file.
+  set(dependencies_root "${CMAKE_CURRENT_SOURCE_DIR}/../../dependencies")
+  if(EXISTS "${dependencies_root}")
+    set(third_party_root "${dependencies_root}")
+    set(fpl_root "${dependencies_root}")
+  endif()
 endif()
 
 get_filename_component(
