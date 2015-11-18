@@ -77,6 +77,13 @@ class Vector<float, 3> {
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
+  explicit inline Vector(const Vector<int, 3>& v) {
+    MATHFU_VECTOR3_INIT3(data_,
+                         static_cast<float>(v[0]),
+                         static_cast<float>(v[1]),
+                         static_cast<float>(v[2]));
+  }
+
   inline Vector(const simd4f& v) {
     MATHFU_VECTOR3_STORE3(v, data_);
   }
@@ -247,7 +254,7 @@ class Vector<float, 3> {
   }
 
   inline Vector<float, 3> Normalized() const {
-    return simd4f_normalize3(MATHFU_VECTOR3_LOAD3(data_));
+    return Vector<float, 3>(simd4f_normalize3(MATHFU_VECTOR3_LOAD3(data_)));
   }
 
   static inline float DotProduct(

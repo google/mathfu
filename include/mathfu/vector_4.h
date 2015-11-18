@@ -50,7 +50,14 @@ class Vector<float, 4> {
     data_.simd = v.data_.simd;
   }
 
-  inline Vector(const simd4f& v) {
+  explicit inline Vector(const Vector<int, 4>& v) {
+    data_.float_array[0] = static_cast<float>(v[0]);
+    data_.float_array[1] = static_cast<float>(v[1]);
+    data_.float_array[2] = static_cast<float>(v[2]);
+    data_.float_array[3] = static_cast<float>(v[3]);
+  }
+
+  explicit inline Vector(const simd4f& v) {
     data_.simd = v;
   }
 
@@ -217,12 +224,12 @@ class Vector<float, 4> {
 
   inline float Normalize() {
     const float length = Length();
-    *this = simd4f_mul(data_.simd, simd4f_splat(1 / length));
+    data_.simd = simd4f_mul(data_.simd, simd4f_splat(1 / length));
     return length;
   }
 
   inline Vector<float, 4> Normalized() const {
-    return simd4f_normalize4(data_.simd);
+    return Vector<float, 4>(simd4f_normalize4(data_.simd));
   }
 
   static inline float DotProduct(

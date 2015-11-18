@@ -186,6 +186,16 @@ void Initialization_Test(const T& precision) {
   // copied matrix does not effect the origional.
   vector_copy -= mathfu::Vector<T, d>(1);
   EXPECT_NE(vector_copy[0], vector_arr[0]);
+
+  // Construct a vector from an integer vector.
+  mathfu::Vector<int, d> integer_vector;
+  for (int i = 0; i < d; ++i) {
+    integer_vector[i] = i;
+  }
+  mathfu::Vector<T, d> other_vector(integer_vector);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_EQ(static_cast<int>(other_vector[i]), integer_vector[i]);
+  }
 }
 TEST_ALL_F(Initialization)
 

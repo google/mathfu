@@ -45,7 +45,12 @@ class Vector<float, 2> {
     data_.simd = v.data_.simd;
   }
 
-  inline Vector(const simd2f& v) {
+  explicit inline Vector(const Vector<int, 2>& v) {
+    data_.float_array[0] = static_cast<float>(v[0]);
+    data_.float_array[1] = static_cast<float>(v[1]);
+  }
+
+  explicit inline Vector(const simd2f& v) {
     data_.simd = v;
   }
 
@@ -182,7 +187,7 @@ class Vector<float, 2> {
   }
 
   inline Vector<float, 2> Normalized() const {
-    return simd2f_normalize2(data_.simd);
+    return Vector<float, 2>(simd2f_normalize2(data_.simd));
   }
 
   static inline float DotProduct(
