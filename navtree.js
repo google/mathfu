@@ -120,7 +120,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"group__mathfu__build__config.html#ga5a2da7c658b034e09726bfddf63a0bb7"
+"group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

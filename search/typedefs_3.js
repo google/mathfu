@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pointer',['pointer',['../classmathfu_1_1simd__allocator.html#a24f0436b27c1661c80a3958a7989581d',1,'mathfu::simd_allocator']]]
+  ['other',['other',['../structmathfu_1_1simd__allocator_1_1rebind.html#ab220a3db344c3ff012ab8d8638f0a85f',1,'mathfu::simd_allocator::rebind']]]
 ];

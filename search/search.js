@@ -12,7 +12,7 @@ var indexSectionsWithContent =
   2: "cgmquv",
   3: "acdfghiklmnopqrstvwxyz~",
   4: "dik",
-  5: "cmopqsv",
+  5: "acmopqsv",
   6: "o",
   7: "abcgmquv",
   8: "abcimquv"

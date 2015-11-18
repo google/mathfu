@@ -152,392 +152,428 @@ $(document).ready(function(){initNavTree('matrix__4x4_8h_source.html','');});
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">namespace </span>mathfu {</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifdef MATHFU_COMPILE_WITH_SIMD</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="comment">/// @cond MATHFU_INTERNAL</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"></span><span class="keyword">template</span>&lt;&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">class </span>Matrix&lt;float, 4&gt; {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  Matrix&lt;float, 4&gt;() {}</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a> = m.data_.simd_matrix.x;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a> = m.data_.simd_matrix.y;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a> = m.data_.simd_matrix.z;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a> = m.data_.simd_matrix.w;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">explicit</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    simd4f v = simd4f_create(s, s, s, s);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    data_.simd_matrix = simd4x4f_create(v, v, v, v);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s00, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s10, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s20, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s30,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s01, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s11, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s21, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s31,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s02, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s12, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s22, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s32,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s03, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s13, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s23, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s33) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    data_.simd_matrix = simd4x4f_create(simd4f_create(s00, s10, s20, s30),</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                        simd4f_create(s01, s11, s21, s31),</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                        simd4f_create(s02, s12, s22, s32),</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                        simd4f_create(s03, s13, s23, s33));</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keyword">explicit</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> <span class="keywordtype">float</span>* m) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    data_.simd_matrix = simd4x4f_create(</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        simd4f_create(m[0], m[1], m[2], m[3]),</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        simd4f_create(m[4], m[5], m[6], m[7]),</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        simd4f_create(m[8], m[9], m[10], m[11]),</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        simd4f_create(m[12], m[13], m[14], m[15]));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column0,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                          <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column1,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                          <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column2,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                          <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column3) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#if defined(MATHFU_COMPILE_WITH_PADDING)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span>    data_.simd_matrix = simd4x4f_create(</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        column0.data_.simd, column1.data_.simd,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        column2.data_.simd, column3.data_.simd);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span>    data_.simd_matrix = simd4x4f_create(</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        simd4f_create(column0[0], column0[1], column0[2], column0[3]),</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        simd4f_create(column1[0], column1[1], column1[2], column1[3]),</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        simd4f_create(column2[0], column2[1], column2[2], column2[3]),</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        simd4f_create(column3[0], column3[1], column3[2], column3[3]));</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif  // defined(MATHFU_COMPILE_WITH_PADDING)</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"></span>  }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keyword">explicit</span> <span class="keyword">inline</span> <a class="code" href="classmathfu_1_1_matrix.html#a0bfaef04d5d30c9b3b4a08b07034dffc">Matrix</a>(<span class="keyword">const</span> VectorPacked&lt;float, 4&gt; * <span class="keyword">const</span> vectors) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a> = simd4f_uload4(vectors[0].data);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a> = simd4f_uload4(vectors[1].data);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a> = simd4f_uload4(vectors[2].data);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a> = simd4f_uload4(vectors[3].data);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">int</span> j)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">return</span> FindElem(i, FindColumn(j));</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">int</span> j) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">return</span> FindElem(i, FindColumn(j));</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(i);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(i);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> col = i / 4;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> row = i % 4;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">return</span> FindElem(row, FindColumn(col));</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> col = i / 4;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> row = i % 4;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">return</span> FindElem(row, FindColumn(col));</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classmathfu_1_1_matrix.html#a38b75fe2109ba34d6e076f1254c72ead">Pack</a>(VectorPacked&lt;float, 4&gt; * <span class="keyword">const</span> vector)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a>, vector[0].data);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a>, vector[1].data);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a>, vector[2].data);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a>, vector[3].data);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">operator-</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    Matrix&lt;float, 4&gt; m(0.f);</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    simd4x4f_sub(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                 &amp;m.data_.simd_matrix);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">return</span> m;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a4b8716aa0dd95c8cca72220ee6a2c695">operator+</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    simd4x4f_add(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                 &amp;return_m.data_.simd_matrix);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  }</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">operator-</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    simd4x4f_sub(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                 &amp;return_m.data_.simd_matrix);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    Matrix&lt;float, 4&gt; m(s);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                 &amp;m.data_.simd_matrix);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">return</span> m;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#af55313934a4472704fbf65ebfc827057">operator/</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    Matrix&lt;float, 4&gt; m(1 / s);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                 &amp;m.data_.simd_matrix);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordflow">return</span> m;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  }</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 3&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; v)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    Vector&lt;float, 3&gt; return_v;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    Simd4fUnion temp_v;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#ifdef MATHFU_COMPILE_WITH_PADDING</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor"></span>    temp_v.simd = v.data_.simd;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    temp_v.float_array[3] = 1;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    simd4x4f_matrix_vector_mul(&amp;data_.simd_matrix, &amp;temp_v.simd,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                               &amp;return_v.data_.simd);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    return_v *= (1 / return_v.data_.float_array[3]);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor"></span>    temp_v.simd = simd4f_create(v[0], v[1], v[2], 1.0f);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    simd4x4f_matrix_vector_mul(&amp;data_.simd_matrix, &amp;temp_v.simd,</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                               &amp;temp_v.simd);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    simd4f_mul(temp_v.simd, simd4f_splat(temp_v.float_array[3]));</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    MATHFU_VECTOR3_STORE3(temp_v.simd, return_v.data_);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor">#endif // MATHFU_COMPILE_WITH_PADDING</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> return_v;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  }</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    Vector&lt;float, 4&gt; return_v;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    simd4x4f_matrix_vector_mul(&amp;data_.simd_matrix, &amp;v.data_.simd,</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                               &amp;return_v.data_.simd);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">return</span> return_v;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  }</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 4&gt; VecMatTimes(<span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">return</span> Vector&lt;float, 4&gt;(</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a>),</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a>),</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a>),</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a>));</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    simd4x4f_matrix_mul(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                        &amp;return_m.data_.simd_matrix);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  }</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#ad1074f6914a4074310f8c6fca35267ac">Inverse</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    simd4x4f_inverse(&amp;data_.simd_matrix, &amp;return_m.data_.simd_matrix);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  }</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="classmathfu_1_1_matrix.html#ad720e102d4607e16d9c0be6d3b864ade">InverseWithDeterminantCheck</a>(</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;      Matrix&lt;float, 4, 4&gt;* <span class="keyword">const</span> inverse)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">return</span> fabs(simd4f_get_x(simd4x4f_inverse(</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        &amp;data_.simd_matrix, &amp;inverse-&gt;data_.simd_matrix))) &gt;=</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <a class="code" href="classmathfu_1_1_constants_3_01float_01_4.html#a37637e0fb5695f6be4a81fd55f054022">Constants&lt;float&gt;::GetDeterminantThreshold</a>();</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  }</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment">  /// Calculate the transpose of matrix.</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment">  /// @return The transpose of the specified matrix.</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment"></span>  <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a2396a995facbb0220e631b5b6ac96853">Transpose</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    Matrix&lt;float, 4, 4&gt; transpose;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    simd4x4f_transpose(&amp;data_.simd_matrix, &amp;transpose.data_.simd_matrix);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">return</span> transpose;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  }</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 3&gt; <a class="code" href="classmathfu_1_1_matrix.html#a25c273b652c5491d8b97007adb20b416">TranslationVector3D</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    Vector&lt;float, 3&gt; return_v;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    MATHFU_VECTOR3_STORE3(FindColumn(3).simd, return_v.data_);</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">return</span> return_v;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  }</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#aa7c60f45dca4c5fdd75fb481ca57adb8">operator+=</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    simd4x4f_add(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                 &amp;data_.simd_matrix);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#a2095f81c95811e981b2e6851881fc73a">operator-=</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    simd4x4f_sub(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                 &amp;data_.simd_matrix);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  }</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">operator*=</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s) {</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    Matrix&lt;float, 4&gt; m(s);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                 &amp;data_.simd_matrix);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  }</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#a242ba756dfd6f6387101580070db5553">operator/=</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s) {</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    Matrix&lt;float, 4&gt; m(1 / s);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                 &amp;data_.simd_matrix);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  }</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">operator*=</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    Matrix&lt;float, 4&gt; copy_of_this(*<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    simd4x4f_matrix_mul(&amp;copy_of_this.data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                        &amp;data_.simd_matrix);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  }</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a64995f331c2dd3bf41be1050cde3948e">OuterProduct</a>(</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v1, <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v2) {</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    Matrix&lt;float, 4&gt; m;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    m.data_.simd_matrix = simd4x4f_create(</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[0])),</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[1])),</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[2])),</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[3])));</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordflow">return</span> m;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  }</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a32130a853e5e47ede094a502e445a97e">HadamardProduct</a>(</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m1, <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m2) {</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    simd4x4f_mul(&amp;m1.data_.simd_matrix, &amp;m2.data_.simd_matrix,</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                 &amp;return_m.data_.simd_matrix);</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;  }</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a711cb0ef22265d58eaa77fd2930e0acd">Identity</a>() {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    simd4x4f_identity(&amp;return_m.data_.simd_matrix);</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  }</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#ae9d1157bf7c0356de348ac514e3518a3">FromTranslationVector</a>(</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;      <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; v) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordflow">return</span> Matrix&lt;float, 4&gt;(</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;      1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  }</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a43b6b3fba088b28f189b278528fa0355">FromScaleVector</a>(<span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; v) {</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordflow">return</span> Matrix&lt;float, 4&gt;(</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;      v[0], 0, 0, 0, 0, v[1], 0, 0, 0, 0, v[2], 0, 0, 0, 0, 1);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  }</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a46e9dfffc00b59d83800b03e6140a55b">FromRotationMatrix</a>(</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      <span class="keyword">const</span> Matrix&lt;float, 3&gt;&amp; m) {</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="keywordflow">return</span> Matrix&lt;float, 4&gt;(</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      m[0], m[1], m[2], 0, m[3], m[4], m[5], 0,</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      m[6], m[7], m[8], 0, 0, 0, 0, 1);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  }</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment">  /// Create a 4x4 perpective matrix.</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment">  /// @handedness: 1.0f for RH, -1.0f for LH</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a">Perspective</a>(</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      <span class="keywordtype">float</span> fovy, <span class="keywordtype">float</span> aspect, <span class="keywordtype">float</span> znear, <span class="keywordtype">float</span> zfar,</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordtype">float</span> handedness = 1.0f) {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">return</span> PerspectiveHelper(fovy, aspect, znear, zfar, handedness);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  }</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment">  /// Create a 4x4 orthographic matrix.</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a8aa9b6771ecf5261360812c7ffdd6b57">Ortho</a>(<span class="keywordtype">float</span> left, <span class="keywordtype">float</span> right,</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                                          <span class="keywordtype">float</span> bottom, <span class="keywordtype">float</span> top,</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                                          <span class="keywordtype">float</span> znear, <span class="keywordtype">float</span> zfar) {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keywordflow">return</span> OrthoHelper(left, right, bottom, top, znear, zfar);</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  }</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment">  /// Create a 3-dimensional camera matrix.</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment">  /// @param at The look-at target of the camera.</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">  /// @param eye The position of the camera.</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">  /// @param up The up vector in the world, for example (0, 1, 0) if the</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">  /// y-axis is up.</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#ab87c0891cbb79aa655a2bda066c544a1">LookAt</a>(</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; at, <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; eye,</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; up) {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="keywordflow">return</span> LookAtHelper(at, eye, up);</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;  }</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  <span class="comment">// Dimensions of the matrix.</span><span class="comment"></span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">  /// Number of rows in the matrix.</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classmathfu_1_1_matrix.html#aa2fb3d0bef2a24b8e7e666ce2d4dd61f">kRows</a> = 4;<span class="comment"></span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">  /// Number of columns in the matrix.</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classmathfu_1_1_matrix.html#a9e2843d2193c6ad97bd588496f22010d">kColumns</a> = 4;<span class="comment"></span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">  /// Total number of elements in the matrix.</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classmathfu_1_1_matrix.html#aa52700091d72f3131b7f676b4c70a26a">kElements</a> = 4 * 4;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> Simd4fUnion&amp; FindColumn(<span class="keyword">const</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="keywordflow">return</span> data_.simd4f_union_array[i];</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  }</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  <span class="keyword">inline</span> Simd4fUnion&amp; FindColumn(<span class="keyword">const</span> <span class="keywordtype">int</span> i) {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="keywordflow">return</span> data_.simd4f_union_array[i];</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  }</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; FindElem(<span class="keyword">const</span> <span class="keywordtype">int</span> i,</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                                      <span class="keyword">const</span> Simd4fUnion&amp; column) {</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keywordflow">return</span> column.float_array[i];</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> Vector&lt;float, 4&gt; kAffineWColumn(0.0f, 0.0f, 0.0f, 1.0f);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">/// @cond MATHFU_INTERNAL</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"></span><span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">class </span>Matrix&lt;float, 4&gt; {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  Matrix&lt;float, 4&gt;() {}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a> = m.data_.simd_matrix.x;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a> = m.data_.simd_matrix.y;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a> = m.data_.simd_matrix.z;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a> = m.data_.simd_matrix.w;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">explicit</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    simd4f v = simd4f_create(s, s, s, s);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    data_.simd_matrix = simd4x4f_create(v, v, v, v);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s00, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s10, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s20, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s30,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s01, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s11, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s21, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s31,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s02, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s12, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s22, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s32,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s03, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s13, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s23, <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s33) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    data_.simd_matrix = simd4x4f_create(simd4f_create(s00, s10, s20, s30),</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                        simd4f_create(s01, s11, s21, s31),</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                        simd4f_create(s02, s12, s22, s32),</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                        simd4f_create(s03, s13, s23, s33));</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keyword">explicit</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> <span class="keywordtype">float</span>* m) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    data_.simd_matrix = simd4x4f_create(</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        simd4f_create(m[0], m[1], m[2], m[3]),</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        simd4f_create(m[4], m[5], m[6], m[7]),</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        simd4f_create(m[8], m[9], m[10], m[11]),</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        simd4f_create(m[12], m[13], m[14], m[15]));</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;(<span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column0,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                          <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column1,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                          <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column2,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                          <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; column3) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#if defined(MATHFU_COMPILE_WITH_PADDING)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span>    data_.simd_matrix = simd4x4f_create(</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        column0.data_.simd, column1.data_.simd,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        column2.data_.simd, column3.data_.simd);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span>    data_.simd_matrix = simd4x4f_create(</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        simd4f_create(column0[0], column0[1], column0[2], column0[3]),</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        simd4f_create(column1[0], column1[1], column1[2], column1[3]),</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        simd4f_create(column2[0], column2[1], column2[2], column2[3]),</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        simd4f_create(column3[0], column3[1], column3[2], column3[3]));</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif  // defined(MATHFU_COMPILE_WITH_PADDING)</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor"></span>  }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keyword">explicit</span> <span class="keyword">inline</span> <a class="code" href="classmathfu_1_1_matrix.html#a0bfaef04d5d30c9b3b4a08b07034dffc">Matrix</a>(<span class="keyword">const</span> VectorPacked&lt;float, 4&gt; * <span class="keyword">const</span> vectors) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a> = simd4f_uload4(vectors[0].data);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a> = simd4f_uload4(vectors[1].data);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a> = simd4f_uload4(vectors[2].data);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a> = simd4f_uload4(vectors[3].data);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">int</span> j)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> FindElem(i, FindColumn(j));</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">int</span> j) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> FindElem(i, FindColumn(j));</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(i);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">operator()</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i) {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(i);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> col = i / 4;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> row = i % 4;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> FindElem(row, FindColumn(col));</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; <a class="code" href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">operator[]</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> i) {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> col = i / 4;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> row = i % 4;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">return</span> FindElem(row, FindColumn(col));</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="classmathfu_1_1_matrix.html#a38b75fe2109ba34d6e076f1254c72ead">Pack</a>(VectorPacked&lt;float, 4&gt; * <span class="keyword">const</span> vector)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a>, vector[0].data);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a>, vector[1].data);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a>, vector[2].data);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    simd4f_ustore4(data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a>, vector[3].data);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">operator-</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    Matrix&lt;float, 4&gt; m(0.f);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    simd4x4f_sub(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                 &amp;m.data_.simd_matrix);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">return</span> m;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a4b8716aa0dd95c8cca72220ee6a2c695">operator+</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    simd4x4f_add(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                 &amp;return_m.data_.simd_matrix);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  }</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">operator-</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    simd4x4f_sub(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                 &amp;return_m.data_.simd_matrix);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    Matrix&lt;float, 4&gt; m(s);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                 &amp;m.data_.simd_matrix);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordflow">return</span> m;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#af55313934a4472704fbf65ebfc827057">operator/</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    Matrix&lt;float, 4&gt; m(1 / s);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                 &amp;m.data_.simd_matrix);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">return</span> m;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 3&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; v)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    Vector&lt;float, 3&gt; return_v;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    Simd4fUnion temp_v;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#ifdef MATHFU_COMPILE_WITH_PADDING</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor"></span>    temp_v.simd = v.data_.simd;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    temp_v.float_array[3] = 1;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    simd4x4f_matrix_vector_mul(&amp;data_.simd_matrix, &amp;temp_v.simd,</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                               &amp;return_v.data_.simd);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    return_v *= (1 / return_v.data_.float_array[3]);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor"></span>    temp_v.simd = simd4f_create(v[0], v[1], v[2], 1.0f);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    simd4x4f_matrix_vector_mul(&amp;data_.simd_matrix, &amp;temp_v.simd,</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                               &amp;temp_v.simd);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    simd4f_mul(temp_v.simd, simd4f_splat(temp_v.float_array[3]));</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    MATHFU_VECTOR3_STORE3(temp_v.simd, return_v.data_);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">#endif // MATHFU_COMPILE_WITH_PADDING</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> return_v;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    Vector&lt;float, 4&gt; return_v;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    simd4x4f_matrix_vector_mul(&amp;data_.simd_matrix, &amp;v.data_.simd,</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                               &amp;return_v.data_.simd);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">return</span> return_v;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 4&gt; VecMatTimes(<span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordflow">return</span> Vector&lt;float, 4&gt;(</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a>),</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a>),</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a>),</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.<a class="code" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">w</a>));</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  }</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">operator*</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    simd4x4f_matrix_mul(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                        &amp;return_m.data_.simd_matrix);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  }</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#ad1074f6914a4074310f8c6fca35267ac">Inverse</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    simd4x4f_inverse(&amp;data_.simd_matrix, &amp;return_m.data_.simd_matrix);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="classmathfu_1_1_matrix.html#ad720e102d4607e16d9c0be6d3b864ade">InverseWithDeterminantCheck</a>(</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      Matrix&lt;float, 4, 4&gt;* <span class="keyword">const</span> inverse)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordflow">return</span> fabs(simd4f_get_x(simd4x4f_inverse(</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        &amp;data_.simd_matrix, &amp;inverse-&gt;data_.simd_matrix))) &gt;=</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <a class="code" href="classmathfu_1_1_constants_3_01float_01_4.html#a37637e0fb5695f6be4a81fd55f054022">Constants&lt;float&gt;::GetDeterminantThreshold</a>();</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  }</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="comment">  /// Calculate the transpose of matrix.</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment">  /// @return The transpose of the specified matrix.</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment"></span>  <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a2396a995facbb0220e631b5b6ac96853">Transpose</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    Matrix&lt;float, 4, 4&gt; transpose;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    simd4x4f_transpose(&amp;data_.simd_matrix, &amp;transpose.data_.simd_matrix);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">return</span> transpose;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keyword">inline</span> Vector&lt;float, 3&gt; <a class="code" href="classmathfu_1_1_matrix.html#a25c273b652c5491d8b97007adb20b416">TranslationVector3D</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    Vector&lt;float, 3&gt; return_v;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    MATHFU_VECTOR3_STORE3(FindColumn(3).simd, return_v.data_);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordflow">return</span> return_v;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  }</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#aa7c60f45dca4c5fdd75fb481ca57adb8">operator+=</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    simd4x4f_add(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                 &amp;data_.simd_matrix);</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  }</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#a2095f81c95811e981b2e6851881fc73a">operator-=</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    simd4x4f_sub(&amp;data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                 &amp;data_.simd_matrix);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  }</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">operator*=</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s) {</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    Matrix&lt;float, 4&gt; m(s);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                 &amp;data_.simd_matrix);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  }</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt;&amp; <a class="code" href="classmathfu_1_1_matrix.html#a242ba756dfd6f6387101580070db5553">operator/=</a>(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s) {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    Matrix&lt;float, 4&gt; m(1 / s);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    simd4x4f_mul(&amp;m.data_.simd_matrix, &amp;data_.simd_matrix,</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                 &amp;data_.simd_matrix);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  }</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">operator*=</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    Matrix&lt;float, 4&gt; copy_of_this(*<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    simd4x4f_matrix_mul(&amp;copy_of_this.data_.simd_matrix, &amp;m.data_.simd_matrix,</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                        &amp;data_.simd_matrix);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a64995f331c2dd3bf41be1050cde3948e">OuterProduct</a>(</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v1, <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v2) {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    Matrix&lt;float, 4&gt; m;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    m.data_.simd_matrix = simd4x4f_create(</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[0])),</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[1])),</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[2])),</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        simd4f_mul(v1.data_.simd, simd4f_splat(v2[3])));</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">return</span> m;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  }</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a32130a853e5e47ede094a502e445a97e">HadamardProduct</a>(</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m1, <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m2) {</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    simd4x4f_mul(&amp;m1.data_.simd_matrix, &amp;m2.data_.simd_matrix,</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                 &amp;return_m.data_.simd_matrix);</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  }</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a711cb0ef22265d58eaa77fd2930e0acd">Identity</a>() {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    Matrix&lt;float, 4&gt; return_m;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    simd4x4f_identity(&amp;return_m.data_.simd_matrix);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordflow">return</span> return_m;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  }</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#ae9d1157bf7c0356de348ac514e3518a3">FromTranslationVector</a>(</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;      <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; v) {</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordflow">return</span> Matrix&lt;float, 4&gt;(</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;      1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  }</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a43b6b3fba088b28f189b278528fa0355">FromScaleVector</a>(<span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; v) {</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="keywordflow">return</span> Matrix&lt;float, 4&gt;(</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      v[0], 0, 0, 0, 0, v[1], 0, 0, 0, 0, v[2], 0, 0, 0, 0, 1);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  }</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a46e9dfffc00b59d83800b03e6140a55b">FromRotationMatrix</a>(</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      <span class="keyword">const</span> Matrix&lt;float, 3&gt;&amp; m) {</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keywordflow">return</span> Matrix&lt;float, 4&gt;(</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      m[0], m[1], m[2], 0, m[3], m[4], m[5], 0,</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;      m[6], m[7], m[8], 0, 0, 0, 0, 1);</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  }</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">  /// @brief Constructs a Matrix&lt;float, 4&gt; from an AffineTransform.</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">  ///</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">  /// @param affine An AffineTransform reference to be used to construct</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment">  /// a Matrix&lt;float, 4&gt; by adding in the &#39;w&#39; row of [0, 0, 0, 1].</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a256634cb906125d6a477416fa3e71126">FromAffineTransform</a>(</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;      <span class="keyword">const</span> <a class="code" href="group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47">AffineTransform</a>&amp; affine) {</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    Matrix&lt;float, 4&gt; m;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    m.data_.simd_matrix.x = simd4f_uload4(&amp;affine[0]);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    m.data_.simd_matrix.y = simd4f_uload4(&amp;affine[4]);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    m.data_.simd_matrix.z = simd4f_uload4(&amp;affine[8]);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    m.data_.simd_matrix.w = simd4f_uload4(&amp;kAffineWColumn[0]);</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">return</span> m.Transpose();</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;  }</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">  /// @brief Converts a Matrix&lt;float, 4&gt; into an AffineTransform.</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">  ///</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">  /// @param m A Matrix&lt;float, 4&gt; reference to be converted into an</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">  /// AffineTransform by dropping the fixed &#39;w&#39; row.</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">  ///</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">  /// @return Returns an AffineTransform that contains the essential</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment">  /// transformation data from the Matrix&lt;float, 4&gt;.</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> <a class="code" href="group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47">AffineTransform</a> <a class="code" href="classmathfu_1_1_matrix.html#ad88f12c83cc80d422865f33ae19d6d63">ToAffineTransform</a>(<span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <a class="code" href="group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47">AffineTransform</a> affine;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keyword">const</span> Matrix&lt;float, 4&gt; mt = m.Transpose();</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    simd4f_ustore4(mt.data_.simd_matrix.x, &amp;affine[0]);</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    simd4f_ustore4(mt.data_.simd_matrix.y, &amp;affine[4]);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    simd4f_ustore4(mt.data_.simd_matrix.z, &amp;affine[8]);</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keywordflow">return</span> affine;</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  }</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">  /// Create a 4x4 perpective matrix.</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">  /// @handedness: 1.0f for RH, -1.0f for LH</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a">Perspective</a>(</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;      <span class="keywordtype">float</span> fovy, <span class="keywordtype">float</span> aspect, <span class="keywordtype">float</span> znear, <span class="keywordtype">float</span> zfar,</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      <span class="keywordtype">float</span> handedness = 1.0f) {</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keywordflow">return</span> PerspectiveHelper(fovy, aspect, znear, zfar, handedness);</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  }</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">  /// Create a 4x4 orthographic matrix.</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#a8aa9b6771ecf5261360812c7ffdd6b57">Ortho</a>(<span class="keywordtype">float</span> left, <span class="keywordtype">float</span> right,</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                                          <span class="keywordtype">float</span> bottom, <span class="keywordtype">float</span> top,</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                                          <span class="keywordtype">float</span> znear, <span class="keywordtype">float</span> zfar) {</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keywordflow">return</span> OrthoHelper(left, right, bottom, top, znear, zfar);</div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  }</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; FindElem(<span class="keyword">const</span> <span class="keywordtype">int</span> i, Simd4fUnion&amp; column) {</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="keywordflow">return</span> column.float_array[i];</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;  }</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="comment">// Contents of the Matrix in different representations to work around</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  <span class="comment">// strict aliasing rules.</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  <span class="keyword">union </span>{</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    simd4x4f simd_matrix;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    Simd4fUnion simd4f_union_array[4];</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">float</span> float_array[16];</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  } data_;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;};</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="keyword">inline</span> Matrix&lt;float, 4&gt; operator*(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s, <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  <span class="keywordflow">return</span> m * s;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;}</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="keyword">inline</span> Vector&lt;float, 4&gt; operator*(</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v, <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  <span class="keywordflow">return</span> m.VecMatTimes(v);</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;}<span class="comment"></span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">/// @endcond</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment"></span><span class="preprocessor">#endif  // MATHFU_COMPILE_WITH_SIMD</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="preprocessor"></span>}  <span class="comment">// namespace mathfu</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="preprocessor">#endif  // MATHFU_MATRIX_4X4_H_</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">  /// Create a 3-dimensional camera matrix.</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">  /// @param at The look-at target of the camera.</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">  /// @param eye The position of the camera.</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">  /// @param up The up vector in the world, for example (0, 1, 0) if the</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">  /// y-axis is up.</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">inline</span> Matrix&lt;float, 4, 4&gt; <a class="code" href="classmathfu_1_1_matrix.html#ab87c0891cbb79aa655a2bda066c544a1">LookAt</a>(</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;      <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; at, <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; eye,</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;      <span class="keyword">const</span> Vector&lt;float, 3&gt;&amp; up) {</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keywordflow">return</span> LookAtHelper(at, eye, up);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  }</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  <span class="comment">// Dimensions of the matrix.</span><span class="comment"></span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">  /// Number of rows in the matrix.</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classmathfu_1_1_matrix.html#aa2fb3d0bef2a24b8e7e666ce2d4dd61f">kRows</a> = 4;<span class="comment"></span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">  /// Number of columns in the matrix.</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classmathfu_1_1_matrix.html#a9e2843d2193c6ad97bd588496f22010d">kColumns</a> = 4;<span class="comment"></span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">  /// Total number of elements in the matrix.</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment"></span>  <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="classmathfu_1_1_matrix.html#aa52700091d72f3131b7f676b4c70a26a">kElements</a> = 4 * 4;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  <span class="keyword">inline</span> <span class="keyword">const</span> Simd4fUnion&amp; FindColumn(<span class="keyword">const</span> <span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="keywordflow">return</span> data_.simd4f_union_array[i];</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  }</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  <span class="keyword">inline</span> Simd4fUnion&amp; FindColumn(<span class="keyword">const</span> <span class="keywordtype">int</span> i) {</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">return</span> data_.simd4f_union_array[i];</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">float</span>&amp; FindElem(<span class="keyword">const</span> <span class="keywordtype">int</span> i,</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                                      <span class="keyword">const</span> Simd4fUnion&amp; column) {</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">return</span> column.float_array[i];</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;  }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;  <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span>&amp; FindElem(<span class="keyword">const</span> <span class="keywordtype">int</span> i, Simd4fUnion&amp; column) {</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="keywordflow">return</span> column.float_array[i];</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;  }</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;  <span class="comment">// Contents of the Matrix in different representations to work around</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;  <span class="comment">// strict aliasing rules.</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;  <span class="keyword">union </span>{</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    simd4x4f simd_matrix;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    Simd4fUnion simd4f_union_array[4];</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="keywordtype">float</span> float_array[16];</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  } data_;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;};</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="keyword">inline</span> Matrix&lt;float, 4&gt; operator*(<span class="keyword">const</span> <span class="keywordtype">float</span>&amp; s, <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;  <span class="keywordflow">return</span> m * s;</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;}</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;<span class="keyword">inline</span> Vector&lt;float, 4&gt; operator*(</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;  <span class="keyword">const</span> Vector&lt;float, 4&gt;&amp; v, <span class="keyword">const</span> Matrix&lt;float, 4&gt;&amp; m) {</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  <span class="keywordflow">return</span> m.VecMatTimes(v);</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;}<span class="comment"></span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="comment">/// @endcond</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="comment"></span><span class="preprocessor">#endif  // MATHFU_COMPILE_WITH_SIMD</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="preprocessor"></span>}  <span class="comment">// namespace mathfu</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="preprocessor">#endif  // MATHFU_MATRIX_4X4_H_</span></div>
 <div class="ttc" id="vector__4_8h_html"><div class="ttname"><a href="vector__4_8h.html">vector_4.h</a></div><div class="ttdoc">4-dimensional specialization of mathfu::Vector for SIMD optimized builds. </div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_ad1074f6914a4074310f8c6fca35267ac"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ad1074f6914a4074310f8c6fca35267ac">mathfu::Matrix::Inverse</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; Inverse() const </div><div class="ttdoc">Calculate the inverse of this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:478</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a25c273b652c5491d8b97007adb20b416"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a25c273b652c5491d8b97007adb20b416">mathfu::Matrix::TranslationVector3D</a></div><div class="ttdeci">Vector&lt; T, 3 &gt; TranslationVector3D() const </div><div class="ttdoc">Get the 3-dimensional translation of a 3-dimensional affine transform. </div><div class="ttdef"><b>Definition:</b> matrix.h:529</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_ad1074f6914a4074310f8c6fca35267ac"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ad1074f6914a4074310f8c6fca35267ac">mathfu::Matrix::Inverse</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; Inverse() const </div><div class="ttdoc">Calculate the inverse of this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:504</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a25c273b652c5491d8b97007adb20b416"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a25c273b652c5491d8b97007adb20b416">mathfu::Matrix::TranslationVector3D</a></div><div class="ttdeci">Vector&lt; T, 3 &gt; TranslationVector3D() const </div><div class="ttdoc">Get the 3-dimensional translation of a 3-dimensional affine transform. </div><div class="ttdef"><b>Definition:</b> matrix.h:555</div></div>
 <div class="ttc" id="classmathfu_1_1_matrix_html_a0bfaef04d5d30c9b3b4a08b07034dffc"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a0bfaef04d5d30c9b3b4a08b07034dffc">mathfu::Matrix::Matrix</a></div><div class="ttdeci">Matrix()</div><div class="ttdoc">Construct a Matrix of uninitialized values. </div><div class="ttdef"><b>Definition:</b> matrix.h:137</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_aa52700091d72f3131b7f676b4c70a26a"><div class="ttname"><a href="classmathfu_1_1_matrix.html#aa52700091d72f3131b7f676b4c70a26a">mathfu::Matrix::kElements</a></div><div class="ttdeci">static const int kElements</div><div class="ttdoc">Total number of elements in the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:730</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a43f23ddc348c400e7ce8db8fe4863af5"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">mathfu::Matrix::operator*=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator*=(const T &amp;s)</div><div class="ttdoc">Multiply each element of this Matrix with a scalar (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:450</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a256634cb906125d6a477416fa3e71126"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a256634cb906125d6a477416fa3e71126">mathfu::Matrix::FromAffineTransform</a></div><div class="ttdeci">static Matrix&lt; T, 4 &gt; FromAffineTransform(const Matrix&lt; T, 4, 3 &gt; &amp;affine)</div><div class="ttdoc">Constructs a Matrix&lt;float, 4&gt; from an AffineTransform. </div><div class="ttdef"><b>Definition:</b> matrix.h:640</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_aa52700091d72f3131b7f676b4c70a26a"><div class="ttname"><a href="classmathfu_1_1_matrix.html#aa52700091d72f3131b7f676b4c70a26a">mathfu::Matrix::kElements</a></div><div class="ttdeci">static const int kElements</div><div class="ttdoc">Total number of elements in the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:779</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a43f23ddc348c400e7ce8db8fe4863af5"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">mathfu::Matrix::operator*=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator*=(const T &amp;s)</div><div class="ttdoc">Multiply each element of this Matrix with a scalar (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:476</div></div>
 <div class="ttc" id="utilities_8h_html"><div class="ttname"><a href="utilities_8h.html">utilities.h</a></div><div class="ttdoc">Utility macros and functions. </div></div>
-<div class="ttc" id="classmathfu_1_1_constants_3_01float_01_4_html_a37637e0fb5695f6be4a81fd55f054022"><div class="ttname"><a href="classmathfu_1_1_constants_3_01float_01_4.html#a37637e0fb5695f6be4a81fd55f054022">mathfu::Constants&lt; float &gt;::GetDeterminantThreshold</a></div><div class="ttdeci">static float GetDeterminantThreshold()</div><div class="ttdoc">Minimum absolute value of the determinant of an invertible float Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:1068</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_ad720e102d4607e16d9c0be6d3b864ade"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ad720e102d4607e16d9c0be6d3b864ade">mathfu::Matrix::InverseWithDeterminantCheck</a></div><div class="ttdeci">bool InverseWithDeterminantCheck(Matrix&lt; T, rows, columns &gt; *const inverse) const </div><div class="ttdoc">Calculate the inverse of this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:499</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a46e9dfffc00b59d83800b03e6140a55b"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a46e9dfffc00b59d83800b03e6140a55b">mathfu::Matrix::FromRotationMatrix</a></div><div class="ttdeci">static Matrix&lt; T, 4 &gt; FromRotationMatrix(const Matrix&lt; T, 3 &gt; &amp;m)</div><div class="ttdoc">Create a 4x4 Matrix from a 3x3 rotation Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:604</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a43b6b3fba088b28f189b278528fa0355"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a43b6b3fba088b28f189b278528fa0355">mathfu::Matrix::FromScaleVector</a></div><div class="ttdeci">static Matrix&lt; T, rows &gt; FromScaleVector(const Vector&lt; T, rows-1 &gt; &amp;v)</div><div class="ttdoc">Create a square Matrix with the diagonal component set to v. </div><div class="ttdef"><b>Definition:</b> matrix.h:588</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a8aa9b6771ecf5261360812c7ffdd6b57"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a8aa9b6771ecf5261360812c7ffdd6b57">mathfu::Matrix::Ortho</a></div><div class="ttdeci">static Matrix&lt; T, 4, 4 &gt; Ortho(T left, T right, T bottom, T top, T znear, T zfar)</div><div class="ttdoc">Create a 4x4 orthographic Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:696</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a4b8716aa0dd95c8cca72220ee6a2c695"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a4b8716aa0dd95c8cca72220ee6a2c695">mathfu::Matrix::operator+</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator+(const Matrix&lt; T, rows, columns &gt; &amp;m) const </div><div class="ttdoc">Add a Matrix to this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:355</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_aa7c60f45dca4c5fdd75fb481ca57adb8"><div class="ttname"><a href="classmathfu_1_1_matrix.html#aa7c60f45dca4c5fdd75fb481ca57adb8">mathfu::Matrix::operator+=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator+=(const Matrix&lt; T, rows, columns &gt; &amp;m)</div><div class="ttdoc">Add a Matrix to this Matrix (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:416</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a32130a853e5e47ede094a502e445a97e"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a32130a853e5e47ede094a502e445a97e">mathfu::Matrix::HadamardProduct</a></div><div class="ttdeci">static Matrix&lt; T, rows, columns &gt; HadamardProduct(const Matrix&lt; T, rows, columns &gt; &amp;m1, const Matrix&lt; T, rows, columns &gt; &amp;m2)</div><div class="ttdoc">Calculate the hadamard / component-wise product of two matrices. </div><div class="ttdef"><b>Definition:</b> matrix.h:547</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a64995f331c2dd3bf41be1050cde3948e"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a64995f331c2dd3bf41be1050cde3948e">mathfu::Matrix::OuterProduct</a></div><div class="ttdeci">static Matrix&lt; T, rows, columns &gt; OuterProduct(const Vector&lt; T, rows &gt; &amp;v1, const Vector&lt; T, columns &gt; &amp;v2)</div><div class="ttdoc">Calculate the outer product of two Vectors. </div><div class="ttdef"><b>Definition:</b> matrix.h:537</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a9ce8bafcb5c5c5b0a7105748b90f0d24"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">mathfu::Matrix::operator*</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator*(const T &amp;s) const </div><div class="ttdoc">Multiply each element of this Matrix with a scalar. </div><div class="ttdef"><b>Definition:</b> matrix.h:389</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a1797bc7940939e656d11b45981bbbef0"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">mathfu::Matrix::operator()</a></div><div class="ttdeci">const T &amp; operator()(const int row, const int column) const </div><div class="ttdoc">Access an element of the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:257</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_ab87c0891cbb79aa655a2bda066c544a1"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ab87c0891cbb79aa655a2bda066c544a1">mathfu::Matrix::LookAt</a></div><div class="ttdeci">static Matrix&lt; T, 4, 4 &gt; LookAt(const Vector&lt; T, 3 &gt; &amp;at, const Vector&lt; T, 3 &gt; &amp;eye, const Vector&lt; T, 3 &gt; &amp;up)</div><div class="ttdoc">Create a 3-dimensional camera Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:708</div></div>
+<div class="ttc" id="classmathfu_1_1_constants_3_01float_01_4_html_a37637e0fb5695f6be4a81fd55f054022"><div class="ttname"><a href="classmathfu_1_1_constants_3_01float_01_4.html#a37637e0fb5695f6be4a81fd55f054022">mathfu::Constants&lt; float &gt;::GetDeterminantThreshold</a></div><div class="ttdeci">static float GetDeterminantThreshold()</div><div class="ttdoc">Minimum absolute value of the determinant of an invertible float Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:1117</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_ad720e102d4607e16d9c0be6d3b864ade"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ad720e102d4607e16d9c0be6d3b864ade">mathfu::Matrix::InverseWithDeterminantCheck</a></div><div class="ttdeci">bool InverseWithDeterminantCheck(Matrix&lt; T, rows, columns &gt; *const inverse) const </div><div class="ttdoc">Calculate the inverse of this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:525</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a46e9dfffc00b59d83800b03e6140a55b"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a46e9dfffc00b59d83800b03e6140a55b">mathfu::Matrix::FromRotationMatrix</a></div><div class="ttdeci">static Matrix&lt; T, 4 &gt; FromRotationMatrix(const Matrix&lt; T, 3 &gt; &amp;m)</div><div class="ttdoc">Create a 4x4 Matrix from a 3x3 rotation Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:630</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a43b6b3fba088b28f189b278528fa0355"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a43b6b3fba088b28f189b278528fa0355">mathfu::Matrix::FromScaleVector</a></div><div class="ttdeci">static Matrix&lt; T, rows &gt; FromScaleVector(const Vector&lt; T, rows-1 &gt; &amp;v)</div><div class="ttdoc">Create a square Matrix with the diagonal component set to v. </div><div class="ttdef"><b>Definition:</b> matrix.h:614</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a8aa9b6771ecf5261360812c7ffdd6b57"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a8aa9b6771ecf5261360812c7ffdd6b57">mathfu::Matrix::Ortho</a></div><div class="ttdeci">static Matrix&lt; T, 4, 4 &gt; Ortho(T left, T right, T bottom, T top, T znear, T zfar)</div><div class="ttdoc">Create a 4x4 orthographic Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:745</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a4b8716aa0dd95c8cca72220ee6a2c695"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a4b8716aa0dd95c8cca72220ee6a2c695">mathfu::Matrix::operator+</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator+(const Matrix&lt; T, rows, columns &gt; &amp;m) const </div><div class="ttdoc">Add a Matrix to this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:381</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_aa7c60f45dca4c5fdd75fb481ca57adb8"><div class="ttname"><a href="classmathfu_1_1_matrix.html#aa7c60f45dca4c5fdd75fb481ca57adb8">mathfu::Matrix::operator+=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator+=(const Matrix&lt; T, rows, columns &gt; &amp;m)</div><div class="ttdoc">Add a Matrix to this Matrix (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:442</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a32130a853e5e47ede094a502e445a97e"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a32130a853e5e47ede094a502e445a97e">mathfu::Matrix::HadamardProduct</a></div><div class="ttdeci">static Matrix&lt; T, rows, columns &gt; HadamardProduct(const Matrix&lt; T, rows, columns &gt; &amp;m1, const Matrix&lt; T, rows, columns &gt; &amp;m2)</div><div class="ttdoc">Calculate the hadamard / component-wise product of two matrices. </div><div class="ttdef"><b>Definition:</b> matrix.h:573</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a64995f331c2dd3bf41be1050cde3948e"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a64995f331c2dd3bf41be1050cde3948e">mathfu::Matrix::OuterProduct</a></div><div class="ttdeci">static Matrix&lt; T, rows, columns &gt; OuterProduct(const Vector&lt; T, rows &gt; &amp;v1, const Vector&lt; T, columns &gt; &amp;v2)</div><div class="ttdoc">Calculate the outer product of two Vectors. </div><div class="ttdef"><b>Definition:</b> matrix.h:563</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a9ce8bafcb5c5c5b0a7105748b90f0d24"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">mathfu::Matrix::operator*</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator*(const T &amp;s) const </div><div class="ttdoc">Multiply each element of this Matrix with a scalar. </div><div class="ttdef"><b>Definition:</b> matrix.h:415</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a1797bc7940939e656d11b45981bbbef0"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">mathfu::Matrix::operator()</a></div><div class="ttdeci">const T &amp; operator()(const int row, const int column) const </div><div class="ttdoc">Access an element of the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:283</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_ab87c0891cbb79aa655a2bda066c544a1"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ab87c0891cbb79aa655a2bda066c544a1">mathfu::Matrix::LookAt</a></div><div class="ttdeci">static Matrix&lt; T, 4, 4 &gt; LookAt(const Vector&lt; T, 3 &gt; &amp;at, const Vector&lt; T, 3 &gt; &amp;eye, const Vector&lt; T, 3 &gt; &amp;up)</div><div class="ttdoc">Create a 3-dimensional camera Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:757</div></div>
+<div class="ttc" id="group__mathfu__matrix_html_gad24db3629804f1590c99931b974a0e47"><div class="ttname"><a href="group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47">mathfu::AffineTransform</a></div><div class="ttdeci">Matrix&lt; float, 4, 3 &gt; AffineTransform</div><div class="ttdoc">A typedef representing a 4x3 float affine transformation. Since the last row (&#39;w&#39; row) of an affine t...</div><div class="ttdef"><b>Definition:</b> matrix.h:1380</div></div>
 <div class="ttc" id="matrix_8h_html"><div class="ttname"><a href="matrix_8h.html">matrix.h</a></div><div class="ttdoc">Matrix class and functions. </div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a9e2843d2193c6ad97bd588496f22010d"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a9e2843d2193c6ad97bd588496f22010d">mathfu::Matrix::kColumns</a></div><div class="ttdeci">static const int kColumns</div><div class="ttdoc">Number of columns in the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:728</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a9e2843d2193c6ad97bd588496f22010d"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a9e2843d2193c6ad97bd588496f22010d">mathfu::Matrix::kColumns</a></div><div class="ttdeci">static const int kColumns</div><div class="ttdoc">Number of columns in the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:777</div></div>
 <div class="ttc" id="classmathfu_1_1_vector_html_a34c3d8b99595e7ef293f636f7ac0bb5f"><div class="ttname"><a href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">mathfu::Vector::z</a></div><div class="ttdeci">T &amp; z()</div><div class="ttdoc">Get the third element (Z axis) of the Vector. </div><div class="ttdef"><b>Definition:</b> vector.h:320</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a6e66814f9b9659706588dc99362cbe4a"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a">mathfu::Matrix::Perspective</a></div><div class="ttdeci">static Matrix&lt; T, 4, 4 &gt; Perspective(T fovy, T aspect, T znear, T zfar, T handedness=1)</div><div class="ttdoc">Create a 4x4 perpective Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:682</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a74b5ccf96a707ec3e228592350dac633"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">mathfu::Matrix::operator[]</a></div><div class="ttdeci">const T &amp; operator[](const int i) const </div><div class="ttdoc">Access an element of the Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:293</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a2095f81c95811e981b2e6851881fc73a"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a2095f81c95811e981b2e6851881fc73a">mathfu::Matrix::operator-=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator-=(const Matrix&lt; T, rows, columns &gt; &amp;m)</div><div class="ttdoc">Subtract a Matrix from this Matrix (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:425</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a711cb0ef22265d58eaa77fd2930e0acd"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a711cb0ef22265d58eaa77fd2930e0acd">mathfu::Matrix::Identity</a></div><div class="ttdeci">static Matrix&lt; T, rows, columns &gt; Identity()</div><div class="ttdoc">Calculate the identity Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:555</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a38b75fe2109ba34d6e076f1254c72ead"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a38b75fe2109ba34d6e076f1254c72ead">mathfu::Matrix::Pack</a></div><div class="ttdeci">void Pack(VectorPacked&lt; T, rows &gt; *const vector) const </div><div class="ttdoc">Pack the matrix to an array of &quot;rows&quot; element vectors, one vector per matrix column. </div><div class="ttdef"><b>Definition:</b> matrix.h:322</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a6e66814f9b9659706588dc99362cbe4a"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a">mathfu::Matrix::Perspective</a></div><div class="ttdeci">static Matrix&lt; T, 4, 4 &gt; Perspective(T fovy, T aspect, T znear, T zfar, T handedness=1)</div><div class="ttdoc">Create a 4x4 perpective Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:731</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a74b5ccf96a707ec3e228592350dac633"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a74b5ccf96a707ec3e228592350dac633">mathfu::Matrix::operator[]</a></div><div class="ttdeci">const T &amp; operator[](const int i) const </div><div class="ttdoc">Access an element of the Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:319</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a2095f81c95811e981b2e6851881fc73a"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a2095f81c95811e981b2e6851881fc73a">mathfu::Matrix::operator-=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator-=(const Matrix&lt; T, rows, columns &gt; &amp;m)</div><div class="ttdoc">Subtract a Matrix from this Matrix (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:451</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a711cb0ef22265d58eaa77fd2930e0acd"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a711cb0ef22265d58eaa77fd2930e0acd">mathfu::Matrix::Identity</a></div><div class="ttdeci">static Matrix&lt; T, rows, columns &gt; Identity()</div><div class="ttdoc">Calculate the identity Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:581</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a38b75fe2109ba34d6e076f1254c72ead"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a38b75fe2109ba34d6e076f1254c72ead">mathfu::Matrix::Pack</a></div><div class="ttdeci">void Pack(VectorPacked&lt; T, rows &gt; *const vector) const </div><div class="ttdoc">Pack the matrix to an array of &quot;rows&quot; element vectors, one vector per matrix column. </div><div class="ttdef"><b>Definition:</b> matrix.h:348</div></div>
 <div class="ttc" id="classmathfu_1_1_vector_html_aea6a16e973067ef98ff5aa8bbfb608a8"><div class="ttname"><a href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">mathfu::Vector::y</a></div><div class="ttdeci">T &amp; y()</div><div class="ttdoc">Get the second element (Y axis) of the Vector. </div><div class="ttdef"><b>Definition:</b> vector.h:318</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a242ba756dfd6f6387101580070db5553"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a242ba756dfd6f6387101580070db5553">mathfu::Matrix::operator/=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator/=(const T &amp;s)</div><div class="ttdoc">Divide each element of this Matrix by a scalar (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:458</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a3a5b3e4998e51a885322b0ec816ebe62"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">mathfu::Matrix::operator-</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator-() const </div><div class="ttdoc">Negate this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:347</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a242ba756dfd6f6387101580070db5553"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a242ba756dfd6f6387101580070db5553">mathfu::Matrix::operator/=</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; &amp; operator/=(const T &amp;s)</div><div class="ttdoc">Divide each element of this Matrix by a scalar (in-place). </div><div class="ttdef"><b>Definition:</b> matrix.h:484</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a3a5b3e4998e51a885322b0ec816ebe62"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">mathfu::Matrix::operator-</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator-() const </div><div class="ttdoc">Negate this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:373</div></div>
 <div class="ttc" id="classmathfu_1_1_vector_html_a2d16d9e9237999515e9a21991768a459"><div class="ttname"><a href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">mathfu::Vector::w</a></div><div class="ttdeci">T &amp; w()</div><div class="ttdoc">Get the fourth element (W axis) of the Vector. </div><div class="ttdef"><b>Definition:</b> vector.h:322</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_af55313934a4472704fbf65ebfc827057"><div class="ttname"><a href="classmathfu_1_1_matrix.html#af55313934a4472704fbf65ebfc827057">mathfu::Matrix::operator/</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator/(const T &amp;s) const </div><div class="ttdoc">Divide each element of this Matrix with a scalar. </div><div class="ttdef"><b>Definition:</b> matrix.h:397</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_ae9d1157bf7c0356de348ac514e3518a3"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ae9d1157bf7c0356de348ac514e3518a3">mathfu::Matrix::FromTranslationVector</a></div><div class="ttdeci">static Matrix&lt; T, 3 &gt; FromTranslationVector(const Vector&lt; T, 2 &gt; &amp;v)</div><div class="ttdoc">Create a 3x3 translation Matrix from a 2-dimensional Vector. </div><div class="ttdef"><b>Definition:</b> matrix.h:565</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_af55313934a4472704fbf65ebfc827057"><div class="ttname"><a href="classmathfu_1_1_matrix.html#af55313934a4472704fbf65ebfc827057">mathfu::Matrix::operator/</a></div><div class="ttdeci">Matrix&lt; T, rows, columns &gt; operator/(const T &amp;s) const </div><div class="ttdoc">Divide each element of this Matrix with a scalar. </div><div class="ttdef"><b>Definition:</b> matrix.h:423</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_ae9d1157bf7c0356de348ac514e3518a3"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ae9d1157bf7c0356de348ac514e3518a3">mathfu::Matrix::FromTranslationVector</a></div><div class="ttdeci">static Matrix&lt; T, 3 &gt; FromTranslationVector(const Vector&lt; T, 2 &gt; &amp;v)</div><div class="ttdoc">Create a 3x3 translation Matrix from a 2-dimensional Vector. </div><div class="ttdef"><b>Definition:</b> matrix.h:591</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_ad88f12c83cc80d422865f33ae19d6d63"><div class="ttname"><a href="classmathfu_1_1_matrix.html#ad88f12c83cc80d422865f33ae19d6d63">mathfu::Matrix::ToAffineTransform</a></div><div class="ttdeci">static Matrix&lt; T, 4, 3 &gt; ToAffineTransform(const Matrix&lt; T, 4 &gt; &amp;m)</div><div class="ttdoc">Converts a Matrix&lt;float, 4&gt; into an AffineTransform. </div><div class="ttdef"><b>Definition:</b> matrix.h:655</div></div>
 <div class="ttc" id="classmathfu_1_1_vector_html_a30e93aa3f4b6bbc8c90697578ff93ef5"><div class="ttname"><a href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">mathfu::Vector::x</a></div><div class="ttdeci">T &amp; x()</div><div class="ttdoc">Get the first element (X axis) of the Vector. </div><div class="ttdef"><b>Definition:</b> vector.h:316</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_a2396a995facbb0220e631b5b6ac96853"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a2396a995facbb0220e631b5b6ac96853">mathfu::Matrix::Transpose</a></div><div class="ttdeci">Matrix&lt; T, columns, rows &gt; Transpose() const </div><div class="ttdoc">Calculate the transpose of this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:507</div></div>
-<div class="ttc" id="classmathfu_1_1_matrix_html_aa2fb3d0bef2a24b8e7e666ce2d4dd61f"><div class="ttname"><a href="classmathfu_1_1_matrix.html#aa2fb3d0bef2a24b8e7e666ce2d4dd61f">mathfu::Matrix::kRows</a></div><div class="ttdeci">static const int kRows</div><div class="ttdoc">Number of rows in the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:726</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_a2396a995facbb0220e631b5b6ac96853"><div class="ttname"><a href="classmathfu_1_1_matrix.html#a2396a995facbb0220e631b5b6ac96853">mathfu::Matrix::Transpose</a></div><div class="ttdeci">Matrix&lt; T, columns, rows &gt; Transpose() const </div><div class="ttdoc">Calculate the transpose of this Matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:533</div></div>
+<div class="ttc" id="classmathfu_1_1_matrix_html_aa2fb3d0bef2a24b8e7e666ce2d4dd61f"><div class="ttname"><a href="classmathfu_1_1_matrix.html#aa2fb3d0bef2a24b8e7e666ce2d4dd61f">mathfu::Matrix::kRows</a></div><div class="ttdeci">static const int kRows</div><div class="ttdoc">Number of rows in the matrix. </div><div class="ttdef"><b>Definition:</b> matrix.h:775</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- Google Analytics -->

@@ -1,5 +1,6 @@
 var constants_8h =
 [
+    [ "kAffineIdentity", "constants_8h.html#ga6b02735236b988d88282e9a1035af3b3", null ],
     [ "kAxisW4d", "constants_8h.html#ga00acef71041077cb394a4c9174ddb978", null ],
     [ "kAxisW4f", "constants_8h.html#ga894576576403aa45a1f5ae04a21116be", null ],
     [ "kAxisW4i", "constants_8h.html#ga5d0fa6dbbb3303356639bfab9b04a3f9", null ],

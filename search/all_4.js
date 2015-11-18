@@ -1,6 +1,7 @@
 var searchData=
 [
   ['freealigned',['FreeAligned',['../group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0',1,'mathfu']]],
+  ['fromaffinetransform',['FromAffineTransform',['../classmathfu_1_1_matrix.html#a256634cb906125d6a477416fa3e71126',1,'mathfu::Matrix']]],
   ['fromangleaxis',['FromAngleAxis',['../classmathfu_1_1_quaternion.html#a6cbfc5dde67e0d0afe15d37e6af7e27b',1,'mathfu::Quaternion']]],
   ['fromeulerangles',['FromEulerAngles',['../classmathfu_1_1_quaternion.html#a59928755b55306906b405db67222ee7e',1,'mathfu::Quaternion']]],
   ['frommatrix',['FromMatrix',['../classmathfu_1_1_quaternion.html#afedab9d5094058f445f1be76d01677fa',1,'mathfu::Quaternion']]],

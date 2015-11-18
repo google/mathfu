@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['const_5fpointer',['const_pointer',['../classmathfu_1_1simd__allocator.html#ad78fe79088ca94e6cb5c520d8194c82b',1,'mathfu::simd_allocator']]]
+  ['affinetransform',['AffineTransform',['../group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47',1,'mathfu']]]
 ];
