@@ -22,8 +22,10 @@ get_filename_component(
     fpl_root "${CMAKE_CURRENT_SOURCE_DIR}/../../libs" REALPATH)
 
 # If the dependencies directory exists, assume this is the root directory for
-# all libraries required by this project.
-set(dependencies_root "${CMAKE_SOURCE_DIR}/dependencies")
+# all libraries required by this project. Cache the value so that it can
+# be overridden by the parent project or a configuration variable.
+set(dependencies_root "${CMAKE_SOURCE_DIR}/dependencies" CACHE PATH
+    "Directory holding the dependencies pulled from github.")
 if(EXISTS "${dependencies_root}")
   set(third_party_root "${dependencies_root}")
   set(fpl_root "${dependencies_root}")
