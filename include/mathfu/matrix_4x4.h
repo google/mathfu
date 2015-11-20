@@ -17,8 +17,8 @@
 #define MATHFU_MATRIX_4X4_H_
 
 #include "mathfu/matrix.h"
-#include "mathfu/vector_4.h"
 #include "mathfu/utilities.h"
+#include "mathfu/vector_4.h"
 
 #ifdef MATHFU_COMPILE_WITH_SIMD
 #include "vectorial/simd4x4f.h"
@@ -35,7 +35,7 @@ namespace mathfu {
 static const Vector<float, 4> kAffineWColumn(0.0f, 0.0f, 0.0f, 1.0f);
 
 /// @cond MATHFU_INTERNAL
-template<>
+template <>
 class Matrix<float, 4> {
  public:
   Matrix<float, 4>() {}
@@ -52,23 +52,23 @@ class Matrix<float, 4> {
     data_.simd_matrix = simd4x4f_create(v, v, v, v);
   }
 
-  inline Matrix<float, 4>(
-    const float& s00, const float& s10, const float& s20, const float& s30,
-    const float& s01, const float& s11, const float& s21, const float& s31,
-    const float& s02, const float& s12, const float& s22, const float& s32,
-    const float& s03, const float& s13, const float& s23, const float& s33) {
-    data_.simd_matrix = simd4x4f_create(simd4f_create(s00, s10, s20, s30),
-                                        simd4f_create(s01, s11, s21, s31),
-                                        simd4f_create(s02, s12, s22, s32),
-                                        simd4f_create(s03, s13, s23, s33));
+  inline Matrix<float, 4>(const float& s00, const float& s10, const float& s20,
+                          const float& s30, const float& s01, const float& s11,
+                          const float& s21, const float& s31, const float& s02,
+                          const float& s12, const float& s22, const float& s32,
+                          const float& s03, const float& s13, const float& s23,
+                          const float& s33) {
+    data_.simd_matrix = simd4x4f_create(
+        simd4f_create(s00, s10, s20, s30), simd4f_create(s01, s11, s21, s31),
+        simd4f_create(s02, s12, s22, s32), simd4f_create(s03, s13, s23, s33));
   }
 
   explicit inline Matrix<float, 4>(const float* m) {
-    data_.simd_matrix = simd4x4f_create(
-        simd4f_create(m[0], m[1], m[2], m[3]),
-        simd4f_create(m[4], m[5], m[6], m[7]),
-        simd4f_create(m[8], m[9], m[10], m[11]),
-        simd4f_create(m[12], m[13], m[14], m[15]));
+    data_.simd_matrix =
+        simd4x4f_create(simd4f_create(m[0], m[1], m[2], m[3]),
+                        simd4f_create(m[4], m[5], m[6], m[7]),
+                        simd4f_create(m[8], m[9], m[10], m[11]),
+                        simd4f_create(m[12], m[13], m[14], m[15]));
   }
 
   inline Matrix<float, 4>(const Vector<float, 4>& column0,
@@ -76,9 +76,8 @@ class Matrix<float, 4> {
                           const Vector<float, 4>& column2,
                           const Vector<float, 4>& column3) {
 #if defined(MATHFU_COMPILE_WITH_PADDING)
-    data_.simd_matrix = simd4x4f_create(
-        column0.data_.simd, column1.data_.simd,
-        column2.data_.simd, column3.data_.simd);
+    data_.simd_matrix = simd4x4f_create(column0.data_.simd, column1.data_.simd,
+                                        column2.data_.simd, column3.data_.simd);
 #else
     data_.simd_matrix = simd4x4f_create(
         simd4f_create(column0[0], column0[1], column0[2], column0[3]),
@@ -88,13 +87,12 @@ class Matrix<float, 4> {
 #endif  // defined(MATHFU_COMPILE_WITH_PADDING)
   }
 
-  explicit inline Matrix(const VectorPacked<float, 4> * const vectors) {
+  explicit inline Matrix(const VectorPacked<float, 4>* const vectors) {
     data_.simd_matrix.x = simd4f_uload4(vectors[0].data);
     data_.simd_matrix.y = simd4f_uload4(vectors[1].data);
     data_.simd_matrix.z = simd4f_uload4(vectors[2].data);
     data_.simd_matrix.w = simd4f_uload4(vectors[3].data);
   }
-
 
   inline const float& operator()(const int i, const int j) const {
     return FindElem(i, FindColumn(j));
@@ -108,9 +106,7 @@ class Matrix<float, 4> {
     return this->operator[](i);
   }
 
-  inline float& operator()(const int i) {
-    return this->operator[](i);
-  }
+  inline float& operator()(const int i) { return this->operator[](i); }
 
   inline const float& operator[](const int i) const {
     const int col = i / 4;
@@ -124,7 +120,7 @@ class Matrix<float, 4> {
     return FindElem(row, FindColumn(col));
   }
 
-  inline void Pack(VectorPacked<float, 4> * const vector) const {
+  inline void Pack(VectorPacked<float, 4>* const vector) const {
     simd4f_ustore4(data_.simd_matrix.x, vector[0].data);
     simd4f_ustore4(data_.simd_matrix.y, vector[1].data);
     simd4f_ustore4(data_.simd_matrix.z, vector[2].data);
@@ -177,11 +173,10 @@ class Matrix<float, 4> {
     return_v *= (1 / return_v.data_.float_array[3]);
 #else
     temp_v.simd = simd4f_create(v[0], v[1], v[2], 1.0f);
-    simd4x4f_matrix_vector_mul(&data_.simd_matrix, &temp_v.simd,
-                               &temp_v.simd);
+    simd4x4f_matrix_vector_mul(&data_.simd_matrix, &temp_v.simd, &temp_v.simd);
     simd4f_mul(temp_v.simd, simd4f_splat(temp_v.float_array[3]));
     MATHFU_VECTOR3_STORE3(temp_v.simd, return_v.data_);
-#endif // MATHFU_COMPILE_WITH_PADDING
+#endif  // MATHFU_COMPILE_WITH_PADDING
     return return_v;
   }
 
@@ -194,10 +189,10 @@ class Matrix<float, 4> {
 
   inline Vector<float, 4> VecMatTimes(const Vector<float, 4>& v) const {
     return Vector<float, 4>(
-      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.x),
-      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.y),
-      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.z),
-      simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.w));
+        simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.x),
+        simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.y),
+        simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.z),
+        simd4f_dot3_scalar(v.data_.simd, data_.simd_matrix.w));
   }
 
   inline Matrix<float, 4> operator*(const Matrix<float, 4>& m) const {
@@ -215,9 +210,9 @@ class Matrix<float, 4> {
 
   inline bool InverseWithDeterminantCheck(
       Matrix<float, 4, 4>* const inverse) const {
-    return fabs(simd4f_get_x(simd4x4f_inverse(
-        &data_.simd_matrix, &inverse->data_.simd_matrix))) >=
-        Constants<float>::GetDeterminantThreshold();
+    return fabs(simd4f_get_x(simd4x4f_inverse(&data_.simd_matrix,
+                                              &inverse->data_.simd_matrix))) >=
+           Constants<float>::GetDeterminantThreshold();
   }
 
   /// Calculate the transpose of matrix.
@@ -235,28 +230,24 @@ class Matrix<float, 4> {
   }
 
   inline Matrix<float, 4>& operator+=(const Matrix<float, 4>& m) {
-    simd4x4f_add(&data_.simd_matrix, &m.data_.simd_matrix,
-                 &data_.simd_matrix);
+    simd4x4f_add(&data_.simd_matrix, &m.data_.simd_matrix, &data_.simd_matrix);
     return *this;
   }
 
   inline Matrix<float, 4>& operator-=(const Matrix<float, 4>& m) {
-    simd4x4f_sub(&data_.simd_matrix, &m.data_.simd_matrix,
-                 &data_.simd_matrix);
+    simd4x4f_sub(&data_.simd_matrix, &m.data_.simd_matrix, &data_.simd_matrix);
     return *this;
   }
 
   inline Matrix<float, 4>& operator*=(const float& s) {
     Matrix<float, 4> m(s);
-    simd4x4f_mul(&m.data_.simd_matrix, &data_.simd_matrix,
-                 &data_.simd_matrix);
+    simd4x4f_mul(&m.data_.simd_matrix, &data_.simd_matrix, &data_.simd_matrix);
     return *this;
   }
 
   inline Matrix<float, 4>& operator/=(const float& s) {
     Matrix<float, 4> m(1 / s);
-    simd4x4f_mul(&m.data_.simd_matrix, &data_.simd_matrix,
-                 &data_.simd_matrix);
+    simd4x4f_mul(&m.data_.simd_matrix, &data_.simd_matrix, &data_.simd_matrix);
     return *this;
   }
 
@@ -267,19 +258,19 @@ class Matrix<float, 4> {
     return *this;
   }
 
-  static inline Matrix<float, 4> OuterProduct(
-    const Vector<float, 4>& v1, const Vector<float, 4>& v2) {
+  static inline Matrix<float, 4> OuterProduct(const Vector<float, 4>& v1,
+                                              const Vector<float, 4>& v2) {
     Matrix<float, 4> m;
-    m.data_.simd_matrix = simd4x4f_create(
-        simd4f_mul(v1.data_.simd, simd4f_splat(v2[0])),
-        simd4f_mul(v1.data_.simd, simd4f_splat(v2[1])),
-        simd4f_mul(v1.data_.simd, simd4f_splat(v2[2])),
-        simd4f_mul(v1.data_.simd, simd4f_splat(v2[3])));
+    m.data_.simd_matrix =
+        simd4x4f_create(simd4f_mul(v1.data_.simd, simd4f_splat(v2[0])),
+                        simd4f_mul(v1.data_.simd, simd4f_splat(v2[1])),
+                        simd4f_mul(v1.data_.simd, simd4f_splat(v2[2])),
+                        simd4f_mul(v1.data_.simd, simd4f_splat(v2[3])));
     return m;
   }
 
-  static inline Matrix<float, 4> HadamardProduct(
-    const Matrix<float, 4>& m1, const Matrix<float, 4>& m2) {
+  static inline Matrix<float, 4> HadamardProduct(const Matrix<float, 4>& m1,
+                                                 const Matrix<float, 4>& m2) {
     Matrix<float, 4> return_m;
     simd4x4f_mul(&m1.data_.simd_matrix, &m2.data_.simd_matrix,
                  &return_m.data_.simd_matrix);
@@ -294,20 +285,18 @@ class Matrix<float, 4> {
 
   static inline Matrix<float, 4> FromTranslationVector(
       const Vector<float, 3>& v) {
-    return Matrix<float, 4>(
-      1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1], v[2], 1);
+    return Matrix<float, 4>(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, v[0], v[1],
+                            v[2], 1);
   }
 
   static inline Matrix<float, 4> FromScaleVector(const Vector<float, 3>& v) {
-    return Matrix<float, 4>(
-      v[0], 0, 0, 0, 0, v[1], 0, 0, 0, 0, v[2], 0, 0, 0, 0, 1);
+    return Matrix<float, 4>(v[0], 0, 0, 0, 0, v[1], 0, 0, 0, 0, v[2], 0, 0, 0,
+                            0, 1);
   }
 
-  static inline Matrix<float, 4> FromRotationMatrix(
-      const Matrix<float, 3>& m) {
-    return Matrix<float, 4>(
-      m[0], m[1], m[2], 0, m[3], m[4], m[5], 0,
-      m[6], m[7], m[8], 0, 0, 0, 0, 1);
+  static inline Matrix<float, 4> FromRotationMatrix(const Matrix<float, 3>& m) {
+    return Matrix<float, 4>(m[0], m[1], m[2], 0, m[3], m[4], m[5], 0, m[6],
+                            m[7], m[8], 0, 0, 0, 0, 1);
   }
 
   /// @brief Constructs a Matrix<float, 4> from an AffineTransform.
@@ -342,16 +331,15 @@ class Matrix<float, 4> {
 
   /// Create a 4x4 perpective matrix.
   /// @handedness: 1.0f for RH, -1.0f for LH
-  static inline Matrix<float, 4, 4> Perspective(
-      float fovy, float aspect, float znear, float zfar,
-      float handedness = 1.0f) {
+  static inline Matrix<float, 4, 4> Perspective(float fovy, float aspect,
+                                                float znear, float zfar,
+                                                float handedness = 1.0f) {
     return PerspectiveHelper(fovy, aspect, znear, zfar, handedness);
   }
 
   /// Create a 4x4 orthographic matrix.
-  static inline Matrix<float, 4, 4> Ortho(float left, float right,
-                                          float bottom, float top,
-                                          float znear, float zfar) {
+  static inline Matrix<float, 4, 4> Ortho(float left, float right, float bottom,
+                                          float top, float znear, float zfar) {
     return OrthoHelper(left, right, bottom, top, znear, zfar);
   }
 
@@ -360,9 +348,9 @@ class Matrix<float, 4> {
   /// @param eye The position of the camera.
   /// @param up The up vector in the world, for example (0, 1, 0) if the
   /// y-axis is up.
-  static inline Matrix<float, 4, 4> LookAt(
-      const Vector<float, 3>& at, const Vector<float, 3>& eye,
-      const Vector<float, 3>& up) {
+  static inline Matrix<float, 4, 4> LookAt(const Vector<float, 3>& at,
+                                           const Vector<float, 3>& eye,
+                                           const Vector<float, 3>& up) {
     return LookAtHelper(at, eye, up);
   }
 
@@ -374,6 +362,8 @@ class Matrix<float, 4> {
   /// Total number of elements in the matrix.
   static const int kElements = 4 * 4;
 
+  MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
+
  private:
   inline const Simd4fUnion& FindColumn(const int i) const {
     return data_.simd4f_union_array[i];
@@ -383,8 +373,7 @@ class Matrix<float, 4> {
     return data_.simd4f_union_array[i];
   }
 
-  static inline const float& FindElem(const int i,
-                                      const Simd4fUnion& column) {
+  static inline const float& FindElem(const int i, const Simd4fUnion& column) {
     return column.float_array[i];
   }
 
@@ -405,8 +394,8 @@ inline Matrix<float, 4> operator*(const float& s, const Matrix<float, 4>& m) {
   return m * s;
 }
 
-inline Vector<float, 4> operator*(
-  const Vector<float, 4>& v, const Matrix<float, 4>& m) {
+inline Vector<float, 4> operator*(const Vector<float, 4>& v,
+                                  const Matrix<float, 4>& m) {
   return m.VecMatTimes(v);
 }
 /// @endcond

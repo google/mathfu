@@ -351,7 +351,7 @@ class Quaternion {
     // Any rotation < 0.1 degrees is treated as no rotation
     // in order to avoid division by zero errors.
     // So we early-out in cases where it's less then 0.1 degrees.
-    //cos( 0.1 degrees) = 0.99999847691
+    // cos( 0.1 degrees) = 0.99999847691
     if (dot_product >= static_cast<T>(0.99999847691)) {
       return Quaternion<T>::identity;
     }
@@ -445,7 +445,7 @@ class Quaternion {
     // Any rotation < 0.1 degrees is treated as no rotation
     // in order to avoid division by zero errors.
     // So we early-out in cases where it's less then 0.1 degrees.
-    //cos( 0.1 degrees) = 0.99999847691
+    // cos( 0.1 degrees) = 0.99999847691
     if (dot_product >= static_cast<T>(0.99999847691)) {
       return Quaternion<T>::identity;
     }
@@ -464,6 +464,8 @@ class Quaternion {
 
   /// @brief Contains a quaternion doing the identity transform.
   static Quaternion<T> identity;
+
+  MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
  private:
   T s_;

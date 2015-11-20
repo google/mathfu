@@ -16,10 +16,10 @@
 #ifndef MATHFU_UTILITIES_H_
 #define MATHFU_UTILITIES_H_
 
-#include <math.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include <algorithm>
 #include <memory>
@@ -81,15 +81,15 @@
 /// @}
 #endif  // DOXYGEN
 #if !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
-#  if defined(__SSE__)
-#    define MATHFU_COMPILE_WITH_SIMD
-#  elif defined(__ARM_NEON__)
-#    define MATHFU_COMPILE_WITH_SIMD
-#  elif defined(_M_IX86_FP)  // MSVC
-#    if _M_IX86_FP >= 1 // SSE enabled
-#      define MATHFU_COMPILE_WITH_SIMD
-#    endif  // _M_IX86_FP >= 1
-#  endif
+#if defined(__SSE__)
+#define MATHFU_COMPILE_WITH_SIMD
+#elif defined(__ARM_NEON__)
+#define MATHFU_COMPILE_WITH_SIMD
+#elif defined(_M_IX86_FP)  // MSVC
+#if _M_IX86_FP >= 1        // SSE enabled
+#define MATHFU_COMPILE_WITH_SIMD
+#endif  // _M_IX86_FP >= 1
+#endif
 #endif  // !defined(MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT)
 
 #ifdef DOXYGEN
@@ -136,19 +136,19 @@
 /// To use this build option, this macro <b>must</b> be defined in all modules
 /// of the project.
 /// @see MATHFU_COMPILE_FORCE_PADDING
-#  define MATHFU_COMPILE_WITH_PADDING
+#define MATHFU_COMPILE_WITH_PADDING
 /// @}
-#  if defined(MATHFU_COMPILE_FORCE_PADDING)
-#    if MATHFU_COMPILE_FORCE_PADDING == 1
-#      if !defined(MATHFU_COMPILE_WITH_PADDING)
-#        define MATHFU_COMPILE_WITH_PADDING
-#      endif // !defined(MATHFU_COMPILE_WITH_PADDING)
-#    else
-#      if defined(MATHFU_COMPILE_WITH_PADDING)
-#        undef MATHFU_COMPILE_WITH_PADDING
-#      endif  // MATHFU_COMPILE_WITH_PADDING
-#    endif  // MATHFU_COMPILE_FORCE_PADDING == 1
-#  endif  // MATHFU_COMPILE_FORCE_PADDING
+#if defined(MATHFU_COMPILE_FORCE_PADDING)
+#if MATHFU_COMPILE_FORCE_PADDING == 1
+#if !defined(MATHFU_COMPILE_WITH_PADDING)
+#define MATHFU_COMPILE_WITH_PADDING
+#endif  // !defined(MATHFU_COMPILE_WITH_PADDING)
+#else
+#if defined(MATHFU_COMPILE_WITH_PADDING)
+#undef MATHFU_COMPILE_WITH_PADDING
+#endif  // MATHFU_COMPILE_WITH_PADDING
+#endif  // MATHFU_COMPILE_FORCE_PADDING == 1
+#endif  // MATHFU_COMPILE_FORCE_PADDING
 /// @endcond
 #endif  // MATHFU_COMPILE_WITH_SIMD
 
@@ -200,7 +200,7 @@
 // Weak linkage is culled by VS & doesn't work on cygwin.
 #if !defined(_WIN32) && !defined(__CYGWIN__)
 
-extern volatile __attribute__((weak)) const char* kMathFuVersionString;
+extern volatile __attribute__((weak)) const char *kMathFuVersionString;
 /// @addtogroup mathfu_version
 /// @{
 
@@ -219,17 +219,17 @@ extern volatile __attribute__((weak)) const char* kMathFuVersionString;
 /// @see MATHFU_VERSION_MINOR
 /// @see MATHFU_VERSION_REVISION
 volatile __attribute__((weak)) const char *kMathFuVersionString =
-    "MathFu "
-    MATHFU_STRING(MATHFU_VERSION_MAJOR) "."
-    MATHFU_STRING(MATHFU_VERSION_MINOR) "."
-    MATHFU_STRING(MATHFU_VERSION_REVISION);
+    "MathFu " MATHFU_STRING(MATHFU_VERSION_MAJOR) "." MATHFU_STRING(
+        MATHFU_VERSION_MINOR) "." MATHFU_STRING(MATHFU_VERSION_REVISION);
 /// @}
 
 #endif  // !defined(_WIN32) && !defined(__CYGWIN__)
 
 /// @cond MATHFU_INTERNAL
-template<bool> struct static_assert_util;
-template<> struct static_assert_util<true> {};
+template <bool>
+struct static_assert_util;
+template <>
+struct static_assert_util<true> {};
 /// @endcond
 
 /// @addtogroup mathfu_utilities
@@ -250,23 +250,27 @@ template<> struct static_assert_util<true> {};
 /// specifies the number of times to perform the operation and "operation" is
 /// the statement to execute for each iteration of the loop (e.g data[i] = v).
 #define MATHFU_UNROLLED_LOOP(iterator, number_of_iterations, operation) \
-  { \
-    const int iterator = 0;  { operation ; } \
-    if ((number_of_iterations) > 1) { \
-      const int iterator = 1;  { operation ; } \
-      if ((number_of_iterations) > 2) { \
-        const int iterator = 2;  { operation ; } \
-        if ((number_of_iterations) > 3) { \
-          const int iterator = 3;  { operation ; } \
-          if ((number_of_iterations) > 4) { \
-            for (int iterator = 4; iterator < (number_of_iterations); \
-                 ++iterator) { \
-              operation ; \
-            } \
-          } \
-        } \
-      } \
-    } \
+  {                                                                     \
+    const int iterator = 0;                                             \
+    { operation; }                                                      \
+    if ((number_of_iterations) > 1) {                                   \
+      const int iterator = 1;                                           \
+      { operation; }                                                    \
+      if ((number_of_iterations) > 2) {                                 \
+        const int iterator = 2;                                         \
+        { operation; }                                                  \
+        if ((number_of_iterations) > 3) {                               \
+          const int iterator = 3;                                       \
+          { operation; }                                                \
+          if ((number_of_iterations) > 4) {                             \
+            for (int iterator = 4; iterator < (number_of_iterations);   \
+                 ++iterator) {                                          \
+              operation;                                                \
+            }                                                           \
+          }                                                             \
+        }                                                               \
+      }                                                                 \
+    }                                                                   \
   }
 /// @endcond
 
@@ -284,8 +288,8 @@ namespace mathfu {
 /// @param lower Lower value of the range.
 /// @param upper Upper value of the range.
 /// @returns Clamped value.
-template<class T>
-T Clamp(const T& x, const T& lower, const T& upper) {
+template <class T>
+T Clamp(const T &x, const T &lower, const T &upper) {
   return std::max<T>(lower, std::min<T>(x, upper));
 }
 
@@ -303,8 +307,8 @@ T Clamp(const T& x, const T& lower, const T& upper) {
 /// @tparam T Type of the range to interpolate over.
 /// @tparam T2 Type of the value used to perform interpolation
 ///         (e.g float or double).
-template<class T, class T2>
-T Lerp(const T& range_start, const T& range_end, const T2& percent) {
+template <class T, class T2>
+T Lerp(const T &range_start, const T &range_end, const T2 &percent) {
   const T2 one_minus_percent = static_cast<T2>(1.0) - percent;
   return range_start * one_minus_percent + range_end * percent;
 }
@@ -321,8 +325,8 @@ T Lerp(const T& range_start, const T& range_end, const T2& percent) {
 /// @return Value between range_start and range_end.
 ///
 /// @tparam T Type of the range to interpolate over.
-template<class T>
-T Lerp(const T& range_start, const T& range_end, const T& percent) {
+template <class T>
+T Lerp(const T &range_start, const T &range_end, const T &percent) {
   return Lerp<T, T>(range_start, range_end, percent);
 }
 
@@ -335,7 +339,7 @@ T Lerp(const T& range_start, const T& range_end, const T& percent) {
 /// @return Bool indicating success.
 ///
 /// @tparam T Type of values to test.
-template<class T>
+template <class T>
 bool InRange(T val, T range_start, T range_end) {
   return val >= range_start && val < range_end;
 }
@@ -353,19 +357,22 @@ bool InRange(T val, T range_start, T range_end) {
 ///
 /// @see RandomRange()
 /// @see RandomInRange()
-template<class T> inline T Random() {
+template <class T>
+inline T Random() {
   return static_cast<T>(rand()) / static_cast<T>(RAND_MAX);
 }
 
 /// @cond MATHFU_INTERNAL
-template<> inline float Random() {
+template <>
+inline float Random() {
   return static_cast<float>(rand() >> 8) /
-      (static_cast<float>((RAND_MAX >> 8) + 1));
+         (static_cast<float>((RAND_MAX >> 8) + 1));
 }
 /// @endcond
 
 /// @cond MATHFU_INTERNAL
-template<> inline double Random() {
+template <>
+inline double Random() {
   return static_cast<double>(rand()) / (static_cast<double>(RAND_MAX + 1LL));
 }
 /// @endcond
@@ -380,7 +387,8 @@ template<> inline double Random() {
 /// @return Random value in the range -range to +range
 ///
 /// @see Random()
-template<class T> inline T RandomRange(T range) {
+template <class T>
+inline T RandomRange(T range) {
   return (Random<T>() * range * 2) - range;
 }
 
@@ -396,15 +404,16 @@ template<class T> inline T RandomRange(T range) {
 ///
 /// @see Lerp()
 /// @see Random()
-template<class T> inline T RandomInRange(T range_start, T range_end) {
+template <class T>
+inline T RandomInRange(T range_start, T range_end) {
   return Lerp(range_start, range_end, Random<T>());
 }
 
 /// @cond MATHFU_INTERNAL
-template<> inline int RandomInRange<int>(int range_start, int range_end) {
-    return static_cast<int>(RandomInRange<float>(
-                              static_cast<float>(range_start),
-                              static_cast<float>(range_end)));
+template <>
+inline int RandomInRange<int>(int range_start, int range_end) {
+  return static_cast<int>(RandomInRange<float>(static_cast<float>(range_start),
+                                               static_cast<float>(range_end)));
 }
 /// @endcond
 
@@ -412,7 +421,8 @@ template<> inline int RandomInRange<int>(int range_start, int range_end) {
 ///
 /// @param x Value to round up.
 /// @returns Value rounded up to the nearest power of 2.
-template<class T> T RoundUpToPowerOf2(T x) {
+template <class T>
+T RoundUpToPowerOf2(T x) {
   return static_cast<T>(
       pow(static_cast<T>(2), ceil(log(x) / log(static_cast<T>(2)))));
 }
@@ -451,20 +461,24 @@ template<class T> T RoundUpToPowerOf2(T x) {
 /// @return Pointer to aligned block of allocated memory or NULL if
 /// allocation failed.
 inline void *AllocateAligned(size_t n) {
+#if defined(_MSC_VER) && _MSC_VER >= 1900  // MSVC 2015
+  return _aligned_malloc(n, MATHFU_ALIGNMENT);
+#else
   // We need to allocate extra bytes to guarantee alignment,
   // and to store the pointer to the original buffer.
-  uint8_t* buf = reinterpret_cast<uint8_t *>(malloc(n + MATHFU_ALIGNMENT));
+  uint8_t *buf = reinterpret_cast<uint8_t *>(malloc(n + MATHFU_ALIGNMENT));
   if (!buf) return NULL;
   // Align to next higher multiple of MATHFU_ALIGNMENT.
-  uint8_t* aligned_buf = reinterpret_cast<uint8_t *>(
-                       (reinterpret_cast<size_t>(buf) + MATHFU_ALIGNMENT) &
-                        ~(MATHFU_ALIGNMENT - 1));
+  uint8_t *aligned_buf = reinterpret_cast<uint8_t *>(
+      (reinterpret_cast<size_t>(buf) + MATHFU_ALIGNMENT) &
+      ~(MATHFU_ALIGNMENT - 1));
   // Write out original buffer pointer before aligned buffer.
   // The assert will fail if the allocator granularity is less than the pointer
   // size, or if MATHFU_ALIGNMENT doesn't fit two pointers.
   assert(static_cast<size_t>(aligned_buf - buf) > sizeof(void *));
   *(reinterpret_cast<uint8_t **>(aligned_buf) - 1) = buf;
   return aligned_buf;
+#endif  // defined(_MSC_VER) && _MSC_VER >= 1900 // MSVC 2015
 }
 
 /// @brief Deallocate a block of memory allocated with AllocateAligned().
@@ -472,8 +486,12 @@ inline void *AllocateAligned(size_t n) {
 ///
 /// @param p Pointer to memory to deallocate.
 inline void FreeAligned(void *p) {
+#if defined(_MSC_VER) && _MSC_VER >= 1900  // MSVC 2015
+  return _aligned_free(p);
+#else
   if (p == NULL) return;
   free(*(reinterpret_cast<uint8_t **>(p) - 1));
+#endif  // defined(_MSC_VER) && _MSC_VER >= 1900 // MSVC 2015
 }
 
 /// @brief SIMD-safe memory allocator, for use with STL types like std::vector.
@@ -485,7 +503,8 @@ inline void FreeAligned(void *p) {
 ///
 /// @see MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE
 /// @tparam T type allocated by this object.
-template <typename T> class simd_allocator : public std::allocator<T> {
+template <typename T>
+class simd_allocator : public std::allocator<T> {
  public:
   /// Size type.
   typedef size_t size_type;
@@ -495,7 +514,7 @@ template <typename T> class simd_allocator : public std::allocator<T> {
   typedef const T *const_pointer;
 
   /// Constructs a simd_allocator.
-  simd_allocator() throw(): std::allocator<T>() {}
+  simd_allocator() throw() : std::allocator<T>() {}
   /// @brief Constructs and copies a simd_allocator.
   ///
   /// @param a Allocator to copy.
@@ -504,15 +523,16 @@ template <typename T> class simd_allocator : public std::allocator<T> {
   ///
   /// @param a Allocator to copy.
   /// @tparam U type of the object allocated by the allocator to copy.
-  template <class U> simd_allocator(const simd_allocator<U> &a) throw()
-      : std::allocator<T>(a) {}
+  template <class U>
+  simd_allocator(const simd_allocator<U> &a) throw() : std::allocator<T>(a) {}
   /// @brief Destructs a simd_allocator.
   ~simd_allocator() throw() {}
 
   /// @brief Obtains an allocator of a different type.
   ///
   /// @tparam  _Tp1 type of the new allocator.
-  template<typename _Tp1> struct rebind {
+  template <typename _Tp1>
+  struct rebind {
     /// @brief Allocator of type _Tp1.
     typedef simd_allocator<_Tp1> other;
   };
@@ -547,14 +567,30 @@ template <typename T> class simd_allocator : public std::allocator<T> {
 /// MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE
 /// </pre></code></blockquote>
 /// to the end of your main .cpp file.
-#define MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE \
-  void *operator new(std::size_t n) { return mathfu::AllocateAligned(n); } \
+#define MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE                           \
+  void *operator new(std::size_t n) { return mathfu::AllocateAligned(n); }   \
   void *operator new[](std::size_t n) { return mathfu::AllocateAligned(n); } \
-  void operator delete(void *p) noexcept { mathfu::FreeAligned(p); } \
-  void operator delete[](void *p) noexcept { mathfu::FreeAligned(p); }
+  void operator delete(void *p) { mathfu::FreeAligned(p); }                  \
+  void operator delete[](void *p) { mathfu::FreeAligned(p); }
+
+/// @def MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
+/// @brief Macro which defines the new and delete for MathFu classes.
+#define MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE                       \
+  static void *operator new(std::size_t n) {                            \
+    return mathfu::AllocateAligned(n);                                  \
+  }                                                                     \
+  static void *operator new[](std::size_t n) {                          \
+    return mathfu::AllocateAligned(n);                                  \
+  }                                                                     \
+  static void *operator new(std::size_t /*n*/, void *p) { return p; }   \
+  static void *operator new[](std::size_t /*n*/, void *p) { return p; } \
+  static void operator delete(void *p) { mathfu::FreeAligned(p); }      \
+  static void operator delete[](void *p) { mathfu::FreeAligned(p); }    \
+  static void operator delete(void * /*p*/, void * /*place*/) {}        \
+  static void operator delete[](void * /*p*/, void * /*place*/) {}
 
 /// @}
 
-} // namespace mathfu
+}  // namespace mathfu
 
 #endif  // MATHFU_UTILITIES_H_
