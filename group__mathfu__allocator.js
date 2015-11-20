@@ -15,6 +15,7 @@ var group__mathfu__allocator =
       [ "deallocate", "classmathfu_1_1simd__allocator.html#a019b37afeeb80f54e166d62b936d5437", null ]
     ] ],
     [ "MATHFU_ALIGNMENT", "group__mathfu__allocator.html#ga06cb01a28b2a77bd747c5b304e4d71fc", null ],
+    [ "MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE", "group__mathfu__allocator.html#ga46e78edf47120bf23563f6a660fd4724", null ],
     [ "MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE", "group__mathfu__allocator.html#ga7c80b9707d05e078ff7daa91604166be", null ],
     [ "AllocateAligned", "group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113", null ],
     [ "FreeAligned", "group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0", null ]

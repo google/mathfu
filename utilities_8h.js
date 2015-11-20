@@ -5,6 +5,7 @@ var utilities_8h =
     [ "MATHFU_BUILD_OPTIONS_STRING", "utilities_8h.html#gac43b79b4f9c6ff063bc6122db25a3ace", null ],
     [ "MATHFU_COMPILE_FORCE_PADDING", "utilities_8h.html#gae7a1436188bf71089cf4a590545c8a7f", null ],
     [ "MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT", "utilities_8h.html#ga5a2da7c658b034e09726bfddf63a0bb7", null ],
+    [ "MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE", "utilities_8h.html#ga46e78edf47120bf23563f6a660fd4724", null ],
     [ "MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE", "utilities_8h.html#ga7c80b9707d05e078ff7daa91604166be", null ],
     [ "MATHFU_STATIC_ASSERT", "utilities_8h.html#ga638ebdd153e07fdbf71d22b7b92c9986", null ],
     [ "MATHFU_VERSION_MAJOR", "utilities_8h.html#ga92928d6ca6adbe848b5a6b65dd477996", null ],

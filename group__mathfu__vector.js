@@ -70,11 +70,11 @@ var group__mathfu__vector =
       [ "operator*", "group__mathfu__vector.html#ga8b3b81801ceac6ac372ed1fea668ee27", null ],
       [ "operator+", "group__mathfu__vector.html#gaa34216cdd46e59d3a353a43279b9e02b", null ],
       [ "operator-", "group__mathfu__vector.html#gaed5e853244c99cadf65c02933b3fdced", null ],
-      [ "operator/", "group__mathfu__vector.html#gab37a30cc95a734792763670aacd18985", null ]
+      [ "operator/", "group__mathfu__vector.html#ga87d302f8d0fc75b6985f6425393b518b", null ]
     ] ],
     [ "InRange2D", "group__mathfu__vector.html#ga83dd5c549955259ecce6e40c13e21392", null ],
     [ "operator*", "group__mathfu__vector.html#ga8b3b81801ceac6ac372ed1fea668ee27", null ],
     [ "operator+", "group__mathfu__vector.html#gaa34216cdd46e59d3a353a43279b9e02b", null ],
     [ "operator-", "group__mathfu__vector.html#gaed5e853244c99cadf65c02933b3fdced", null ],
-    [ "operator/", "group__mathfu__vector.html#gab37a30cc95a734792763670aacd18985", null ]
+    [ "operator/", "group__mathfu__vector.html#ga87d302f8d0fc75b6985f6425393b518b", null ]
 ];

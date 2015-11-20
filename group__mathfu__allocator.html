@@ -132,6 +132,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ga7c80b9707d05e078ff7daa91604166be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__allocator.html#ga7c80b9707d05e078ff7daa91604166be">MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE</a></td></tr>
 <tr class="memdesc:ga7c80b9707d05e078ff7daa91604166be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro which overrides the default new and delete allocators.  <a href="#ga7c80b9707d05e078ff7daa91604166be">More...</a><br/></td></tr>
 <tr class="separator:ga7c80b9707d05e078ff7daa91604166be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga46e78edf47120bf23563f6a660fd4724"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__allocator.html#ga46e78edf47120bf23563f6a660fd4724">MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE</a></td></tr>
+<tr class="memdesc:ga46e78edf47120bf23563f6a660fd4724"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro which defines the new and delete for MathFu classes.  <a href="#ga46e78edf47120bf23563f6a660fd4724">More...</a><br/></td></tr>
+<tr class="separator:ga46e78edf47120bf23563f6a660fd4724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -160,6 +163,34 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga46e78edf47120bf23563f6a660fd4724"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>(std::size_t n) {                            \</div>
+<div class="line">    return <a class="code" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a>(n);                                  \</div>
+<div class="line">  }                                                                     \</div>
+<div class="line">  static <span class="keywordtype">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>[](std::size_t n) {                          \</div>
+<div class="line">    return <a class="code" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a>(n);                                  \</div>
+<div class="line">  }                                                                     \</div>
+<div class="line">  static <span class="keywordtype">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>(std::size_t <span class="comment">/*n*/</span>, <span class="keywordtype">void</span> *p) { <span class="keywordflow">return</span> p; }   \</div>
+<div class="line">  static <span class="keywordtype">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>[](std::size_t <span class="comment">/*n*/</span>, <span class="keywordtype">void</span> *p) { <span class="keywordflow">return</span> p; } \</div>
+<div class="line">  static <span class="keywordtype">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keywordtype">void</span> *p) { <a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(p); }      \</div>
+<div class="line">  static <span class="keywordtype">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keywordtype">void</span> *p) { <a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(p); }    \</div>
+<div class="line">  static <span class="keywordtype">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keywordtype">void</span> * <span class="comment">/*p*/</span>, <span class="keywordtype">void</span> * <span class="comment">/*place*/</span>) {}        \</div>
+<div class="line">  static <span class="keywordtype">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keywordtype">void</span> * <span class="comment">/*p*/</span>, <span class="keywordtype">void</span> * <span class="comment">/*place*/</span>) {}</div>
+<div class="ttc" id="group__mathfu__allocator_html_ga176d9d50a5e25b6be25ba67ccc6d2113"><div class="ttname"><a href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a></div><div class="ttdeci">void * AllocateAligned(size_t n)</div><div class="ttdoc">Allocate an aligned block of memory. </div><div class="ttdef"><b>Definition:</b> utilities.h:463</div></div>
+<div class="ttc" id="group__mathfu__allocator_html_ga8be70a7660cac5e80e25118382acc7f0"><div class="ttname"><a href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a></div><div class="ttdeci">void FreeAligned(void *p)</div><div class="ttdoc">Deallocate a block of memory allocated with AllocateAligned(). </div><div class="ttdef"><b>Definition:</b> utilities.h:488</div></div>
+</div><!-- fragment -->
+<p>Macro which defines the new and delete for MathFu classes. </p>
+
+</div>
+</div>
 <a class="anchor" id="ga7c80b9707d05e078ff7daa91604166be"></a>
 <div class="memitem">
 <div class="memproto">
@@ -169,12 +200,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>(std::size_t n) { <span class="keywordflow">return</span> <a class="code" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a>(n); } \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>(std::size_t n) { <span class="keywordflow">return</span> <a class="code" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a>(n); }   \</div>
 <div class="line">  void *<span class="keyword">operator</span> <span class="keyword">new</span>[](std::size_t n) { <span class="keywordflow">return</span> <a class="code" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a>(n); } \</div>
-<div class="line">  void <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keywordtype">void</span> *p) noexcept { <a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(p); } \</div>
-<div class="line">  void <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keywordtype">void</span> *p) noexcept { <a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(p); }</div>
-<div class="ttc" id="group__mathfu__allocator_html_ga176d9d50a5e25b6be25ba67ccc6d2113"><div class="ttname"><a href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a></div><div class="ttdeci">void * AllocateAligned(size_t n)</div><div class="ttdoc">Allocate an aligned block of memory. </div><div class="ttdef"><b>Definition:</b> utilities.h:453</div></div>
-<div class="ttc" id="group__mathfu__allocator_html_ga8be70a7660cac5e80e25118382acc7f0"><div class="ttname"><a href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a></div><div class="ttdeci">void FreeAligned(void *p)</div><div class="ttdoc">Deallocate a block of memory allocated with AllocateAligned(). </div><div class="ttdef"><b>Definition:</b> utilities.h:474</div></div>
+<div class="line">  void <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keywordtype">void</span> *p) { <a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(p); }                  \</div>
+<div class="line">  void <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keywordtype">void</span> *p) { <a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(p); }</div>
+<div class="ttc" id="group__mathfu__allocator_html_ga176d9d50a5e25b6be25ba67ccc6d2113"><div class="ttname"><a href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a></div><div class="ttdeci">void * AllocateAligned(size_t n)</div><div class="ttdoc">Allocate an aligned block of memory. </div><div class="ttdef"><b>Definition:</b> utilities.h:463</div></div>
+<div class="ttc" id="group__mathfu__allocator_html_ga8be70a7660cac5e80e25118382acc7f0"><div class="ttname"><a href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a></div><div class="ttdeci">void FreeAligned(void *p)</div><div class="ttdoc">Deallocate a block of memory allocated with AllocateAligned(). </div><div class="ttdef"><b>Definition:</b> utilities.h:488</div></div>
 </div><!-- fragment -->
 <p>Macro which overrides the default new and delete allocators. </p>
 <p>To globally override new and delete, simply add the line: </p>

@@ -7,6 +7,7 @@ var searchData=
   ['mathfu_5fbuild_5foptions_5fstring',['MATHFU_BUILD_OPTIONS_STRING',['../group__mathfu__version.html#gac43b79b4f9c6ff063bc6122db25a3ace',1,'utilities.h']]],
   ['mathfu_5fcompile_5fforce_5fpadding',['MATHFU_COMPILE_FORCE_PADDING',['../group__mathfu__build__config.html#gae7a1436188bf71089cf4a590545c8a7f',1,'utilities.h']]],
   ['mathfu_5fcompile_5fwithout_5fsimd_5fsupport',['MATHFU_COMPILE_WITHOUT_SIMD_SUPPORT',['../group__mathfu__build__config.html#ga5a2da7c658b034e09726bfddf63a0bb7',1,'utilities.h']]],
+  ['mathfu_5fdefine_5fclass_5fsimd_5faware_5fnew_5fdelete',['MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE',['../group__mathfu__allocator.html#ga46e78edf47120bf23563f6a660fd4724',1,'utilities.h']]],
   ['mathfu_5fdefine_5fglobal_5fsimd_5faware_5fnew_5fdelete',['MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE',['../group__mathfu__allocator.html#ga7c80b9707d05e078ff7daa91604166be',1,'utilities.h']]],
   ['matrices',['Matrices',['../mathfu_guide_matrices.html',1,'']]],
   ['matrices',['Matrices',['../group__mathfu__matrix.html',1,'']]],
