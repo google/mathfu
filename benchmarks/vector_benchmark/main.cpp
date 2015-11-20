@@ -20,8 +20,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <vector>
-
 #include "benchmark_common.h"
 
 // Number of elements to iterate over.
@@ -40,7 +38,7 @@ int main(int argc, char** argv) {
   (void)argc;
   (void)argv;
   // Create a array of vectors
-  std::vector<Vector<T, 3> > vectors;
+  Vector<T, 3> *vectors = new Vector<T, 3>[kVectorSize];
   T final_sum = 0;
   Vector<T, 3> sum(0.0f);
   for (size_t i = 0; i < kVectorSize; i++) {
@@ -48,7 +46,7 @@ int main(int argc, char** argv) {
     if (vec.LengthSquared() == static_cast<T>(0.0)) {
       vec.x() = static_cast<T>(1.0);
     }
-    vectors.push_back(vec);
+    vectors[i] = vec;
   }
   printf("Running vector benchmark (%s)...\n", MATHFU_BUILD_OPTIONS_STRING);
   // Start vector performance code. Run a number of loops for more accurate
@@ -73,5 +71,6 @@ int main(int argc, char** argv) {
   // End vector performance code
   double elapsed = timer.GetElapsedSeconds();
   printf("Took %f seconds\n", elapsed);
+  delete [] vectors;
   return 0;
 }
