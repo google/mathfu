@@ -20,8 +20,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <vector>
-
 #include "benchmark_common.h"
 
 // Number of elements to iterate over
@@ -45,14 +43,14 @@ int main(int argc, char** argv) {
   (void)argc;
   (void)argv;
   // Create an array of matrices containing random values.
-  std::vector<TestMatrix> matrices;
+  TestMatrix * const matrices = new TestMatrix[kMatrixSize];
   TestMatrix mul = TestMatrix::Identity();
   for (size_t i = 0; i < kMatrixSize; ++i) {
     TestMatrix mat;
     for (size_t j = 0; j < MATRIX_DIMENSIONS; ++j) {
       mat[j] = Random<T>();
     }
-    matrices.push_back(mat);
+    matrices[i] = mat;
   }
   // Start matrix benchmark, running a number of loops for more accurate
   // numbers.
@@ -76,5 +74,6 @@ int main(int argc, char** argv) {
   // End matrix performance code
   double elapsed = timer.GetElapsedSeconds();
   printf("Took %f seconds\n", elapsed);
+  delete [] matrices;
   return 0;
 }
