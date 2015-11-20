@@ -680,12 +680,12 @@ inline Vector<T, d> operator*(const T& s, const Vector<T, d>& v) {
 ///
 /// Divides each component of the specified Vector by a scalar.
 ///
-/// @param s scalar to divide the vector by.
 /// @param v Vector to be divided.
+/// @param s scalar to divide the vector by.
 /// @return Vector containing the result.
 /// @related Vector
 template <class T, int d>
-inline Vector<T, d> operator/(const T& s, const Vector<T, d>& v) {
+inline Vector<T, d> operator/(const Vector<T, d>& v, const T& s) {
   return v / s;
 }
 
