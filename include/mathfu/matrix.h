@@ -47,6 +47,7 @@
 #pragma warning(disable : 4789)  // buffer overrun
 #if _MSC_VER >= 1900             // MSVC 2015
 #pragma warning(disable : 4456)  // allow shadowing in unrolled loops
+#pragma warning(disable : 4723)  // suppress "potential divide by 0" warning
 #endif                           // _MSC_VER >= 1900
 #endif                           // _MSC_VER
 
