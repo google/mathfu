@@ -16,15 +16,15 @@ cmake_minimum_required(VERSION 2.8.12)
 # Directory which contains the source for 3rd party libraries.
 get_filename_component(
     third_party_root
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../external" REALPATH)
+    "${CMAKE_CURRENT_LIST_DIR}/../../../../external" REALPATH)
 # Directory which contains source for FPL libraries.
 get_filename_component(
-    fpl_root "${CMAKE_CURRENT_SOURCE_DIR}/../../libs" REALPATH)
+    fpl_root "${CMAKE_CURRENT_LIST_DIR}/../../libs" REALPATH)
 
 # If the dependencies directory exists, assume this is the root directory for
 # all libraries required by this project. Cache the value so that it can
 # be overridden by the parent project or a configuration variable.
-set(dependencies_root "${CMAKE_SOURCE_DIR}/dependencies" CACHE PATH
+set(dependencies_root "${CMAKE_CURRENT_LIST_DIR}/dependencies" CACHE PATH
     "Directory holding the dependencies pulled from github.")
 if(EXISTS "${dependencies_root}")
   set(third_party_root "${dependencies_root}")
@@ -154,7 +154,7 @@ macro(mathfu_set_ios_attributes project)
   endif()
 endmacro(mathfu_set_ios_attributes)
 
-file(GLOB_RECURSE MATHFU_HEADERS ${CMAKE_SOURCE_DIR}/include/mathfu *.h)
+file(GLOB_RECURSE MATHFU_HEADERS ${CMAKE_CURRENT_LIST_DIR}/include/mathfu *.h)
 
 if(mathfu_build_benchmarks)
   add_subdirectory(benchmarks)
