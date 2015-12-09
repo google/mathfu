@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
   for (size_t i = 0; i < kMatrixSize; ++i) {
     TestMatrix mat;
     for (size_t j = 0; j < MATRIX_DIMENSIONS; ++j) {
-      mat[j] = Random<T>();
+      mat[static_cast<int>(j)] = Random<T>();
     }
     matrices[i] = mat;
   }

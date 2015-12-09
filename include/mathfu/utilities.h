@@ -552,11 +552,11 @@ class simd_allocator : public std::allocator<T> {
 };
 
 #if defined(_MSC_VER)
-#if _MSC_VER <= 1700  // MSVC 2012
+#if _MSC_VER <= 1800  // MSVC 2013
 #if !defined(noexcept)
 #define noexcept
 #endif  // !defined(noexcept)
-#endif  // _MSC_VER <= 1700
+#endif  // _MSC_VER <= 1800
 #endif  //  defined(_MSC_VER)
 
 /// @def MATHFU_DEFINE_GLOBAL_SIMD_AWARE_NEW_DELETE
