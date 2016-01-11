@@ -487,7 +487,7 @@ inline void *AllocateAligned(size_t n) {
 /// @param p Pointer to memory to deallocate.
 inline void FreeAligned(void *p) {
 #if defined(_MSC_VER) && _MSC_VER >= 1900  // MSVC 2015
-  return _aligned_free(p);
+  _aligned_free(p);
 #else
   if (p == NULL) return;
   free(*(reinterpret_cast<uint8_t **>(p) - 1));
