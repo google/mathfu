@@ -129,7 +129,9 @@ endfunction()
 function(mathfu_enable_warnings target)
   get_target_property(target_compile_flags ${target} COMPILE_FLAGS)
   if(MSVC)
-    target_compile_options(${target} PRIVATE /W4 /WX)
+    # C4127: conditional expression is constant
+    # C4577: 'noexcept' used with no exception handling mode specified.
+    target_compile_options(${target} PRIVATE /W4 /WX /wd4127 /wd4577)
   elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
       CMAKE_COMPILER_IS_CLANGXX)
     # Set the maximum warning level for gcc.
