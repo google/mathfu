@@ -26,7 +26,7 @@
 #include "gtest/gtest.h"
 
 #include "precision.h"
-
+static const double kLookAtDoublePrecision = 1e-8;
 class MatrixTests : public ::testing::Test {
  protected:
   virtual void SetUp() {}
@@ -584,8 +584,16 @@ void Ortho_Test(const T& precision) {
                               -1, -1, 1, 1),
     },
     {
-      "narrow",
-      mathfu::Matrix<T, 4, 4>::Ortho(1, 3, 0, 2, 2, 0),
+      "normalized RH",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 0, 2, 2, 0, 1),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              -1, -1, 1, 1),
+    },
+    {
+      "narrow RH",
+      mathfu::Matrix<T, 4, 4>::Ortho(1, 3, 0, 2, 2, 0, 1),
       mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
                               0, 1, 0, 0,
                               0, 0, 1, 0,
@@ -593,8 +601,8 @@ void Ortho_Test(const T& precision) {
 
     },
     {
-      "squat",
-      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 1, 3, 2, 0),
+      "squat RH",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 1, 3, 2, 0, 1),
       mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
                               0, 1, 0, 0,
                               0, 0, 1, 0,
@@ -602,14 +610,32 @@ void Ortho_Test(const T& precision) {
 
     },
     {
-      "deep",
-      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 0, 2, 3, 1),
+      "deep RH",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 0, 2, 3, 1, 1),
       mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
                               0, 1, 0, 0,
                               0, 0, 1, 0,
                               -1, -1, 2, 1),
 
     },
+    {
+      "normalized LH",
+      mathfu::Matrix<T, 4, 4>::Ortho(0, 2, 0, 2, 2, 0, -1),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, -1, 0,
+                              -1, -1, 1, 1),
+    },
+    {
+      "Canonical LH",
+      mathfu::Matrix<T, 4, 4>::Ortho(1, 3, 1, 3, 1, 3, -1),
+      mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                             -2,-2,-2, 1),
+
+    },
+
   };
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
@@ -631,10 +657,20 @@ void LookAt_Test(const T& precision) {
                               0, 0, 0, 1),
     },
     {
-      "origin along 2z",
+      "origin along diagonal",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 0, 0), mathfu::Vector<T, 3>(1, 1, 1),
+          mathfu::Vector<T, 3>(0, 1, 0), -1),
+      mathfu::Matrix<T, 4, 4>(-0.707106781,-0.408248290, -0.577350269, 0,
+                              0,            0.816496580, -0.577350269, 0,
+                              0.707106781, -0.408248290, -0.577350269, 0,
+                              0,            0,            1.732050808, 1),
+    },
+    {
+      "origin along z",
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(0, 0, 2), mathfu::Vector<T, 3>(0, 0, 0),
-          mathfu::Vector<T, 3>(0, 1, 0)),
+          mathfu::Vector<T, 3>(0, 1, 0), -1),
       mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
                               0, 1, 0, 0,
                               0, 0, 1, 0,
@@ -644,7 +680,7 @@ void LookAt_Test(const T& precision) {
       "origin along x",
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(1, 0, 0), mathfu::Vector<T, 3>(0, 0, 0),
-          mathfu::Vector<T, 3>(0, 1, 0)),
+          mathfu::Vector<T, 3>(0, 1, 0), -1),
       mathfu::Matrix<T, 4, 4>(0, 0, 1, 0,
                               0, 1, 0, 0,
                               -1, 0, 0, 0,
@@ -654,7 +690,7 @@ void LookAt_Test(const T& precision) {
       "origin along y",
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(0, 1, 0), mathfu::Vector<T, 3>(0, 0, 0),
-          mathfu::Vector<T, 3>(1, 0, 0)),
+          mathfu::Vector<T, 3>(1, 0, 0), -1),
       mathfu::Matrix<T, 4, 4>(0, 1, 0, 0,
                               0, 0, 1, 0,
                               1, 0, 0, 0,
@@ -664,17 +700,67 @@ void LookAt_Test(const T& precision) {
       "translated eye, looking along z",
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(1, 1, 2), mathfu::Vector<T, 3>(1, 1, 1),
-          mathfu::Vector<T, 3>(0, 1, 0)),
+          mathfu::Vector<T, 3>(0, 1, 0), -1),
       mathfu::Matrix<T, 4, 4>(1, 0, 0, 0,
                               0, 1, 0, 0,
                               0, 0, 1, 0,
                               -1, -1, -1, 1),
     },
+    {
+      "right-handed diagonal along diagonal",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 0, 0), mathfu::Vector<T, 3>(1, 1, 1),
+          mathfu::Vector<T, 3>(0, 1, 0), 1),
+      mathfu::Matrix<T, 4, 4>(0.707106781,-0.408248290, 0.577350269, 0,
+                              0,           0.816496581, 0.577350269, 0,
+                             -0.707106781,-0.408248290, 0.577350269, 0,
+                               0,          0,          -1.732050808, 1),
+    },
+    {
+      "right-handed origin along z",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 0, 1), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(0, 1, 0), 1),
+      mathfu::Matrix<T, 4, 4>(-1, 0, 0, 0,
+                               0, 1, 0, 0,
+                               0, 0, -1,0,
+                               0, 0, 0, 1),
+    },
+    {
+      "right-handed origin along x",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(1, 0, 0), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(0, 1, 0), 1),
+      mathfu::Matrix<T, 4, 4>(0, 0, -1, 0,
+                              0, 1, 0, 0,
+                              1, 0, 0, 0,
+                              0, 0, 0, 1),
+    },
+    {
+      "right-handed origin along y",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(0, 1, 0), mathfu::Vector<T, 3>(0, 0, 0),
+          mathfu::Vector<T, 3>(1, 0, 0), 1),
+      mathfu::Matrix<T, 4, 4>(0, 1, 0, 0,
+                              0, 0, -1, 0,
+                              -1, 0, 0, 0,
+                              0,  0, 0, 1),
+    },
+    {
+      "right-handed translated eye along x",
+      mathfu::Matrix<T, 4, 4>::LookAt(
+          mathfu::Vector<T, 3>(2, 1, 1), mathfu::Vector<T, 3>(1, 1, 1),
+          mathfu::Vector<T, 3>(0, 1, 0), 1),
+      mathfu::Matrix<T, 4, 4>(0, 0, -1, 0,
+                              0, 1, 0, 0,
+                              1, 0, 0, 0,
+                             -1,-1, 1, 1),
+    },
   };
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(LookAt, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(LookAt, FLOAT_PRECISION, kLookAtDoublePrecision);
 
 // Test matrix transposition.
 template<class T, int d>

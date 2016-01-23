@@ -338,20 +338,25 @@ class Matrix<float, 4> {
   }
 
   /// Create a 4x4 orthographic matrix.
+  /// @param handedness 1.0f for RH, -1.0f for LH
   static inline Matrix<float, 4, 4> Ortho(float left, float right, float bottom,
-                                          float top, float znear, float zfar) {
-    return OrthoHelper(left, right, bottom, top, znear, zfar);
+                                          float top, float znear, float zfar,
+                                          float handedness = 1.0f) {
+    return OrthoHelper(left, right, bottom, top, znear, zfar, handedness);
   }
 
   /// Create a 3-dimensional camera matrix.
   /// @param at The look-at target of the camera.
   /// @param eye The position of the camera.
   /// @param up The up vector in the world, for example (0, 1, 0) if the
+  /// @handedness: 1.0f for RH, -1.0f for LH
+  /// TODO: Change default handedness to 1.0f, to match Perspective().
   /// y-axis is up.
   static inline Matrix<float, 4, 4> LookAt(const Vector<float, 3>& at,
                                            const Vector<float, 3>& eye,
-                                           const Vector<float, 3>& up) {
-    return LookAtHelper(at, eye, up);
+                                           const Vector<float, 3>& up,
+                                           float handedness = -1.0f) {
+    return LookAtHelper(at, eye, up, handedness);
   }
 
   // Dimensions of the matrix.
