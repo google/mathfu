@@ -237,13 +237,19 @@ void Mult_Test(const T& precision) {
   (qaa1 * 2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 * 2, convertedAngle, precision);
   mathfu::Vector<T, 3> v(3.5f, 6.4f, 7.0f);
+  mathfu::Vector<T, 4> v4(3.5f, 6.4f, 7.0f, 0.0f);
   // This will verify that multiplying by a vector corresponds to applying
   // the rotation to that vector.
   mathfu::Vector<T, 3> quatRotatedV(qaa1 * v);
   mathfu::Vector<T, 3> matRotatedV(qaa1.ToMatrix()*v);
+  mathfu::Vector<T, 4> mat4RotatedV(qaa1.ToMatrix4()*v4);
   EXPECT_NEAR(quatRotatedV[0], matRotatedV[0], 10 * precision);
   EXPECT_NEAR(quatRotatedV[1], matRotatedV[1], 10 * precision);
   EXPECT_NEAR(quatRotatedV[2], matRotatedV[2], 10 * precision);
+
+  EXPECT_NEAR(quatRotatedV[0], mat4RotatedV[0], 10 * precision);
+  EXPECT_NEAR(quatRotatedV[1], mat4RotatedV[1], 10 * precision);
+  EXPECT_NEAR(quatRotatedV[2], mat4RotatedV[2], 10 * precision);
   // This will verify that interpolating two quaternions corresponds to
   // interpolating the angle.
   mathfu::Quaternion<T> slerp1(mathfu::Quaternion<T>::Slerp(qaa1, qaa2, 0.5));
