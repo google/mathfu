@@ -1,4 +1,4 @@
-MathFu Version 1.0.1    {#mathfu_readme}
+MathFu Version 1.0.2    {#mathfu_readme}
 ====================
 
 MathFu is a C++ math library developed primarily for games focused on
