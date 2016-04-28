@@ -2099,7 +2099,7 @@ PERL_PATH              = /usr/bin/perl
 # powerful graphs.
 # The default value is: YES.
 
-CLASS_DIAGRAMS         = YES
+CLASS_DIAGRAMS         = NO
 
 # You can define message sequence charts within doxygen comments using the \msc
 # command. Doxygen will then run the mscgen tool (see:
@@ -2108,7 +2108,7 @@ CLASS_DIAGRAMS         = YES
 # the mscgen tool resides. If left empty the tool is assumed to be found in the
 # default search path.
 
-MSCGEN_PATH            = 
+MSCGEN_PATH            =
 
 # If set to YES, the inheritance and collaboration graphs will hide inheritance
 # and usage relations if the target is undocumented or is not a class.
