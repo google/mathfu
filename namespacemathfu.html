@@ -1,0 +1,559 @@
+<!-- HTML header for doxygen 1.8.6-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>MathFu: mathfu Namespace Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,700" rel="stylesheet">
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<script>
+  /**
+   * Check if the browser rendering this page is being run on an Android device.
+   * It checks if the string 'android' is found in the browser's `userAgent`.
+   * @return {boolean} This returns `true` if the browser's `userAgent` contains
+   * the string 'android' (indicating that the browser is on an Android device).
+   * Otherwise, it returns `false`.
+   */
+  function isAndroidDevice() {
+    if (navigator && navigator.userAgent) {
+      return navigator.userAgent.toLowerCase().indexOf('android') != -1;
+    } else {
+      return false;
+    }
+  }
+  /**
+   * Check if an HTML `class` attribute is in the browser-specific format.
+   * @param {string} An HTML `class` attribute in the format 'browser-{device}'.
+   * @return {boolean} Returns `true` if `browserClass` was in the valid format,
+   * prefixed with 'browser-'. Otherwise, it returns false.
+   */
+  function isBrowserSpecificClassName(browserClass) {
+    if (browserClass && browserClass.substring(0, 8) == 'browser-' &&
+        browserClass.length > 8) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  /**
+   * Get all the HTML Elements with browser-specific `class` attributes.
+   * @return {array} Returns an array of all the HTML Elements with a `class`
+   * attribute that is prefixed with `browser-`.
+   */
+  function getAllBrowserSpecificElements() {
+    if (document) {
+      var htmlElements = document.getElementsByTagName("*");
+      var browserSpecificElements = [];
+      for (var i = 0; i < htmlElements.length; i++) {
+        if (isBrowserSpecificClassName(htmlElements[i].className)) {
+          browserSpecificElements.push(htmlElements[i]);
+        }
+      }
+      return browserSpecificElements;
+    } else {
+      return null;
+    }
+  }
+  /**
+   * Given a browser-specific HTML `class` attribute, extract the device name.
+   * @param {string} browserClass The string name of an HTML `class` attribute,
+   * in the format `browser-{device}`.
+   * @return {string} Returns a string containing only the device portion of
+   * the class name. If the input was invalid, then it returns `null`.
+   */
+  function extractDeviceFromBrowserClass(browserClass) {
+    if (isBrowserSpecificClassName(browserClass)) {
+      return browserClass.substring(8);
+    }
+    else {
+      return null;
+    }
+  }
+  /**
+   * Hide device specific elements that do not apply to the current device.
+   */
+  function handleDeviceSpecificLoading() {
+    var browserSpecificElements = getAllBrowserSpecificElements();
+    for (var i = 0; i < browserSpecificElements.length; i++) {
+      var device = extractDeviceFromBrowserClass(browserSpecificElements[i].className);
+      if (device && !isAndroidDevice() && device == 'android') {
+        browserSpecificElements[i].innerHTML = '';
+      } else if(device && isAndroidDevice() && device == 'desktop') {
+        browserSpecificElements[i].innerHTML = '';
+      }
+    }
+  }
+  $(document).ready(handleDeviceSpecificLoading);
+</script>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="commonprojectlogo">
+    <img alt="Logo" src="fpl_logo_small.png"/>
+  </td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">MathFu
+   </div>
+   <div style="font-size:12px;">
+	 An open source project by
+     <a href="https://developers.google.com/games/#Tools">FPL</a>.
+  </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="usergroup0.html"><span>Programmer's&#160;Guide</span></a></li>
+      <li><a href="mathfu_api_reference.html"><span>API&#160;reference</span></a></li>
+      <li><a href="mathfu_readme.html"><span>readme</span></a></li>
+      <li><a href="contributing.html"><span>contributing</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('namespacemathfu.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle">
+<div class="title">mathfu Namespace Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Namespace for MathFu library.  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_constants_3_01double_01_4.html">Constants&lt; double &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functions that return constants for <code>double</code> values.  <a href="classmathfu_1_1_constants_3_01double_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_constants_3_01float_01_4.html">Constants&lt; float &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functions that return constants for <code>float</code> values.  <a href="classmathfu_1_1_constants_3_01float_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html">Matrix</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> stores a set of "rows" by "columns" elements of type T and provides functions that operate on the set of elements.  <a href="classmathfu_1_1_matrix.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores a <a class="el" href="classmathfu_1_1_quaternion.html" title="Stores a Quaternion of type T and provides a set of utility operations on each Quaternion. ">Quaternion</a> of type T and provides a set of utility operations on each <a class="el" href="classmathfu_1_1_quaternion.html" title="Stores a Quaternion of type T and provides a set of utility operations on each Quaternion. ">Quaternion</a>.  <a href="classmathfu_1_1_quaternion.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1simd__allocator.html">simd_allocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SIMD-safe memory allocator, for use with STL types like std::vector.  <a href="classmathfu_1_1simd__allocator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_vector.html">Vector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of d elements with type T.  <a href="classmathfu_1_1_vector.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Packed N-dimensional vector.  <a href="structmathfu_1_1_vector_packed.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gad9c3a60203b278aad94a4d0be3d36ce9"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gad9c3a60203b278aad94a4d0be3d36ce9">vec2</a></td></tr>
+<tr class="memdesc:gad9c3a60203b278aad94a4d0be3d36ce9"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>. <br /></td></tr>
+<tr class="separator:gad9c3a60203b278aad94a4d0be3d36ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab50cf7ff21e4e6fbd05d15836a26adb6"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gab50cf7ff21e4e6fbd05d15836a26adb6">vec3</a></td></tr>
+<tr class="memdesc:gab50cf7ff21e4e6fbd05d15836a26adb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>. <br /></td></tr>
+<tr class="separator:gab50cf7ff21e4e6fbd05d15836a26adb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga63935fe6b3415a4f18ccc02b7f2e7e25"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga63935fe6b3415a4f18ccc02b7f2e7e25">vec4</a></td></tr>
+<tr class="memdesc:ga63935fe6b3415a4f18ccc02b7f2e7e25"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>. <br /></td></tr>
+<tr class="separator:ga63935fe6b3415a4f18ccc02b7f2e7e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1b61ca90466ea14a29e612c12fe0ec03"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga1b61ca90466ea14a29e612c12fe0ec03">vec2i</a></td></tr>
+<tr class="memdesc:ga1b61ca90466ea14a29e612c12fe0ec03"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>. <br /></td></tr>
+<tr class="separator:ga1b61ca90466ea14a29e612c12fe0ec03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2dcb6916452d11aab6ddc8f02093752"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gaa2dcb6916452d11aab6ddc8f02093752">vec3i</a></td></tr>
+<tr class="memdesc:gaa2dcb6916452d11aab6ddc8f02093752"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>. <br /></td></tr>
+<tr class="separator:gaa2dcb6916452d11aab6ddc8f02093752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e0abf542db10e6037510f0cfa1e59cf"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga0e0abf542db10e6037510f0cfa1e59cf">vec4i</a></td></tr>
+<tr class="memdesc:ga0e0abf542db10e6037510f0cfa1e59cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>. <br /></td></tr>
+<tr class="separator:ga0e0abf542db10e6037510f0cfa1e59cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6df1542d4281f8be653257f127730343"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; float, 2, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga6df1542d4281f8be653257f127730343">mat2</a></td></tr>
+<tr class="memdesc:ga6df1542d4281f8be653257f127730343"><td class="mdescLeft">&#160;</td><td class="mdescRight">2x2 <code>float</code> <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. <br /></td></tr>
+<tr class="separator:ga6df1542d4281f8be653257f127730343"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab8d23417d091ed1da437cf816c8c8b4e"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; float, 3, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gab8d23417d091ed1da437cf816c8c8b4e">mat3</a></td></tr>
+<tr class="memdesc:gab8d23417d091ed1da437cf816c8c8b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">3x3 <code>float</code> <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. <br /></td></tr>
+<tr class="separator:gab8d23417d091ed1da437cf816c8c8b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61f45f82fef7e9f1f577d75cf44abae7"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; float, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga61f45f82fef7e9f1f577d75cf44abae7">mat4</a></td></tr>
+<tr class="memdesc:ga61f45f82fef7e9f1f577d75cf44abae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">3x3 <code>float</code> <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. <br /></td></tr>
+<tr class="separator:ga61f45f82fef7e9f1f577d75cf44abae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2a1c25dfe98aa58ae552cc4ac6da4698"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; float, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga2a1c25dfe98aa58ae552cc4ac6da4698">vec2_packed</a></td></tr>
+<tr class="memdesc:ga2a1c25dfe98aa58ae552cc4ac6da4698"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>float</code> packed <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> (<a class="el" href="structmathfu_1_1_vector_packed.html" title="Packed N-dimensional vector. ">VectorPacked</a>). <br /></td></tr>
+<tr class="separator:ga2a1c25dfe98aa58ae552cc4ac6da4698"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacb2c2dffb1e6a2072bc91ba089f92ceb"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gacb2c2dffb1e6a2072bc91ba089f92ceb">vec3_packed</a></td></tr>
+<tr class="memdesc:gacb2c2dffb1e6a2072bc91ba089f92ceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> packed <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> (<a class="el" href="structmathfu_1_1_vector_packed.html" title="Packed N-dimensional vector. ">VectorPacked</a>). <br /></td></tr>
+<tr class="separator:gacb2c2dffb1e6a2072bc91ba089f92ceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab2dfdb3b5f8587c76fcc5d45663885f4"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gab2dfdb3b5f8587c76fcc5d45663885f4">vec4_packed</a></td></tr>
+<tr class="memdesc:gab2dfdb3b5f8587c76fcc5d45663885f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> packed <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> (<a class="el" href="structmathfu_1_1_vector_packed.html" title="Packed N-dimensional vector. ">VectorPacked</a>). <br /></td></tr>
+<tr class="separator:gab2dfdb3b5f8587c76fcc5d45663885f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga306f42fa86770b7929fd9836ecc9ae7f"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga306f42fa86770b7929fd9836ecc9ae7f">vec2i_packed</a></td></tr>
+<tr class="memdesc:ga306f42fa86770b7929fd9836ecc9ae7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>int</code> packed <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> (<a class="el" href="structmathfu_1_1_vector_packed.html" title="Packed N-dimensional vector. ">VectorPacked</a>). <br /></td></tr>
+<tr class="separator:ga306f42fa86770b7929fd9836ecc9ae7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabbf3b0e333d2e154f9683078005d3c5b"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gabbf3b0e333d2e154f9683078005d3c5b">vec3i_packed</a></td></tr>
+<tr class="memdesc:gabbf3b0e333d2e154f9683078005d3c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> packed <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> (<a class="el" href="structmathfu_1_1_vector_packed.html" title="Packed N-dimensional vector. ">VectorPacked</a>). <br /></td></tr>
+<tr class="separator:gabbf3b0e333d2e154f9683078005d3c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd5ab069f14f0cea6b08a489a289f3e6"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gabd5ab069f14f0cea6b08a489a289f3e6">vec4i_packed</a></td></tr>
+<tr class="memdesc:gabd5ab069f14f0cea6b08a489a289f3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> packed <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> (<a class="el" href="structmathfu_1_1_vector_packed.html" title="Packed N-dimensional vector. ">VectorPacked</a>). <br /></td></tr>
+<tr class="separator:gabd5ab069f14f0cea6b08a489a289f3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga40ace97dc88e437be09d3275062dd513"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classmathfu_1_1_quaternion.html">mathfu::Quaternion</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga40ace97dc88e437be09d3275062dd513">quat</a></td></tr>
+<tr class="separator:ga40ace97dc88e437be09d3275062dd513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad24db3629804f1590c99931b974a0e47"><td class="memItemLeft" align="right" valign="top">
+typedef <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; float, 4, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47">AffineTransform</a></td></tr>
+<tr class="memdesc:gad24db3629804f1590c99931b974a0e47"><td class="mdescLeft">&#160;</td><td class="mdescRight">A typedef representing a 4x3 float affine transformation. Since the last row ('w' row) of an affine transformation is fixed, this data type only includes the variable information for the transform. <br /></td></tr>
+<tr class="separator:gad24db3629804f1590c99931b974a0e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga550e5419565bc6305fb9c850a5f1b00a"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga550e5419565bc6305fb9c850a5f1b00a">kZeros2f</a> (0.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga550e5419565bc6305fb9c850a5f1b00a"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:ga550e5419565bc6305fb9c850a5f1b00a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10cc148ec49b64a28d891f3f825f0911"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga10cc148ec49b64a28d891f3f825f0911">kOnes2f</a> (1.0f, 1.0f)</td></tr>
+<tr class="memdesc:ga10cc148ec49b64a28d891f3f825f0911"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga10cc148ec49b64a28d891f3f825f0911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga069da3926bfc3c24b3e908efebbfa565"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga069da3926bfc3c24b3e908efebbfa565">kAxisX2f</a> (1.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga069da3926bfc3c24b3e908efebbfa565"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga069da3926bfc3c24b3e908efebbfa565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga95e3af0efd68ab73f0dc69ea1c0a0621"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga95e3af0efd68ab73f0dc69ea1c0a0621">kAxisY2f</a> (0.0f, 1.0f)</td></tr>
+<tr class="memdesc:ga95e3af0efd68ab73f0dc69ea1c0a0621"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga95e3af0efd68ab73f0dc69ea1c0a0621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ed645e7e175dcb9fe908fb76bdad18e"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga1ed645e7e175dcb9fe908fb76bdad18e">kZeros3f</a> (0.0f, 0.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga1ed645e7e175dcb9fe908fb76bdad18e"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:ga1ed645e7e175dcb9fe908fb76bdad18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac455f4732adb122ec07892eeb4a531bf"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gac455f4732adb122ec07892eeb4a531bf">kOnes3f</a> (1.0f, 1.0f, 1.0f)</td></tr>
+<tr class="memdesc:gac455f4732adb122ec07892eeb4a531bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:gac455f4732adb122ec07892eeb4a531bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ad885af0ddaa4c55ad35acff5f4c018"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga8ad885af0ddaa4c55ad35acff5f4c018">kAxisX3f</a> (1.0f, 0.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga8ad885af0ddaa4c55ad35acff5f4c018"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga8ad885af0ddaa4c55ad35acff5f4c018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga253e7cb86a572e89298e380ada8d0a18"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga253e7cb86a572e89298e380ada8d0a18">kAxisY3f</a> (0.0f, 1.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga253e7cb86a572e89298e380ada8d0a18"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga253e7cb86a572e89298e380ada8d0a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0b1fcd14176fc8008720b3c3a8b0429f"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga0b1fcd14176fc8008720b3c3a8b0429f">kAxisZ3f</a> (0.0f, 0.0f, 1.0f)</td></tr>
+<tr class="memdesc:ga0b1fcd14176fc8008720b3c3a8b0429f"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Z axis. <br /></td></tr>
+<tr class="separator:ga0b1fcd14176fc8008720b3c3a8b0429f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2c0d584d7b735f15f0331e127b4b438e"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga2c0d584d7b735f15f0331e127b4b438e">kZeros4f</a> (0.0f, 0.0f, 0.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga2c0d584d7b735f15f0331e127b4b438e"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:ga2c0d584d7b735f15f0331e127b4b438e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b70786247b2ff8a3d0620345b931d60"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga2b70786247b2ff8a3d0620345b931d60">kOnes4f</a> (1.0f, 1.0f, 1.0f, 1.0f)</td></tr>
+<tr class="memdesc:ga2b70786247b2ff8a3d0620345b931d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga2b70786247b2ff8a3d0620345b931d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8594dac908f6bee8828f432eaded180c"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga8594dac908f6bee8828f432eaded180c">kAxisX4f</a> (1.0f, 0.0f, 0.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga8594dac908f6bee8828f432eaded180c"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga8594dac908f6bee8828f432eaded180c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ceee5029c716ce30740d6dd031d88bc"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga1ceee5029c716ce30740d6dd031d88bc">kAxisY4f</a> (0.0f, 1.0f, 0.0f, 0.0f)</td></tr>
+<tr class="memdesc:ga1ceee5029c716ce30740d6dd031d88bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga1ceee5029c716ce30740d6dd031d88bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf13432215634cda9572e646e42bf127b"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gaf13432215634cda9572e646e42bf127b">kAxisZ4f</a> (0.0f, 0.0f, 1.0f, 0.0f)</td></tr>
+<tr class="memdesc:gaf13432215634cda9572e646e42bf127b"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Z axis. <br /></td></tr>
+<tr class="separator:gaf13432215634cda9572e646e42bf127b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga894576576403aa45a1f5ae04a21116be"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga894576576403aa45a1f5ae04a21116be">kAxisW4f</a> (0.0f, 0.0f, 0.0f, 1.0f)</td></tr>
+<tr class="memdesc:ga894576576403aa45a1f5ae04a21116be"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>float</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the W axis. <br /></td></tr>
+<tr class="separator:ga894576576403aa45a1f5ae04a21116be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3dfec04bab41f65b500a07fc7b782d2f"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga3dfec04bab41f65b500a07fc7b782d2f">kZeros2d</a> (0.0, 0.0)</td></tr>
+<tr class="memdesc:ga3dfec04bab41f65b500a07fc7b782d2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>double</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:ga3dfec04bab41f65b500a07fc7b782d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga88f0623e9d2b3a9a690f9a5be0cb1c28"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga88f0623e9d2b3a9a690f9a5be0cb1c28">kOnes2d</a> (1.0, 1.0)</td></tr>
+<tr class="memdesc:ga88f0623e9d2b3a9a690f9a5be0cb1c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>double</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga88f0623e9d2b3a9a690f9a5be0cb1c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac5f6078ac292106ba1558274b934cf4a"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gac5f6078ac292106ba1558274b934cf4a">kAxisX2d</a> (1.0, 0.0)</td></tr>
+<tr class="memdesc:gac5f6078ac292106ba1558274b934cf4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:gac5f6078ac292106ba1558274b934cf4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga27a4a57a796fef9e67cfa6994881b5df"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga27a4a57a796fef9e67cfa6994881b5df">kAxisY2d</a> (0.0, 1.0)</td></tr>
+<tr class="memdesc:ga27a4a57a796fef9e67cfa6994881b5df"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga27a4a57a796fef9e67cfa6994881b5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafac9fcd1fdf30d963baf2fda71fe5d06"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gafac9fcd1fdf30d963baf2fda71fe5d06">kZeros3d</a> (0.0, 0.0, 0.0)</td></tr>
+<tr class="memdesc:gafac9fcd1fdf30d963baf2fda71fe5d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>double</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:gafac9fcd1fdf30d963baf2fda71fe5d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga173b53fed4d1663349a39c8752ae94e9"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga173b53fed4d1663349a39c8752ae94e9">kOnes3d</a> (1.0, 1.0, 1.0)</td></tr>
+<tr class="memdesc:ga173b53fed4d1663349a39c8752ae94e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>double</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga173b53fed4d1663349a39c8752ae94e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga09915ee1884c6433ba67eb1b4031930c"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga09915ee1884c6433ba67eb1b4031930c">kAxisX3d</a> (1.0, 0.0, 0.0)</td></tr>
+<tr class="memdesc:ga09915ee1884c6433ba67eb1b4031930c"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga09915ee1884c6433ba67eb1b4031930c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga04db2b75674b5a3e22bbcb3037d8c894"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga04db2b75674b5a3e22bbcb3037d8c894">kAxisY3d</a> (0.0, 1.0, 0.0)</td></tr>
+<tr class="memdesc:ga04db2b75674b5a3e22bbcb3037d8c894"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga04db2b75674b5a3e22bbcb3037d8c894"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06cb5ae8f904cde2a06b65fa4c612421"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga06cb5ae8f904cde2a06b65fa4c612421">kAxisZ3d</a> (0.0, 0.0, 1.0)</td></tr>
+<tr class="memdesc:ga06cb5ae8f904cde2a06b65fa4c612421"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Z axis. <br /></td></tr>
+<tr class="separator:ga06cb5ae8f904cde2a06b65fa4c612421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga02ef3ca8cfbcf9b09fc0775a6c23bc84"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga02ef3ca8cfbcf9b09fc0775a6c23bc84">kZeros4d</a> (0.0, 0.0, 0.0, 0.0)</td></tr>
+<tr class="memdesc:ga02ef3ca8cfbcf9b09fc0775a6c23bc84"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>double</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:ga02ef3ca8cfbcf9b09fc0775a6c23bc84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gace8fd44f461faf4f03b4527ecec2374c"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gace8fd44f461faf4f03b4527ecec2374c">kOnes4d</a> (1.0, 1.0, 1.0, 1.0)</td></tr>
+<tr class="memdesc:gace8fd44f461faf4f03b4527ecec2374c"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>double</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:gace8fd44f461faf4f03b4527ecec2374c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9eaf3faa099b9b9b121336e8b8888006"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga9eaf3faa099b9b9b121336e8b8888006">kAxisX4d</a> (1.0, 0.0, 0.0, 0.0)</td></tr>
+<tr class="memdesc:ga9eaf3faa099b9b9b121336e8b8888006"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga9eaf3faa099b9b9b121336e8b8888006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga862118e3ba2021a593a66f060055d25d"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga862118e3ba2021a593a66f060055d25d">kAxisY4d</a> (0.0, 1.0, 0.0, 0.0)</td></tr>
+<tr class="memdesc:ga862118e3ba2021a593a66f060055d25d"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga862118e3ba2021a593a66f060055d25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6cc6bba866a2314d2343d2d1716cd97b"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga6cc6bba866a2314d2343d2d1716cd97b">kAxisZ4d</a> (0.0, 0.0, 1.0, 0.0)</td></tr>
+<tr class="memdesc:ga6cc6bba866a2314d2343d2d1716cd97b"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Z axis. <br /></td></tr>
+<tr class="separator:ga6cc6bba866a2314d2343d2d1716cd97b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga00acef71041077cb394a4c9174ddb978"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga00acef71041077cb394a4c9174ddb978">kAxisW4d</a> (0.0, 0.0, 0.0, 1.0)</td></tr>
+<tr class="memdesc:ga00acef71041077cb394a4c9174ddb978"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>double</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the W axis. <br /></td></tr>
+<tr class="separator:ga00acef71041077cb394a4c9174ddb978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb81c4e25c514a7f9b8be93cf4997f74"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gadb81c4e25c514a7f9b8be93cf4997f74">kOnes2i</a> (1, 1)</td></tr>
+<tr class="memdesc:gadb81c4e25c514a7f9b8be93cf4997f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:gadb81c4e25c514a7f9b8be93cf4997f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga22b7940c91a266af27cb14f1e44ebaf6"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga22b7940c91a266af27cb14f1e44ebaf6">kZeros2i</a> (0, 0)</td></tr>
+<tr class="memdesc:ga22b7940c91a266af27cb14f1e44ebaf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga22b7940c91a266af27cb14f1e44ebaf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79813cffa3cc47accf7d5bc7d7ab6068"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga79813cffa3cc47accf7d5bc7d7ab6068">kAxisX2i</a> (1, 0)</td></tr>
+<tr class="memdesc:ga79813cffa3cc47accf7d5bc7d7ab6068"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga79813cffa3cc47accf7d5bc7d7ab6068"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5d266b9651ffe65a29b6a84382ae911"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gad5d266b9651ffe65a29b6a84382ae911">kAxisY2i</a> (0, 1)</td></tr>
+<tr class="memdesc:gad5d266b9651ffe65a29b6a84382ae911"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:gad5d266b9651ffe65a29b6a84382ae911"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6a1caad345b5f7da3d0da7c8819c768c"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga6a1caad345b5f7da3d0da7c8819c768c">kZeros3i</a> (0, 0, 0)</td></tr>
+<tr class="memdesc:ga6a1caad345b5f7da3d0da7c8819c768c"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:ga6a1caad345b5f7da3d0da7c8819c768c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7088e4cccc23e7de6576a3666ce76758"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga7088e4cccc23e7de6576a3666ce76758">kOnes3i</a> (1, 1, 1)</td></tr>
+<tr class="memdesc:ga7088e4cccc23e7de6576a3666ce76758"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga7088e4cccc23e7de6576a3666ce76758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13f01b3b74f8f963c001710bb88b0b28"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga13f01b3b74f8f963c001710bb88b0b28">kAxisX3i</a> (1, 0, 0)</td></tr>
+<tr class="memdesc:ga13f01b3b74f8f963c001710bb88b0b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga13f01b3b74f8f963c001710bb88b0b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4536b8d7c6e63c0f1dceb493147cb088"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga4536b8d7c6e63c0f1dceb493147cb088">kAxisY3i</a> (0, 1, 0)</td></tr>
+<tr class="memdesc:ga4536b8d7c6e63c0f1dceb493147cb088"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga4536b8d7c6e63c0f1dceb493147cb088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga32ac4981d82643711982092700544c8c"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga32ac4981d82643711982092700544c8c">kAxisZ3i</a> (0, 0, 1)</td></tr>
+<tr class="memdesc:ga32ac4981d82643711982092700544c8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Z axis. <br /></td></tr>
+<tr class="separator:ga32ac4981d82643711982092700544c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad60d3d192cd04cca592d7b3796b7f87d"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#gad60d3d192cd04cca592d7b3796b7f87d">kZeros4i</a> (0, 0, 0, 0)</td></tr>
+<tr class="memdesc:gad60d3d192cd04cca592d7b3796b7f87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of zeros. <br /></td></tr>
+<tr class="separator:gad60d3d192cd04cca592d7b3796b7f87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga052a89913938f4223d8ca440e82d7761"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga052a89913938f4223d8ca440e82d7761">kOnes4i</a> (1, 1, 1, 1)</td></tr>
+<tr class="memdesc:ga052a89913938f4223d8ca440e82d7761"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of ones. <br /></td></tr>
+<tr class="separator:ga052a89913938f4223d8ca440e82d7761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga36ce138c6560ce2f82211d7d2ec9648a"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga36ce138c6560ce2f82211d7d2ec9648a">kAxisX4i</a> (1, 0, 0, 0)</td></tr>
+<tr class="memdesc:ga36ce138c6560ce2f82211d7d2ec9648a"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the X axis. <br /></td></tr>
+<tr class="separator:ga36ce138c6560ce2f82211d7d2ec9648a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79279db9ad33c48321a905910591ee9d"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga79279db9ad33c48321a905910591ee9d">kAxisY4i</a> (0, 1, 0, 0)</td></tr>
+<tr class="memdesc:ga79279db9ad33c48321a905910591ee9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Z axis. <br /></td></tr>
+<tr class="separator:ga79279db9ad33c48321a905910591ee9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62e428e1d01daabd0cc6c4cbb9a1ae9c"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga62e428e1d01daabd0cc6c4cbb9a1ae9c">kAxisZ4i</a> (0, 0, 1, 0)</td></tr>
+<tr class="memdesc:ga62e428e1d01daabd0cc6c4cbb9a1ae9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the Y axis. <br /></td></tr>
+<tr class="separator:ga62e428e1d01daabd0cc6c4cbb9a1ae9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d0fa6dbbb3303356639bfab9b04a3f9"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; int, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga5d0fa6dbbb3303356639bfab9b04a3f9">kAxisW4i</a> (0, 0, 0, 1)</td></tr>
+<tr class="memdesc:ga5d0fa6dbbb3303356639bfab9b04a3f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-dimensional <code>int</code> unit <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> pointing along the W axis. <br /></td></tr>
+<tr class="separator:ga5d0fa6dbbb3303356639bfab9b04a3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga838cf4a75bbbe6346d05f54f2c1733d3"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga838cf4a75bbbe6346d05f54f2c1733d3">kQuatIdentityf</a> (0.0f, 0.0f, 0.0f, 1.0f)</td></tr>
+<tr class="memdesc:ga838cf4a75bbbe6346d05f54f2c1733d3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmathfu_1_1_quaternion.html" title="Stores a Quaternion of type T and provides a set of utility operations on each Quaternion. ">Quaternion</a> Identity. <br /></td></tr>
+<tr class="separator:ga838cf4a75bbbe6346d05f54f2c1733d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2472118da6532c8d20eeca924804c3df"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__constants.html#ga2472118da6532c8d20eeca924804c3df">kQuatIdentityd</a> (0.0, 0.0, 0.0, 1.0)</td></tr>
+<tr class="memdesc:ga2472118da6532c8d20eeca924804c3df"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmathfu_1_1_quaternion.html" title="Stores a Quaternion of type T and provides a set of utility operations on each Quaternion. ">Quaternion</a> Identity. <br /></td></tr>
+<tr class="separator:ga2472118da6532c8d20eeca924804c3df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6b02735236b988d88282e9a1035af3b3"><td class="memItemLeft" align="right" valign="top">
+static const <a class="el" href="group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47">AffineTransform</a>&#160;</td><td class="memItemRight" valign="bottom"><b>kAffineIdentity</b> (1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f)</td></tr>
+<tr class="separator:ga6b02735236b988d88282e9a1035af3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5eb9f0db8e0bfb2683aea12253683818"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga5eb9f0db8e0bfb2683aea12253683818"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#ga5eb9f0db8e0bfb2683aea12253683818">cross</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;v2)</td></tr>
+<tr class="memdesc:ga5eb9f0db8e0bfb2683aea12253683818"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the cross product of two 3-dimensional Vectors.  <a href="group__mathfu__glsl.html#ga5eb9f0db8e0bfb2683aea12253683818">More...</a><br /></td></tr>
+<tr class="separator:ga5eb9f0db8e0bfb2683aea12253683818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac432f6e8c90d8f69ebdee19f85e07a43"><td class="memTemplParams" colspan="2">template&lt;class TV &gt; </td></tr>
+<tr class="memitem:gac432f6e8c90d8f69ebdee19f85e07a43"><td class="memTemplItemLeft" align="right" valign="top">TV::Scalar&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gac432f6e8c90d8f69ebdee19f85e07a43">dot</a> (const TV &amp;v1, const TV &amp;v2)</td></tr>
+<tr class="memdesc:gac432f6e8c90d8f69ebdee19f85e07a43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the dot product of two N-dimensional Vectors of any type.  <a href="group__mathfu__glsl.html#gac432f6e8c90d8f69ebdee19f85e07a43">More...</a><br /></td></tr>
+<tr class="separator:gac432f6e8c90d8f69ebdee19f85e07a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8db2a74dc29980ef900a07d5da0954f"><td class="memTemplParams" colspan="2">template&lt;class TV &gt; </td></tr>
+<tr class="memitem:gaa8db2a74dc29980ef900a07d5da0954f"><td class="memTemplItemLeft" align="right" valign="top">TV&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__glsl.html#gaa8db2a74dc29980ef900a07d5da0954f">normalize</a> (const TV &amp;v1)</td></tr>
+<tr class="memdesc:gaa8db2a74dc29980ef900a07d5da0954f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize an N-dimensional <a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a> of an arbitrary type.  <a href="group__mathfu__glsl.html#gaa8db2a74dc29980ef900a07d5da0954f">More...</a><br /></td></tr>
+<tr class="separator:gaa8db2a74dc29980ef900a07d5da0954f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afea79128a11ef0c0e9de9e644ddb104d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afea79128a11ef0c0e9de9e644ddb104d"></a>
+static const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; float, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>kAffineWColumn</b> (0.0f, 0.0f, 0.0f, 1.0f)</td></tr>
+<tr class="separator:afea79128a11ef0c0e9de9e644ddb104d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa3101b3b5f9d1413d90815ed7005e7bc"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:gaa3101b3b5f9d1413d90815ed7005e7bc"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#gaa3101b3b5f9d1413d90815ed7005e7bc">Clamp</a> (const T &amp;x, const T &amp;lower, const T &amp;upper)</td></tr>
+<tr class="memdesc:gaa3101b3b5f9d1413d90815ed7005e7bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp x within [lower, upper].  <a href="group__mathfu__utilities.html#gaa3101b3b5f9d1413d90815ed7005e7bc">More...</a><br /></td></tr>
+<tr class="separator:gaa3101b3b5f9d1413d90815ed7005e7bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga648dc46cf56a1b06dce593184b54ccb2"><td class="memTemplParams" colspan="2">template&lt;class T , class T2 &gt; </td></tr>
+<tr class="memitem:ga648dc46cf56a1b06dce593184b54ccb2"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga648dc46cf56a1b06dce593184b54ccb2">Lerp</a> (const T &amp;range_start, const T &amp;range_end, const T2 &amp;percent)</td></tr>
+<tr class="memdesc:ga648dc46cf56a1b06dce593184b54ccb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linearly interpolate between range_start and range_end, based on percent.  <a href="group__mathfu__utilities.html#ga648dc46cf56a1b06dce593184b54ccb2">More...</a><br /></td></tr>
+<tr class="separator:ga648dc46cf56a1b06dce593184b54ccb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaadac241fa4aa52df14f8bba8cf80e9ac"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:gaadac241fa4aa52df14f8bba8cf80e9ac"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#gaadac241fa4aa52df14f8bba8cf80e9ac">Lerp</a> (const T &amp;range_start, const T &amp;range_end, const T &amp;percent)</td></tr>
+<tr class="memdesc:gaadac241fa4aa52df14f8bba8cf80e9ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linearly interpolate between range_start and range_end, based on percent.  <a href="group__mathfu__utilities.html#gaadac241fa4aa52df14f8bba8cf80e9ac">More...</a><br /></td></tr>
+<tr class="separator:gaadac241fa4aa52df14f8bba8cf80e9ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadef59a74291e773a9af56630f5899ab5"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:gadef59a74291e773a9af56630f5899ab5"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#gadef59a74291e773a9af56630f5899ab5">InRange</a> (T val, T range_start, T range_end)</td></tr>
+<tr class="memdesc:gadef59a74291e773a9af56630f5899ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if val is within [range_start..range_end).  <a href="group__mathfu__utilities.html#gadef59a74291e773a9af56630f5899ab5">More...</a><br /></td></tr>
+<tr class="separator:gadef59a74291e773a9af56630f5899ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga833c741b9ea5fa0dc17fa8fd49ac795c"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga833c741b9ea5fa0dc17fa8fd49ac795c"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga833c741b9ea5fa0dc17fa8fd49ac795c">Random</a> ()</td></tr>
+<tr class="memdesc:ga833c741b9ea5fa0dc17fa8fd49ac795c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random value of type T.  <a href="group__mathfu__utilities.html#ga833c741b9ea5fa0dc17fa8fd49ac795c">More...</a><br /></td></tr>
+<tr class="separator:ga833c741b9ea5fa0dc17fa8fd49ac795c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga05cf3a54dc3caff077e77f389a69b663"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga05cf3a54dc3caff077e77f389a69b663"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga05cf3a54dc3caff077e77f389a69b663">RandomRange</a> (T range)</td></tr>
+<tr class="memdesc:ga05cf3a54dc3caff077e77f389a69b663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random value of type T in the range -range...+range.  <a href="group__mathfu__utilities.html#ga05cf3a54dc3caff077e77f389a69b663">More...</a><br /></td></tr>
+<tr class="separator:ga05cf3a54dc3caff077e77f389a69b663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga51f843ee70cec3f3f41fcafa8eea55d9"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga51f843ee70cec3f3f41fcafa8eea55d9"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga51f843ee70cec3f3f41fcafa8eea55d9">RandomInRange</a> (T range_start, T range_end)</td></tr>
+<tr class="memdesc:ga51f843ee70cec3f3f41fcafa8eea55d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random number between [range_start, range_end].  <a href="group__mathfu__utilities.html#ga51f843ee70cec3f3f41fcafa8eea55d9">More...</a><br /></td></tr>
+<tr class="separator:ga51f843ee70cec3f3f41fcafa8eea55d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1155e2799e7718523a586a8357bf57ba"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga1155e2799e7718523a586a8357bf57ba"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga1155e2799e7718523a586a8357bf57ba">RoundUpToPowerOf2</a> (T x)</td></tr>
+<tr class="memdesc:ga1155e2799e7718523a586a8357bf57ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round a value up to the nearest power of 2.  <a href="group__mathfu__utilities.html#ga1155e2799e7718523a586a8357bf57ba">More...</a><br /></td></tr>
+<tr class="separator:ga1155e2799e7718523a586a8357bf57ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga176d9d50a5e25b6be25ba67ccc6d2113"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">AllocateAligned</a> (size_t n)</td></tr>
+<tr class="memdesc:ga176d9d50a5e25b6be25ba67ccc6d2113"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate an aligned block of memory.  <a href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">More...</a><br /></td></tr>
+<tr class="separator:ga176d9d50a5e25b6be25ba67ccc6d2113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8be70a7660cac5e80e25118382acc7f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">FreeAligned</a> (void *p)</td></tr>
+<tr class="memdesc:ga8be70a7660cac5e80e25118382acc7f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate a block of memory allocated with <a class="el" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113" title="Allocate an aligned block of memory. ">AllocateAligned()</a>.  <a href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">More...</a><br /></td></tr>
+<tr class="separator:ga8be70a7660cac5e80e25118382acc7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga83dd5c549955259ecce6e40c13e21392"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ga83dd5c549955259ecce6e40c13e21392"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__vector.html#ga83dd5c549955259ecce6e40c13e21392">InRange2D</a> (const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;val, const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;range_start, const <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 2 &gt; &amp;range_end)</td></tr>
+<tr class="memdesc:ga83dd5c549955259ecce6e40c13e21392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if val is within [range_start..range_end), denoting a rectangular area.  <a href="group__mathfu__vector.html#ga83dd5c549955259ecce6e40c13e21392">More...</a><br /></td></tr>
+<tr class="separator:ga83dd5c549955259ecce6e40c13e21392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Namespace for MathFu library. </p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-49880327-7', 'google.github.io');
+ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -27,6 +27,7 @@ var group__mathfu__quaternion =
       [ "ToAngleAxis", "classmathfu_1_1_quaternion.html#a99686fa539f4218969e47f3580371de8", null ],
       [ "ToEulerAngles", "classmathfu_1_1_quaternion.html#a44ddad110bef5ade3504c76d012994fe", null ],
       [ "ToMatrix", "classmathfu_1_1_quaternion.html#afbd335bcd27c16f0e1d4b367a15490bf", null ],
+      [ "ToMatrix4", "classmathfu_1_1_quaternion.html#a728f95e37580c91f61d33c189a579551", null ],
       [ "vector", "classmathfu_1_1_quaternion.html#a805ca6f87a5868ba99be8c591be498ce", null ],
       [ "vector", "classmathfu_1_1_quaternion.html#ab08db5dd090335263a21fdd4e064b05d", null ],
       [ "operator*", "group__mathfu__quaternion.html#gaf300414d7e7c64182aa7027c9af03581", null ],

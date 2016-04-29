@@ -1,8 +1,6 @@
 var searchData=
 [
   ['vectors',['Vectors',['../mathfu_guide_vectors.html',1,'']]],
-  ['vectors',['Vectors',['../group__mathfu__vector.html',1,'']]],
-  ['version_20constants',['Version Constants',['../group__mathfu__version.html',1,'']]],
   ['vec2',['vec2',['../group__mathfu__glsl.html#gad9c3a60203b278aad94a4d0be3d36ce9',1,'mathfu']]],
   ['vec2_5fpacked',['vec2_packed',['../group__mathfu__glsl.html#ga2a1c25dfe98aa58ae552cc4ac6da4698',1,'mathfu']]],
   ['vec2i',['vec2i',['../group__mathfu__glsl.html#ga1b61ca90466ea14a29e612c12fe0ec03',1,'mathfu']]],
