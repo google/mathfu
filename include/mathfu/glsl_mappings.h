@@ -34,6 +34,7 @@
 /// MathFu provides a set of data types that are similar in style to
 /// GLSL Vector and Matrix data types.
 
+/// @brief Namespace for MathFu library.
 namespace mathfu {
 
 /// @addtogroup mathfu_glsl

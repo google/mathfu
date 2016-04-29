@@ -116,11 +116,12 @@ inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness);
 template <class T>
 static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
-                                          T znear, T zfar);
+                                          T znear, T zfar, T handedness);
 template <class T>
 static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
                                            const Vector<T, 3>& eye,
-                                           const Vector<T, 3>& up);
+                                           const Vector<T, 3>& up,
+                                           T handedness);
 /// @endcond
 
 /// @addtogroup mathfu_matrix
@@ -727,10 +728,11 @@ class Matrix {
   /// @param top Top extent.
   /// @param znear Near plane location.
   /// @param zfar Far plane location.
+  /// @param handedness 1.0f for RH, -1.0f for LH
   /// @return 4x4 orthographic Matrix.
   static inline Matrix<T, 4, 4> Ortho(T left, T right, T bottom, T top, T znear,
-                                      T zfar) {
-    return OrthoHelper(left, right, bottom, top, znear, zfar);
+                                      T zfar, T handedness = 1) {
+    return OrthoHelper(left, right, bottom, top, znear, zfar, handedness);
   }
 
   /// @brief Create a 3-dimensional camera Matrix.
@@ -739,11 +741,14 @@ class Matrix {
   /// @param eye The position of the camera.
   /// @param up The up vector in the world, for example (0, 1, 0) if the
   /// y-axis is up.
+  /// @param handedness 1.0f for RH, -1.0f for LH.
   /// @return 3-dimensional camera Matrix.
+  /// TODO: Change default handedness to +1 so that it matches Perspective().
   static inline Matrix<T, 4, 4> LookAt(const Vector<T, 3>& at,
                                        const Vector<T, 3>& eye,
-                                       const Vector<T, 3>& up) {
-    return LookAtHelper(at, eye, up);
+                                       const Vector<T, 3>& up,
+                                       T handedness = -1) {
+    return LookAtHelper(at, eye, up, handedness);
   }
 
   /// @brief Multiply a Vector by a Matrix.
@@ -1290,11 +1295,11 @@ inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness) {
   const T y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
   const T x = y / aspect;
-  const T zdist = (znear - zfar) * handedness;
+  const T zdist = (znear - zfar);
   const T zfar_per_zdist = zfar / zdist;
-  return Matrix<T, 4, 4>(x, 0, 0, 0, 0, y, 0, 0, 0, 0, zfar_per_zdist,
-                         -1 * handedness, 0, 0,
-                         2.0f * znear * zfar_per_zdist * handedness, 0);
+  return Matrix<T, 4, 4>(x, 0, 0, 0, 0, y, 0, 0, 0, 0,
+                         zfar_per_zdist * handedness, -1 * handedness, 0, 0,
+                         2.0f * znear * zfar_per_zdist, 0);
 }
 /// @endcond
 
@@ -1302,10 +1307,10 @@ inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
 /// Create a 4x4 orthographic matrix.
 template <class T>
 static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
-                                          T znear, T zfar) {
+                                          T znear, T zfar, T handedness) {
   return Matrix<T, 4, 4>(static_cast<T>(2) / (right - left), 0, 0, 0, 0,
                          static_cast<T>(2) / (top - bottom), 0, 0, 0, 0,
-                         static_cast<T>(-2) / (zfar - znear), 0,
+                         -handedness * static_cast<T>(2) / (zfar - znear), 0,
                          -(right + left) / (right - left),
                          -(top + bottom) / (top - bottom),
                          -(zfar + znear) / (zfar - znear), static_cast<T>(1));
@@ -1320,13 +1325,21 @@ template <class T>
 static void LookAtHelperCalculateAxes(const Vector<T, 3>& at,
                                       const Vector<T, 3>& eye,
                                       const Vector<T, 3>& up,
+                                      T handedness,
                                       Vector<T, 3>* const axes) {
+  // Notice that y-axis is always the same regardless of handedness.
   axes[2] = (at - eye).Normalized();
   axes[0] = Vector<T, 3>::CrossProduct(up, axes[2]).Normalized();
   axes[1] = Vector<T, 3>::CrossProduct(axes[2], axes[0]);
-  axes[3] = Vector<T, 3>(-Vector<T, 3>::DotProduct(axes[0], eye),
+  axes[3] = Vector<T, 3>(handedness * Vector<T, 3>::DotProduct(axes[0], eye),
                          -Vector<T, 3>::DotProduct(axes[1], eye),
-                         -Vector<T, 3>::DotProduct(axes[2], eye));
+                         handedness * Vector<T, 3>::DotProduct(axes[2], eye));
+
+  // Default calculation is left-handed (i.e. handedness=-1).
+  // Negate x and z axes for right-handed (i.e. handedness=+1) case.
+  const float neg = -handedness;
+  axes[0] *= neg;
+  axes[2] *= neg;
 }
 /// @endcond
 
@@ -1335,9 +1348,10 @@ static void LookAtHelperCalculateAxes(const Vector<T, 3>& at,
 template <class T>
 static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
                                            const Vector<T, 3>& eye,
-                                           const Vector<T, 3>& up) {
+                                           const Vector<T, 3>& up,
+                                           T handedness) {
   Vector<T, 3> axes[4];
-  LookAtHelperCalculateAxes(at, eye, up, axes);
+  LookAtHelperCalculateAxes(at, eye, up, handedness, axes);
   const Vector<T, 4> column0(axes[0][0], axes[1][0], axes[2][0], 0);
   const Vector<T, 4> column1(axes[0][1], axes[1][1], axes[2][1], 0);
   const Vector<T, 4> column2(axes[0][2], axes[1][2], axes[2][2], 0);

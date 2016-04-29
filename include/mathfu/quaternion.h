@@ -215,6 +215,19 @@ class Quaternion {
                         2 * (sy + xz), 2 * (yz - sx), 1 - 2 * (x2 + y2));
   }
 
+  /// @brief Convert to a 4x4 Matrix.
+  ///
+  /// @return 4x4 transform Matrix.
+  inline Matrix<T, 4> ToMatrix4() const {
+    const T x2 = v_[0] * v_[0], y2 = v_[1] * v_[1], z2 = v_[2] * v_[2];
+    const T sx = s_ * v_[0], sy = s_ * v_[1], sz = s_ * v_[2];
+    const T xz = v_[0] * v_[2], yz = v_[1] * v_[2], xy = v_[0] * v_[1];
+    return Matrix<T, 4>(1 - 2 * (y2 + z2), 2 * (xy + sz), 2 * (xz - sy), 0.0f,
+                        2 * (xy - sz), 1 - 2 * (x2 + z2), 2 * (sx + yz), 0.0f,
+                        2 * (sy + xz), 2 * (yz - sx), 1 - 2 * (x2 + y2), 0.0f,
+                        0.0f, 0.0f, 0.0f, 1.0f);
+  }
+
   /// @brief Create a Quaternion from an angle and axis.
   ///
   /// @param angle Angle in radians to rotate by.
