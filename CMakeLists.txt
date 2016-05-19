@@ -34,7 +34,7 @@ endif()
 get_filename_component(
     vectorial_dir_default "${third_party_root}/vectorial" REALPATH)
 get_filename_component(
-    gtest_dir_default "${fpl_root}/googletest" REALPATH)
+    gtest_dir_default "${third_party_root}/googletest/googletest" REALPATH)
 
 set(PROJECT_NAME MathFu)
 project(MathFu)

@@ -9,17 +9,18 @@
   },
   "dependencies": [
     {
-      "name": "fplutil",
-      "url": "http://github.com/google/fplutil.git",
-      "branch": "develop",
+      "name": "googletest",
+      "url": "http://github.com/google/googletest.git",
+      "branch": "master",
+      "revision": "13206d6f53aaff844f2d3595a01ac83a29e383db",
       "is_library": 1,
-      "third_party": 0,
+      "third_party": 1,
       "push": 0
     },
     {
-      "name": "googletest",
+      "name": "fplutil",
       "url": "http://github.com/google/fplutil.git",
-      "branch": "googletest",
+      "branch": "develop",
       "is_library": 1,
       "third_party": 0,
       "push": 0
