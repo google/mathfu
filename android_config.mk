@@ -29,7 +29,7 @@ endif
 # Location of the vectorial library.
 DEPENDENCIES_VECTORIAL_DIR?=$(THIRD_PARTY_ROOT)/vectorial
 # Location of the googletest library.
-DEPENDENCIES_GTEST_DIR?=$(FPL_ROOT)/googletest
+DEPENDENCIES_GTEST_DIR?=$(THIRD_PARTY_ROOT)/googletest/googletest
 # Location of the fplutil library.
 DEPENDENCIES_FPLUTIL_DIR?=$(FPL_ROOT)/fplutil
 
