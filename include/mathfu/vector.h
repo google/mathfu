@@ -770,6 +770,18 @@ static inline T DotProductHelper(const Vector<T, 4>& v1,
 
 /// @}
 
+/// @addtogroup mathfu_utilities
+/// @{
+
+/// @brief Specialized version of RoundUpToPowerOf2 for vector.
+template <typename T, int d>
+inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d> &v) {
+  Vector<T, d> ret;
+  MATHFU_VECTOR_OPERATION(ret(i) = RoundUpToPowerOf2(v(i)));
+  return ret;
+}
+/// @}
+
 }  // namespace mathfu
 
 #if defined(_MSC_VER)

@@ -625,6 +625,28 @@ void Min_Test(const T& precision) {
 }
 TEST_ALL_F(Min)
 
+// Tests the RoundUpToPowerOf2 function for vectors.
+// Given a vector, it should return a vector whose elements are rounded up to
+// the nearest power of 2.
+template<class T, int d>
+void Vector_RoundUpToPowerOf2_Test(const T& precision) {
+  (void) precision;
+  mathfu::Vector<T, d> powof2, result;
+
+  for (int count = 0; count < 1024; count++) {
+    for (int i = 0; i < d; i++) {
+      powof2[i] = count;
+    }
+    result = mathfu::RoundUpToPowerOf2(powof2);
+    auto expected = mathfu::RoundUpToPowerOf2(count);
+    for (int i = 0; i < d; i++) {
+      EXPECT_EQ(result[i], expected);
+    }
+  }
+}
+TEST_ALL_INTS_F(Vector_RoundUpToPowerOf2)
+TEST_ALL_F(Vector_RoundUpToPowerOf2)
+
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
 TEST_F(VectorTests, SampleTest) {
