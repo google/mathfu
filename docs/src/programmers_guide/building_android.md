@@ -129,7 +129,7 @@ For example:
 
 # Code Generation    {#mathfu_guide_building_android_code_generation}
 
-By default, code is generated for devices that support the `armeabi-v7a-hard`
+By default, code is generated for devices that support the `armeabi-v7a`
 ABI.  Alternatively, you can generate a fat `.apk` that includes code for all
 ABIs.  To do so, override APP\_ABI on ndk-build's command line.
 

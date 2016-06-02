@@ -31,6 +31,9 @@ endef
 # Where disable_simd specifies whether SIMD code should be disabled,
 # force_padding specifies whether padding should be added to data structures
 # in SIMD mode (-1 = default, 0 = padding off, 1 = padding on).
+#
+# NOTE: armeabi-v7a-hard has been deprecated.  For more information see,
+#  https://android.googlesource.com/platform/ndk/+/master/docs/HardFloatAbi.md
 define mathfu-cflags
   $(if $(subst 0,,$(strip $(1))),-DMATHFU_COMPILE_WITHOUT_SIMD_SUPPORT,\
     $(if $(subst -1,,$(strip $(2))),\
