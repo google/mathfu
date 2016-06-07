@@ -13,5 +13,5 @@
 # limitations under the License.
 APP_PLATFORM:=android-10
 APP_ABI:=armeabi-v7a armeabi x86 x86_64 mips mips64
-APP_STL:=stlport_static
+APP_STL:=c++_static
 
