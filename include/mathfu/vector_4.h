@@ -201,6 +201,19 @@ class Vector<float, 4> {
     return *this;
   }
 
+  inline bool operator==(const Vector<float, 4>& v) const {
+    for (int i = 0; i < 4; ++i) {
+      if (this->data_.float_array[i] != v[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  inline bool operator!=(const Vector<float, 4>& v) const {
+    return !operator==(v);
+  }
+
   inline float LengthSquared() const {
     return simd4f_get_x(simd4f_dot4(data_.simd, data_.simd));
   }
