@@ -100,6 +100,25 @@ class VectorTests : public ::testing::Test {
   EXPECT_DOUBLE_EQ(mathfu::kConst##d[(index)], static_cast<double>(value)); \
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
+// Tests float, double, and integer vectors == operator in one line.
+#define VECTOR_TEST_OPERATOR_EQ_TRUE(kVecOne, kVecTwo) \
+  EXPECT_TRUE(kVecOne##f == kVecTwo##f); \
+  EXPECT_TRUE(kVecOne##d == kVecTwo##d); \
+  EXPECT_TRUE(kVecOne##i == kVecTwo##i)
+
+// Tests float, double, and integer vectors != operator in one line.
+#define VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kVecOne, kVecTwo) \
+  EXPECT_FALSE(kVecOne##f != kVecTwo##f); \
+  EXPECT_FALSE(kVecOne##d != kVecTwo##d); \
+  EXPECT_FALSE(kVecOne##i != kVecTwo##i)
+
+// Create float, double and integer vectors by copy.
+#define DECLARE_VECTOR_COPY(name, vecToCopy, size) \
+  Vector<int, size> name##i((vecToCopy##i)); \
+  Vector<float, size> name##f((vecToCopy##f)); \
+  Vector<double, size> name##d((vecToCopy##d))
+
+
 template<class T, int d>
 std::string FormatVector(const char* expr,
                          const mathfu::Vector<T, d>& v) {
@@ -673,6 +692,122 @@ TEST_F(VectorTests, ConstantTest) {
     VECTOR_TEST_CONSTANT_EQ(kAxisZ4, i, i == 2 ? 1 : 0);
     VECTOR_TEST_CONSTANT_EQ(kAxisW4, i, i == 3 ? 1 : 0);
   }
+}
+
+TEST_F(VectorTests, EqualOperatorTest) {
+  using namespace mathfu;
+
+  // size 2
+  DECLARE_VECTOR_COPY(vecZero2, kZeros2, 2);
+  DECLARE_VECTOR_COPY(vecOnes2, kOnes2, 2);
+  DECLARE_VECTOR_COPY(vecAxisX2, kAxisX2, 2);
+  DECLARE_VECTOR_COPY(vecAxisY2, kAxisY2, 2);
+
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kZeros2, kZeros2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kOnes2, kOnes2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisX2, kAxisX2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisY2, kAxisY2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecZero2, kZeros2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecOnes2, kOnes2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisX2, kAxisX2);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisY2, kAxisY2);
+
+  // size 3
+  DECLARE_VECTOR_COPY(vecZero3, kZeros3, 3);
+  DECLARE_VECTOR_COPY(vecOnes3, kOnes3, 3);
+  DECLARE_VECTOR_COPY(vecAxisX3, kAxisX3, 3);
+  DECLARE_VECTOR_COPY(vecAxisY3, kAxisY3, 3);
+  DECLARE_VECTOR_COPY(vecAxisZ3, kAxisZ3, 3);
+
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kZeros3, kZeros3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kOnes3, kOnes3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisX3, kAxisX3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisY3, kAxisY3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisZ3, kAxisZ3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecZero3, kZeros3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecOnes3, kOnes3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisX3, kAxisX3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisY3, kAxisY3);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisZ3, kAxisZ3);
+
+  // size 4
+  DECLARE_VECTOR_COPY(vecZero4, kZeros4, 4);
+  DECLARE_VECTOR_COPY(vecOnes4, kOnes4, 4);
+  DECLARE_VECTOR_COPY(vecAxisX4, kAxisX4, 4);
+  DECLARE_VECTOR_COPY(vecAxisY4, kAxisY4, 4);
+  DECLARE_VECTOR_COPY(vecAxisZ4, kAxisZ4, 4);
+  DECLARE_VECTOR_COPY(vecAxisW4, kAxisW4, 4);
+
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kZeros4, kZeros4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kOnes4, kOnes4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisX4, kAxisX4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisY4, kAxisY4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisZ4, kAxisZ4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(kAxisW4, kAxisW4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecZero4, kZeros4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecOnes4, kOnes4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisX4, kAxisX4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisY4, kAxisY4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisZ4, kAxisZ4);
+  VECTOR_TEST_OPERATOR_EQ_TRUE(vecAxisW4, kAxisW4);
+}
+
+TEST_F(VectorTests, NotEqualOperatorTest) {
+  using namespace mathfu;
+
+  // size 2
+  DECLARE_VECTOR_COPY(vecZero2, kZeros2, 2);
+  DECLARE_VECTOR_COPY(vecOnes2, kOnes2, 2);
+  DECLARE_VECTOR_COPY(vecAxisX2, kAxisX2, 2);
+  DECLARE_VECTOR_COPY(vecAxisY2, kAxisY2, 2);
+
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kZeros2, kZeros2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kOnes2, kOnes2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisX2, kAxisX2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisY2, kAxisY2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecZero2, kZeros2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecOnes2, kOnes2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisX2, kAxisX2);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisY2, kAxisY2);
+
+  // size 3
+  DECLARE_VECTOR_COPY(vecZero3, kZeros3, 3);
+  DECLARE_VECTOR_COPY(vecOnes3, kOnes3, 3);
+  DECLARE_VECTOR_COPY(vecAxisX3, kAxisX3, 3);
+  DECLARE_VECTOR_COPY(vecAxisY3, kAxisY3, 3);
+  DECLARE_VECTOR_COPY(vecAxisZ3, kAxisZ3, 3);
+
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kZeros3, kZeros3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kOnes3, kOnes3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisX3, kAxisX3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisY3, kAxisY3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisZ3, kAxisZ3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecZero3, kZeros3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecOnes3, kOnes3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisX3, kAxisX3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisY3, kAxisY3);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisZ3, kAxisZ3);
+
+  // size 4
+  DECLARE_VECTOR_COPY(vecZero4, kZeros4, 4);
+  DECLARE_VECTOR_COPY(vecOnes4, kOnes4, 4);
+  DECLARE_VECTOR_COPY(vecAxisX4, kAxisX4, 4);
+  DECLARE_VECTOR_COPY(vecAxisY4, kAxisY4, 4);
+  DECLARE_VECTOR_COPY(vecAxisZ4, kAxisZ4, 4);
+  DECLARE_VECTOR_COPY(vecAxisW4, kAxisW4, 4);
+
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kZeros4, kZeros4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kOnes4, kOnes4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisX4, kAxisX4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisY4, kAxisY4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisZ4, kAxisZ4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(kAxisW4, kAxisW4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecZero4, kZeros4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecOnes4, kOnes4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisX4, kAxisX4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisY4, kAxisY4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisZ4, kAxisZ4);
+  VECTOR_TEST_OPERATOR_NOT_EQ_FALSE(vecAxisW4, kAxisW4);
 }
 
 int main(int argc, char **argv) {
