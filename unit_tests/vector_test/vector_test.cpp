@@ -681,6 +681,32 @@ TEST_F(VectorTests, ConstantTest) {
   }
 }
 
+// This will test the == vectors operator.
+template <class T, int d>
+void Equal_Test(const T& precision) {
+  mathfu::Vector<T, d> expected;
+  for (int i = 0; i < d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Vector<T, d> copy(expected);
+  EXPECT_TRUE(expected == copy);
+}
+TEST_ALL_F(Equal);
+TEST_ALL_INTS_F(Equal);
+
+// This will test the != vectors operator.
+template <class T, int d>
+void NotEqual_Test(const T& precision) {
+  mathfu::Vector<T, d> expected;
+  for (int i = 0; i < d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Vector<T, d> copy(expected);
+  EXPECT_FALSE(expected != copy);
+}
+TEST_ALL_F(NotEqual);
+TEST_ALL_INTS_F(NotEqual);
+
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);

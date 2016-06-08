@@ -229,6 +229,17 @@ class Vector<float, 3> {
     return *this;
   }
 
+  inline bool operator==(const Vector<float, 3>& v) const {
+    for (int i = 0; i < 3; ++i) {
+      if ((*this)[i] != v[i]) return false;
+    }
+    return true;
+  }
+
+  inline bool operator!=(const Vector<float, 3>& v) const {
+    return !operator==(v);
+  }
+
   inline float LengthSquared() const {
     return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(data_),
                               MATHFU_VECTOR3_LOAD3(data_));
