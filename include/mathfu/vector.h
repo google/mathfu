@@ -415,9 +415,7 @@ class Vector {
   /// @return True if the 2 vectors contains the same value
   inline bool operator==(const Vector<T, d>& v) const {
     for (int i = 0; i < d; ++i) {
-      if (this->data_[i] != v[i]) {
-        return false;
-      }
+      if ((*this)[i] != v[i]) return false;
     }
     return true;
   }
