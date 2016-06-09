@@ -164,9 +164,7 @@ class Vector<float, 2> {
 
   inline bool operator==(const Vector<float, 2>& v) const {
     for (int i = 0; i < 2; ++i) {
-      if (this->data_.float_array[i] != v[i]) {
-        return false;
-      }
+      if ((*this)[i] != v[i]) return false;
     }
     return true;
   }

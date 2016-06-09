@@ -231,9 +231,7 @@ class Vector<float, 3> {
 
   inline bool operator==(const Vector<float, 3>& v) const {
     for (int i = 0; i < 3; ++i) {
-      if (this->data_.float_array[i] != v[i]) {
-        return false;
-      }
+      if ((*this)[i] != v[i]) return false;
     }
     return true;
   }
