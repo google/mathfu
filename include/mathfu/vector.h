@@ -410,11 +410,14 @@ class Vector {
     MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
   }
 
-  /// @brief Compare 2 Vectors of the same size
+  /// @brief Compare 2 Vectors of the same size for equality.
   ///
-  /// Note: The likelyhood of comparing float values is very small. Compare the
-  /// difference between LengthSquared() with some epsilon. 
-  /// @return True if the 2 vectors contains the same value
+  /// @note: The likelyhood of two float values being the same is very small.
+  /// Instead consider comparing the difference between two float vectors using
+  /// LengthSquared() with an epsilon value.
+  /// For example, v1.LengthSquared(v2) < epsilon.
+  ///
+  /// @return true if the 2 vectors contains the same value, false otherwise.
   inline bool operator==(const Vector<T, d>& v) const {
     for (int i = 0; i < d; ++i) {
       if ((*this)[i] != v[i]) return false;
@@ -422,12 +425,10 @@ class Vector {
     return true;
   }
 
-  /// @brief Compare 2 Vectors of the same size
+  /// @brief Compare 2 Vectors of the same size for inequality.
   ///
-  /// @return True if the 2 vectors contains the same value
-  inline bool operator!=(const Vector<T, d>& v) const {
-    return !operator==(v);
-  }
+  /// @return true if the elements of two vectors differ, false otherwise.
+  inline bool operator!=(const Vector<T, d>& v) const { return !operator==(v); }
 
   /// @brief Negate all elements of the Vector.
   ///
@@ -794,7 +795,7 @@ static inline T DotProductHelper(const Vector<T, 4>& v1,
 
 /// @brief Specialized version of RoundUpToPowerOf2 for vector.
 template <typename T, int d>
-inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d> &v) {
+inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d>& v) {
   Vector<T, d> ret;
   MATHFU_VECTOR_OPERATION(ret(i) = RoundUpToPowerOf2(v(i)));
   return ret;
