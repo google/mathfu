@@ -412,6 +412,8 @@ class Vector {
 
   /// @brief Compare 2 Vectors of the same size
   ///
+  /// Note: The likelyhood of comparing float values is very small. Compare the
+  /// difference between LengthSquared() with some epsilon. 
   /// @return True if the 2 vectors contains the same value
   inline bool operator==(const Vector<T, d>& v) const {
     for (int i = 0; i < d; ++i) {
