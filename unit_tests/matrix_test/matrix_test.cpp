@@ -762,6 +762,28 @@ void LookAt_Test(const T& precision) {
 }
 TEST_SCALAR_F(LookAt, FLOAT_PRECISION, kLookAtDoublePrecision);
 
+// Test UnProject calculation.
+TEST_F(MatrixTests, UnProjectTest) {
+  // clang-format off
+  mathfu::Matrix<float, 4, 4> modelView = 
+      mathfu::Matrix<float, 4, 4>(-1, 0,   0, 0,
+                                   0, 1,   0, 0,
+                                   0, 0,  -1, 0,
+                                   0, 0, -10, 1);
+  mathfu::Matrix<float, 4, 4> projection = 
+      mathfu::Matrix<float, 4, 4> (1.81066,          0,            0,  0,
+                                         0, 2.41421342,            0,  0,
+                                         0,          0,  -1.00001991, -1,
+                                         0,          0, -0.200001985,  0);
+  // clang-format on
+  mathfu::Vector<float, 3> result = mathfu::Matrix<float, 4, 4>::UnProject(
+      mathfu::Vector<float, 3>(754, 1049, 1), modelView, projection, 1600,
+      1200);
+  EXPECT_NEAR(result.x(), 318.650543, FLOAT_PRECISION);
+  EXPECT_NEAR(result.y(), 3110.3056640625, FLOAT_PRECISION);
+  EXPECT_NEAR(result.z(), 10024.19140625, FLOAT_PRECISION);
+}
+
 // Test matrix transposition.
 template<class T, int d>
 void Transpose_Test(const T& precision) {
