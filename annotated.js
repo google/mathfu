@@ -1,4 +1,4 @@
-var annotated_dup =
+var annotated =
 [
     [ "mathfu", "namespacemathfu.html", "namespacemathfu" ]
 ];

@@ -8,5 +8,5 @@ var searchData=
   ['rotationx',['RotationX',['../classmathfu_1_1_matrix.html#a2d2ee3c519b576a422bd91f6f88f1d49',1,'mathfu::Matrix::RotationX(const Vector&lt; T, 2 &gt; &amp;v)'],['../classmathfu_1_1_matrix.html#add9928c33e38c99bcd57983c2c40624a',1,'mathfu::Matrix::RotationX(T angle)']]],
   ['rotationy',['RotationY',['../classmathfu_1_1_matrix.html#aa5705fc6071e0c2e4cdca991f6b50252',1,'mathfu::Matrix::RotationY(const Vector&lt; T, 2 &gt; &amp;v)'],['../classmathfu_1_1_matrix.html#a8075cec1bc8f8dfae63213b8398efd0e',1,'mathfu::Matrix::RotationY(T angle)']]],
   ['rotationz',['RotationZ',['../classmathfu_1_1_matrix.html#a81a6b676ab76b22faf457905b5ee919d',1,'mathfu::Matrix::RotationZ(const Vector&lt; T, 2 &gt; &amp;v)'],['../classmathfu_1_1_matrix.html#aa921a48cbb0069a09e23f5ba529135f7',1,'mathfu::Matrix::RotationZ(T angle)']]],
-  ['rounduptopowerof2',['RoundUpToPowerOf2',['../group__mathfu__utilities.html#ga1155e2799e7718523a586a8357bf57ba',1,'mathfu']]]
+  ['rounduptopowerof2',['RoundUpToPowerOf2',['../group__mathfu__utilities.html#ga1155e2799e7718523a586a8357bf57ba',1,'mathfu::RoundUpToPowerOf2(T x)'],['../group__mathfu__utilities.html#ga587cf64c5adb1c3e80937e4f57eedb90',1,'mathfu::RoundUpToPowerOf2(int32_t x)'],['../group__mathfu__utilities.html#ga587a55a31b463475c43e87d38e8fae54',1,'mathfu::RoundUpToPowerOf2(const Vector&lt; T, d &gt; &amp;v)']]]
 ];
