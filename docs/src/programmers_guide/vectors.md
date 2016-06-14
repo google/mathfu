@@ -9,7 +9,7 @@ For more information see this description of
 The [MathFu][] [Vector][] class is a template declared in
 [mathfu/vector.h](@ref mathfu/vector.h) which has been specialized and
 optimized for regularly used cases.  Implementing [Vector][] as a template
-reduces code duplication, provides compile time optimization oppotunities
+reduces code duplication, provides compile time optimization opportunities
 through specialization and allows users to use the class with any scalar
 type.
 
@@ -229,7 +229,7 @@ defined by the points use:
 
 # Other Operations    {#mathfu_guide_vectors_other}
 
-In addition, to basic arithemetic and geometric operations, [Vector][] also
+In addition, to basic arithmetic and geometric operations, [Vector][] also
 implements functions to perform the following:
 
    * [Lerp](@ref mathfu::Vector::Lerp) to linearly interpolate between two

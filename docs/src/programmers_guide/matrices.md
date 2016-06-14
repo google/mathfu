@@ -11,7 +11,7 @@ The [MathFu][] [Matrix][] class is a template declared in
 optimized for the most regularly used case (floating point elements with
 4 rows and 4 columns).
 Implementing [Matrix][] as a template reduces code duplication, provides
-compile time optimization oppotunities through specialization and allows
+compile time optimization opportunities through specialization and allows
 users to use the class with any scalar type.
 
 # Declaration  {#mathfu_guide_matrices_declaration}
@@ -292,7 +292,7 @@ A [Matrix][] multiplied with its' inverse yields the identity matrix:
    * [Matrix::RotationY()](@ref mathfu::Matrix::RotationY)
    * [Matrix::RotationZ()](@ref mathfu::Matrix::RotationZ)
 
-Transformation matrices yielded by these operations can be multipied with
+Transformation matrices yielded by these operations can be multiplied with
 vector to translate, scale and rotate.  For example, to rotate a 3-dimensional
 vector around the X axis by PI/2 radians (90 degrees):
 

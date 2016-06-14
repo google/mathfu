@@ -8,7 +8,7 @@ gains in many use cases.  However, some architectures have memory
 alignment requirements for data used by [SIMD][] operations (e.g [SIMD][]
 data structures must be 16-byte aligned on x86).  Some STL implementations do
 not respect data type alignment which makes it more difficult to respect the
-[SIMD][] memory alignemnt requirements.
+[SIMD][] memory alignment requirements.
 
 In order to adhere to [SIMD][] alignment requirements, [MathFu][] provides a
 dynamic memory allocator [AllocateAligned()][] which ensures data is correctly
@@ -76,7 +76,7 @@ specified by a [Vector][] could be moved over a range as time elapses:
 
 ## Random Number Generation    {#mathfu_guide_utilities_random}
 
-[Random()][] generates psuedo random floating point numbers using `rand()`
+[Random()][] generates pseudo random floating point numbers using `rand()`
 from the C standard library.  For example, the following generates 3 random
 numbers:
 
