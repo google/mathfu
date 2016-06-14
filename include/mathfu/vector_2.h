@@ -162,6 +162,17 @@ class Vector<float, 2> {
     return *this;
   }
 
+  inline bool operator==(const Vector<float, 2>& v) const {
+    for (int i = 0; i < 2; ++i) {
+      if ((*this)[i] != v[i]) return false;
+    }
+    return true;
+  }
+
+  inline bool operator!=(const Vector<float, 2>& v) const {
+    return !operator==(v);
+  }
+
   inline float LengthSquared() const {
     return simd2f_get_x(simd2f_dot2(data_.simd, data_.simd));
   }

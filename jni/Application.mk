@@ -15,7 +15,7 @@
 LOCAL_PATH:=$(call my-dir)
 
 APP_PLATFORM:=android-10
-APP_ABI:=armeabi-v7a-hard armeabi x86 x86_64 mips mips64
-APP_STL:=gnustl_static
+APP_ABI:=armeabi-v7a armeabi x86 x86_64 mips mips64
+APP_STL:=c++_static
 APP_MODULES:=libmathfu
 

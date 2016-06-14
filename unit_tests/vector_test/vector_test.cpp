@@ -14,17 +14,17 @@
 * limitations under the License.
 */
 #include "mathfu/vector.h"
+#include "mathfu/constants.h"
 #include "mathfu/vector_2.h"
 #include "mathfu/vector_3.h"
 #include "mathfu/vector_4.h"
-#include "mathfu/constants.h"
 
 #include "gtest/gtest.h"
 
 #include "precision.h"
 
-#include <string>
 #include <sstream>
+#include <string>
 
 class VectorTests : public ::testing::Test {
  protected:
@@ -33,76 +33,65 @@ class VectorTests : public ::testing::Test {
 };
 
 // This will automatically generate tests for each template parameter.
-#define TEST_ALL_F(MY_TEST) \
-  TEST_F(VectorTests, MY_TEST##_float_2) { \
-    MY_TEST##_Test<float, 2>(FLOAT_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_double_2) { \
+#define TEST_ALL_F(MY_TEST)                      \
+  TEST_F(VectorTests, MY_TEST##_float_2) {       \
+    MY_TEST##_Test<float, 2>(FLOAT_PRECISION);   \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_double_2) {      \
     MY_TEST##_Test<double, 2>(DOUBLE_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_float_3) { \
-    MY_TEST##_Test<float, 3>(FLOAT_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_double_3) { \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_float_3) {       \
+    MY_TEST##_Test<float, 3>(FLOAT_PRECISION);   \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_double_3) {      \
     MY_TEST##_Test<double, 3>(DOUBLE_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_float_4) { \
-    MY_TEST##_Test<float, 4>(FLOAT_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_double_4) { \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_float_4) {       \
+    MY_TEST##_Test<float, 4>(FLOAT_PRECISION);   \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_double_4) {      \
     MY_TEST##_Test<double, 4>(DOUBLE_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_float_5) { \
-    MY_TEST##_Test<float, 5>(FLOAT_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_double_5) { \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_float_5) {       \
+    MY_TEST##_Test<float, 5>(FLOAT_PRECISION);   \
+  }                                              \
+  TEST_F(VectorTests, MY_TEST##_double_5) {      \
     MY_TEST##_Test<double, 5>(DOUBLE_PRECISION); \
   }
 
-#define TEST_ALL_INTS_F(MY_INT_TEST) \
-  TEST_F(VectorTests, MY_INT_TEST##_2) { \
-    MY_INT_TEST##_Test<int, 2>(0); \
-  } \
-  TEST_F(VectorTests, MY_INT_TEST##_3) { \
-    MY_INT_TEST##_Test<int, 3>(0); \
-  } \
-  TEST_F(VectorTests, MY_INT_TEST##_4) { \
-    MY_INT_TEST##_Test<int, 4>(0); \
-  } \
-  TEST_F(VectorTests, MY_INT_TEST##_5) { \
-    MY_INT_TEST##_Test<int, 5>(0); \
-  }
+#define TEST_ALL_INTS_F(MY_INT_TEST)                                      \
+  TEST_F(VectorTests, MY_INT_TEST##_2) { MY_INT_TEST##_Test<int, 2>(0); } \
+  TEST_F(VectorTests, MY_INT_TEST##_3) { MY_INT_TEST##_Test<int, 3>(0); } \
+  TEST_F(VectorTests, MY_INT_TEST##_4) { MY_INT_TEST##_Test<int, 4>(0); } \
+  TEST_F(VectorTests, MY_INT_TEST##_5) { MY_INT_TEST##_Test<int, 5>(0); }
 
 // This will automatically generate tests for each scalar template parameter.
-#define TEST_SCALAR_F(MY_TEST) \
-  TEST_F(VectorTests, MY_TEST##_float) { \
-    MY_TEST##_Test<float>(FLOAT_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_double) { \
+#define TEST_SCALAR_F(MY_TEST)                \
+  TEST_F(VectorTests, MY_TEST##_float) {      \
+    MY_TEST##_Test<float>(FLOAT_PRECISION);   \
+  }                                           \
+  TEST_F(VectorTests, MY_TEST##_double) {     \
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
   }
 
 // This will automatically generate tests for each scalar template parameter.
-#define TEST_SCALAR_AND_INT_F(MY_TEST) \
-  TEST_F(VectorTests, MY_TEST##_float) { \
-    MY_TEST##_Test<float>(FLOAT_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_double) { \
+#define TEST_SCALAR_AND_INT_F(MY_TEST)        \
+  TEST_F(VectorTests, MY_TEST##_float) {      \
+    MY_TEST##_Test<float>(FLOAT_PRECISION);   \
+  }                                           \
+  TEST_F(VectorTests, MY_TEST##_double) {     \
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
-  } \
-  TEST_F(VectorTests, MY_TEST##_int) { \
-    MY_TEST##_Test<int>(0); \
-  }
+  }                                           \
+  TEST_F(VectorTests, MY_TEST##_int) { MY_TEST##_Test<int>(0); }
 
 // Tests float, double, and integer constants in one line.
-#define VECTOR_TEST_CONSTANT_EQ(kConst, index, value) \
-  EXPECT_FLOAT_EQ(mathfu::kConst##f[(index)], static_cast<float>(value)); \
+#define VECTOR_TEST_CONSTANT_EQ(kConst, index, value)                       \
+  EXPECT_FLOAT_EQ(mathfu::kConst##f[(index)], static_cast<float>(value));   \
   EXPECT_DOUBLE_EQ(mathfu::kConst##d[(index)], static_cast<double>(value)); \
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
-template<class T, int d>
-std::string FormatVector(const char* expr,
-                         const mathfu::Vector<T, d>& v) {
+template <class T, int d>
+std::string FormatVector(const char* expr, const mathfu::Vector<T, d>& v) {
   std::string ret(expr);
   ret += "(";
   for (int32_t i = 0; i < d; ++i) {
@@ -116,7 +105,7 @@ std::string FormatVector(const char* expr,
 }
 
 // A predicate-formatter for asserting that compares 2 vectors are equal.
-template<class T, int d>
+template <class T, int d>
 ::testing::AssertionResult AssertVectorEqual(const char* m_expr,
                                              const char* n_expr,
                                              const mathfu::Vector<T, d>& v1,
@@ -124,8 +113,8 @@ template<class T, int d>
   for (int32_t i = 0; i < d; ++i) {
     if (v1[i] != v2[i]) {
       return ::testing::AssertionFailure()
-             << FormatVector(m_expr, v1) << " and "
-             << FormatVector(n_expr, v2) << " are not same value.";
+             << FormatVector(m_expr, v1) << " and " << FormatVector(n_expr, v2)
+             << " are not same value.";
     }
   }
 
@@ -134,7 +123,7 @@ template<class T, int d>
 
 // A predicate-formatter for asserting that compares 2 vectors are nealy equal
 // with an error of abs_error.
-template<class T, int d>
+template <class T, int d>
 ::testing::AssertionResult AssertVectorNear(const char* expr1,
                                             const char* expr2,
                                             const char* abs_error_expr,
@@ -146,10 +135,9 @@ template<class T, int d>
     diff = fabs(v1[i] - v2[i]);
     if (diff > abs_error) {
       return ::testing::AssertionFailure()
-             << "The difference between "
-             << FormatVector(expr1, v1) << " and "
-             << FormatVector(expr2, v2) << " is "
-             << diff << ", which exceeds " << abs_error_expr;
+             << "The difference between " << FormatVector(expr1, v1) << " and "
+             << FormatVector(expr2, v2) << " is " << diff << ", which exceeds "
+             << abs_error_expr;
     }
   }
 
@@ -158,7 +146,7 @@ template<class T, int d>
 
 // This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void Initialization_Test(const T& precision) {
   // This will test initialization of the vector using a random single value.
   // The expected result is that all entries equal the given value.
@@ -200,7 +188,7 @@ void Initialization_Test(const T& precision) {
 TEST_ALL_F(Initialization)
 
 // This will test initialization by specifying all values explictly.
-template<class T>
+template <class T>
 void InitializationPerDimension_Test(const T& precision) {
   mathfu::Vector<T, 2> f2_vector(static_cast<T>(5.3), static_cast<T>(7.1));
   EXPECT_NEAR(5.3, f2_vector[0], precision);
@@ -220,7 +208,7 @@ void InitializationPerDimension_Test(const T& precision) {
 TEST_SCALAR_F(InitializationPerDimension);
 
 // Test initialization from a packed vector.
-template<class T, int d>
+template <class T, int d>
 void InitializationPacked_Test(const T& precision) {
   (void)precision;
   mathfu::VectorPacked<T, d> packed;
@@ -229,14 +217,14 @@ void InitializationPacked_Test(const T& precision) {
   }
   mathfu::Vector<T, d> unpacked(packed);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(packed.data[i], unpacked[i],
-                static_cast<T>(0)) << "Element " << i;
+    EXPECT_NEAR(packed.data[i], unpacked[i], static_cast<T>(0)) << "Element "
+                                                                << i;
   }
 }
 TEST_ALL_F(InitializationPacked);
 
 // Test vector packing.
-template<class T, int d>
+template <class T, int d>
 void PackedSerialization_Test(const T& precision) {
   (void)precision;
   mathfu::Vector<T, d> unpacked;
@@ -246,22 +234,22 @@ void PackedSerialization_Test(const T& precision) {
 
   mathfu::VectorPacked<T, d> packed_construction(unpacked);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(unpacked[i], packed_construction.data[i],
-                static_cast<T>(0)) << "Element " << i;
+    EXPECT_NEAR(unpacked[i], packed_construction.data[i], static_cast<T>(0))
+        << "Element " << i;
   }
 
   mathfu::VectorPacked<T, d> packed_assignment;
   packed_assignment = unpacked;
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(unpacked[i], packed_assignment.data[i],
-                static_cast<T>(0)) << "Element " << i;
+    EXPECT_NEAR(unpacked[i], packed_assignment.data[i], static_cast<T>(0))
+        << "Element " << i;
   }
 }
 TEST_ALL_F(PackedSerialization);
 
 // This will test the Addition and Subtraction of vectors. The template
 // parameter d corresponds to the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void AddSub_Test(const T& precision) {
   T x1[d], x2[d];
   for (int i = 0; i < d; ++i) {
@@ -294,7 +282,7 @@ TEST_ALL_F(AddSub)
 
 // This will test the mutiplication of vectors by vectors and scalars. The
 // template paramter d corresponds to the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void Mult_Test(const T& precision) {
   T x1[d], x2[d], scalar(static_cast<T>(1.4));
   for (int i = 0; i < d; ++i) x1[i] = rand() / static_cast<T>(RAND_MAX);
@@ -303,7 +291,7 @@ void Mult_Test(const T& precision) {
   // This will test the Hadamard Product of two vectors and verify that each
   // element is the product of the input elements.
   mathfu::Vector<T, d> mult_vec(
-    mathfu::Vector<T, d>::HadamardProduct(vector1, vector2));
+      mathfu::Vector<T, d>::HadamardProduct(vector1, vector2));
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
   }
@@ -328,10 +316,10 @@ TEST_ALL_F(Mult)
 
 // This will test normalizing a vector. The template parameter d corresponds to
 // the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void Norm_Test(const T& precision) {
   T x[d];
-  for (int i = 0; i < d; ++i) x[i] = rand()/static_cast<T>(RAND_MAX);
+  for (int i = 0; i < d; ++i) x[i] = rand() / static_cast<T>(RAND_MAX);
   mathfu::Vector<T, d> vector(x);
   vector.Normalize();
   // This will verify that the dot product is 1.
@@ -341,15 +329,16 @@ void Norm_Test(const T& precision) {
 TEST_ALL_F(Norm)
 
 // This will test the cross product of two vectors.
-template<class T>
+template <class T>
 void Cross_Test(const T& precision) {
   mathfu::Vector<T, 3> f1_vector(static_cast<T>(1.1), static_cast<T>(4.5),
                                  static_cast<T>(9.8));
   mathfu::Vector<T, 3> f2_vector(-static_cast<T>(1.4), static_cast<T>(9.5),
                                  static_cast<T>(3.2));
-  f1_vector.Normalize(); f2_vector.Normalize();
+  f1_vector.Normalize();
+  f2_vector.Normalize();
   mathfu::Vector<T, 3> fcross_vector(
-    mathfu::Vector<T, 3>::CrossProduct(f1_vector, f2_vector));
+      mathfu::Vector<T, 3>::CrossProduct(f1_vector, f2_vector));
   // This will verify that v1*(v1xv2) and v2*(v1xv2) are 0.
   T f1_dot = mathfu::Vector<T, 3>::DotProduct(fcross_vector, f1_vector);
   T f2_dot = mathfu::Vector<T, 3>::DotProduct(fcross_vector, f2_vector);
@@ -359,7 +348,7 @@ void Cross_Test(const T& precision) {
 TEST_SCALAR_F(Cross)
 
 // Create a vector with random values between 0~1.
-template<class T, int d>
+template <class T, int d>
 mathfu::Vector<T, d> RandomVector() {
   T x[d];
   for (int i = 0; i < d; ++i) {
@@ -369,27 +358,27 @@ mathfu::Vector<T, d> RandomVector() {
 }
 
 // This will test an equal lerp of two vectors gives their average.
-template<class T, int d>
+template <class T, int d>
 void LerpHalf_Test(const T& precision) {
   mathfu::Vector<T, d> vector1(RandomVector<T, d>());
   mathfu::Vector<T, d> vector2(RandomVector<T, d>());
   mathfu::Vector<T, d> flerp_vector(
-    mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(0.5)));
+      mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(0.5)));
   // This will verify f1_vector.x + f2_vector.x == 2 * flerp_vector
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(vector1[i] + vector2[i],
-                static_cast<T>(2.0) * flerp_vector[i], precision * 10);
+    EXPECT_NEAR(vector1[i] + vector2[i], static_cast<T>(2.0) * flerp_vector[i],
+                precision * 10);
   }
 }
 TEST_ALL_F(LerpHalf)
 
 // This will test that lerp with weight 0 returns the first vector.
-template<class T, int d>
+template <class T, int d>
 void Lerp0_Test(const T& precision) {
   mathfu::Vector<T, d> vector1(RandomVector<T, d>());
   mathfu::Vector<T, d> vector2(RandomVector<T, d>());
   mathfu::Vector<T, d> flerp_vector(
-    mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(0.0)));
+      mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(0.0)));
   // This will verify f1_vector.x + f2_vector.x == 2 * flerp_vector
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(vector1[i], flerp_vector[i], precision * 10);
@@ -398,12 +387,12 @@ void Lerp0_Test(const T& precision) {
 TEST_ALL_F(Lerp0)
 
 // This will test that lerp with weight 1 returns the second vector.
-template<class T, int d>
+template <class T, int d>
 void Lerp1_Test(const T& precision) {
   mathfu::Vector<T, d> vector1(RandomVector<T, d>());
   mathfu::Vector<T, d> vector2(RandomVector<T, d>());
   mathfu::Vector<T, d> flerp_vector(
-    mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(1.0)));
+      mathfu::Vector<T, d>::Lerp(vector1, vector2, static_cast<T>(1.0)));
   // This will verify f1_vector.x + f2_vector.x == 2 * flerp_vector
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(vector2[i], flerp_vector[i], precision * 10);
@@ -412,7 +401,7 @@ void Lerp1_Test(const T& precision) {
 TEST_ALL_F(Lerp1)
 
 // This will test initialization by specifying all values explictly.
-template<class T>
+template <class T>
 void Clamp_Test() {
   const T min = static_cast<T>(-1);
   const T max = static_cast<T>(8);
@@ -426,14 +415,14 @@ void Clamp_Test() {
   EXPECT_EQ(mathfu::Clamp<T>(max, min, max), max);
   EXPECT_EQ(mathfu::Clamp<T>(min, min, max), min);
 }
-TEST_F(VectorTests, Clamp) { \
-  Clamp_Test<float>(); \
-  Clamp_Test<double>(); \
-  Clamp_Test<int>(); \
+TEST_F(VectorTests, Clamp) {
+  Clamp_Test<float>();
+  Clamp_Test<double>();
+  Clamp_Test<int>();
 }
 
 // Tests for int/float/double based lerp.  (i. e. not part of a vector)
-template<class T>
+template <class T>
 void Numeric_Lerp_Test(const T& precision) {
   const T zero = static_cast<T>(0);
   const T one = static_cast<T>(1);
@@ -458,21 +447,19 @@ void Numeric_Lerp_Test(const T& precision) {
 
   EXPECT_NE(mathfu::Lerp<T>(a, b, midpoint), a);
 
-  EXPECT_NEAR(mathfu::Lerp<T>(a, b, midpoint), midpoint_result,
-                              precision);
-  EXPECT_NEAR(mathfu::Lerp<T>(a, b, two_fifths), two_fifths_result,
-                              precision);
+  EXPECT_NEAR(mathfu::Lerp<T>(a, b, midpoint), midpoint_result, precision);
+  EXPECT_NEAR(mathfu::Lerp<T>(a, b, two_fifths), two_fifths_result, precision);
   EXPECT_NEAR(mathfu::Lerp<T>(a, b, seven_tenths), seven_tenths_result,
-                                precision);
+              precision);
 }
 TEST_SCALAR_F(Numeric_Lerp)
 
 // Tests the random-in-range function for vectors.
 // Given a pair of vectors, it should return a third vector whose elements
 // are bounded by the corresponding elements in the argument vectors.
-template<class T, int d>
+template <class T, int d>
 void Vector_RandomInRange_Test(const T& precision) {
-  (void) precision;
+  (void)precision;
   mathfu::Vector<T, d> min, max, result1, result2;
 
   for (int count = 0; count < 100; count++) {
@@ -494,31 +481,28 @@ void Vector_RandomInRange_Test(const T& precision) {
 TEST_ALL_INTS_F(Vector_RandomInRange)
 
 // Tests the generic Random in Range function in Mathfu.
-template<class T>
+template <class T>
 void RandomInRange_Test(const T& precision) {
-  (void) precision;
+  (void)precision;
   for (int count = 0; count < 100; count++) {
-    T result = mathfu::RandomInRange(
-      static_cast<T>(0), static_cast<T>(100));
+    T result = mathfu::RandomInRange(static_cast<T>(0), static_cast<T>(100));
     EXPECT_GE(result, 0);
     EXPECT_LT(result, 100);
   }
   for (int count = 0; count < 100; count++) {
-    T result = mathfu::RandomInRange(
-      static_cast<T>(-100), static_cast<T>(0));
+    T result = mathfu::RandomInRange(static_cast<T>(-100), static_cast<T>(0));
     EXPECT_GT(result, -100);
     EXPECT_LE(result, 0);
   }
   EXPECT_EQ(0, mathfu::RandomInRange(0, 0));
   EXPECT_EQ(-5, mathfu::RandomInRange(-5, -5));
   EXPECT_EQ(23, mathfu::RandomInRange(23, 23));
-
 }
 TEST_SCALAR_AND_INT_F(RandomInRange)
 
 // This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void Accessor_Test(const T& precision) {
   (void)precision;
   T x[d];
@@ -538,7 +522,7 @@ TEST_ALL_F(Accessor)
 
 // This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void Max_Test(const T& precision) {
   (void)precision;
   T value1[] = {0, 0, 0, 0, 0};
@@ -583,7 +567,7 @@ TEST_ALL_F(Max)
 
 // This will test initialization by passing in values. The template paramter d
 // corresponds to the size of the vector.
-template<class T, int d>
+template <class T, int d>
 void Min_Test(const T& precision) {
   (void)precision;
   T value1[] = {0, 0, 0, 0, 0};
@@ -625,24 +609,46 @@ void Min_Test(const T& precision) {
 }
 TEST_ALL_F(Min)
 
+// Tests the RoundUpToPowerOf2 function for vectors.
+// Given a vector, it should return a vector whose elements are rounded up to
+// the nearest power of 2.
+template <class T, int d>
+void Vector_RoundUpToPowerOf2_Test(const T& precision) {
+  (void)precision;
+  mathfu::Vector<T, d> powof2, result;
+
+  for (int count = 0; count < 1024; count++) {
+    for (int i = 0; i < d; i++) {
+      powof2[i] = count;
+    }
+    result = mathfu::RoundUpToPowerOf2(powof2);
+    T expected = mathfu::RoundUpToPowerOf2(count);
+    for (int i = 0; i < d; i++) {
+      EXPECT_EQ(result[i], expected);
+    }
+  }
+}
+TEST_ALL_INTS_F(Vector_RoundUpToPowerOf2)
+TEST_ALL_F(Vector_RoundUpToPowerOf2)
+
 // Test the compilation of basic vector opertations given in the sample file.
 // This will test creation of two vectors and computing their cross product.
 TEST_F(VectorTests, SampleTest) {
-    using namespace mathfu;
-    /// @doxysnippetstart Chapter02_Vectors.md Vector_Sample
-    Vector<float, 3> point1(0.5f, 0.4f, 0.1f);
-    Vector<float, 3> point2(0.4f, 0.9f, 0.1f);
-    Vector<float, 3> point3(0.1f, 0.8f, 0.6f);
+  using namespace mathfu;
+  /// @doxysnippetstart Chapter02_Vectors.md Vector_Sample
+  Vector<float, 3> point1(0.5f, 0.4f, 0.1f);
+  Vector<float, 3> point2(0.4f, 0.9f, 0.1f);
+  Vector<float, 3> point3(0.1f, 0.8f, 0.6f);
 
-    Vector<float, 3> vector1 = point2 - point1;
-    Vector<float, 3> vector2 = point3 - point1;
+  Vector<float, 3> vector1 = point2 - point1;
+  Vector<float, 3> vector2 = point3 - point1;
 
-    Vector<float, 3> normal = Vector<float, 3>::CrossProduct(vector2, vector1);
-    /// @doxysnippetend
-    const float precision = 1e-2f;
-    EXPECT_NEAR(-0.25f, normal[0], precision);
-    EXPECT_NEAR(-0.05f, normal[1], precision);
-    EXPECT_NEAR(-0.16f, normal[2], precision);
+  Vector<float, 3> normal = Vector<float, 3>::CrossProduct(vector2, vector1);
+  /// @doxysnippetend
+  const float precision = 1e-2f;
+  EXPECT_NEAR(-0.25f, normal[0], precision);
+  EXPECT_NEAR(-0.05f, normal[1], precision);
+  EXPECT_NEAR(-0.16f, normal[2], precision);
 }
 
 // This will test that the constants have the correct values.
@@ -675,7 +681,33 @@ TEST_F(VectorTests, ConstantTest) {
   }
 }
 
-int main(int argc, char **argv) {
+// This will test the == vectors operator.
+template <class T, int d>
+void Equal_Test(const T& precision) {
+  mathfu::Vector<T, d> expected;
+  for (int i = 0; i < d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Vector<T, d> copy(expected);
+  EXPECT_TRUE(expected == copy);
+}
+TEST_ALL_F(Equal);
+TEST_ALL_INTS_F(Equal);
+
+// This will test the != vectors operator.
+template <class T, int d>
+void NotEqual_Test(const T& precision) {
+  mathfu::Vector<T, d> expected;
+  for (int i = 0; i < d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Vector<T, d> copy(expected);
+  EXPECT_FALSE(expected != copy);
+}
+TEST_ALL_F(NotEqual);
+TEST_ALL_INTS_F(NotEqual);
+
+int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);
   return RUN_ALL_TESTS();

@@ -427,6 +427,19 @@ T RoundUpToPowerOf2(T x) {
       pow(static_cast<T>(2), ceil(log(x) / log(static_cast<T>(2)))));
 }
 
+/// @brief Specialized version of RoundUpToPowerOf2 for int32_t.
+template <>
+inline int32_t RoundUpToPowerOf2<>(int32_t x) {
+  x--;
+  x |= x >> 1;
+  x |= x >> 2;
+  x |= x >> 4;
+  x |= x >> 8;
+  x |= x >> 16;
+  x++;
+  return x;
+}
+
 /// @}
 
 /// @addtogroup mathfu_allocator
