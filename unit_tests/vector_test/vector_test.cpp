@@ -690,6 +690,9 @@ void Equal_Test(const T& precision) {
   }
   mathfu::Vector<T, d> copy(expected);
   EXPECT_TRUE(expected == copy);
+
+  mathfu::Vector<T, d> close(expected - static_cast<T>(1));
+  EXPECT_FALSE(expected == close);
 }
 TEST_ALL_F(Equal);
 TEST_ALL_INTS_F(Equal);
@@ -703,6 +706,9 @@ void NotEqual_Test(const T& precision) {
   }
   mathfu::Vector<T, d> copy(expected);
   EXPECT_FALSE(expected != copy);
+
+  mathfu::Vector<T, d> close(expected - static_cast<T>(1));
+  EXPECT_TRUE(expected != close);
 }
 TEST_ALL_F(NotEqual);
 TEST_ALL_INTS_F(NotEqual);
