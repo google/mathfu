@@ -359,6 +359,28 @@ class Matrix<float, 4> {
     return LookAtHelper(at, eye, up, handedness);
   }
 
+  /// @brief Get the 3D position in object space from a window coordinate.
+  ///
+  /// @param window_coord The window coordinate. The z value is for depth.
+  /// A window coordinate on the near plane will have 0 as the z value.
+  /// And a window coordinate on the far plane will have 1 as the z value.
+  /// z value should be with in [0, 1] here.
+  /// @param model_view The Model View matrix.
+  /// @param projection The projection matrix.
+  /// @param window_width Width of the window.
+  /// @param window_height Height of the window.
+  /// @return the mapped 3D position in object space.
+  static inline Vector<float, 3> UnProject(const Vector<float, 3> window_coord,
+                                           const Matrix<float, 4, 4> model_view,
+                                           const Matrix<float, 4, 4> projection,
+                                           const float window_width,
+                                           const float window_height) {
+    Vector<float, 3> result;
+    UnProjectHelper(window_coord, model_view, projection, window_width,
+                    window_height, result);
+    return result;
+  }
+
   // Dimensions of the matrix.
   /// Number of rows in the matrix.
   static const int kRows = 4;
