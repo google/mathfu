@@ -314,6 +314,27 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult)
 
+// This will test the division of vectors by vectors and scalars.  The template
+// parameter d coorresponds to the size of the vector.
+template <class T, int d>
+void Division_Test(const T& precision) {
+  T x1[d], x2[d], scalar(static_cast<T>(1.4));
+  for (int i = 0; i < d; ++i) x1[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  for (int i = 0; i < d; ++i) x2[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
+  // Test vector division.
+  mathfu::Vector<T, d> divided_component_wise(vector1 / vector2);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / x2[i], divided_component_wise[i], precision);
+  }
+  // Test division by a scalar.
+  mathfu::Vector<T, d> divided_by_scalar(vector1 / scalar);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / scalar, divided_by_scalar[i], precision);
+  }
+}
+TEST_ALL_F(Division)
+
 // This will test normalizing a vector. The template parameter d corresponds to
 // the size of the vector.
 template <class T, int d>
