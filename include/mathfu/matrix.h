@@ -31,7 +31,7 @@
 /// @addtogroup mathfu_matrix
 ///
 /// MathFu provides a generic Matrix implementation which is specialized
-/// for 4x4 matrices to take advantage of optimization oppotunities using
+/// for 4x4 matrices to take advantage of optimization opportunities using
 /// SIMD instructions.
 
 #ifdef _MSC_VER
@@ -707,7 +707,7 @@ class Matrix {
     return RotationZ(Vector<T, 2>(cosf(angle), sinf(angle)));
   }
 
-  /// @brief Create a 4x4 perpective Matrix.
+  /// @brief Create a 4x4 perspective Matrix.
   ///
   /// @param fovy Field of view.
   /// @param aspect Aspect ratio.
@@ -1324,8 +1324,7 @@ static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
 template <class T>
 static void LookAtHelperCalculateAxes(const Vector<T, 3>& at,
                                       const Vector<T, 3>& eye,
-                                      const Vector<T, 3>& up,
-                                      T handedness,
+                                      const Vector<T, 3>& up, T handedness,
                                       Vector<T, 3>* const axes) {
   // Notice that y-axis is always the same regardless of handedness.
   axes[2] = (at - eye).Normalized();

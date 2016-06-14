@@ -24,7 +24,7 @@ upon so download the source using:
 # Functionality
 
 Each [vector][], [matrix][] and [quaternion][] class implements basic
-arithmetic operators (addition, subtraction, multiplication, divison) in
+arithmetic operators (addition, subtraction, multiplication, division) in
 addition to simple [linear algebra][] operators (e.g dot product,
 cross product, inverse, slerp).
 
@@ -46,7 +46,7 @@ modify code generation, see [Build Configurations][] for more details.
    * [Windows][]
 
 This library is entirely written in C++ with the exception of some
-conditionally enabled compiler intrisics and some workarounds for different
+conditionally enabled compiler intrinsics and some workarounds for different
 compiler quirks, which means that it *should* work with either no or little
 modification on any platform that has a C++ compiler.
 

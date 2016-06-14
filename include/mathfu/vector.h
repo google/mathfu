@@ -438,7 +438,7 @@ class Vector {
   /// @brief Multiply this Vector by another Vector.
   ///
   /// In line with GLSL, this performs component-wise multiplication.
-  /// @param v A Vector to mulitply this Vector with.
+  /// @param v A Vector to multiply this Vector with.
   /// @return A new Vector containing the result.
   inline Vector<T, d> operator*(const Vector<T, d>& v) const {
     return HadamardProduct(*this, v);
@@ -537,7 +537,7 @@ class Vector {
 
   /// @brief Multiply (in-place) each element of this Vector with a scalar.
   ///
-  /// @param s A scalar to mulitply this vector with.
+  /// @param s A scalar to multiply this vector with.
   /// @return A reference to this class.
   inline Vector<T, d>& operator*=(const T& s) {
     MATHFU_VECTOR_SELF_OPERATOR(data_[i] *= s);
