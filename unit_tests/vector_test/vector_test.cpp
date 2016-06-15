@@ -512,7 +512,7 @@ void RandomInRange_Test(const T& precision) {
   }
   for (int count = 0; count < 100; count++) {
     T result = mathfu::RandomInRange(static_cast<T>(-100), static_cast<T>(0));
-    EXPECT_GT(result, -100);
+    EXPECT_GE(result, -100);
     EXPECT_LE(result, 0);
   }
   EXPECT_EQ(0, mathfu::RandomInRange(0, 0));
