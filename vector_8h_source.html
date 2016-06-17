@@ -642,7 +642,7 @@ $(document).ready(function(){initNavTree('vector_8h_source.html','');});
 <div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="comment">  /// @brief Multiply this Vector by another Vector.</span></div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="comment">  ///</span></div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="comment">  /// In line with GLSL, this performs component-wise multiplication.</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="comment">  /// @param v A Vector to mulitply this Vector with.</span></div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="comment">  /// @param v A Vector to multiply this Vector with.</span></div>
 <div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<span class="comment">  /// @return A new Vector containing the result.</span></div>
 <div class="line"><a name="l00443"></a><span class="lineno"><a class="line" href="classmathfu_1_1_vector.html#ad08fd2226a7dd39bca2bb57033eda34f">  443</a></span>&#160;<span class="comment"></span>  <span class="keyword">inline</span> <a class="code" href="classmathfu_1_1_vector.html">Vector&lt;T, d&gt;</a> <a class="code" href="classmathfu_1_1_vector.html#ad08fd2226a7dd39bca2bb57033eda34f">operator*</a>(<span class="keyword">const</span> <a class="code" href="classmathfu_1_1_vector.html">Vector&lt;T, d&gt;</a>&amp; v)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classmathfu_1_1_vector.html#a4357a8b05f5e528cf91c218166785bc2">HadamardProduct</a>(*<span class="keyword">this</span>, v);</div>
@@ -741,7 +741,7 @@ $(document).ready(function(){initNavTree('vector_8h_source.html','');});
 <div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;<span class="comment"></span></div>
 <div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;<span class="comment">  /// @brief Multiply (in-place) each element of this Vector with a scalar.</span></div>
 <div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;<span class="comment">  ///</span></div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="comment">  /// @param s A scalar to mulitply this vector with.</span></div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="comment">  /// @param s A scalar to multiply this vector with.</span></div>
 <div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<span class="comment">  /// @return A reference to this class.</span></div>
 <div class="line"><a name="l00542"></a><span class="lineno"><a class="line" href="classmathfu_1_1_vector.html#acdf3b57e895a41e72248a3d2a509712c">  542</a></span>&#160;<span class="comment"></span>  <span class="keyword">inline</span> <a class="code" href="classmathfu_1_1_vector.html">Vector&lt;T, d&gt;</a>&amp; <a class="code" href="classmathfu_1_1_vector.html#acdf3b57e895a41e72248a3d2a509712c">operator*=</a>(<span class="keyword">const</span> T&amp; s) {</div>
 <div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    MATHFU_VECTOR_SELF_OPERATOR(data_[i] *= s);</div>

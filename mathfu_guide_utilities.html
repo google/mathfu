@@ -191,7 +191,7 @@ $(document).ready(function(){initNavTree('mathfu_guide_utilities.html','');});
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="mathfu_guide_utilities_allocation"></a>
 Memory Allocation</h1>
-<p><a class="el" href="index.html#mathfu_overview">MathFu</a>'s use of <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions provides significant performance gains in many use cases. However, some architectures have memory alignment requirements for data used by <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> operations (e.g <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> data structures must be 16-byte aligned on x86). Some STL implementations do not respect data type alignment which makes it more difficult to respect the <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> memory alignemnt requirements.</p>
+<p><a class="el" href="index.html#mathfu_overview">MathFu</a>'s use of <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> instructions provides significant performance gains in many use cases. However, some architectures have memory alignment requirements for data used by <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> operations (e.g <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> data structures must be 16-byte aligned on x86). Some STL implementations do not respect data type alignment which makes it more difficult to respect the <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> memory alignment requirements.</p>
 <p>In order to adhere to <a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> alignment requirements, <a class="el" href="index.html#mathfu_overview">MathFu</a> provides a dynamic memory allocator <a class="el" href="group__mathfu__allocator.html#mathfu_AllocateAligned">AllocateAligned()</a> which ensures data is correctly aligned. Memory allocated by <a class="el" href="group__mathfu__allocator.html#mathfu_AllocateAligned">AllocateAligned()</a> <b>must</b> be deallocated using <a class="el" href="group__mathfu__allocator.html#mathfu_FreeAligned">FreeAligned()</a>, for example:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> *memory = <a class="code" href="group__mathfu__allocator.html#ga176d9d50a5e25b6be25ba67ccc6d2113">mathfu::AllocateAligned</a>(32);</div>
 <div class="line"><a class="code" href="group__mathfu__allocator.html#ga8be70a7660cac5e80e25118382acc7f0">mathfu::FreeAligned</a>(memory);</div>
@@ -224,7 +224,7 @@ Miscellaneous Functions</h1>
 <div class="line">}</div>
 </div><!-- fragment --><h2><a class="anchor" id="mathfu_guide_utilities_random"></a>
 Random Number Generation</h2>
-<p><a class="el" href="group__mathfu__utilities.html#mathfu_Random">Random()</a> generates psuedo random floating point numbers using <code>rand()</code> from the C standard library. For example, the following generates 3 random numbers:</p>
+<p><a class="el" href="group__mathfu__utilities.html#mathfu_Random">Random()</a> generates pseudo random floating point numbers using <code>rand()</code> from the C standard library. For example, the following generates 3 random numbers:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">float</span> value1, value2, value2;</div>
 <div class="line">value1 = mathfu::Random&lt;float&gt;();</div>
 <div class="line">value2 = mathfu::Random&lt;float&gt;();</div>

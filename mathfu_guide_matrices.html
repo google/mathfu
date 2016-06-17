@@ -190,7 +190,7 @@ $(document).ready(function(){initNavTree('mathfu_guide_matrices.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>Matrices consist of a set of elements (usually floating point or integer scalars) arranged in rows and columns. For more information see <a href="http://en.wikipedia.org/wiki/Matrix_(mathematics">this description</a>) of matrices.</p>
-<p>The <a class="el" href="index.html#mathfu_overview">MathFu</a> <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a> class is a template declared in <a class="el" href="matrix_8h.html">mathfu/matrix.h</a> which has been specialized and optimized for the most regularly used case (floating point elements with 4 rows and 4 columns). Implementing <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a> as a template reduces code duplication, provides compile time optimization oppotunities through specialization and allows users to use the class with any scalar type.</p>
+<p>The <a class="el" href="index.html#mathfu_overview">MathFu</a> <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a> class is a template declared in <a class="el" href="matrix_8h.html">mathfu/matrix.h</a> which has been specialized and optimized for the most regularly used case (floating point elements with 4 rows and 4 columns). Implementing <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a> as a template reduces code duplication, provides compile time optimization opportunities through specialization and allows users to use the class with any scalar type.</p>
 <h1><a class="anchor" id="mathfu_guide_matrices_declaration"></a>
 Declaration</h1>
 <p>The <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a> class template takes either 2 or 3 arguments in the form: </p>
@@ -350,7 +350,7 @@ Matrix Operations</h1>
 <li><a class="el" href="classmathfu_1_1_matrix.html#aa5705fc6071e0c2e4cdca991f6b50252">Matrix::RotationY()</a></li>
 <li><a class="el" href="classmathfu_1_1_matrix.html#a81a6b676ab76b22faf457905b5ee919d">Matrix::RotationZ()</a></li>
 </ul>
-<p>Transformation matrices yielded by these operations can be multipied with vector to translate, scale and rotate. For example, to rotate a 3-dimensional vector around the X axis by PI/2 radians (90 degrees):</p>
+<p>Transformation matrices yielded by these operations can be multiplied with vector to translate, scale and rotate. For example, to rotate a 3-dimensional vector around the X axis by PI/2 radians (90 degrees):</p>
 <div class="fragment"><div class="line"><span class="keyword">const</span> <a class="code" href="classmathfu_1_1_vector.html">mathfu::vec3</a> vector(1.0f, 2.0f, 3.0f);</div>
 <div class="line"><span class="keyword">const</span> <a class="code" href="classmathfu_1_1_matrix.html">mathfu::mat3</a> rotation_around_x(<a class="code" href="classmathfu_1_1_matrix.html#a2d2ee3c519b576a422bd91f6f88f1d49">mathfu::mat3::RotationX</a>(M_PI / 2.0f));</div>
 <div class="line"><span class="keyword">const</span> <a class="code" href="classmathfu_1_1_vector.html">mathfu::vec3</a> rotated_vector = vector * rotation_around_x;</div>

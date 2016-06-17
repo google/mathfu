@@ -393,7 +393,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa921a48cbb0069a09e23f5ba529135f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 3x3 rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from an angle (in radians) around the Z axis.  <a href="#aa921a48cbb0069a09e23f5ba529135f7">More...</a><br/></td></tr>
 <tr class="separator:aa921a48cbb0069a09e23f5ba529135f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e66814f9b9659706588dc99362cbe4a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a">Perspective</a> (T fovy, T aspect, T znear, T zfar, T handedness=1)</td></tr>
-<tr class="memdesc:a6e66814f9b9659706588dc99362cbe4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 4x4 perpective <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#a6e66814f9b9659706588dc99362cbe4a">More...</a><br/></td></tr>
+<tr class="memdesc:a6e66814f9b9659706588dc99362cbe4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 4x4 perspective <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#a6e66814f9b9659706588dc99362cbe4a">More...</a><br/></td></tr>
 <tr class="separator:a6e66814f9b9659706588dc99362cbe4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5de06db648b2c482db7d3414781fb6be"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a5de06db648b2c482db7d3414781fb6be">Ortho</a> (T left, T right, T bottom, T top, T znear, T zfar, T handedness=1)</td></tr>
 <tr class="memdesc:a5de06db648b2c482db7d3414781fb6be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 4x4 orthographic <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#a5de06db648b2c482db7d3414781fb6be">More...</a><br/></td></tr>
@@ -401,6 +401,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e19810f2eda583a6b74b85e1d51fc8f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a7e19810f2eda583a6b74b85e1d51fc8f">LookAt</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;at, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;eye, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;up, T handedness=-1)</td></tr>
 <tr class="memdesc:a7e19810f2eda583a6b74b85e1d51fc8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 3-dimensional camera <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#a7e19810f2eda583a6b74b85e1d51fc8f">More...</a><br/></td></tr>
 <tr class="separator:a7e19810f2eda583a6b74b85e1d51fc8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8981fa32f374a236a6095cc5c15c54a0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a8981fa32f374a236a6095cc5c15c54a0">UnProject</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; window_coord, const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; model_view, const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; projection, const float window_width, const float window_height)</td></tr>
+<tr class="memdesc:a8981fa32f374a236a6095cc5c15c54a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 3D position in object space from a window coordinate.  <a href="#a8981fa32f374a236a6095cc5c15c54a0">More...</a><br/></td></tr>
+<tr class="separator:a8981fa32f374a236a6095cc5c15c54a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -1421,7 +1424,7 @@ template&lt;class T, int rows, int columns&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>3-dimensional camera <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. TODO: Change default handedness to +1 so that it matches <a class="el" href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a" title="Create a 4x4 perpective Matrix. ">Perspective()</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>3-dimensional camera <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. TODO: Change default handedness to +1 so that it matches <a class="el" href="classmathfu_1_1_matrix.html#a6e66814f9b9659706588dc99362cbe4a" title="Create a 4x4 perspective Matrix. ">Perspective()</a>. </dd></dl>
 
 </div>
 </div>
@@ -2381,7 +2384,7 @@ template&lt;class T, int rows, int columns&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Create a 4x4 perpective <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </p>
+<p>Create a 4x4 perspective <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">fovy</td><td>Field of view. </td></tr>
@@ -2724,6 +2727,73 @@ template&lt;class T, int rows, int columns&gt; </div>
 
 <p>Calculate the transpose of this <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The transpose of the specified <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8981fa32f374a236a6095cc5c15c54a0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int rows, int columns&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt;T, 3&gt; <a class="el" href="classmathfu_1_1_matrix.html">mathfu::Matrix</a>&lt; T, rows, columns &gt;::UnProject </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td>
+          <td class="paramname"><em>window_coord</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td>
+          <td class="paramname"><em>model_view</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td>
+          <td class="paramname"><em>projection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>window_width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>window_height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the 3D position in object space from a window coordinate. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">window_coord</td><td>The window coordinate. The z value is for depth. A window coordinate on the near plane will have 0 as the z value. And a window coordinate on the far plane will have 1 as the z value. z value should be with in [0, 1] here. </td></tr>
+    <tr><td class="paramname">model_view</td><td>The Model View matrix. </td></tr>
+    <tr><td class="paramname">projection</td><td>The projection matrix. </td></tr>
+    <tr><td class="paramname">window_width</td><td>Width of the window. </td></tr>
+    <tr><td class="paramname">window_height</td><td>Height of the window. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the mapped 3D position in object space. </dd></dl>
 
 </div>
 </div>

@@ -56,6 +56,7 @@ var group__mathfu__matrix =
       [ "TranslationVector2D", "classmathfu_1_1_matrix.html#aecfb06ed6c6b67876aa78e89c74a0562", null ],
       [ "TranslationVector3D", "classmathfu_1_1_matrix.html#a25c273b652c5491d8b97007adb20b416", null ],
       [ "Transpose", "classmathfu_1_1_matrix.html#a2396a995facbb0220e631b5b6ac96853", null ],
+      [ "UnProject", "classmathfu_1_1_matrix.html#a8981fa32f374a236a6095cc5c15c54a0", null ],
       [ "operator*", "classmathfu_1_1_matrix.html#aabb9762f512fe466916d1993694ba23f", null ],
       [ "operator*", "group__mathfu__matrix.html#gaef9f2936e16f4bb29b894151233c05df", null ],
       [ "operator*", "group__mathfu__matrix.html#gaf76afafe2be82d04406dfa957a516b0d", null ],

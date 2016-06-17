@@ -120,7 +120,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"group__mathfu__allocator.html"
+"glsl__mappings_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
