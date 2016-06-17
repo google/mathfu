@@ -144,7 +144,7 @@ template <class T, int d>
   return ::testing::AssertionSuccess();
 }
 
-// This will test initialization by passing in values. The template paramter d
+// This will test initialization by passing in values. The template parameter d
 // corresponds to the size of the vector.
 template <class T, int d>
 void Initialization_Test(const T& precision) {
@@ -170,8 +170,8 @@ void Initialization_Test(const T& precision) {
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x[i], vector_copy[i], precision);
   }
-  // This will make sure the copy was deep and chaning the values of the
-  // copied matrix does not effect the origional.
+  // This will make sure the copy was deep and changing the values of the
+  // copied matrix does not effect the original.
   vector_copy -= mathfu::Vector<T, d>(1);
   EXPECT_NE(vector_copy[0], vector_arr[0]);
 
@@ -187,7 +187,7 @@ void Initialization_Test(const T& precision) {
 }
 TEST_ALL_F(Initialization)
 
-// This will test initialization by specifying all values explictly.
+// This will test initialization by specifying all values explicitly.
 template <class T>
 void InitializationPerDimension_Test(const T& precision) {
   mathfu::Vector<T, 2> f2_vector(static_cast<T>(5.3), static_cast<T>(7.1));
@@ -280,8 +280,8 @@ void AddSub_Test(const T& precision) {
 }
 TEST_ALL_F(AddSub)
 
-// This will test the mutiplication of vectors by vectors and scalars. The
-// template paramter d corresponds to the size of the vector.
+// This will test the multiplication of vectors by vectors and scalars. The
+// template parameter d corresponds to the size of the vector.
 template <class T, int d>
 void Mult_Test(const T& precision) {
   T x1[d], x2[d], scalar(static_cast<T>(1.4));
@@ -296,7 +296,7 @@ void Mult_Test(const T& precision) {
     EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
   }
   // This will test multiplication by a scalar and verify that each
-  // element is the input element multipled by the scalar.
+  // element is the input element multiplied by the scalar.
   mathfu::Vector<T, d> smult_vec1(vector1 * scalar);
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] * 1.4, smult_vec1[i], precision);
@@ -313,6 +313,27 @@ void Mult_Test(const T& precision) {
   EXPECT_NEAR(my_dot, vec_dot, precision);
 }
 TEST_ALL_F(Mult)
+
+// This will test the division of vectors by vectors and scalars.  The template
+// parameter d coorresponds to the size of the vector.
+template <class T, int d>
+void Division_Test(const T& precision) {
+  T x1[d], x2[d], scalar(static_cast<T>(1.4));
+  for (int i = 0; i < d; ++i) x1[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  for (int i = 0; i < d; ++i) x2[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
+  // Test vector division.
+  mathfu::Vector<T, d> divided_component_wise(vector1 / vector2);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / x2[i], divided_component_wise[i], precision);
+  }
+  // Test division by a scalar.
+  mathfu::Vector<T, d> divided_by_scalar(vector1 / scalar);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / scalar, divided_by_scalar[i], precision);
+  }
+}
+TEST_ALL_F(Division)
 
 // This will test normalizing a vector. The template parameter d corresponds to
 // the size of the vector.
@@ -400,7 +421,7 @@ void Lerp1_Test(const T& precision) {
 }
 TEST_ALL_F(Lerp1)
 
-// This will test initialization by specifying all values explictly.
+// This will test initialization by specifying all values explicitly.
 template <class T>
 void Clamp_Test() {
   const T min = static_cast<T>(-1);
@@ -491,7 +512,7 @@ void RandomInRange_Test(const T& precision) {
   }
   for (int count = 0; count < 100; count++) {
     T result = mathfu::RandomInRange(static_cast<T>(-100), static_cast<T>(0));
-    EXPECT_GT(result, -100);
+    EXPECT_GE(result, -100);
     EXPECT_LE(result, 0);
   }
   EXPECT_EQ(0, mathfu::RandomInRange(0, 0));
@@ -500,7 +521,7 @@ void RandomInRange_Test(const T& precision) {
 }
 TEST_SCALAR_AND_INT_F(RandomInRange)
 
-// This will test initialization by passing in values. The template paramter d
+// This will test initialization by passing in values. The template parameter d
 // corresponds to the size of the vector.
 template <class T, int d>
 void Accessor_Test(const T& precision) {
@@ -520,7 +541,7 @@ void Accessor_Test(const T& precision) {
 }
 TEST_ALL_F(Accessor)
 
-// This will test initialization by passing in values. The template paramter d
+// This will test initialization by passing in values. The template parameter d
 // corresponds to the size of the vector.
 template <class T, int d>
 void Max_Test(const T& precision) {
@@ -565,7 +586,7 @@ void Max_Test(const T& precision) {
 }
 TEST_ALL_F(Max)
 
-// This will test initialization by passing in values. The template paramter d
+// This will test initialization by passing in values. The template parameter d
 // corresponds to the size of the vector.
 template <class T, int d>
 void Min_Test(const T& precision) {
@@ -690,6 +711,9 @@ void Equal_Test(const T& precision) {
   }
   mathfu::Vector<T, d> copy(expected);
   EXPECT_TRUE(expected == copy);
+
+  mathfu::Vector<T, d> close(expected - static_cast<T>(1));
+  EXPECT_FALSE(expected == close);
 }
 TEST_ALL_F(Equal);
 TEST_ALL_INTS_F(Equal);
@@ -703,6 +727,9 @@ void NotEqual_Test(const T& precision) {
   }
   mathfu::Vector<T, d> copy(expected);
   EXPECT_FALSE(expected != copy);
+
+  mathfu::Vector<T, d> close(expected - static_cast<T>(1));
+  EXPECT_TRUE(expected != close);
 }
 TEST_ALL_F(NotEqual);
 TEST_ALL_INTS_F(NotEqual);

@@ -31,7 +31,7 @@
 /// @addtogroup mathfu_matrix
 ///
 /// MathFu provides a generic Matrix implementation which is specialized
-/// for 4x4 matrices to take advantage of optimization oppotunities using
+/// for 4x4 matrices to take advantage of optimization opportunities using
 /// SIMD instructions.
 
 #ifdef _MSC_VER
@@ -122,6 +122,13 @@ static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
                                            const Vector<T, 3>& eye,
                                            const Vector<T, 3>& up,
                                            T handedness);
+template <class T>
+static inline bool UnProjectHelper(const Vector<T, 3> window_coord,
+                                   const Matrix<T, 4, 4> model_view,
+                                   const Matrix<T, 4, 4> projection,
+                                   const float window_width,
+                                   const float window_height,
+                                   Vector<T, 3>& result);
 /// @endcond
 
 /// @addtogroup mathfu_matrix
@@ -707,7 +714,7 @@ class Matrix {
     return RotationZ(Vector<T, 2>(cosf(angle), sinf(angle)));
   }
 
-  /// @brief Create a 4x4 perpective Matrix.
+  /// @brief Create a 4x4 perspective Matrix.
   ///
   /// @param fovy Field of view.
   /// @param aspect Aspect ratio.
@@ -749,6 +756,28 @@ class Matrix {
                                        const Vector<T, 3>& up,
                                        T handedness = -1) {
     return LookAtHelper(at, eye, up, handedness);
+  }
+
+  /// @brief Get the 3D position in object space from a window coordinate.
+  ///
+  /// @param window_coord The window coordinate. The z value is for depth.
+  /// A window coordinate on the near plane will have 0 as the z value.
+  /// And a window coordinate on the far plane will have 1 as the z value.
+  /// z value should be with in [0, 1] here.
+  /// @param model_view The Model View matrix.
+  /// @param projection The projection matrix.
+  /// @param window_width Width of the window.
+  /// @param window_height Height of the window.
+  /// @return the mapped 3D position in object space.
+  static inline Vector<T, 3> UnProject(const Vector<T, 3> window_coord,
+                                       const Matrix<T, 4, 4> model_view,
+                                       const Matrix<T, 4, 4> projection,
+                                       const float window_width,
+                                       const float window_height) {
+    Vector<T, 3> result;
+    UnProjectHelper(window_coord, model_view, projection, window_width,
+                    window_height, result);
+    return result;
   }
 
   /// @brief Multiply a Vector by a Matrix.
@@ -1324,8 +1353,7 @@ static inline Matrix<T, 4, 4> OrthoHelper(T left, T right, T bottom, T top,
 template <class T>
 static void LookAtHelperCalculateAxes(const Vector<T, 3>& at,
                                       const Vector<T, 3>& eye,
-                                      const Vector<T, 3>& up,
-                                      T handedness,
+                                      const Vector<T, 3>& up, T handedness,
                                       Vector<T, 3>* const axes) {
   // Notice that y-axis is always the same regardless of handedness.
   axes[2] = (at - eye).Normalized();
@@ -1357,6 +1385,40 @@ static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
   const Vector<T, 4> column2(axes[0][2], axes[1][2], axes[2][2], 0);
   const Vector<T, 4> column3(axes[3], 1);
   return Matrix<T, 4, 4>(column0, column1, column2, column3);
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+/// Get the 3D position in object space from a window coordinate.
+template <class T>
+static inline bool UnProjectHelper(const Vector<T, 3> window_coord,
+                                   const Matrix<T, 4, 4> model_view,
+                                   const Matrix<T, 4, 4> projection,
+                                   const float window_width,
+                                   const float window_height,
+                                   Vector<T, 3>& result) {
+  if (window_coord.z() < static_cast<T>(0) ||
+      window_coord.z() > static_cast<T>(1)) {
+    // window_coord.z should be with in [0, 1]
+    // 0: near plane
+    // 1: far plane
+    return false;
+  }
+  Matrix<T, 4, 4> matrix = (projection * model_view).Inverse();
+  Vector<T, 4> standardized = Vector<T, 4>(
+      static_cast<T>(2) * (window_coord.x() - window_width) / window_width +
+          static_cast<T>(1),
+      static_cast<T>(2) * (window_coord.y() - window_height) / window_height +
+          static_cast<T>(1),
+      static_cast<T>(2) * window_coord.z() - static_cast<T>(1),
+      static_cast<T>(1));
+
+  Vector<T, 4> multiply = matrix * standardized;
+  if (multiply.w() == static_cast<T>(0)) {
+    return false;
+  }
+  result = multiply.xyz() / multiply.w();
+  return true;
 }
 /// @endcond
 

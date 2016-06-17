@@ -137,6 +137,10 @@ class Vector<float, 4> {
     return Vector<float, 4>(simd4f_mul(data_.simd, v.data_.simd));
   }
 
+  inline Vector<float, 4> operator/(const Vector<float, 4>& v) const {
+    return Vector<float, 4>(simd4f_div(data_.simd, v.data_.simd));
+  }
+
   inline Vector<float, 4> operator+(const Vector<float, 4>& v) const {
     return Vector<float, 4>(simd4f_add(data_.simd, v.data_.simd));
   }
