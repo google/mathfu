@@ -34,3 +34,4 @@ googletest/
 local.properties
 proguard-project.txt
 project.properties
+.DS_Store
