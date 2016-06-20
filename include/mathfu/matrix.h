@@ -123,9 +123,9 @@ static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
                                            const Vector<T, 3>& up,
                                            T handedness);
 template <class T>
-static inline bool UnProjectHelper(const Vector<T, 3> window_coord,
-                                   const Matrix<T, 4, 4> model_view,
-                                   const Matrix<T, 4, 4> projection,
+static inline bool UnProjectHelper(const Vector<T, 3>& window_coord,
+                                   const Matrix<T, 4, 4>& model_view,
+                                   const Matrix<T, 4, 4>& projection,
                                    const float window_width,
                                    const float window_height,
                                    Vector<T, 3>& result);
@@ -769,9 +769,9 @@ class Matrix {
   /// @param window_width Width of the window.
   /// @param window_height Height of the window.
   /// @return the mapped 3D position in object space.
-  static inline Vector<T, 3> UnProject(const Vector<T, 3> window_coord,
-                                       const Matrix<T, 4, 4> model_view,
-                                       const Matrix<T, 4, 4> projection,
+  static inline Vector<T, 3> UnProject(const Vector<T, 3>& window_coord,
+                                       const Matrix<T, 4, 4>& model_view,
+                                       const Matrix<T, 4, 4>& projection,
                                        const float window_width,
                                        const float window_height) {
     Vector<T, 3> result;
@@ -1391,9 +1391,9 @@ static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
 /// @cond MATHFU_INTERNAL
 /// Get the 3D position in object space from a window coordinate.
 template <class T>
-static inline bool UnProjectHelper(const Vector<T, 3> window_coord,
-                                   const Matrix<T, 4, 4> model_view,
-                                   const Matrix<T, 4, 4> projection,
+static inline bool UnProjectHelper(const Vector<T, 3>& window_coord,
+                                   const Matrix<T, 4, 4>& model_view,
+                                   const Matrix<T, 4, 4>& projection,
                                    const float window_width,
                                    const float window_height,
                                    Vector<T, 3>& result) {

@@ -370,11 +370,11 @@ class Matrix<float, 4> {
   /// @param window_width Width of the window.
   /// @param window_height Height of the window.
   /// @return the mapped 3D position in object space.
-  static inline Vector<float, 3> UnProject(const Vector<float, 3> window_coord,
-                                           const Matrix<float, 4, 4> model_view,
-                                           const Matrix<float, 4, 4> projection,
-                                           const float window_width,
-                                           const float window_height) {
+  static inline Vector<float, 3> UnProject(
+      const Vector<float, 3>& window_coord,
+      const Matrix<float, 4, 4>& model_view,
+      const Matrix<float, 4, 4>& projection, const float window_width,
+      const float window_height) {
     Vector<float, 3> result;
     UnProjectHelper(window_coord, model_view, projection, window_width,
                     window_height, result);
