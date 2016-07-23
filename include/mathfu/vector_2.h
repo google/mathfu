@@ -56,9 +56,7 @@ class Vector<float, 2> {
     data_.simd = simd2f_create(s1, s2);
   }
 
-  explicit inline Vector(const float* v) {
-    data_.simd = simd2f_create(v[0], v[1]);
-  }
+  explicit inline Vector(const float* v) { data_.simd = simd2f_uload2(v); }
 
   explicit inline Vector(const VectorPacked<float, 2>& vector) {
     data_.simd = simd2f_uload2(vector.data);

@@ -97,11 +97,19 @@ class Vector<float, 3> {
   }
 
   explicit inline Vector(const float* v) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    data_.simd = simd4f_uload3(v);
+#else
     MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
+#endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   explicit inline Vector(const VectorPacked<float, 3>& vector) {
+#ifdef MATHFU_COMPILE_WITH_PADDING
+    data_.simd = simd4f_uload3(vector.data);
+#else
     MATHFU_VECTOR3_INIT3(data_, vector.data[0], vector.data[1], vector.data[2]);
+#endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   inline float& operator()(const int i) { return data_.float_array[i]; }
