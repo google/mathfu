@@ -267,6 +267,16 @@ class Vector<float, 3> {
     return Vector<float, 3>(simd4f_normalize3(MATHFU_VECTOR3_LOAD3(data_)));
   }
 
+  template <typename CompatibleT>
+  static inline Vector<float, 3> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<float, 3, CompatibleT>(compatible);
+  }
+
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Vector<float, 3>& v) {
+    return ToTypeHelper<float, 3, CompatibleT>(v);
+  }
+
   static inline float DotProduct(const Vector<float, 3>& v1,
                                  const Vector<float, 3>& v2) {
     return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(v1.data_),

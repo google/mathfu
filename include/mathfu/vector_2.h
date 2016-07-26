@@ -189,6 +189,16 @@ class Vector<float, 2> {
     return Vector<float, 2>(simd2f_normalize2(data_.simd));
   }
 
+  template <typename CompatibleT>
+  static inline Vector<float, 2> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<float, 2, CompatibleT>(compatible);
+  }
+
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Vector<float, 2>& v) {
+    return ToTypeHelper<float, 2, CompatibleT>(v);
+  }
+
   static inline float DotProduct(const Vector<float, 2>& v1,
                                  const Vector<float, 2>& v2) {
     return simd2f_get_x(simd2f_dot2(v1.data_.simd, v2.data_.simd));

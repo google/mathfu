@@ -1076,6 +1076,70 @@ TEST_F(MatrixTests, MatrixSample) {
   EXPECT_NEAR(4.74f, rotatedVector[2], precision);
 }
 
+// Simple class that represents a possible compatible type for a vector.
+// That is, it's just an array of T of length d, so can be loaded and
+// stored from mathfu::Vector<T,d> using ToType() and FromType().
+template <class T, int d>
+struct SimpleMatrix {
+  T values[d * d];
+};
+
+// This will test the FromType() conversion functions.
+template <class T, int d>
+void FromType_Test(const T& precision) {
+  typedef SimpleMatrix<T, d> CompatibleT;
+  typedef mathfu::Matrix<T, d> MatrixT;
+
+  CompatibleT compatible;
+  for (int i = 0; i < d * d; ++i) {
+    compatible.values[i] = static_cast<T>(i * precision);
+  }
+
+#ifdef MATHFU_COMPILE_WITH_PADDING
+  // With padding, vec3s take up 4-floats worth of memory, so byte-wise
+  // conversion won't work.
+  if (sizeof(CompatibleT) != sizeof(MatrixT)) {
+    EXPECT_EQ(d, 3);
+    return;
+  }
+#endif  // MATHFU_COMPILE_WITH_PADDING
+
+  const MatrixT matrix = MatrixT::FromType(compatible);
+
+  for (int i = 0; i < d * d; ++i) {
+    EXPECT_EQ(compatible.values[i], matrix[i]);
+  }
+}
+TEST_ALL_F(FromType, 0.0f, 0.0);
+
+// This will test the ToType() conversion functions.
+template <class T, int d>
+void ToType_Test(const T& precision) {
+  typedef SimpleMatrix<T, d> CompatibleT;
+  typedef mathfu::Matrix<T, d> MatrixT;
+
+  MatrixT matrix;
+  for (int i = 0; i < d * d; ++i) {
+    matrix[i] = static_cast<T>(i * precision);
+  }
+
+#ifdef MATHFU_COMPILE_WITH_PADDING
+  // With padding, vec3s take up 4-floats worth of memory, so byte-wise
+  // conversion won't work.
+  if (sizeof(CompatibleT) != sizeof(MatrixT)) {
+    EXPECT_EQ(d, 3);
+    return;
+  }
+#endif  // MATHFU_COMPILE_WITH_PADDING
+
+  const CompatibleT compatible = MatrixT::template ToType<CompatibleT>(matrix);
+
+  for (int i = 0; i < d * d; ++i) {
+    EXPECT_EQ(compatible.values[i], matrix[i]);
+  }
+}
+TEST_ALL_F(ToType, 0.0f, 0.0);
+
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);

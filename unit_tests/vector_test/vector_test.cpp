@@ -734,6 +734,51 @@ void NotEqual_Test(const T& precision) {
 TEST_ALL_F(NotEqual);
 TEST_ALL_INTS_F(NotEqual);
 
+// Simple class that represents a possible compatible type for a vector.
+// That is, it's just an array of T of length d, so can be loaded and
+// stored from mathfu::Vector<T,d> using ToType() and FromType().
+template <class T, int d>
+struct SimpleVector {
+  T values[d];
+};
+
+// This will test the FromType() conversion functions.
+template <class T, int d>
+void FromType_Test(const T& precision) {
+  SimpleVector<T, d> compatible;
+  for (int i = 0; i < d; ++i) {
+    compatible.values[i] = static_cast<T>(i * precision);
+  }
+
+  const mathfu::Vector<T, d> vector = mathfu::Vector<T, d>::FromType(compatible);
+
+  for (int i = 0; i < d; ++i) {
+    EXPECT_EQ(compatible.values[i], vector[i]);
+  }
+}
+TEST_ALL_F(FromType);
+TEST_ALL_INTS_F(FromType);
+
+// This will test the ToType() conversion functions.
+template <class T, int d>
+void ToType_Test(const T& precision) {
+  typedef SimpleVector<T, d> CompatibleT;
+  typedef mathfu::Vector<T, d> VectorT;
+
+  VectorT vector;
+  for (int i = 0; i < d; ++i) {
+    vector[i] = static_cast<T>(i * precision);
+  }
+
+  const CompatibleT compatible = VectorT::template ToType<CompatibleT>(vector);
+
+  for (int i = 0; i < d; ++i) {
+    EXPECT_EQ(compatible.values[i], vector[i]);
+  }
+}
+TEST_ALL_F(ToType);
+TEST_ALL_INTS_F(ToType);
+
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);

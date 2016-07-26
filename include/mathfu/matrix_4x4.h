@@ -258,6 +258,16 @@ class Matrix<float, 4> {
     return *this;
   }
 
+  template <typename CompatibleT>
+  static inline Matrix<float, 4> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<float, 4, 4, CompatibleT>(compatible);
+  }
+
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Matrix<float, 4>& m) {
+    return ToTypeHelper<float, 4, 4, CompatibleT>(m);
+  }
+
   static inline Matrix<float, 4> OuterProduct(const Vector<float, 4>& v1,
                                               const Vector<float, 4>& v2) {
     Matrix<float, 4> m;

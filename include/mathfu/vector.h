@@ -75,6 +75,12 @@ static inline T DotProductHelper(const Vector<T, 3>& v1,
 template <class T>
 static inline T DotProductHelper(const Vector<T, 4>& v1,
                                  const Vector<T, 4>& v2);
+
+template <typename T, int d, typename CompatibleT>
+static inline Vector<T, d> FromTypeHelper(const CompatibleT& compatible);
+
+template <typename T, int d, typename CompatibleT>
+static inline CompatibleT ToTypeHelper(const Vector<T, d>& v);
 /// @endcond
 
 /// @addtogroup mathfu_vector
@@ -591,6 +597,30 @@ class Vector {
   /// @return The normalized vector.
   inline Vector<T, d> Normalized() const { return *this * (1 / Length()); }
 
+  /// @brief Load from any type that is some formulation of a length d array of
+  ///        type T.
+  ///
+  /// Essentially this is just a type cast and a load, but it happens safely
+  /// so that we avoid aliasing bugs.
+  ///
+  /// @return `compatible` cast to `Vector<T,d>` and dereferenced.
+  template <typename CompatibleT>
+  static inline Vector<T, d> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<T, d, CompatibleT>(compatible);
+  }
+
+  /// @brief Load into any type that is some formulation of a length d array of
+  ///        type T.
+  ///
+  /// Essentially this is just a type cast and a load, but it happens safely
+  /// so that we avoid aliasing bugs.
+  ///
+  /// @return `v` cast to `CompatibleT` and dereferenced.
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Vector<T, d>& v) {
+    return ToTypeHelper<T, d, CompatibleT>(v);
+  }
+
   /// @brief Calculate the dot product of two vectors.
   ///
   /// @param v1 First vector.
@@ -785,6 +815,64 @@ template <class T>
 static inline T DotProductHelper(const Vector<T, 4>& v1,
                                  const Vector<T, 4>& v2) {
   return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2] + v1[3] * v2[3];
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+template <typename T, int d, typename CompatibleT>
+static inline Vector<T, d> FromTypeHelper(const CompatibleT& compatible) {
+// C++11 is required for constructed unions.
+#if __cplusplus >= 201103L
+  // Use a union instead of reinterpret_cast to avoid aliasing bugs.
+  union ConversionUnion {
+    ConversionUnion() {}  // C++11.
+    CompatibleT compatible;
+    VectorPacked<T, d> packed;
+  } u;
+  static_assert(sizeof(u.compatible) == d * sizeof(T), "Conversion size mismatch.");
+
+  // The read of `compatible` and write to `u.compatible` gets optimized away,
+  // and this becomes essentially a safe reinterpret_cast.
+  u.compatible = compatible;
+
+  // Call the packed vector constructor with the `compatible` data.
+  return Vector<T, d>(u.packed);
+#else
+  // Use the less-desirable memcpy technique if C++11 is not available.
+  // Most compilers understand memcpy deep enough to avoid replace the function
+  // call with a series of load/stores, which should then get optimized away,
+  // however in the worst case the optimize away may not happen.
+  // Note: Memcpy avoids aliasing bugs because it operates via unsigned char*,
+  // which is allowed to alias any type.
+  // See:
+  // http://stackoverflow.com/questions/15745030/type-punning-with-void-without-breaking-the-strict-aliasing-rule-in-c99
+  Vector<T, d> v;
+  assert(sizeof(compatible) == d * sizeof(T));
+  memcpy(&v, &compatible, sizeof(compatible));
+  return v;
+#endif  // __cplusplus >= 201103L
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+template <typename T, int d, typename CompatibleT>
+static inline CompatibleT ToTypeHelper(const Vector<T, d>& v) {
+// See FromTypeHelper() for comments.
+#if __cplusplus >= 201103L
+  union ConversionUnion {
+    ConversionUnion() {}
+    CompatibleT compatible;
+    VectorPacked<T, d> packed;
+  } u;
+  static_assert(sizeof(u.compatible) == d * sizeof(T), "Conversion size mismatch.");
+  v.Pack(&u.packed);
+  return u.compatible;
+#else
+  CompatibleT compatible;
+  assert(sizeof(compatible) == d * sizeof(T));
+  memcpy(&compatible, &v, sizeof(compatible));
+  return compatible;
+#endif  // __cplusplus >= 201103L
 }
 /// @endcond
 
