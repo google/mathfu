@@ -664,10 +664,13 @@ void LookAt_Test(const T& precision) {
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(0, 0, 0), mathfu::Vector<T, 3>(1, 1, 1),
           mathfu::Vector<T, 3>(0, 1, 0), -1),
-      mathfu::Matrix<T, 4, 4>(-0.707106781,-0.408248290, -0.577350269, 0,
-                              0,            0.816496580, -0.577350269, 0,
-                              0.707106781, -0.408248290, -0.577350269, 0,
-                              0,            0,            1.732050808, 1),
+      mathfu::Matrix<T, 4, 4>(
+          static_cast<T>(-0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(-0.577350269), 0,
+          0, static_cast<T>(0.816496580), static_cast<T>(-0.577350269), 0,
+          static_cast<T>(0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(-0.577350269), 0,
+          0, 0, static_cast<T>(1.732050808), 1),
     },
     {
       "origin along z",
@@ -714,10 +717,13 @@ void LookAt_Test(const T& precision) {
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(0, 0, 0), mathfu::Vector<T, 3>(1, 1, 1),
           mathfu::Vector<T, 3>(0, 1, 0), 1),
-      mathfu::Matrix<T, 4, 4>(0.707106781,-0.408248290, 0.577350269, 0,
-                              0,           0.816496581, 0.577350269, 0,
-                             -0.707106781,-0.408248290, 0.577350269, 0,
-                               0,          0,          -1.732050808, 1),
+      mathfu::Matrix<T, 4, 4>(
+          static_cast<T>(0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(0.577350269), 0,
+          0, static_cast<T>(0.816496581), static_cast<T>(0.577350269), 0,
+          static_cast<T>(-0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(0.577350269), 0,
+          0, 0, static_cast<T>(-1.732050808), 1),
     },
     {
       "right-handed origin along z",

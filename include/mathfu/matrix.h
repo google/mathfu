@@ -1365,7 +1365,7 @@ static void LookAtHelperCalculateAxes(const Vector<T, 3>& at,
 
   // Default calculation is left-handed (i.e. handedness=-1).
   // Negate x and z axes for right-handed (i.e. handedness=+1) case.
-  const float neg = -handedness;
+  const T neg = -handedness;
   axes[0] *= neg;
   axes[2] *= neg;
 }

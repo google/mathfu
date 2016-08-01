@@ -640,10 +640,10 @@ void Vector_RoundUpToPowerOf2_Test(const T& precision) {
 
   for (int count = 0; count < 1024; count++) {
     for (int i = 0; i < d; i++) {
-      powof2[i] = count;
+      powof2[i] = static_cast<T>(count);
     }
     result = mathfu::RoundUpToPowerOf2(powof2);
-    T expected = mathfu::RoundUpToPowerOf2(count);
+    T expected = static_cast<T>(mathfu::RoundUpToPowerOf2(count));
     for (int i = 0; i < d; i++) {
       EXPECT_EQ(result[i], expected);
     }
