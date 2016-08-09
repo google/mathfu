@@ -168,7 +168,7 @@ class Quaternion {
   /// @brief Calculate the normalized version of this quaternion.
   ///
   /// @return The normalized quaternion.
-  inline Quaternion<T> Normalized() {
+  inline Quaternion<T> Normalized() const {
     Quaternion<T> q(*this);
     q.Normalize();
     return q;
