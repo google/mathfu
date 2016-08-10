@@ -18,9 +18,6 @@
 
 #include "mathfu/utilities.h"
 #include "mathfu/vector.h"
-#include "mathfu/vector_2.h"
-#include "mathfu/vector_3.h"
-#include "mathfu/vector_4.h"
 
 #include <cmath>
 
@@ -1537,5 +1534,9 @@ typedef Matrix<float, 4, 3> AffineTransform;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
+
+// Include the specializations to avoid template errors.
+// See includes at bottom of vector.h for further explanation.
+#include "mathfu/matrix_4x4.h"
 
 #endif  // MATHFU_MATRIX_H_

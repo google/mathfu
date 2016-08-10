@@ -16,12 +16,9 @@
 #ifndef MATHFU_CONSTANTS_H
 #define MATHFU_CONSTANTS_H
 
-#include "mathfu/matrix_4x4.h"
+#include "mathfu/matrix.h"
 #include "mathfu/quaternion.h"
 #include "mathfu/vector.h"
-#include "mathfu/vector_2.h"
-#include "mathfu/vector_3.h"
-#include "mathfu/vector_4.h"
 
 namespace mathfu {
 
