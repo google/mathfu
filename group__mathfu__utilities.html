@@ -243,6 +243,10 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:ga587cf64c5adb1c3e80937e4f57eedb90"><td class="memTemplItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga587cf64c5adb1c3e80937e4f57eedb90">mathfu::RoundUpToPowerOf2</a> (int32_t x)</td></tr>
 <tr class="memdesc:ga587cf64c5adb1c3e80937e4f57eedb90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialized version of RoundUpToPowerOf2 for int32_t. <br/></td></tr>
 <tr class="separator:ga587cf64c5adb1c3e80937e4f57eedb90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga34afef8da358155564f0720477c82802"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga34afef8da358155564f0720477c82802"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga34afef8da358155564f0720477c82802">mathfu::RoundUpToTypeBoundary</a> (uint32_t v)</td></tr>
+<tr class="memdesc:ga34afef8da358155564f0720477c82802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round a value up to the type's size boundary.  <a href="#ga34afef8da358155564f0720477c82802">More...</a><br/></td></tr>
+<tr class="separator:ga34afef8da358155564f0720477c82802"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga587a55a31b463475c43e87d38e8fae54"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga587a55a31b463475c43e87d38e8fae54"></a>
 template&lt;typename T , int d&gt; </td></tr>
 <tr class="memitem:ga587a55a31b463475c43e87d38e8fae54"><td class="memTemplItemLeft" align="right" valign="top">Vector&lt; T, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__mathfu__utilities.html#ga587a55a31b463475c43e87d38e8fae54">mathfu::RoundUpToPowerOf2</a> (const Vector&lt; T, d &gt; &amp;v)</td></tr>
@@ -622,6 +626,33 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Value rounded up to the nearest power of 2. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga34afef8da358155564f0720477c82802"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t mathfu::RoundUpToTypeBoundary </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Round a value up to the type's size boundary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Value to round up. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Value rounded up to the type's size boundary. </dd></dl>
 
 </div>
 </div>

@@ -413,6 +413,14 @@ const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" h
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4d457ec04938ed4090d897e57bcf6fc0"><td class="memTemplParams" colspan="2">template&lt;typename CompatibleT &gt; </td></tr>
+<tr class="memitem:a4d457ec04938ed4090d897e57bcf6fc0"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, d &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_vector.html#a4d457ec04938ed4090d897e57bcf6fc0">FromType</a> (const CompatibleT &amp;compatible)</td></tr>
+<tr class="memdesc:a4d457ec04938ed4090d897e57bcf6fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load from any type that is some formulation of a length d array of type T.  <a href="#a4d457ec04938ed4090d897e57bcf6fc0">More...</a><br/></td></tr>
+<tr class="separator:a4d457ec04938ed4090d897e57bcf6fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd24e035da5aa80b83e2f00301a44455"><td class="memTemplParams" colspan="2">template&lt;typename CompatibleT &gt; </td></tr>
+<tr class="memitem:abd24e035da5aa80b83e2f00301a44455"><td class="memTemplItemLeft" align="right" valign="top">static CompatibleT&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_vector.html#abd24e035da5aa80b83e2f00301a44455">ToType</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, d &gt; &amp;v)</td></tr>
+<tr class="memdesc:abd24e035da5aa80b83e2f00301a44455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load into any type that is some formulation of a length d array of type T.  <a href="#abd24e035da5aa80b83e2f00301a44455">More...</a><br/></td></tr>
+<tr class="separator:abd24e035da5aa80b83e2f00301a44455"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9446ed021acaf11fcdb87e0f79b7c81"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_vector.html#ab9446ed021acaf11fcdb87e0f79b7c81">DotProduct</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, d &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, d &gt; &amp;v2)</td></tr>
 <tr class="memdesc:ab9446ed021acaf11fcdb87e0f79b7c81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the dot product of two vectors.  <a href="#ab9446ed021acaf11fcdb87e0f79b7c81">More...</a><br/></td></tr>
 <tr class="separator:ab9446ed021acaf11fcdb87e0f79b7c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1026,6 +1034,38 @@ template&lt;class T, int d&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The dot product of v1 and v2. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4d457ec04938ed4090d897e57bcf6fc0"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int d&gt; </div>
+<div class="memtemplate">
+template&lt;typename CompatibleT &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt;T, d&gt; <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, d &gt;::FromType </td>
+          <td>(</td>
+          <td class="paramtype">const CompatibleT &amp;&#160;</td>
+          <td class="paramname"><em>compatible</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load from any type that is some formulation of a length d array of type T. </p>
+<p>Essentially this is just a type cast and a load, but it happens safely so that we avoid aliasing bugs.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>compatible</code> cast to <code><a class="el" href="classmathfu_1_1_vector.html" title="Vector of d elements with type T. ">Vector</a>&lt;T,d&gt;</code> and dereferenced. </dd></dl>
 
 </div>
 </div>
@@ -2200,6 +2240,38 @@ template&lt;class T, int d&gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="abd24e035da5aa80b83e2f00301a44455"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int d&gt; </div>
+<div class="memtemplate">
+template&lt;typename CompatibleT &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CompatibleT <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, d &gt;::ToType </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, d &gt; &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load into any type that is some formulation of a length d array of type T. </p>
+<p>Essentially this is just a type cast and a load, but it happens safely so that we avoid aliasing bugs.</p>
+<dl class="section return"><dt>Returns</dt><dd><code>v</code> cast to <code>CompatibleT</code> and dereferenced. </dd></dl>
 
 </div>
 </div>

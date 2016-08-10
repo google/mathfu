@@ -10,5 +10,6 @@ var group__mathfu__utilities =
     [ "RandomRange", "group__mathfu__utilities.html#ga05cf3a54dc3caff077e77f389a69b663", null ],
     [ "RoundUpToPowerOf2", "group__mathfu__utilities.html#ga1155e2799e7718523a586a8357bf57ba", null ],
     [ "RoundUpToPowerOf2", "group__mathfu__utilities.html#ga587cf64c5adb1c3e80937e4f57eedb90", null ],
-    [ "RoundUpToPowerOf2", "group__mathfu__utilities.html#ga587a55a31b463475c43e87d38e8fae54", null ]
+    [ "RoundUpToPowerOf2", "group__mathfu__utilities.html#ga587a55a31b463475c43e87d38e8fae54", null ],
+    [ "RoundUpToTypeBoundary", "group__mathfu__utilities.html#ga34afef8da358155564f0720477c82802", null ]
 ];

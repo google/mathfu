@@ -10,7 +10,7 @@ var group__mathfu__quaternion =
       [ "FromMatrix", "classmathfu_1_1_quaternion.html#afedab9d5094058f445f1be76d01677fa", null ],
       [ "Inverse", "classmathfu_1_1_quaternion.html#a80357a821d4fd9b1f73a786e9b2dba83", null ],
       [ "Normalize", "classmathfu_1_1_quaternion.html#ad7549fad2e276ba21ce3b762b7bd1afb", null ],
-      [ "Normalized", "classmathfu_1_1_quaternion.html#a5872d532154605ea15cc6edcdc9d3eba", null ],
+      [ "Normalized", "classmathfu_1_1_quaternion.html#ade5fcbf7f2e1396c020764fcce2e3cff", null ],
       [ "operator*", "classmathfu_1_1_quaternion.html#a21761a73c011375ac4107d53c0e73c27", null ],
       [ "operator*", "classmathfu_1_1_quaternion.html#ab258760722fb1f93eea77eb77eb89b47", null ],
       [ "operator*", "classmathfu_1_1_quaternion.html#a4484153adc4e0eee6bfc26dafece4877", null ],

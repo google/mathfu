@@ -22,5 +22,6 @@ var utilities_8h =
     [ "RandomRange", "utilities_8h.html#ga05cf3a54dc3caff077e77f389a69b663", null ],
     [ "RoundUpToPowerOf2", "utilities_8h.html#ga1155e2799e7718523a586a8357bf57ba", null ],
     [ "RoundUpToPowerOf2", "utilities_8h.html#ga587cf64c5adb1c3e80937e4f57eedb90", null ],
+    [ "RoundUpToTypeBoundary", "utilities_8h.html#ga34afef8da358155564f0720477c82802", null ],
     [ "kMathFuVersionString", "utilities_8h.html#ga09ce08a2c7712d36f2347113bc81c400", null ]
 ];

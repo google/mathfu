@@ -258,7 +258,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:abe3232cb695f7aa145f47eeed3c93a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create 4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from 4, 4 element vectors.  <a href="#abe3232cb695f7aa145f47eeed3c93a87">More...</a><br/></td></tr>
 <tr class="separator:abe3232cb695f7aa145f47eeed3c93a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdd4de580761509ae4ec25fb33c95eb0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#acdd4de580761509ae4ec25fb33c95eb0">Matrix</a> (const T *const a)</td></tr>
-<tr class="memdesc:acdd4de580761509ae4ec25fb33c95eb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> form the first row * column elements of an array.  <a href="#acdd4de580761509ae4ec25fb33c95eb0">More...</a><br/></td></tr>
+<tr class="memdesc:acdd4de580761509ae4ec25fb33c95eb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from the first row * column elements of an array.  <a href="#acdd4de580761509ae4ec25fb33c95eb0">More...</a><br/></td></tr>
 <tr class="separator:acdd4de580761509ae4ec25fb33c95eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e7441936d30ee25ed0cd22d2157e945"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a9e7441936d30ee25ed0cd22d2157e945">Matrix</a> (const <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; T, rows &gt; *const vectors)</td></tr>
 <tr class="memdesc:a9e7441936d30ee25ed0cd22d2157e945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from an array of "columns", "rows" element packed vectors.  <a href="#a9e7441936d30ee25ed0cd22d2157e945">More...</a><br/></td></tr>
@@ -347,6 +347,14 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:aed942b1bd70ae1f50a156fb21475c2ee"><td class="memTemplParams" colspan="2">template&lt;typename CompatibleT &gt; </td></tr>
+<tr class="memitem:aed942b1bd70ae1f50a156fb21475c2ee"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, rows, columns &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#aed942b1bd70ae1f50a156fb21475c2ee">FromType</a> (const CompatibleT &amp;compatible)</td></tr>
+<tr class="memdesc:aed942b1bd70ae1f50a156fb21475c2ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load from any byte-wise compatible external matrix.  <a href="#aed942b1bd70ae1f50a156fb21475c2ee">More...</a><br/></td></tr>
+<tr class="separator:aed942b1bd70ae1f50a156fb21475c2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a606f6bbb132636106d3d7b9989185f57"><td class="memTemplParams" colspan="2">template&lt;typename CompatibleT &gt; </td></tr>
+<tr class="memitem:a606f6bbb132636106d3d7b9989185f57"><td class="memTemplItemLeft" align="right" valign="top">static CompatibleT&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a606f6bbb132636106d3d7b9989185f57">ToType</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, rows, columns &gt; &amp;m)</td></tr>
+<tr class="memdesc:a606f6bbb132636106d3d7b9989185f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load into any byte-wise compatible external matrix.  <a href="#a606f6bbb132636106d3d7b9989185f57">More...</a><br/></td></tr>
+<tr class="separator:a606f6bbb132636106d3d7b9989185f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64995f331c2dd3bf41be1050cde3948e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, rows, columns &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a64995f331c2dd3bf41be1050cde3948e">OuterProduct</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, rows &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, columns &gt; &amp;v2)</td></tr>
 <tr class="memdesc:a64995f331c2dd3bf41be1050cde3948e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the outer product of two Vectors.  <a href="#a64995f331c2dd3bf41be1050cde3948e">More...</a><br/></td></tr>
 <tr class="separator:a64995f331c2dd3bf41be1050cde3948e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -401,9 +409,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e19810f2eda583a6b74b85e1d51fc8f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a7e19810f2eda583a6b74b85e1d51fc8f">LookAt</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;at, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;eye, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;up, T handedness=-1)</td></tr>
 <tr class="memdesc:a7e19810f2eda583a6b74b85e1d51fc8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 3-dimensional camera <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#a7e19810f2eda583a6b74b85e1d51fc8f">More...</a><br/></td></tr>
 <tr class="separator:a7e19810f2eda583a6b74b85e1d51fc8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8981fa32f374a236a6095cc5c15c54a0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a8981fa32f374a236a6095cc5c15c54a0">UnProject</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; window_coord, const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; model_view, const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; projection, const float window_width, const float window_height)</td></tr>
-<tr class="memdesc:a8981fa32f374a236a6095cc5c15c54a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 3D position in object space from a window coordinate.  <a href="#a8981fa32f374a236a6095cc5c15c54a0">More...</a><br/></td></tr>
-<tr class="separator:a8981fa32f374a236a6095cc5c15c54a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6696b06450f3a9adff85a85e568a7db"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#ab6696b06450f3a9adff85a85e568a7db">UnProject</a> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;window_coord, const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; &amp;model_view, const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; &amp;projection, const float window_width, const float window_height)</td></tr>
+<tr class="memdesc:ab6696b06450f3a9adff85a85e568a7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 3D position in object space from a window coordinate.  <a href="#ab6696b06450f3a9adff85a85e568a7db">More...</a><br/></td></tr>
+<tr class="separator:ab6696b06450f3a9adff85a85e568a7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -1011,7 +1019,7 @@ template&lt;class T, int rows, int columns&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Create a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> form the first row * column elements of an array. </p>
+<p>Create a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from the first row * column elements of an array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>Array of values that the matrix will be iniitlized to. </td></tr>
@@ -1231,6 +1239,46 @@ template&lt;class T, int rows, int columns&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> containing the result. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aed942b1bd70ae1f50a156fb21475c2ee"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int rows, int columns&gt; </div>
+<div class="memtemplate">
+template&lt;typename CompatibleT &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt;T, rows, columns&gt; <a class="el" href="classmathfu_1_1_matrix.html">mathfu::Matrix</a>&lt; T, rows, columns &gt;::FromType </td>
+          <td>(</td>
+          <td class="paramtype">const CompatibleT &amp;&#160;</td>
+          <td class="paramname"><em>compatible</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load from any byte-wise compatible external matrix. </p>
+<p>Format should be <code>columns</code> vectors, each holding <code>rows</code> values of type T.</p>
+<p>Use this for safe conversion from external matrix classes. Often, external libraries will have their own matrix types that are, byte-for-byte, exactly the same as <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">mathfu::Matrix</a>. This function allows you to load a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">mathfu::Matrix</a> from those external types, without potential aliasing bugs that are caused by casting.</p>
+<dl class="section note"><dt>Note</dt><dd>If your external type gives you access to a T*, then you can equivalently use the <a class="el" href="classmathfu_1_1_matrix.html#acdd4de580761509ae4ec25fb33c95eb0" title="Create a Matrix from the first row * column elements of an array. ">Matrix(const T*)</a> constructor.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">compatible</td><td>reference to a byte-wise compatible matrix structure; array of columns x rows Ts. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>compatible</code> loaded as a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">mathfu::Matrix</a>. </dd></dl>
 
 </div>
 </div>
@@ -2644,6 +2692,45 @@ template&lt;class T, int rows, int columns&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a606f6bbb132636106d3d7b9989185f57"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int rows, int columns&gt; </div>
+<div class="memtemplate">
+template&lt;typename CompatibleT &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CompatibleT <a class="el" href="classmathfu_1_1_matrix.html">mathfu::Matrix</a>&lt; T, rows, columns &gt;::ToType </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, rows, columns &gt; &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load into any byte-wise compatible external matrix. </p>
+<p>Format should be <code>columns</code> vectors, each holding <code>rows</code> values of type T.</p>
+<p>Use this for safe conversion to external matrix classes. Often, external libraries will have their own matrix types that are, byte-for-byte, exactly the same as <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">mathfu::Matrix</a>. This function allows you to load an external type from a <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">mathfu::Matrix</a>, without potential aliasing bugs that are caused by casting.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>reference to <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">mathfu::Matrix</a> to convert. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>CompatibleT loaded from m. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aecfb06ed6c6b67876aa78e89c74a0562"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2730,7 +2817,7 @@ template&lt;class T, int rows, int columns&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a8981fa32f374a236a6095cc5c15c54a0"></a>
+<a class="anchor" id="ab6696b06450f3a9adff85a85e568a7db"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -2742,19 +2829,19 @@ template&lt;class T, int rows, int columns&gt; </div>
         <tr>
           <td class="memname">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt;T, 3&gt; <a class="el" href="classmathfu_1_1_matrix.html">mathfu::Matrix</a>&lt; T, rows, columns &gt;::UnProject </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;&#160;</td>
           <td class="paramname"><em>window_coord</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; &amp;&#160;</td>
           <td class="paramname"><em>model_view</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 4 &gt; &amp;&#160;</td>
           <td class="paramname"><em>projection</em>, </td>
         </tr>
         <tr>
