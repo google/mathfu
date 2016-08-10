@@ -440,6 +440,15 @@ inline int32_t RoundUpToPowerOf2<>(int32_t x) {
   return x;
 }
 
+/// @brief Round a value up to the type's size boundary.
+///
+/// @param v Value to round up.
+/// @returns Value rounded up to the type's size boundary.
+template <typename T>
+uint32_t RoundUpToTypeBoundary(uint32_t v) {
+  return (v + sizeof(T) - 1) & ~(sizeof(T) - 1);
+}
+
 /// @}
 
 /// @addtogroup mathfu_allocator

@@ -264,7 +264,8 @@ template <class T>
 void Normalize_Test(const T& precision) {
   mathfu::Quaternion<T> quat_1(static_cast<T>(12), static_cast<T>(0),
                                static_cast<T>(0), static_cast<T>(0));
-  mathfu::Quaternion<T> normalized_quat_1 = quat_1.Normalized();
+  const mathfu::Quaternion<T> const_quat_1 = quat_1;
+  const mathfu::Quaternion<T> normalized_quat_1 = const_quat_1.Normalized();
   quat_1.Normalize();
   mathfu::Quaternion<T> reference_quat_1(static_cast<T>(1), static_cast<T>(0),
                                          static_cast<T>(0), static_cast<T>(0));

@@ -24,7 +24,7 @@ get_filename_component(
 # If the dependencies directory exists, assume this is the root directory for
 # all libraries required by this project. Cache the value so that it can
 # be overridden by the parent project or a configuration variable.
-set(dependencies_root "${CMAKE_SOURCE_DIR}/dependencies" CACHE PATH
+set(dependencies_root "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" CACHE PATH
     "Directory holding the dependencies pulled from github.")
 if(EXISTS "${dependencies_root}")
   set(third_party_root "${dependencies_root}")
@@ -104,8 +104,10 @@ function(mathfu_configure_flags target)
         CMAKE_COMPILER_IS_CLANGXX)
       target_compile_options(${target} PRIVATE -msse4.1)
     endif()
-    # Enable SSE2 by default when building with MSVC.
-    if(MSVC)
+    # Enable SSE2 by default when building with MSVC for 32-bit targets.
+    # Note that SSE2 is enabled by default for 64-bit targets, and the
+    # compile option will generate an "unknown option" warning.
+    if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
       target_compile_options(${target} PRIVATE /arch:SSE2)
     endif()
     # Conditionally enable padding.

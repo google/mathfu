@@ -129,6 +129,12 @@ static inline bool UnProjectHelper(const Vector<T, 3>& window_coord,
                                    const float window_width,
                                    const float window_height,
                                    Vector<T, 3>& result);
+
+template <typename T, int rows, int columns, typename CompatibleT>
+static inline Matrix<T, rows, columns> FromTypeHelper(const CompatibleT& compatible);
+
+template <typename T, int rows, int columns, typename CompatibleT>
+static inline CompatibleT ToTypeHelper(const Matrix<T, rows, columns>& m);
 /// @endcond
 
 /// @addtogroup mathfu_matrix
@@ -270,7 +276,7 @@ class Matrix {
     data_[3] = column3;
   }
 
-  /// @brief Create a Matrix form the first row * column elements of an array.
+  /// @brief Create a Matrix from the first row * column elements of an array.
   ///
   /// @param a Array of values that the matrix will be iniitlized to.
   explicit inline Matrix(const T* const a) {
@@ -560,6 +566,44 @@ class Matrix {
   inline Vector<T, 3> TranslationVector3D() const {
     MATHFU_STATIC_ASSERT(rows == 4 && columns == 4);
     return Vector<T, 3>(data_[3][0], data_[3][1], data_[3][2]);
+  }
+
+  /// @brief Load from any byte-wise compatible external matrix.
+  ///
+  /// Format should be `columns` vectors, each holding `rows` values of type T.
+  ///
+  /// Use this for safe conversion from external matrix classes.
+  /// Often, external libraries will have their own matrix types that are,
+  /// byte-for-byte, exactly the same as mathfu::Matrix. This function allows
+  /// you to load a mathfu::Matrix from those external types, without potential
+  /// aliasing bugs that are caused by casting.
+  ///
+  /// @note If your external type gives you access to a T*, then you can
+  ///       equivalently use the Matrix(const T*) constructor.
+  ///
+  /// @param compatible reference to a byte-wise compatible matrix structure;
+  ///                   array of columns x rows Ts.
+  /// @returns `compatible` loaded as a mathfu::Matrix.
+  template <typename CompatibleT>
+  static inline Matrix<T, rows, columns> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<T, rows, columns, CompatibleT>(compatible);
+  }
+
+  /// @brief Load into any byte-wise compatible external matrix.
+  ///
+  /// Format should be `columns` vectors, each holding `rows` values of type T.
+  ///
+  /// Use this for safe conversion to external matrix classes.
+  /// Often, external libraries will have their own matrix types that are,
+  /// byte-for-byte, exactly the same as mathfu::Matrix. This function allows
+  /// you to load an external type from a mathfu::Matrix, without potential
+  /// aliasing bugs that are caused by casting.
+  ///
+  /// @param m reference to mathfu::Matrix to convert.
+  /// @returns CompatibleT loaded from m.
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Matrix<T, rows, columns>& m) {
+    return ToTypeHelper<T, rows, columns, CompatibleT>(m);
   }
 
   /// @brief Calculate the outer product of two Vectors.
@@ -1365,7 +1409,7 @@ static void LookAtHelperCalculateAxes(const Vector<T, 3>& at,
 
   // Default calculation is left-handed (i.e. handedness=-1).
   // Negate x and z axes for right-handed (i.e. handedness=+1) case.
-  const float neg = -handedness;
+  const T neg = -handedness;
   axes[0] *= neg;
   axes[2] *= neg;
 }
@@ -1419,6 +1463,64 @@ static inline bool UnProjectHelper(const Vector<T, 3>& window_coord,
   }
   result = multiply.xyz() / multiply.w();
   return true;
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+template <typename T, int rows, int columns, typename CompatibleT>
+static inline Matrix<T, rows, columns> FromTypeHelper(const CompatibleT& compatible) {
+// C++11 is required for constructed unions.
+#if __cplusplus >= 201103L
+  // Use a union instead of reinterpret_cast to avoid aliasing bugs.
+  union ConversionUnion {
+    ConversionUnion() {}  // C++11.
+    CompatibleT compatible;
+    VectorPacked<T, rows> packed[columns];
+  } u;
+  static_assert(sizeof(u.compatible) == sizeof(u.packed), "Conversion size mismatch.");
+
+  // The read of `compatible` and write to `u.compatible` gets optimized away,
+  // and this becomes essentially a safe reinterpret_cast.
+  u.compatible = compatible;
+
+  // Call the packed vector constructor with the `compatible` data.
+  return Matrix<T, rows, columns>(u.packed);
+#else
+  // Use the less-desirable memcpy technique if C++11 is not available.
+  // Most compilers understand memcpy deep enough to avoid replace the function
+  // call with a series of load/stores, which should then get optimized away,
+  // however in the worst case the optimize away may not happen.
+  // Note: Memcpy avoids aliasing bugs because it operates via unsigned char*,
+  // which is allowed to alias any type.
+  // See:
+  // http://stackoverflow.com/questions/15745030/type-punning-with-void-without-breaking-the-strict-aliasing-rule-in-c99
+  Matrix<T, rows, columns> m;
+  assert(sizeof(m) == sizeof(compatible));
+  memcpy(&m, &compatible, sizeof(m));
+  return m;
+#endif  // __cplusplus >= 201103L
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+template <typename T, int rows, int columns, typename CompatibleT>
+static inline CompatibleT ToTypeHelper(const Matrix<T, rows, columns>& m) {
+// See FromTypeHelper() for comments.
+#if __cplusplus >= 201103L
+  union ConversionUnion {
+    ConversionUnion() {}
+    CompatibleT compatible;
+    VectorPacked<T, rows> packed[columns];
+  } u;
+  static_assert(sizeof(u.compatible) == sizeof(u.packed), "Conversion size mismatch.");
+  m.Pack(&u.packed);
+  return u.compatible;
+#else
+  CompatibleT compatible;
+  assert(sizeof(m) == sizeof(compatible));
+  memcpy(&compatible, &m, sizeof(compatible));
+  return compatible;
+#endif  // __cplusplus >= 201103L
 }
 /// @endcond
 

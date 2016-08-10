@@ -64,9 +64,7 @@ class Vector<float, 4> {
     data_.simd = simd4f_create(s1, s2, s3, s4);
   }
 
-  explicit inline Vector(const float* v) {
-    data_.simd = simd4f_create(v[0], v[1], v[2], v[3]);
-  }
+  explicit inline Vector(const float* v) { data_.simd = simd4f_uload4(v); }
 
   inline Vector(const Vector<float, 3>& vector3, const float& value) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
@@ -232,6 +230,16 @@ class Vector<float, 4> {
 
   inline Vector<float, 4> Normalized() const {
     return Vector<float, 4>(simd4f_normalize4(data_.simd));
+  }
+
+  template <typename CompatibleT>
+  static inline Vector<float, 4> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<float, 4, CompatibleT>(compatible);
+  }
+
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Vector<float, 4>& v) {
+    return ToTypeHelper<float, 4, CompatibleT>(v);
   }
 
   static inline float DotProduct(const Vector<float, 4>& v1,

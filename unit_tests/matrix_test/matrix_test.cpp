@@ -26,6 +26,7 @@
 #include "gtest/gtest.h"
 
 #include "precision.h"
+static const float kUnProjectFloatPrecision = 0.0012f;
 static const double kLookAtDoublePrecision = 1e-8;
 class MatrixTests : public ::testing::Test {
  protected:
@@ -663,10 +664,13 @@ void LookAt_Test(const T& precision) {
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(0, 0, 0), mathfu::Vector<T, 3>(1, 1, 1),
           mathfu::Vector<T, 3>(0, 1, 0), -1),
-      mathfu::Matrix<T, 4, 4>(-0.707106781,-0.408248290, -0.577350269, 0,
-                              0,            0.816496580, -0.577350269, 0,
-                              0.707106781, -0.408248290, -0.577350269, 0,
-                              0,            0,            1.732050808, 1),
+      mathfu::Matrix<T, 4, 4>(
+          static_cast<T>(-0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(-0.577350269), 0,
+          0, static_cast<T>(0.816496580), static_cast<T>(-0.577350269), 0,
+          static_cast<T>(0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(-0.577350269), 0,
+          0, 0, static_cast<T>(1.732050808), 1),
     },
     {
       "origin along z",
@@ -713,10 +717,13 @@ void LookAt_Test(const T& precision) {
       mathfu::Matrix<T, 4, 4>::LookAt(
           mathfu::Vector<T, 3>(0, 0, 0), mathfu::Vector<T, 3>(1, 1, 1),
           mathfu::Vector<T, 3>(0, 1, 0), 1),
-      mathfu::Matrix<T, 4, 4>(0.707106781,-0.408248290, 0.577350269, 0,
-                              0,           0.816496581, 0.577350269, 0,
-                             -0.707106781,-0.408248290, 0.577350269, 0,
-                               0,          0,          -1.732050808, 1),
+      mathfu::Matrix<T, 4, 4>(
+          static_cast<T>(0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(0.577350269), 0,
+          0, static_cast<T>(0.816496581), static_cast<T>(0.577350269), 0,
+          static_cast<T>(-0.707106781), static_cast<T>(-0.408248290),
+              static_cast<T>(0.577350269), 0,
+          0, 0, static_cast<T>(-1.732050808), 1),
     },
     {
       "right-handed origin along z",
@@ -766,26 +773,28 @@ void LookAt_Test(const T& precision) {
 TEST_SCALAR_F(LookAt, FLOAT_PRECISION, kLookAtDoublePrecision);
 
 // Test UnProject calculation.
-TEST_F(MatrixTests, UnProjectTest) {
+template <class T>
+void UnProject_Test(const T& precision) {
   // clang-format off
-  mathfu::Matrix<float, 4, 4> modelView = 
-      mathfu::Matrix<float, 4, 4>(-1, 0,   0, 0,
-                                   0, 1,   0, 0,
-                                   0, 0,  -1, 0,
-                                   0, 0, -10, 1);
-  mathfu::Matrix<float, 4, 4> projection = 
-      mathfu::Matrix<float, 4, 4> (1.81066,          0,            0,  0,
-                                         0, 2.41421342,            0,  0,
-                                         0,          0,  -1.00001991, -1,
-                                         0,          0, -0.200001985,  0);
+  mathfu::Matrix<T, 4, 4> modelView =
+      mathfu::Matrix<T, 4, 4>(-1, 0,                   0, 0,
+                               0, 1,                   0, 0,
+                               0, 0,                  -1, 0,
+                               0, 0, static_cast<T>(-10), 1);
+  mathfu::Matrix<T, 4, 4> projection =
+      mathfu::Matrix<T, 4, 4>(
+          static_cast<T>(1.81066),  0,                            0,   0,
+                        0, static_cast<T>(2.41421342),            0,   0,
+                        0,          0,   static_cast<T>(-1.00001991), -1,
+                        0,          0,  static_cast<T>(-0.200001985),  0);
   // clang-format on
-  mathfu::Vector<float, 3> result = mathfu::Matrix<float, 4, 4>::UnProject(
-      mathfu::Vector<float, 3>(754, 1049, 1), modelView, projection, 1600,
-      1200);
-  EXPECT_NEAR(result.x(), 318.650543, FLOAT_PRECISION);
-  EXPECT_NEAR(result.y(), 3110.3056640625, FLOAT_PRECISION);
-  EXPECT_NEAR(result.z(), 10024.19140625, FLOAT_PRECISION);
+  mathfu::Vector<T, 3> result = mathfu::Matrix<T, 4, 4>::UnProject(
+      mathfu::Vector<T, 3>(754, 1049, 1), modelView, projection, 1600, 1200);
+  EXPECT_NEAR(result.x(), 319.00242400912055, 300.0 * precision);
+  EXPECT_NEAR(result.y(), 3113.7409399625253, 3000.0 * precision);
+  EXPECT_NEAR(result.z(), 10035.303114023569, 10000.0 * precision);
 }
+TEST_SCALAR_F(UnProject, kUnProjectFloatPrecision, DOUBLE_PRECISION);
 
 // Test matrix transposition.
 template <class T, int d>
@@ -1066,6 +1075,70 @@ TEST_F(MatrixTests, MatrixSample) {
   EXPECT_NEAR(10.11f, rotatedVector[1], precision);
   EXPECT_NEAR(4.74f, rotatedVector[2], precision);
 }
+
+// Simple class that represents a possible compatible type for a vector.
+// That is, it's just an array of T of length d, so can be loaded and
+// stored from mathfu::Vector<T,d> using ToType() and FromType().
+template <class T, int d>
+struct SimpleMatrix {
+  T values[d * d];
+};
+
+// This will test the FromType() conversion functions.
+template <class T, int d>
+void FromType_Test(const T& precision) {
+  typedef SimpleMatrix<T, d> CompatibleT;
+  typedef mathfu::Matrix<T, d> MatrixT;
+
+  CompatibleT compatible;
+  for (int i = 0; i < d * d; ++i) {
+    compatible.values[i] = static_cast<T>(i * precision);
+  }
+
+#ifdef MATHFU_COMPILE_WITH_PADDING
+  // With padding, vec3s take up 4-floats worth of memory, so byte-wise
+  // conversion won't work.
+  if (sizeof(CompatibleT) != sizeof(MatrixT)) {
+    EXPECT_EQ(d, 3);
+    return;
+  }
+#endif  // MATHFU_COMPILE_WITH_PADDING
+
+  const MatrixT matrix = MatrixT::FromType(compatible);
+
+  for (int i = 0; i < d * d; ++i) {
+    EXPECT_EQ(compatible.values[i], matrix[i]);
+  }
+}
+TEST_ALL_F(FromType, 0.0f, 0.0);
+
+// This will test the ToType() conversion functions.
+template <class T, int d>
+void ToType_Test(const T& precision) {
+  typedef SimpleMatrix<T, d> CompatibleT;
+  typedef mathfu::Matrix<T, d> MatrixT;
+
+  MatrixT matrix;
+  for (int i = 0; i < d * d; ++i) {
+    matrix[i] = static_cast<T>(i * precision);
+  }
+
+#ifdef MATHFU_COMPILE_WITH_PADDING
+  // With padding, vec3s take up 4-floats worth of memory, so byte-wise
+  // conversion won't work.
+  if (sizeof(CompatibleT) != sizeof(MatrixT)) {
+    EXPECT_EQ(d, 3);
+    return;
+  }
+#endif  // MATHFU_COMPILE_WITH_PADDING
+
+  const CompatibleT compatible = MatrixT::template ToType<CompatibleT>(matrix);
+
+  for (int i = 0; i < d * d; ++i) {
+    EXPECT_EQ(compatible.values[i], matrix[i]);
+  }
+}
+TEST_ALL_F(ToType, 0.0f, 0.0);
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);

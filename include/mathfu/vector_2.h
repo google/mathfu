@@ -56,9 +56,7 @@ class Vector<float, 2> {
     data_.simd = simd2f_create(s1, s2);
   }
 
-  explicit inline Vector(const float* v) {
-    data_.simd = simd2f_create(v[0], v[1]);
-  }
+  explicit inline Vector(const float* v) { data_.simd = simd2f_uload2(v); }
 
   explicit inline Vector(const VectorPacked<float, 2>& vector) {
     data_.simd = simd2f_uload2(vector.data);
@@ -189,6 +187,16 @@ class Vector<float, 2> {
 
   inline Vector<float, 2> Normalized() const {
     return Vector<float, 2>(simd2f_normalize2(data_.simd));
+  }
+
+  template <typename CompatibleT>
+  static inline Vector<float, 2> FromType(const CompatibleT& compatible) {
+    return FromTypeHelper<float, 2, CompatibleT>(compatible);
+  }
+
+  template <typename CompatibleT>
+  static inline CompatibleT ToType(const Vector<float, 2>& v) {
+    return ToTypeHelper<float, 2, CompatibleT>(v);
   }
 
   static inline float DotProduct(const Vector<float, 2>& v1,
