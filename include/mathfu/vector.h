@@ -898,4 +898,12 @@ inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d>& v) {
 #pragma clang diagnostic pop
 #endif
 
+// Include the specializations to avoid template errors.
+// For example, if you include vector.h, use Vector<float, 3>, and then
+// include vector_3.h, you the compiler will generate an error since you're
+// specializing something that has already been instantiated.
+#include "mathfu/internal/vector_2_simd.h"
+#include "mathfu/internal/vector_3_simd.h"
+#include "mathfu/internal/vector_4_simd.h"
+
 #endif  // MATHFU_VECTOR_H_

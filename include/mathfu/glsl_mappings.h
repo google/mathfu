@@ -17,12 +17,8 @@
 #define MATHFU_GLSL_MAPPINGS_H_
 
 #include "mathfu/matrix.h"
-#include "mathfu/matrix_4x4.h"
 #include "mathfu/quaternion.h"
 #include "mathfu/vector.h"
-#include "mathfu/vector_2.h"
-#include "mathfu/vector_3.h"
-#include "mathfu/vector_4.h"
 
 /// @file mathfu/glsl_mappings.h
 /// @brief GLSL compatible data types.

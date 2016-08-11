@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#include "mathfu/vector_3.h"
+#include "mathfu/vector.h"
 #include "mathfu/utilities.h"
 
 #include <math.h>

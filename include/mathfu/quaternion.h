@@ -23,7 +23,7 @@
 #endif                     // _WIN32
 
 #include "mathfu/matrix.h"
-#include "mathfu/vector_3.h"
+#include "mathfu/vector.h"
 
 #include <math.h>
 

@@ -15,9 +15,6 @@
 */
 #include "mathfu/vector.h"
 #include "mathfu/constants.h"
-#include "mathfu/vector_2.h"
-#include "mathfu/vector_3.h"
-#include "mathfu/vector_4.h"
 
 #include "gtest/gtest.h"
 
