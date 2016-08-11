@@ -20,8 +20,6 @@ var searchData=
   ['vector_2eh',['vector.h',['../vector_8h.html',1,'']]],
   ['vector_3c_20t_2c_203_20_3e',['Vector&lt; T, 3 &gt;',['../classmathfu_1_1_vector.html',1,'mathfu']]],
   ['vector_3c_20t_2c_20rows_20_3e',['Vector&lt; T, rows &gt;',['../classmathfu_1_1_vector.html',1,'mathfu']]],
-  ['vector_5f2_2eh',['vector_2.h',['../vector__2_8h.html',1,'']]],
-  ['vector_5f3_2eh',['vector_3.h',['../vector__3_8h.html',1,'']]],
   ['vector_5f4_2eh',['vector_4.h',['../vector__4_8h.html',1,'']]],
   ['vectorpacked',['VectorPacked',['../structmathfu_1_1_vector_packed.html',1,'mathfu']]],
   ['vectorpacked',['VectorPacked',['../structmathfu_1_1_vector_packed.html#a0d0aa440c0ca6e9209af1aa9ea77a602',1,'mathfu::VectorPacked::VectorPacked()'],['../structmathfu_1_1_vector_packed.html#a1c342acd4eaa5fba51920480e5d9e07e',1,'mathfu::VectorPacked::VectorPacked(const Vector&lt; T, d &gt; &amp;vector)']]]
