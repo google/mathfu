@@ -1510,7 +1510,7 @@ static inline CompatibleT ToTypeHelper(const Matrix<T, rows, columns>& m) {
     VectorPacked<T, rows> packed[columns];
   } u;
   static_assert(sizeof(u.compatible) == sizeof(u.packed), "Conversion size mismatch.");
-  m.Pack(&u.packed);
+  m.Pack(u.packed);
   return u.compatible;
 #else
   CompatibleT compatible;
