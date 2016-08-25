@@ -43,7 +43,7 @@ you would leave it in.
 
   [Android]: http://www.android.com
   [Linux]: http://en.m.wikipedia.org/wiki/Linux
-  [MathFu Google Group]: http://group.google.com/group/mathfulib
+  [MathFu Google Group]: https://groups.google.com/forum/#!forum/mathfulib
   [MathFu Issues Tracker]: http://github.com/google/mathfu/issues
   [OS X]: http://www.apple.com/osx/
   [OpenGL]: http://www.opengl.org/
