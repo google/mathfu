@@ -1363,7 +1363,7 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
 template <class T>
 inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness) {
-  const T y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
+  const T y = 1 / std::tan(fovy * static_cast<T>(.5));
   const T x = y / aspect;
   const T zdist = (znear - zfar);
   const T zfar_per_zdist = zfar / zdist;

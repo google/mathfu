@@ -13,8 +13,14 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8)
 
+set_compiler_flags_for_external_libraries()
 add_subdirectory(${dependencies_gtest_dir} googletest)
+restore_compiler_flags()
+
 set(gtest_incdir ${dependencies_gtest_dir}/include)
+if(EXISTS "${dependencies_gtest_dir}/../../third_party")
+  set(gtest_hack_incdir "${dependencies_gtest_dir}/../..")
+endif()
 set(gtest_libdir ${dependencies_gtest_dir})
 
 # Include helper functions and macros used by Google Test.
@@ -27,8 +33,10 @@ string(REPLACE "-Wextra" "" cxx_default "${cxx_default}")
 # This is the directory into which the executables are built.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-include_directories(${gtest_incdir} ${CMAKE_CURRENT_LIST_DIR}
-                                    ${CMAKE_CURRENT_LIST_DIR}/..)
+include_directories(${gtest_incdir}
+                    ${gtest_hack_incdir}
+                    ${CMAKE_CURRENT_LIST_DIR}
+                    ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # Common libraries for tests.
 if(NOT MSVC)

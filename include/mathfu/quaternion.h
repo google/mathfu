@@ -196,12 +196,12 @@ class Quaternion {
     if (cos2 < 1e-6f) {
       return Vector<T, 3>(0, m[2] < 0 ? static_cast<T>(0.5 * M_PI)
                                       : static_cast<T>(-0.5 * M_PI),
-                          -atan2(m[3], m[4]));
+                          -std::atan2(m[3], m[4]));
     } else {
-      return Vector<T, 3>(atan2(m[5], m[8]), atan2(-m[2], sqrt(cos2)),
-                          atan2(m[1], m[0]));
-    }
-  }
+      return Vector<T, 3>(std::atan2(m[5], m[8]),
+                          std::atan2(-m[2], std::sqrt(cos2)),
+                          std::atan2(m[1], m[0]));
+    }  }
 
   /// @brief Convert to a 3x3 Matrix.
   ///
@@ -249,9 +249,12 @@ class Quaternion {
     const Vector<T, 3> halfAngles(static_cast<T>(0.5) * angles[0],
                                   static_cast<T>(0.5) * angles[1],
                                   static_cast<T>(0.5) * angles[2]);
-    const T sinx = sin(halfAngles[0]), cosx = cos(halfAngles[0]);
-    const T siny = sin(halfAngles[1]), cosy = cos(halfAngles[1]);
-    const T sinz = sin(halfAngles[2]), cosz = cos(halfAngles[2]);
+    const T sinx = std::sin(halfAngles[0]);
+    const T cosx = std::cos(halfAngles[0]);
+    const T siny = std::sin(halfAngles[1]);
+    const T cosy = std::cos(halfAngles[1]);
+    const T sinz = std::sin(halfAngles[2]);
+    const T cosz = std::cos(halfAngles[2]);
     return Quaternion<T>(cosx * cosy * cosz + sinx * siny * sinz,
                          sinx * cosy * cosz - cosx * siny * sinz,
                          cosx * siny * cosz + sinx * cosy * sinz,
