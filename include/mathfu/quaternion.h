@@ -138,7 +138,7 @@ class Quaternion {
     ToAngleAxis(&angle, &axis);
     angle *= s1;
     return Quaternion<T>(cos(0.5f * angle),
-                         axis.Normalized() * sin(0.5f * angle));
+                         axis.Normalized() * static_cast<T>(sin(0.5f * angle)));
   }
 
   /// @brief Multiply a Vector by this Quaternion.
@@ -236,8 +236,9 @@ class Quaternion {
   static Quaternion<T> FromAngleAxis(const T& angle, const Vector<T, 3>& axis) {
     const T halfAngle = static_cast<T>(0.5) * angle;
     Vector<T, 3> localAxis(axis);
-    return Quaternion<T>(cos(halfAngle),
-                         localAxis.Normalized() * sin(halfAngle));
+    return Quaternion<T>(
+        cos(halfAngle),
+        localAxis.Normalized() * static_cast<T>(sin(halfAngle)));
   }
 
   /// @brief Create a quaternion from 3 euler angles.

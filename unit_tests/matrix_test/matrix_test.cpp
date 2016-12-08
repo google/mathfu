@@ -790,9 +790,9 @@ void UnProject_Test(const T& precision) {
   // clang-format on
   mathfu::Vector<T, 3> result = mathfu::Matrix<T, 4, 4>::UnProject(
       mathfu::Vector<T, 3>(754, 1049, 1), modelView, projection, 1600, 1200);
-  EXPECT_NEAR(result.x(), 319.00242400912055, 300.0 * precision);
-  EXPECT_NEAR(result.y(), 3113.7409399625253, 3000.0 * precision);
-  EXPECT_NEAR(result.z(), 10035.303114023569, 10000.0 * precision);
+  EXPECT_NEAR(result.x, 319.00242400912055, 300.0 * precision);
+  EXPECT_NEAR(result.y, 3113.7409399625253, 3000.0 * precision);
+  EXPECT_NEAR(result.z, 10035.303114023569, 10000.0 * precision);
 }
 TEST_SCALAR_F(UnProject, kUnProjectFloatPrecision, DOUBLE_PRECISION);
 

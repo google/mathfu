@@ -16,8 +16,8 @@
 #ifndef MATHFU_VECTOR_3_SIMD_H_
 #define MATHFU_VECTOR_3_SIMD_H_
 
+#include "mathfu/internal/vector_3.h"
 #include "mathfu/utilities.h"
-#include "mathfu/vector.h"
 
 #include <math.h>
 
@@ -40,19 +40,19 @@
 /// not.
 #ifdef MATHFU_COMPILE_WITH_PADDING
 #define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
-  { data.simd = simd_to_store; }
-#define MATHFU_VECTOR3_LOAD3(data) data.simd
+  { (data).simd = simd_to_store; }
+#define MATHFU_VECTOR3_LOAD3(data) (data).simd
 #define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
-  { data.simd = simd4f_create(v1, v2, v3, 0); }
+  { (data).simd = simd4f_create(v1, v2, v3, 0); }
 #else
 #define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
-  { simd4f_ustore3(simd_to_store, data.float_array); }
-#define MATHFU_VECTOR3_LOAD3(data) simd4f_uload3(data.float_array)
+  { simd4f_ustore3(simd_to_store, (data).data_); }
+#define MATHFU_VECTOR3_LOAD3(data) simd4f_uload3((data).data_)
 #define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
   {                                            \
-    data.float_array[0] = v1;                  \
-    data.float_array[1] = v2;                  \
-    data.float_array[2] = v3;                  \
+    (data).data_[0] = v1;                      \
+    (data).data_[1] = v2;                      \
+    (data).data_[2] = v3;                      \
   }
 #endif  // MATHFU_COMPILE_WITH_PADDING
 /// @endcond
@@ -71,169 +71,151 @@ class Vector<float, 3> {
 
   inline Vector(const Vector<float, 3>& v) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    data_.simd = v.data_.simd;
+    simd = v.simd;
 #else
-    MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
+    MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   explicit inline Vector(const Vector<int, 3>& v) {
-    MATHFU_VECTOR3_INIT3(data_, static_cast<float>(v[0]),
+    MATHFU_VECTOR3_INIT3(*this, static_cast<float>(v[0]),
                          static_cast<float>(v[1]), static_cast<float>(v[2]));
   }
 
-  inline Vector(const simd4f& v) { MATHFU_VECTOR3_STORE3(v, data_); }
+  inline Vector(const simd4f& v) { MATHFU_VECTOR3_STORE3(v, *this); }
 
   explicit inline Vector(const float& s) {
-    MATHFU_VECTOR3_INIT3(data_, s, s, s);
+    MATHFU_VECTOR3_INIT3(*this, s, s, s);
   }
 
   inline Vector(const float& v1, const float& v2, const float& v3) {
-    MATHFU_VECTOR3_INIT3(data_, v1, v2, v3);
+    MATHFU_VECTOR3_INIT3(*this, v1, v2, v3);
   }
 
   inline Vector(const Vector<float, 2>& v12, const float& v3) {
-    MATHFU_VECTOR3_INIT3(data_, v12.x(), v12.y(), v3);
+    MATHFU_VECTOR3_INIT3(*this, v12[0], v12[1], v3);
   }
 
   explicit inline Vector(const float* v) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    data_.simd = simd4f_uload3(v);
+    simd = simd4f_uload3(v);
 #else
-    MATHFU_VECTOR3_INIT3(data_, v[0], v[1], v[2]);
+    MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   explicit inline Vector(const VectorPacked<float, 3>& vector) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    data_.simd = simd4f_uload3(vector.data);
+    simd = simd4f_uload3(vector.data);
 #else
-    MATHFU_VECTOR3_INIT3(data_, vector.data[0], vector.data[1], vector.data[2]);
+    MATHFU_VECTOR3_INIT3(*this, vector.data[0], vector.data[1], vector.data[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
-  inline float& operator()(const int i) { return data_.float_array[i]; }
+  inline float& operator()(const int i) { return data_[i]; }
 
-  inline const float& operator()(const int i) const {
-    return data_.float_array[i];
-  }
+  inline const float& operator()(const int i) const { return data_[i]; }
 
-  inline float& operator[](const int i) { return data_.float_array[i]; }
+  inline float& operator[](const int i) { return data_[i]; }
 
-  inline const float& operator[](const int i) const {
-    return data_.float_array[i];
-  }
-
-  inline float& x() { return (*this)[0]; }
-  inline float& y() { return (*this)[1]; }
-  inline float& z() { return (*this)[2]; }
-
-  inline const float& x() const { return (*this)[0]; }
-  inline const float& y() const { return (*this)[1]; }
-  inline const float& z() const { return (*this)[2]; }
+  inline const float& operator[](const int i) const { return data_[i]; }
 
   /// GLSL style multi-component accessors.
-  inline Vector<float, 2> xy() { return Vector<float, 2>(x(), y()); }
-  inline const Vector<float, 2> xy() const {
-    return Vector<float, 2>(x(), y());
-  }
+  inline Vector<float, 2> xy() { return Vector<float, 2>(x, y); }
+  inline const Vector<float, 2> xy() const { return Vector<float, 2>(x, y); }
 
   inline void Pack(VectorPacked<float, 3>* const vector) const {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd4f_ustore3(data_.simd, vector->data);
+    simd4f_ustore3(simd, vector->data);
 #else
-    vector->data[0] = data_.float_array[0];
-    vector->data[1] = data_.float_array[1];
-    vector->data[2] = data_.float_array[2];
+    vector->data[0] = data_[0];
+    vector->data[1] = data_[1];
+    vector->data[2] = data_[2];
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   inline Vector<float, 3> operator-() const {
     return Vector<float, 3>(
-        simd4f_sub(simd4f_zero(), MATHFU_VECTOR3_LOAD3(data_)));
+        simd4f_sub(simd4f_zero(), MATHFU_VECTOR3_LOAD3(*this)));
   }
 
   inline Vector<float, 3> operator*(const Vector<float, 3>& v) const {
     return Vector<float, 3>(
-        simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_)));
+        simd4f_mul(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v)));
   }
 
   inline Vector<float, 3> operator/(const Vector<float, 3>& v) const {
     return Vector<float, 3>(
-        simd4f_div(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_)));
+        simd4f_div(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v)));
   }
 
   inline Vector<float, 3> operator+(const Vector<float, 3>& v) const {
     return Vector<float, 3>(
-        simd4f_add(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_)));
+        simd4f_add(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v)));
   }
 
   inline Vector<float, 3> operator-(const Vector<float, 3>& v) const {
     return Vector<float, 3>(
-        simd4f_sub(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_)));
+        simd4f_sub(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v)));
   }
 
   inline Vector<float, 3> operator*(const float& s) const {
     return Vector<float, 3>(
-        simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s)));
+        simd4f_mul(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator/(const float& s) const {
     return Vector<float, 3>(
-        simd4f_div(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s)));
+        simd4f_div(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator+(const float& s) const {
     return Vector<float, 3>(
-        simd4f_add(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s)));
+        simd4f_add(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s)));
   }
 
   inline Vector<float, 3> operator-(const float& s) const {
     return Vector<float, 3>(
-        simd4f_sub(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s)));
+        simd4f_sub(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s)));
   }
 
   inline Vector<float, 3>& operator*=(const Vector<float, 3>& v) {
-    *this =
-        simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v));
     return *this;
   }
 
   inline Vector<float, 3>& operator/=(const Vector<float, 3>& v) {
-    *this =
-        simd4f_div(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_));
+    *this = simd4f_div(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v));
     return *this;
   }
 
   inline Vector<float, 3>& operator+=(const Vector<float, 3>& v) {
-    *this =
-        simd4f_add(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_));
+    *this = simd4f_add(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v));
     return *this;
   }
 
   inline Vector<float, 3>& operator-=(const Vector<float, 3>& v) {
-    *this =
-        simd4f_sub(MATHFU_VECTOR3_LOAD3(data_), MATHFU_VECTOR3_LOAD3(v.data_));
+    *this = simd4f_sub(MATHFU_VECTOR3_LOAD3(*this), MATHFU_VECTOR3_LOAD3(v));
     return *this;
   }
 
   inline Vector<float, 3>& operator*=(const float& s) {
-    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s));
     return *this;
   }
 
   inline Vector<float, 3>& operator/=(const float& s) {
-    *this = simd4f_div(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
+    *this = simd4f_div(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s));
     return *this;
   }
 
   inline Vector<float, 3>& operator+=(const float& s) {
-    *this = simd4f_add(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
+    *this = simd4f_add(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s));
     return *this;
   }
 
   inline Vector<float, 3>& operator-=(const float& s) {
-    *this = simd4f_sub(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(s));
+    *this = simd4f_sub(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(s));
     return *this;
   }
 
@@ -249,22 +231,22 @@ class Vector<float, 3> {
   }
 
   inline float LengthSquared() const {
-    return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(data_),
-                              MATHFU_VECTOR3_LOAD3(data_));
+    return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(*this),
+                              MATHFU_VECTOR3_LOAD3(*this));
   }
 
   inline float Length() const {
-    return simd4f_get_x(simd4f_length3(MATHFU_VECTOR3_LOAD3(data_)));
+    return simd4f_get_x(simd4f_length3(MATHFU_VECTOR3_LOAD3(*this)));
   }
 
   inline float Normalize() {
     const float length = Length();
-    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(data_), simd4f_splat(1 / length));
+    *this = simd4f_mul(MATHFU_VECTOR3_LOAD3(*this), simd4f_splat(1 / length));
     return length;
   }
 
   inline Vector<float, 3> Normalized() const {
-    return Vector<float, 3>(simd4f_normalize3(MATHFU_VECTOR3_LOAD3(data_)));
+    return Vector<float, 3>(simd4f_normalize3(MATHFU_VECTOR3_LOAD3(*this)));
   }
 
   template <typename CompatibleT>
@@ -279,20 +261,20 @@ class Vector<float, 3> {
 
   static inline float DotProduct(const Vector<float, 3>& v1,
                                  const Vector<float, 3>& v2) {
-    return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(v1.data_),
-                              MATHFU_VECTOR3_LOAD3(v2.data_));
+    return simd4f_dot3_scalar(MATHFU_VECTOR3_LOAD3(v1),
+                              MATHFU_VECTOR3_LOAD3(v2));
   }
 
   static inline Vector<float, 3> CrossProduct(const Vector<float, 3>& v1,
                                               const Vector<float, 3>& v2) {
-    return Vector<float, 3>(simd4f_cross3(MATHFU_VECTOR3_LOAD3(v1.data_),
-                                          MATHFU_VECTOR3_LOAD3(v2.data_)));
+    return Vector<float, 3>(
+        simd4f_cross3(MATHFU_VECTOR3_LOAD3(v1), MATHFU_VECTOR3_LOAD3(v2)));
   }
 
   static inline Vector<float, 3> HadamardProduct(const Vector<float, 3>& v1,
                                                  const Vector<float, 3>& v2) {
-    return Vector<float, 3>(simd4f_mul(MATHFU_VECTOR3_LOAD3(v1.data_),
-                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+    return Vector<float, 3>(
+        simd4f_mul(MATHFU_VECTOR3_LOAD3(v1), MATHFU_VECTOR3_LOAD3(v2)));
   }
 
   static inline Vector<float, 3> Lerp(const Vector<float, 3>& v1,
@@ -301,11 +283,10 @@ class Vector<float, 3> {
     const Vector<float, 3> percentv(percent);
     const Vector<float, 3> one(1.0f);
     const Vector<float, 3> one_minus_percent = one - percentv;
-    return Vector<float, 3>(
-        simd4f_add(simd4f_mul(MATHFU_VECTOR3_LOAD3(one_minus_percent.data_),
-                              MATHFU_VECTOR3_LOAD3(v1.data_)),
-                   simd4f_mul(MATHFU_VECTOR3_LOAD3(percentv.data_),
-                              MATHFU_VECTOR3_LOAD3(v2.data_))));
+    return Vector<float, 3>(simd4f_add(
+        simd4f_mul(MATHFU_VECTOR3_LOAD3(one_minus_percent),
+                   MATHFU_VECTOR3_LOAD3(v1)),
+        simd4f_mul(MATHFU_VECTOR3_LOAD3(percentv), MATHFU_VECTOR3_LOAD3(v2))));
   }
 
   /// Generates a random vector, where the range for each component is
@@ -320,8 +301,8 @@ class Vector<float, 3> {
   static inline Vector<float, 3> Max(const Vector<float, 3>& v1,
                                      const Vector<float, 3>& v2) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    return Vector<float, 3>(simd4f_max(MATHFU_VECTOR3_LOAD3(v1.data_),
-                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+    return Vector<float, 3>(
+        simd4f_max(MATHFU_VECTOR3_LOAD3(v1), MATHFU_VECTOR3_LOAD3(v2)));
 #else
     return Vector<float, 3>(std::max(v1[0], v2[0]), std::max(v1[1], v2[1]),
                             std::max(v1[2], v2[2]));
@@ -331,8 +312,8 @@ class Vector<float, 3> {
   static inline Vector<float, 3> Min(const Vector<float, 3>& v1,
                                      const Vector<float, 3>& v2) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    return Vector<float, 3>(simd4f_min(MATHFU_VECTOR3_LOAD3(v1.data_),
-                                       MATHFU_VECTOR3_LOAD3(v2.data_)));
+    return Vector<float, 3>(
+        simd4f_min(MATHFU_VECTOR3_LOAD3(v1), MATHFU_VECTOR3_LOAD3(v2)));
 #else
     return Vector<float, 3>(std::min(v1[0], v2[0]), std::min(v1[1], v2[1]),
                             std::min(v1[2], v2[2]));
@@ -346,15 +327,27 @@ class Vector<float, 3> {
 
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
- private:
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpedantic"
+#endif  // defined(__clang__)
   union {
 #ifdef MATHFU_COMPILE_WITH_PADDING
     simd4f simd;
-    float float_array[4];
+    float data_[4];
 #else
-    float float_array[3];
+    float data_[3];
 #endif  // MATHFU_COMPILE_WITH_PADDING
-  } data_;
+
+    struct {
+      float x;
+      float y;
+      float z;
+    };
+  };
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif  // defined(__clang__)
 };
 /// @endcond
 #endif  // MATHFU_COMPILE_WITH_SIMD

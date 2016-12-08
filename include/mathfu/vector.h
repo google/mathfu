@@ -228,8 +228,8 @@ class Vector {
   /// @param s3 Scalar value for the third element of the vector.
   inline Vector(const Vector<T, 2>& v12, const T& s3) {
     MATHFU_STATIC_ASSERT(d == 3);
-    data_[0] = v12.x();
-    data_[1] = v12.y();
+    data_[0] = v12[0];
+    data_[1] = v12[1];
     data_[2] = s3;
   }
 
@@ -272,10 +272,10 @@ class Vector {
   /// @param v34 Vector containing the last 2 values.
   inline Vector(const Vector<T, 2>& v12, const Vector<T, 2>& v34) {
     MATHFU_STATIC_ASSERT(d == 4);
-    data_[0] = v12.x();
-    data_[1] = v12.y();
-    data_[2] = v34.x();
-    data_[3] = v34.y();
+    data_[0] = v12[0];
+    data_[1] = v12[1];
+    data_[2] = v34[0];
+    data_[3] = v34[1];
   }
 
   /// @brief Create a vector from packed vector (VectorPacked).
@@ -311,48 +311,6 @@ class Vector {
   /// @return A const reference to the accessed.
   inline const T& operator[](const int i) const { return data_[i]; }
 
-  /// Get the first element (X axis) of the Vector.
-  inline T& x() {
-    MATHFU_STATIC_ASSERT(d > 0);
-    return data_[0];
-  }
-  /// Get the second element (Y axis) of the Vector.
-  inline T& y() {
-    MATHFU_STATIC_ASSERT(d > 1);
-    return data_[1];
-  }
-  /// Get the third element (Z axis) of the Vector.
-  inline T& z() {
-    MATHFU_STATIC_ASSERT(d > 2);
-    return data_[2];
-  }
-  /// Get the fourth element (W axis) of the Vector.
-  inline T& w() {
-    MATHFU_STATIC_ASSERT(d > 3);
-    return data_[3];
-  }
-
-  /// Get the first element (X axis) of the Vector.
-  inline const T& x() const {
-    MATHFU_STATIC_ASSERT(d > 0);
-    return data_[0];
-  }
-  /// Get the second element (Y axis) of the Vector.
-  inline const T& y() const {
-    MATHFU_STATIC_ASSERT(d > 1);
-    return data_[1];
-  }
-  /// Get the third element (Z axis) of the Vector.
-  inline const T& z() const {
-    MATHFU_STATIC_ASSERT(d > 2);
-    return data_[2];
-  }
-  /// Get the fourth element (W axis) of the Vector.
-  inline const T& w() const {
-    MATHFU_STATIC_ASSERT(d > 3);
-    return data_[3];
-  }
-
   /// @brief GLSL style 3 element accessor.
   ///
   /// This only works with vectors that contain more than 3 elements.
@@ -360,7 +318,7 @@ class Vector {
   // this Vector.
   inline Vector<T, 3> xyz() {
     MATHFU_STATIC_ASSERT(d > 3);
-    return Vector<T, 3>(x(), y(), z());
+    return Vector<T, 3>(data_[0], data_[1], data_[2]);
   }
 
   /// @brief GLSL style 3 element accessor.
@@ -370,7 +328,7 @@ class Vector {
   // this Vector.
   inline const Vector<T, 3> xyz() const {
     MATHFU_STATIC_ASSERT(d > 3);
-    return Vector<T, 3>(x(), y(), z());
+    return Vector<T, 3>(data_[0], data_[1], data_[2]);
   }
 
   /// @brief GLSL style 2 element accessor.
@@ -379,7 +337,7 @@ class Vector {
   /// @returns A 2-dimensional Vector with the first 2 elements of this Vector.
   inline Vector<T, 2> xy() {
     MATHFU_STATIC_ASSERT(d > 2);
-    return Vector<T, 2>(x(), y());
+    return Vector<T, 2>(data_[0], data_[1]);
   }
 
   /// @brief GLSL style 2 element accessor.
@@ -388,7 +346,7 @@ class Vector {
   /// @returns A 2-dimensional Vector with the first 2 elements of this Vector.
   inline const Vector<T, 2> xy() const {
     MATHFU_STATIC_ASSERT(d > 2);
-    return Vector<T, 2>(x(), y());
+    return Vector<T, 2>(data_[0], data_[1]);
   }
 
   /// @brief GLSL style 2 element accessor.
@@ -397,7 +355,7 @@ class Vector {
   /// @returns A 2-dimensional Vector with the last 2 elements of this Vector.
   inline Vector<T, 2> zw() {
     MATHFU_STATIC_ASSERT(d == 4);
-    return Vector<T, 2>(z(), w());
+    return Vector<T, 2>(data_[2], data_[3]);
   }
 
   /// @brief GLSL style 2 element accessor.
@@ -406,7 +364,7 @@ class Vector {
   /// @returns A 2-dimensional Vector with the last 2 elements of this Vector.
   inline const Vector<T, 2> zw() const {
     MATHFU_STATIC_ASSERT(d == 4);
-    return Vector<T, 2>(z(), w());
+    return Vector<T, 2>(data_[2], data_[3]);
   }
 
   /// @brief Pack a Vector to a packed "d" element vector structure.
@@ -416,186 +374,25 @@ class Vector {
     MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
   }
 
-  /// @brief Compare 2 Vectors of the same size for equality.
-  ///
-  /// @note: The likelyhood of two float values being the same is very small.
-  /// Instead consider comparing the difference between two float vectors using
-  /// LengthSquared() with an epsilon value.
-  /// For example, v1.LengthSquared(v2) < epsilon.
-  ///
-  /// @return true if the 2 vectors contains the same value, false otherwise.
-  inline bool operator==(const Vector<T, d>& v) const {
-    for (int i = 0; i < d; ++i) {
-      if ((*this)[i] != v[i]) return false;
-    }
-    return true;
-  }
-
-  /// @brief Compare 2 Vectors of the same size for inequality.
-  ///
-  /// @return true if the elements of two vectors differ, false otherwise.
-  inline bool operator!=(const Vector<T, d>& v) const { return !operator==(v); }
-
-  /// @brief Negate all elements of the Vector.
-  ///
-  /// @return A new Vector containing the result.
-  inline Vector<T, d> operator-() const { MATHFU_VECTOR_OPERATOR(-data_[i]); }
-
-  /// @brief Multiply this Vector by another Vector.
-  ///
-  /// In line with GLSL, this performs component-wise multiplication.
-  /// @param v A Vector to multiply this Vector with.
-  /// @return A new Vector containing the result.
-  inline Vector<T, d> operator*(const Vector<T, d>& v) const {
-    return HadamardProduct(*this, v);
-  }
-
-  /// @brief Divide this Vector by another Vector.
-  ///
-  /// In line with GLSL, this performs component-wise division.
-  /// @param v A Vector to divide this Vector by.
-  /// @return A new Vector containing the result.
-  inline Vector<T, d> operator/(const Vector<T, d>& v) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] / v[i]);
-  }
-
-  /// @brief Add this Vector with another Vector.
-  ///
-  /// @param v A vector to add this vector with.
-  /// @return A new vector containing the result.
-  inline Vector<T, d> operator+(const Vector<T, d>& v) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] + v[i]);
-  }
-
-  /// @brief Add this Vector with another Vector.
-  ///
-  /// @param v A vector to subtract from this vector.
-  /// @return A new vector containing the result.
-  inline Vector<T, d> operator-(const Vector<T, d>& v) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] - v[i]);
-  }
-
-  /// @brief Multiply this Vector with a scalar.
-  ///
-  /// @param s A scalar to multiply this vector with.
-  /// @return A new vector containing the result.
-  inline Vector<T, d> operator*(const T& s) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] * s);
-  }
-
-  /// @brief Divide this Vector by a scalar.
-  ///
-  /// @param s A scalar to divide this vector with.
-  /// @return A new vector containing the result.
-  inline Vector<T, d> operator/(const T& s) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] / s);
-  }
-
-  /// @brief Add a scalar to all elements of this Vector.
-  ///
-  /// @param s A scalar to add to this vector.
-  /// @return A new vector containing the result.
-  inline Vector<T, d> operator+(const T& s) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] + s);
-  }
-
-  /// @brief Subtract a scalar from all elements of this vector.
-  ///
-  /// @param s A scalar to subtract from this vector.
-  /// @return A new vector that stores the result.
-  inline Vector<T, d> operator-(const T& s) const {
-    MATHFU_VECTOR_OPERATOR(data_[i] - s);
-  }
-
-  /// @brief Multiply (in-place) this Vector with another Vector.
-  ///
-  /// In line with GLSL, this performs component-wise multiplication.
-  /// @param v A vector to multiply this vector with.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator*=(const Vector<T, d>& v) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] *= v[i]);
-  }
-
-  /// @brief Divide (in-place) this Vector by another Vector.
-  ///
-  /// In line with GLSL, this performs component-wise division.
-  /// @param v A vector to divide this vector by.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator/=(const Vector<T, d>& v) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] /= v[i]);
-  }
-
-  /// @brief Add (in-place) this Vector with another Vector.
-  ///
-  /// @param v A vector to add this vector with.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator+=(const Vector<T, d>& v) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] += v[i]);
-  }
-
-  /// @brief Subtract (in-place) another Vector from this Vector.
-  ///
-  /// @param v A vector to subtract this vector by.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator-=(const Vector<T, d>& v) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] -= v[i]);
-  }
-
-  /// @brief Multiply (in-place) each element of this Vector with a scalar.
-  ///
-  /// @param s A scalar to multiply this vector with.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator*=(const T& s) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] *= s);
-  }
-
-  /// @brief Divide (in-place) each element of this Vector by a scalar.
-  ///
-  /// @param s A scalar to divide this vector by.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator/=(const T& s) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] /= s);
-  }
-
-  /// @brief Add (in-place) a scalar to each element of this Vector.
-  ///
-  /// @param s A scalar to add this vector to.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator+=(const T& s) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] += s);
-  }
-
-  /// @brief Subtract (in-place) a scalar from each element of this Vector.
-  ///
-  /// @param s A scalar to subtract from this vector.
-  /// @return A reference to this class.
-  inline Vector<T, d>& operator-=(const T& s) {
-    MATHFU_VECTOR_SELF_OPERATOR(data_[i] -= s);
-  }
-
   /// @brief Calculate the squared length of this vector.
   ///
   /// @return The length of this vector squared.
-  inline T LengthSquared() const { return DotProduct(*this, *this); }
+  inline T LengthSquared() const { return LengthSquaredHelper(*this); }
 
   /// @brief Calculate the length of this vector.
   ///
   /// @return The length of this vector.
-  inline T Length() const { return sqrt(LengthSquared()); }
+  inline T Length() const { return LengthHelper(*this); }
 
   /// @brief Normalize this vector in-place.
   ///
   /// @return The length of this vector.
-  inline T Normalize() {
-    const T length = Length();
-    *this = *this * (1 / length);
-    return length;
-  }
+  inline T Normalize() { return NormalizeHelper(*this); }
 
   /// @brief Calculate the normalized version of this vector.
   ///
   /// @return The normalized vector.
-  inline Vector<T, d> Normalized() const { return *this * (1 / Length()); }
+  inline Vector<T, d> Normalized() const { return NormalizedHelper(*this); }
 
   /// @brief Load from any type that is some formulation of a length d array of
   ///        type T.
@@ -637,7 +434,7 @@ class Vector {
   /// @return The hadamard product of v1 and v2.
   static inline Vector<T, d> HadamardProduct(const Vector<T, d>& v1,
                                              const Vector<T, d>& v2) {
-    MATHFU_VECTOR_OPERATOR(v1[i] * v2[i]);
+    return HadamardProductHelper(v1, v2);
   }
 
   /// @brief Calculate the cross product of two vectors.
@@ -648,9 +445,7 @@ class Vector {
   /// @return The cross product of v1 and v2.
   static inline Vector<T, 3> CrossProduct(const Vector<T, 3>& v1,
                                           const Vector<T, 3>& v2) {
-    return Vector<T, 3>(v1[1] * v2[2] - v1[2] * v2[1],
-                        v1[2] * v2[0] - v1[0] * v2[2],
-                        v1[0] * v2[1] - v1[1] * v2[0]);
+    return CrossProductHelper(v1, v2);
   }
 
   /// @brief Linearly interpolate two vectors.
@@ -661,8 +456,7 @@ class Vector {
   /// @return The hadamard product of v1 and v2.
   static inline Vector<T, d> Lerp(const Vector<T, d>& v1,
                                   const Vector<T, d>& v2, const T percent) {
-    const T one_minus_percent = static_cast<T>(1.0) - percent;
-    MATHFU_VECTOR_OPERATOR(one_minus_percent * v1[i] + percent * v2[i]);
+    return LerpHelper(v1, v2, percent);
   }
 
   /// @brief Generates a random vector.
@@ -672,10 +466,7 @@ class Vector {
   /// @param max Maximum value of the vector.
   static inline Vector<T, d> RandomInRange(const Vector<T, d>& min,
                                            const Vector<T, d>& max) {
-    Vector<T, d> result;
-    MATHFU_VECTOR_OPERATION(result[i] =
-                                mathfu::RandomInRange<T>(min[i], max[i]));
-    return result;
+    return RandomInRangeHelper(min, max);
   }
 
   /// @brief Compare each component and returns max values.
@@ -685,9 +476,7 @@ class Vector {
   /// @return Max value of v1 and v2.
   static inline Vector<T, d> Max(const Vector<T, d>& v1,
                                  const Vector<T, d>& v2) {
-    Vector<T, d> result;
-    MATHFU_VECTOR_OPERATION(result[i] = std::max(v1[i], v2[i]));
-    return result;
+    return MaxHelper(v1, v2);
   }
 
   /// @brief Compare each component and returns min values.
@@ -697,14 +486,11 @@ class Vector {
   /// @return Min value of v1 and v2.
   static inline Vector<T, d> Min(const Vector<T, d>& v1,
                                  const Vector<T, d>& v2) {
-    Vector<T, d> result;
-    MATHFU_VECTOR_OPERATION(result[i] = std::min(v1[i], v2[i]));
-    return result;
+    return MinHelper(v1, v2);
   }
 
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
- private:
   /// Elements of the vector.
   T data_[d];
 };
@@ -712,6 +498,38 @@ class Vector {
 
 /// @addtogroup mathfu_vector
 /// @{
+
+/// @brief Compare 2 Vectors of the same size for equality.
+///
+/// @note: The likelyhood of two float values being the same is very small.
+/// Instead consider comparing the difference between two float vectors using
+/// LengthSquared() with an epsilon value.
+/// For example, v1.LengthSquared(v2) < epsilon.
+///
+/// @return true if the 2 vectors contains the same value, false otherwise.
+template <class T, int d>
+inline bool operator==(const Vector<T, d>& lhs, const Vector<T, d>& rhs) {
+  for (int i = 0; i < d; ++i) {
+    if (lhs[i] != rhs[i]) return false;
+  }
+  return true;
+}
+
+/// @brief Compare 2 Vectors of the same size for inequality.
+///
+/// @return true if the elements of two vectors differ, false otherwise.
+template <class T, int d>
+inline bool operator!=(const Vector<T, d>& lhs, const Vector<T, d>& rhs) {
+  return !(lhs == rhs);
+}
+
+/// @brief Negate all elements of the Vector.
+///
+/// @return A new Vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator-(const Vector<T, d>& v) {
+  MATHFU_VECTOR_OPERATOR(-v.data_[i]);
+}
 
 /// @brief Multiply a Vector by a scalar.
 ///
@@ -723,7 +541,7 @@ class Vector {
 /// @related Vector
 template <class T, int d>
 inline Vector<T, d> operator*(const T& s, const Vector<T, d>& v) {
-  return v * s;
+  MATHFU_VECTOR_OPERATOR(v.data_[i] * s);
 }
 
 /// @brief Divide a Vector by a scalar.
@@ -736,7 +554,7 @@ inline Vector<T, d> operator*(const T& s, const Vector<T, d>& v) {
 /// @related Vector
 template <class T, int d>
 inline Vector<T, d> operator/(const Vector<T, d>& v, const T& s) {
-  return v / s;
+  MATHFU_VECTOR_OPERATOR(v.data_[i] / s);
 }
 
 /// @brief Add a scalar to each element of a Vector.
@@ -747,7 +565,7 @@ inline Vector<T, d> operator/(const Vector<T, d>& v, const T& s) {
 /// @related Vector
 template <class T, int d>
 inline Vector<T, d> operator+(const T& s, const Vector<T, d>& v) {
-  return v + s;
+  MATHFU_VECTOR_OPERATOR(v.data_[i] + s);
 }
 
 /// @brief Subtract a scalar from each element of a Vector.
@@ -758,7 +576,286 @@ inline Vector<T, d> operator+(const T& s, const Vector<T, d>& v) {
 /// @related Vector
 template <class T, int d>
 inline Vector<T, d> operator-(const T& s, const Vector<T, d>& v) {
-  return v - s;
+  MATHFU_VECTOR_OPERATOR(v.data_[i] - s);
+}
+
+/// @brief Multiply a vector by another Vector.
+///
+/// In line with GLSL, this performs component-wise multiplication.
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to multiply by.
+/// @return A new Vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator*(const Vector<T, d>& lhs,
+                              const Vector<T, d>& rhs) {
+  return HadamardProductHelper(lhs, rhs);
+}
+
+/// @brief Divide a vector by another Vector.
+///
+/// In line with GLSL, this performs component-wise division.
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to divide by.
+/// @return A new Vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator/(const Vector<T, d>& lhs,
+                              const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATOR(lhs.data_[i] / rhs[i]);
+}
+
+/// @brief Add a vector with another Vector.
+///
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to add by.
+/// @return A new vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator+(const Vector<T, d>& lhs,
+                              const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATOR(lhs.data_[i] + rhs[i]);
+}
+
+/// @brief subtract a vector with another Vector.
+///
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to subtract by.
+/// @return A new vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator-(const Vector<T, d>& lhs,
+                              const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATOR(lhs.data_[i] - rhs[i]);
+}
+
+/// @brief Multiply a vector with a scalar.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to multiply the vector with.
+/// @return A new vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator*(const Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATOR(v.data_[i] * s);
+}
+
+/// @brief Add a scalar to all elements of a vector.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to add to the vector.
+/// @return A new vector containing the result.
+template <class T, int d>
+inline Vector<T, d> operator+(const Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATOR(v.data_[i] + s);
+}
+
+/// @brief Subtract a scalar from all elements of a vector.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to subtract from a vector.
+/// @return A new vector that stores the result.
+template <class T, int d>
+inline Vector<T, d> operator-(const Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATOR(v.data_[i] - s);
+}
+
+/// @brief Multiply (in-place) a vector with another Vector.
+///
+/// In line with GLSL, this performs component-wise multiplication.
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to multiply by.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator*=(Vector<T, d>& lhs, const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATION(lhs.data_[i] *= rhs[i]);
+  return lhs;
+}
+
+/// @brief Divide (in-place) a vector by another Vector.
+///
+/// In line with GLSL, this performs component-wise division.
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to divide by.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator/=(Vector<T, d>& lhs, const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATION(lhs.data_[i] /= rhs[i]);
+  return lhs;
+}
+
+/// @brief Add (in-place) a vector with another Vector.
+///
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to add.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator+=(Vector<T, d>& lhs, const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATION(lhs.data_[i] += rhs[i]);
+  return lhs;
+}
+
+/// @brief Subtract (in-place) another Vector from a vector.
+///
+/// @param lhs First vector to use as a starting point.
+/// @param rhs Second vector to subtract by.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator-=(Vector<T, d>& lhs, const Vector<T, d>& rhs) {
+  MATHFU_VECTOR_OPERATION(lhs.data_[i] -= rhs[i]);
+  return lhs;
+}
+
+/// @brief Multiply (in-place) each element of a vector with a scalar.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to multiply the vector with.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator*=(Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATION(v.data_[i] *= s);
+  return v;
+}
+
+/// @brief Divide (in-place) each element of a vector by a scalar.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to divide the vector by.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator/=(Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATION(v.data_[i] /= s);
+  return v;
+}
+
+/// @brief Add (in-place) a scalar to each element of a vector.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to add the vector to.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator+=(Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATION(v.data_[i] += s);
+  return v;
+}
+
+/// @brief Subtract (in-place) a scalar from each element of a vector.
+///
+/// @param v Vector for the operation.
+/// @param s A scalar to subtract from the vector.
+/// @return A reference to the input <b>v</b> vector.
+template <class T, int d>
+inline Vector<T, d>& operator-=(Vector<T, d>& v, const T& s) {
+  MATHFU_VECTOR_OPERATION(v.data_[i] -= s);
+  return v;
+}
+
+/// @brief Calculate the hadamard or componentwise product of two vectors.
+///
+/// @param v1 First vector.
+/// @param v2 Second vector.
+/// @return The hadamard product of v1 and v2.
+template <class T, int d>
+inline Vector<T, d> HadamardProductHelper(const Vector<T, d>& v1,
+                                          const Vector<T, d>& v2) {
+  MATHFU_VECTOR_OPERATOR(v1[i] * v2[i]);
+}
+
+/// @brief Calculate the cross product of two vectors.
+///
+/// Note that this function is only defined for 3-dimensional Vectors.
+/// @param v1 First vector.
+/// @param v2 Second vector.
+/// @return The cross product of v1 and v2.
+template <class T>
+inline Vector<T, 3> CrossProductHelper(const Vector<T, 3>& v1,
+                                       const Vector<T, 3>& v2) {
+  return Vector<T, 3>(v1[1] * v2[2] - v1[2] * v2[1],
+                      v1[2] * v2[0] - v1[0] * v2[2],
+                      v1[0] * v2[1] - v1[1] * v2[0]);
+}
+
+/// @brief Calculate the squared length of a vector.
+///
+/// @param v Vector to get the squared length of.
+/// @return The length of the vector squared.
+template <class T, int d>
+inline T LengthSquaredHelper(const Vector<T, d>& v) {
+  return DotProductHelper(v, v);
+}
+
+/// @brief Calculate the length of a vector.
+///
+/// @param v Vector to get the squared length of.
+/// @return The length of the vector.
+template <class T, int d>
+inline T LengthHelper(const Vector<T, d>& v) {
+  return sqrt(LengthSquaredHelper(v));
+}
+
+/// @brief Normalize a vector in-place.
+///
+/// @param v Vector to get the squared length of.
+/// @return The length of the vector.
+template <class T, int d>
+inline T NormalizeHelper(Vector<T, d>& v) {
+  const T length = LengthHelper(v);
+  v *= (T(1) / length);
+  return length;
+}
+
+/// @brief Calculate the normalized version of a vector.
+///
+/// @param v Vector to get the squared length of.
+/// @return The normalized vector.
+template <class T, int d>
+inline Vector<T, d> NormalizedHelper(const Vector<T, d>& v) {
+  return v * (T(1) / LengthHelper(v));
+}
+
+/// @brief Linearly interpolate two vectors.
+///
+/// @param v1 First vector.
+/// @param v2 Second vector.
+/// @param percent Percentage from v1 to v2 in range 0.0...1.0.
+/// @return The hadamard product of v1 and v2.
+template <class T, int d>
+inline Vector<T, d> LerpHelper(const Vector<T, d>& v1, const Vector<T, d>& v2,
+                               const T percent) {
+  const T one_minus_percent = static_cast<T>(1.0) - percent;
+  MATHFU_VECTOR_OPERATOR(one_minus_percent * v1[i] + percent * v2[i]);
+}
+
+/// @brief Generates a random vector.
+///
+/// The range of each component is bounded by min and max.
+/// @param min Minimum value of the vector.
+/// @param max Maximum value of the vector.
+template <class T, int d>
+inline Vector<T, d> RandomInRangeHelper(const Vector<T, d>& min,
+                                        const Vector<T, d>& max) {
+  Vector<T, d> result;
+  MATHFU_VECTOR_OPERATION(result[i] = mathfu::RandomInRange<T>(min[i], max[i]));
+  return result;
+}
+
+/// @brief Compare each component and returns max values.
+///
+/// @param v1 First vector.
+/// @param v2 Second vector.
+/// @return Max value of v1 and v2.
+template <class T, int d>
+inline Vector<T, d> MaxHelper(const Vector<T, d>& v1, const Vector<T, d>& v2) {
+  Vector<T, d> result;
+  MATHFU_VECTOR_OPERATION(result[i] = std::max(v1[i], v2[i]));
+  return result;
+}
+
+/// @brief Compare each component and returns min values.
+///
+/// @param v1 First vector.
+/// @param v2 Second vector.
+/// @return Min value of v1 and v2.
+template <class T, int d>
+inline Vector<T, d> MinHelper(const Vector<T, d>& v1, const Vector<T, d>& v2) {
+  Vector<T, d> result;
+  MATHFU_VECTOR_OPERATION(result[i] = std::min(v1[i], v2[i]));
+  return result;
 }
 
 /// @brief Check if val is within [range_start..range_end), denoting a
@@ -774,8 +871,8 @@ template <class T>
 bool InRange2D(const mathfu::Vector<T, 2>& val,
                const mathfu::Vector<T, 2>& range_start,
                const mathfu::Vector<T, 2>& range_end) {
-  return InRange(val.x(), range_start.x(), range_end.x()) &&
-         InRange(val.y(), range_start.y(), range_end.y());
+  return InRange(val[0], range_start[0], range_end[0]) &&
+         InRange(val[1], range_start[1], range_end[1]);
 }
 
 /// @cond MATHFU_INTERNAL
@@ -829,7 +926,8 @@ static inline Vector<T, d> FromTypeHelper(const CompatibleT& compatible) {
     CompatibleT compatible;
     VectorPacked<T, d> packed;
   } u;
-  static_assert(sizeof(u.compatible) == d * sizeof(T), "Conversion size mismatch.");
+  static_assert(sizeof(u.compatible) == d * sizeof(T),
+                "Conversion size mismatch.");
 
   // The read of `compatible` and write to `u.compatible` gets optimized away,
   // and this becomes essentially a safe reinterpret_cast.
