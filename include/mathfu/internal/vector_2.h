@@ -117,10 +117,7 @@ class Vector<T, 2> {
 
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpedantic"
-#endif  // defined(__clang__)
+#include "mathfu/internal/disable_warnings_begin.h"
   union {
     T data_[2];
     struct {
@@ -128,9 +125,7 @@ class Vector<T, 2> {
       T y;
     };
   };
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif  // defined(__clang__)
+#include "mathfu/internal/disable_warnings_end.h"
 };
 
 template <class T>
@@ -154,10 +149,7 @@ struct VectorPacked<T, 2> {
     return *this;
   }
 
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpedantic"
-#endif  // defined(__clang__)
+#include "mathfu/internal/disable_warnings_begin.h"
   /// Elements of the packed vector one per dimension.
   union {
     T data[2];
@@ -166,9 +158,7 @@ struct VectorPacked<T, 2> {
       T y;
     };
   };
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif  // defined(__clang__)
+#include "mathfu/internal/disable_warnings_end.h"
 };
 
 }  //  namespace mathfu

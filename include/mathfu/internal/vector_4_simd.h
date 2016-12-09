@@ -262,10 +262,7 @@ class Vector<float, 4> {
 
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpedantic"
-#endif  // defined(__clang__)
+#include "mathfu/internal/disable_warnings_begin.h"
   union {
     simd4f simd;
     float data_[4];
@@ -276,9 +273,7 @@ class Vector<float, 4> {
       float w;
     };
   };
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif  // defined(__clang__)
+#include "mathfu/internal/disable_warnings_end.h"
 };
 /// @endcond
 #endif  // MATHFU_COMPILE_WITH_SIMD

@@ -990,12 +990,6 @@ inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d>& v) {
 
 }  // namespace mathfu
 
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#endif
-
 // Include the specializations to avoid template errors.
 // For example, if you include vector.h, use Vector<float, 3>, and then
 // include vector_3.h, you the compiler will generate an error since you're
@@ -1003,5 +997,11 @@ inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d>& v) {
 #include "mathfu/internal/vector_2_simd.h"
 #include "mathfu/internal/vector_3_simd.h"
 #include "mathfu/internal/vector_4_simd.h"
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 #endif  // MATHFU_VECTOR_H_
