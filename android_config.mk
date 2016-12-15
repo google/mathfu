@@ -12,26 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Locations of 3rd party and FPL libraries.
-THIRD_PARTY_ROOT:=$(MATHFU_DIR)/../../../../external
-FPL_ROOT:=$(MATHFU_DIR)/../../libs
-# If the dependencies directory exists either as a subdirectory or as the
-# container of this project directory, assume the dependencies directory is
-# the root directory for all libraries required by this project.
-$(foreach dep_dir,$(wildcard $(MATHFU_DIR)/dependencies) \
-                  $(wildcard $(MATHFU_DIR)/../../dependencies),\
-  $(eval DEPENDENCIES_ROOT?=$(dep_dir)))
-ifneq ($(DEPENDENCIES_ROOT),)
-  THIRD_PARTY_ROOT:=$(DEPENDENCIES_ROOT)
-  FPL_ROOT:=$(DEPENDENCIES_ROOT)
-endif
+FIND_FPLUTIL_OK_IF_NOT_FOUND:=1
+include $(call my-dir)/jni/find_fplutil.mk
 
-# Location of the vectorial library.
-DEPENDENCIES_VECTORIAL_DIR?=$(THIRD_PARTY_ROOT)/vectorial
-# Location of the googletest library.
-DEPENDENCIES_GTEST_DIR?=$(FPL_ROOT)/fplutil/libfplutil/jni/libs/googletest
-# Location of the fplutil library.
-DEPENDENCIES_FPLUTIL_DIR?=$(FPL_ROOT)/fplutil
+ifneq ($(FPLUTIL_DIR),)
+  # If fplutil is found, grab the project locations from it.
+  include $(FPLUTIL_DIR)/buildutil/android_common.mk
+
+else
+  # If fplutil is not found, assume project locations are in 'dependencies'
+  # or are set externally with the DEPENDENCIES_ROOT value.
+  #
+  # If the dependencies directory exists either as a subdirectory or as the
+  # container of this project directory, assume the dependencies directory is
+  # the root directory for all libraries required by this project.
+  $(foreach dep_dir,$(wildcard $(MATHFU_DIR)/dependencies) \
+                    $(wildcard $(MATHFU_DIR)/../../dependencies),\
+    $(eval DEPENDENCIES_ROOT?=$(dep_dir)))
+
+  ifeq ($(DEPENDENCIES_ROOT),)
+    $(error "Cannot find directory with dependent projects.")
+  endif
+
+  # Location of the vectorial library.
+  DEPENDENCIES_VECTORIAL_DIR?=$(DEPENDENCIES_ROOT)/vectorial
+  # Location of the googletest library.
+  DEPENDENCIES_GTEST_DIR?=$(DEPENDENCIES_ROOT)/fplutil/libfplutil/jni/libs/googletest
+  # Location of the fplutil library.
+  DEPENDENCIES_FPLUTIL_DIR?=$(DEPENDENCIES_ROOT)/fplutil
+endif
 
 # Whether to disable SIMD.
 MATHFU_DISABLE_SIMD?=0
