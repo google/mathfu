@@ -38,7 +38,7 @@ struct Rect {
   ///
   /// @param v Vector that the data will be copied from.
   explicit Rect(const Vector<T, 4>& v)
-      : pos(v.x, v.y), size(v.z, v.w) {}
+      : pos(v.x(), v.y()), size(v.z(), v.w()) {}
 
   /// @brief Create a rect from x, y, width and height values.
   ///
