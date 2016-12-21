@@ -194,14 +194,16 @@ class Quaternion {
     Matrix<T, 3> m(ToMatrix());
     T cos2 = m[0] * m[0] + m[1] * m[1];
     if (cos2 < 1e-6f) {
-      return Vector<T, 3>(0, m[2] < 0 ? static_cast<T>(0.5 * M_PI)
-                                      : static_cast<T>(-0.5 * M_PI),
-                          -std::atan2(m[3], m[4]));
+      return Vector<T, 3>(
+          0,
+          m[2] < 0 ? static_cast<T>(0.5 * M_PI) : static_cast<T>(-0.5 * M_PI),
+          -std::atan2(m[3], m[4]));
     } else {
       return Vector<T, 3>(std::atan2(m[5], m[8]),
                           std::atan2(-m[2], std::sqrt(cos2)),
                           std::atan2(m[1], m[0]));
-    }  }
+    }
+  }
 
   /// @brief Convert to a 3x3 Matrix.
   ///
@@ -289,6 +291,15 @@ class Quaternion {
       return Quaternion<T>((m[1] - m[3]) * oneOverS, (m[6] + m[2]) * oneOverS,
                            (m[5] + m[7]) * oneOverS, static_cast<T>(0.25) * s);
     }
+  }
+
+  /// @brief Calculate the dot product of two Quaternions.
+  ///
+  /// @param q1 First quaternion.
+  /// @param q2 Second quaternion
+  /// @return The scalar dot product of both Quaternions.
+  static inline T DotProduct(const Quaternion<T>& q1, const Quaternion<T>& q2) {
+    return q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_);
   }
 
   /// @brief Calculate the spherical linear interpolation between two

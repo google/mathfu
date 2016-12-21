@@ -259,6 +259,34 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult);
 
+// This will test the dot product of quaternions.
+template <class T>
+void Dot_Test(const T& precision) {
+  mathfu::Vector<T, 3> axis(static_cast<T>(4.3), static_cast<T>(7.6),
+                            static_cast<T>(1.2));
+  axis.Normalize();
+  T angle1 = static_cast<T>(1.2), angle2 = static_cast<T>(angle1 + M_PI / 2.0),
+    angle3 = static_cast<T>(angle1 + M_PI), angle4 = static_cast<T>(0.7);
+  mathfu::Quaternion<T> qaa1(
+      mathfu::Quaternion<T>::FromAngleAxis(angle1, axis));
+  mathfu::Quaternion<T> qaa2(
+      mathfu::Quaternion<T>::FromAngleAxis(angle2, axis));
+  mathfu::Quaternion<T> qaa3(
+      mathfu::Quaternion<T>::FromAngleAxis(angle3, axis));
+  mathfu::Quaternion<T> qaa4(
+      mathfu::Quaternion<T>::FromAngleAxis(angle4, axis));
+
+  // This will verify that Dotting two quaternions works correctly.
+  EXPECT_NEAR(mathfu::Quaternion<T>::DotProduct(qaa1, qaa1), 1.0, precision);
+  EXPECT_NEAR(mathfu::Quaternion<T>::DotProduct(qaa1, qaa2), sqrt(2.0) / 2.0,
+              precision);
+  EXPECT_NEAR(mathfu::Quaternion<T>::DotProduct(qaa1, qaa3), 0.0, precision);
+  // 2 x acos(dot) should be the angle between two quaternions:
+  EXPECT_NEAR(acos(mathfu::Quaternion<T>::DotProduct(qaa1, qaa4)) * 2.0,
+              angle1 - angle4, precision);
+}
+TEST_ALL_F(Dot);
+
 // This will test normalization of quaternions.
 template <class T>
 void Normalize_Test(const T& precision) {
