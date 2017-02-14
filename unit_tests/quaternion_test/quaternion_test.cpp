@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 #include "mathfu/quaternion.h"
+#include "mathfu/constants.h"
 
 #include <math.h>
 
@@ -35,17 +36,16 @@ class QuaternionTests : public ::testing::Test {
   }
 
 // helper macro for comparing vectors
-#define EXPECT_EQ_VEC(v1, v2)    \
-  {                              \
-    EXPECT_EQ((v1)[0], (v2)[0]); \
-    EXPECT_EQ((v1)[1], (v2)[1]); \
-    EXPECT_EQ((v1)[2], (v2)[2]); \
-  }
 #define EXPECT_NEAR_VEC3(v1, v2, precision)   \
   {                                           \
     EXPECT_NEAR((v1)[0], (v2)[0], precision); \
     EXPECT_NEAR((v1)[1], (v2)[1], precision); \
     EXPECT_NEAR((v1)[2], (v2)[2], precision); \
+  }
+#define EXPECT_EQ_QUAT(q1, q2)               \
+  {                                          \
+    EXPECT_EQ((q1).scalar(), (q2).scalar()); \
+    EXPECT_EQ((q1).vector(), (q2).vector()); \
   }
 
 // Test accessing elements of the quaternion using the const array accessor.
@@ -412,6 +412,19 @@ TEST_F(QuaternionTests, QuaternionSample) {
   EXPECT_NEAR(0.93f, angleSlerp[0], precision);
   EXPECT_NEAR(0.82f, angleSlerp[1], precision);
   EXPECT_NEAR(1.33f, angleSlerp[2], precision);
+}
+
+// Test that the quaternion identity constants give the identity transform.
+TEST_F(QuaternionTests, IdentityConst) {
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityf, mathfu::Quaternion<float>::identity);
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityf,
+                 mathfu::Quaternion<float>(1.0f, 0.0f, 0.0f, 0.0f));
+  EXPECT_EQ(mathfu::kQuatIdentityf.ToEulerAngles(), mathfu::kZeros3f);
+
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityd, mathfu::Quaternion<double>::identity);
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityd,
+                 mathfu::Quaternion<double>(1.0, 0.0, 0.0, 0.0));
+  EXPECT_EQ(mathfu::kQuatIdentityd.ToEulerAngles(), mathfu::kZeros3d);
 }
 
 int main(int argc, char** argv) {
