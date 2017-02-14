@@ -25,7 +25,7 @@
 #include "vectorial/simd4f.h"
 #endif
 
-/// @file mathfu/vector_3_simd.h MathFu Vector<T, 3> Specialization
+/// @file mathfu/internal/vector_3_simd.h MathFu Vector<T, 3> Specialization
 /// @brief 3-dimensional specialization of mathfu::Vector for SIMD optimized
 /// builds.
 /// @see mathfu::Vector

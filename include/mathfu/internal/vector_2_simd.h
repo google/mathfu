@@ -21,7 +21,7 @@
 
 #include <math.h>
 
-/// @file mathfu/vector_2_simd.h MathFu Vector<T, 2> Specialization
+/// @file mathfu/internal/vector_2_simd.h MathFu Vector<T, 2> Specialization
 /// @brief 2-dimensional specialization of mathfu::Vector for SIMD optimized
 /// builds.
 /// @see mathfu::Vector
