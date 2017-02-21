@@ -162,11 +162,11 @@
 /// @def MATHFU_VERSION_MINOR
 /// @brief Minor version number of the library.
 /// @see kMathFuVersionString
-#define MATHFU_VERSION_MINOR 0
+#define MATHFU_VERSION_MINOR 1
 /// @def MATHFU_VERSION_REVISION
 /// @brief Revision number of the library.
 /// @see kMathFuVersionString
-#define MATHFU_VERSION_REVISION 2
+#define MATHFU_VERSION_REVISION 0
 
 /// @}
 

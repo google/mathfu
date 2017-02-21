@@ -1,4 +1,4 @@
-MathFu Version 1.0.2    {#mathfu_readme}
+MathFu Version 1.1.0    {#mathfu_readme}
 ====================
 
 MathFu is a C++ math library developed primarily for games focused on
@@ -34,7 +34,7 @@ To contribute to this project see [CONTRIBUTING][].
 
 For applications on Google Play that integrate this tool, usage is tracked.
 This tracking is done automatically using the embedded version string
-(kMathFuFunVersionString), and helps us continue to optimize it. Aside from
+(kMathFuVersionString), and helps us continue to optimize it. Aside from
 consuming a few extra bytes in your application binary, it shouldn't affect
 your application at all. We use this information to let us know if MathFu
 is useful and if we should continue to invest in it. Since this is open
