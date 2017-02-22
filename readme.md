@@ -53,6 +53,6 @@ you would leave it in.
   [landing page]: http://google.github.io/mathfu
   [matrix]: http://en.wikipedia.org/wiki/Matrix_(mathematics)
   [quaternion]: http://en.wikipedia.org/wiki/Quaternion
-  [stackoverflow.com]: http://www.stackoverflow.com
+  [stackoverflow.com]: http://stackoverflow.com/search?q=mathfu
   [vector]: http://en.wikipedia.org/wiki/Euclidean_vector
   [CONTRIBUTING]: http://github.com/google/mathfu/blob/master/CONTRIBUTING

@@ -74,6 +74,6 @@ modification on any platform that has a C++ compiler.
   [linear algebra]: http://en.wikipedia.org/wiki/Linear_algebra
   [matrix]: http://en.wikipedia.org/wiki/Matrix_(mathematics)
   [quaternion]: http://en.wikipedia.org/wiki/Quaternion
-  [stackoverflow.com]: http://www.stackoverflow.com
+  [stackoverflow.com]: http://stackoverflow.com/search?q=mathfu
   [vector]: http://en.wikipedia.org/wiki/Euclidean_vector
   [x86]: http://en.wikipedia.org/wiki/X86
