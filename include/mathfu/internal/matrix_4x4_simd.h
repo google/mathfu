@@ -22,7 +22,8 @@
 #include "vectorial/simd4x4f.h"
 #endif
 
-/// @file mathfu/matrix_4x4.h MathFu Matrix<T, 4, 4> Specialization
+/// @file mathfu/internal/matrix_4x4_simd.h MathFu Matrix<T, 4, 4>
+///       Specialization
 /// @brief 4x4 specialization of mathfu::Matrix for SIMD optimized builds.
 /// @see mathfu::Matrix
 

@@ -707,7 +707,7 @@ class Matrix {
   /// @param v 2D normalized directional Vector.
   /// @return Matrix containing the result.
   static inline Matrix<T, 3> RotationX(const Vector<T, 2>& v) {
-    return Matrix<T, 3>(1, 0, 0, 0, v.x(), v.y(), 0, -v.y(), v.x());
+    return Matrix<T, 3>(1, 0, 0, 0, v.x, v.y, 0, -v.y, v.x);
   }
 
   /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
@@ -716,7 +716,7 @@ class Matrix {
   /// @param v 2D normalized directional Vector.
   /// @return Matrix containing the result.
   static inline Matrix<T, 3> RotationY(const Vector<T, 2>& v) {
-    return Matrix<T, 3>(v.x(), 0, -v.y(), 0, 1, 0, v.y(), 0, v.x());
+    return Matrix<T, 3>(v.x, 0, -v.y, 0, 1, 0, v.y, 0, v.x);
   }
 
   /// @brief Create a 3x3 rotation Matrix from a 2D normalized directional
@@ -725,7 +725,7 @@ class Matrix {
   /// @param v 2D normalized directional Vector.
   /// @return Matrix containing the result.
   static inline Matrix<T, 3> RotationZ(const Vector<T, 2>& v) {
-    return Matrix<T, 3>(v.x(), v.y(), 0, -v.y(), v.x(), 0, 0, 0, 1);
+    return Matrix<T, 3>(v.x, v.y, 0, -v.y, v.x, 0, 0, 0, 1);
   }
 
   /// @brief Create a 3x3 rotation Matrix from an angle (in radians) around
@@ -1363,7 +1363,7 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
 template <class T>
 inline Matrix<T, 4, 4> PerspectiveHelper(T fovy, T aspect, T znear, T zfar,
                                          T handedness) {
-  const T y = 1 / tan(static_cast<T>(fovy) * static_cast<T>(.5));
+  const T y = 1 / std::tan(fovy * static_cast<T>(.5));
   const T x = y / aspect;
   const T zdist = (znear - zfar);
   const T zfar_per_zdist = zfar / zdist;
@@ -1438,8 +1438,8 @@ static inline bool UnProjectHelper(const Vector<T, 3>& window_coord,
                                    const float window_width,
                                    const float window_height,
                                    Vector<T, 3>& result) {
-  if (window_coord.z() < static_cast<T>(0) ||
-      window_coord.z() > static_cast<T>(1)) {
+  if (window_coord.z < static_cast<T>(0) ||
+      window_coord.z > static_cast<T>(1)) {
     // window_coord.z should be with in [0, 1]
     // 0: near plane
     // 1: far plane
@@ -1447,18 +1447,18 @@ static inline bool UnProjectHelper(const Vector<T, 3>& window_coord,
   }
   Matrix<T, 4, 4> matrix = (projection * model_view).Inverse();
   Vector<T, 4> standardized = Vector<T, 4>(
-      static_cast<T>(2) * (window_coord.x() - window_width) / window_width +
+      static_cast<T>(2) * (window_coord.x - window_width) / window_width +
           static_cast<T>(1),
-      static_cast<T>(2) * (window_coord.y() - window_height) / window_height +
+      static_cast<T>(2) * (window_coord.y - window_height) / window_height +
           static_cast<T>(1),
-      static_cast<T>(2) * window_coord.z() - static_cast<T>(1),
+      static_cast<T>(2) * window_coord.z - static_cast<T>(1),
       static_cast<T>(1));
 
   Vector<T, 4> multiply = matrix * standardized;
-  if (multiply.w() == static_cast<T>(0)) {
+  if (multiply.w == static_cast<T>(0)) {
     return false;
   }
-  result = multiply.xyz() / multiply.w();
+  result = multiply.xyz() / multiply.w;
   return true;
 }
 /// @endcond
@@ -1510,7 +1510,7 @@ static inline CompatibleT ToTypeHelper(const Matrix<T, rows, columns>& m) {
     VectorPacked<T, rows> packed[columns];
   } u;
   static_assert(sizeof(u.compatible) == sizeof(u.packed), "Conversion size mismatch.");
-  m.Pack(&u.packed);
+  m.Pack(u.packed);
   return u.compatible;
 #else
   CompatibleT compatible;

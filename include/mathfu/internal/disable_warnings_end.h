@@ -13,10 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#ifndef MATHFU_VECTOR_2_H_
-#define MATHFU_VECTOR_2_H_
 
-// Prefer including vector.h directly, since it includes specializations.
-#include "mathfu/vector.h"
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif  // defined(__clang__)
 
-#endif  // MATHFU_VECTOR_2_H_
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif  // defined(__GNUC__)

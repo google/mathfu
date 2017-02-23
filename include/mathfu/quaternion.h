@@ -138,7 +138,7 @@ class Quaternion {
     ToAngleAxis(&angle, &axis);
     angle *= s1;
     return Quaternion<T>(cos(0.5f * angle),
-                         axis.Normalized() * sin(0.5f * angle));
+                         axis.Normalized() * static_cast<T>(sin(0.5f * angle)));
   }
 
   /// @brief Multiply a Vector by this Quaternion.
@@ -194,12 +194,14 @@ class Quaternion {
     Matrix<T, 3> m(ToMatrix());
     T cos2 = m[0] * m[0] + m[1] * m[1];
     if (cos2 < 1e-6f) {
-      return Vector<T, 3>(0, m[2] < 0 ? static_cast<T>(0.5 * M_PI)
-                                      : static_cast<T>(-0.5 * M_PI),
-                          -atan2(m[3], m[4]));
+      return Vector<T, 3>(
+          0,
+          m[2] < 0 ? static_cast<T>(0.5 * M_PI) : static_cast<T>(-0.5 * M_PI),
+          -std::atan2(m[3], m[4]));
     } else {
-      return Vector<T, 3>(atan2(m[5], m[8]), atan2(-m[2], sqrt(cos2)),
-                          atan2(m[1], m[0]));
+      return Vector<T, 3>(std::atan2(m[5], m[8]),
+                          std::atan2(-m[2], std::sqrt(cos2)),
+                          std::atan2(m[1], m[0]));
     }
   }
 
@@ -236,8 +238,9 @@ class Quaternion {
   static Quaternion<T> FromAngleAxis(const T& angle, const Vector<T, 3>& axis) {
     const T halfAngle = static_cast<T>(0.5) * angle;
     Vector<T, 3> localAxis(axis);
-    return Quaternion<T>(cos(halfAngle),
-                         localAxis.Normalized() * sin(halfAngle));
+    return Quaternion<T>(
+        cos(halfAngle),
+        localAxis.Normalized() * static_cast<T>(sin(halfAngle)));
   }
 
   /// @brief Create a quaternion from 3 euler angles.
@@ -249,9 +252,12 @@ class Quaternion {
     const Vector<T, 3> halfAngles(static_cast<T>(0.5) * angles[0],
                                   static_cast<T>(0.5) * angles[1],
                                   static_cast<T>(0.5) * angles[2]);
-    const T sinx = sin(halfAngles[0]), cosx = cos(halfAngles[0]);
-    const T siny = sin(halfAngles[1]), cosy = cos(halfAngles[1]);
-    const T sinz = sin(halfAngles[2]), cosz = cos(halfAngles[2]);
+    const T sinx = std::sin(halfAngles[0]);
+    const T cosx = std::cos(halfAngles[0]);
+    const T siny = std::sin(halfAngles[1]);
+    const T cosy = std::cos(halfAngles[1]);
+    const T sinz = std::sin(halfAngles[2]);
+    const T cosz = std::cos(halfAngles[2]);
     return Quaternion<T>(cosx * cosy * cosz + sinx * siny * sinz,
                          sinx * cosy * cosz - cosx * siny * sinz,
                          cosx * siny * cosz + sinx * cosy * sinz,
@@ -285,6 +291,15 @@ class Quaternion {
       return Quaternion<T>((m[1] - m[3]) * oneOverS, (m[6] + m[2]) * oneOverS,
                            (m[5] + m[7]) * oneOverS, static_cast<T>(0.25) * s);
     }
+  }
+
+  /// @brief Calculate the dot product of two Quaternions.
+  ///
+  /// @param q1 First quaternion.
+  /// @param q2 Second quaternion
+  /// @return The scalar dot product of both Quaternions.
+  static inline T DotProduct(const Quaternion<T>& q1, const Quaternion<T>& q2) {
+    return q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_);
   }
 
   /// @brief Calculate the spherical linear interpolation between two

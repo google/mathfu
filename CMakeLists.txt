@@ -13,37 +13,13 @@
 # limitations under the License.
 cmake_minimum_required(VERSION 2.8.12)
 
-# Directory which contains the source for 3rd party libraries.
-get_filename_component(
-    third_party_root
-    "${CMAKE_CURRENT_LIST_DIR}/../../../../external" REALPATH)
-# Directory which contains source for FPL libraries.
-get_filename_component(
-    fpl_root "${CMAKE_CURRENT_LIST_DIR}/../../libs" REALPATH)
-
-# If the dependencies directory exists, assume this is the root directory for
-# all libraries required by this project. Cache the value so that it can
-# be overridden by the parent project or a configuration variable.
-set(dependencies_root "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" CACHE PATH
-    "Directory holding the dependencies pulled from github.")
-if(EXISTS "${dependencies_root}")
-  set(third_party_root "${dependencies_root}")
-  set(fpl_root "${dependencies_root}")
-endif()
-
-get_filename_component(
-    vectorial_dir_default "${third_party_root}/vectorial" REALPATH)
-get_filename_component(
-    gtest_dir_default "${third_party_root}/googletest/googletest" REALPATH)
-
 set(PROJECT_NAME MathFu)
 project(MathFu)
 
-# Set some variables describing file locations.
-set(dependencies_vectorial_dir "${vectorial_dir_default}"
-    CACHE PATH "Directory containing the Vectorial library.")
-set(dependencies_gtest_dir "${gtest_dir_default}"
-    CACHE PATH "Directory containing the googletest (gtest) library.")
+# Call fplutil to get locations of dependencies and set common build settings.
+include("cmake/find_fplutil.cmake")
+include("${fplutil_dir}/buildutil/cmake_common.txt")
+set_common_build_variables()
 
 # Options that control the build configuration.
 # To configure MathFu flags per build target, see the
@@ -51,12 +27,6 @@ set(dependencies_gtest_dir "${gtest_dir_default}"
 option(mathfu_enable_simd "Use SIMD implementations when available." ON)
 option(mathfu_build_benchmarks "Build MathFu benchmarks." ON)
 option(mathfu_build_tests "Build MathFu unit tests." ON)
-
-# Detect clang
-if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang" OR
-   CMAKE_CXX_COMPILER_ID MATCHES ".*clang")
-  set(CMAKE_COMPILER_IS_CLANGXX 1)
-endif()
 
 # Save the mathfu directory, store this in the cache so that it's globally
 # accessible from mathfu_configure_flags().
@@ -79,7 +49,6 @@ function(mathfu_configure_flags target)
   else()
     set(enable_simd ${mathfu_enable_simd})
   endif()
-
 
   # Add required includes to the target.
   target_include_directories(${target}

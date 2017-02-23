@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 #include "mathfu/quaternion.h"
+#include "mathfu/constants.h"
 
 #include <math.h>
 
@@ -35,17 +36,16 @@ class QuaternionTests : public ::testing::Test {
   }
 
 // helper macro for comparing vectors
-#define EXPECT_EQ_VEC(v1, v2)    \
-  {                              \
-    EXPECT_EQ((v1)[0], (v2)[0]); \
-    EXPECT_EQ((v1)[1], (v2)[1]); \
-    EXPECT_EQ((v1)[2], (v2)[2]); \
-  }
 #define EXPECT_NEAR_VEC3(v1, v2, precision)   \
   {                                           \
     EXPECT_NEAR((v1)[0], (v2)[0], precision); \
     EXPECT_NEAR((v1)[1], (v2)[1], precision); \
     EXPECT_NEAR((v1)[2], (v2)[2], precision); \
+  }
+#define EXPECT_EQ_QUAT(q1, q2)               \
+  {                                          \
+    EXPECT_EQ((q1).scalar(), (q2).scalar()); \
+    EXPECT_EQ((q1).vector(), (q2).vector()); \
   }
 
 // Test accessing elements of the quaternion using the const array accessor.
@@ -259,6 +259,34 @@ void Mult_Test(const T& precision) {
 }
 TEST_ALL_F(Mult);
 
+// This will test the dot product of quaternions.
+template <class T>
+void Dot_Test(const T& precision) {
+  mathfu::Vector<T, 3> axis(static_cast<T>(4.3), static_cast<T>(7.6),
+                            static_cast<T>(1.2));
+  axis.Normalize();
+  T angle1 = static_cast<T>(1.2), angle2 = static_cast<T>(angle1 + M_PI / 2.0),
+    angle3 = static_cast<T>(angle1 + M_PI), angle4 = static_cast<T>(0.7);
+  mathfu::Quaternion<T> qaa1(
+      mathfu::Quaternion<T>::FromAngleAxis(angle1, axis));
+  mathfu::Quaternion<T> qaa2(
+      mathfu::Quaternion<T>::FromAngleAxis(angle2, axis));
+  mathfu::Quaternion<T> qaa3(
+      mathfu::Quaternion<T>::FromAngleAxis(angle3, axis));
+  mathfu::Quaternion<T> qaa4(
+      mathfu::Quaternion<T>::FromAngleAxis(angle4, axis));
+
+  // This will verify that Dotting two quaternions works correctly.
+  EXPECT_NEAR(mathfu::Quaternion<T>::DotProduct(qaa1, qaa1), 1.0, precision);
+  EXPECT_NEAR(mathfu::Quaternion<T>::DotProduct(qaa1, qaa2), sqrt(2.0) / 2.0,
+              precision);
+  EXPECT_NEAR(mathfu::Quaternion<T>::DotProduct(qaa1, qaa3), 0.0, precision);
+  // 2 x acos(dot) should be the angle between two quaternions:
+  EXPECT_NEAR(acos(mathfu::Quaternion<T>::DotProduct(qaa1, qaa4)) * 2.0,
+              angle1 - angle4, precision);
+}
+TEST_ALL_F(Dot);
+
 // This will test normalization of quaternions.
 template <class T>
 void Normalize_Test(const T& precision) {
@@ -384,6 +412,19 @@ TEST_F(QuaternionTests, QuaternionSample) {
   EXPECT_NEAR(0.93f, angleSlerp[0], precision);
   EXPECT_NEAR(0.82f, angleSlerp[1], precision);
   EXPECT_NEAR(1.33f, angleSlerp[2], precision);
+}
+
+// Test that the quaternion identity constants give the identity transform.
+TEST_F(QuaternionTests, IdentityConst) {
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityf, mathfu::Quaternion<float>::identity);
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityf,
+                 mathfu::Quaternion<float>(1.0f, 0.0f, 0.0f, 0.0f));
+  EXPECT_EQ(mathfu::kQuatIdentityf.ToEulerAngles(), mathfu::kZeros3f);
+
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityd, mathfu::Quaternion<double>::identity);
+  EXPECT_EQ_QUAT(mathfu::kQuatIdentityd,
+                 mathfu::Quaternion<double>(1.0, 0.0, 0.0, 0.0));
+  EXPECT_EQ(mathfu::kQuatIdentityd.ToEulerAngles(), mathfu::kZeros3d);
 }
 
 int main(int argc, char** argv) {

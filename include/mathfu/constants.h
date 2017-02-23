@@ -150,9 +150,9 @@ static const Vector<int, 4> kAxisZ4i(0, 0, 1, 0);
 static const Vector<int, 4> kAxisW4i(0, 0, 0, 1);
 
 /// Quaternion Identity
-static const Quaternion<float> kQuatIdentityf(0.0f, 0.0f, 0.0f, 1.0f);
+static const Quaternion<float> kQuatIdentityf(1.0f, 0.0f, 0.0f, 0.0f);
 /// Quaternion Identity
-static const Quaternion<double> kQuatIdentityd(0.0, 0.0, 0.0, 1.0);
+static const Quaternion<double> kQuatIdentityd(1.0, 0.0, 0.0, 0.0);
 
 // An AffineTransform versoin of the mat4 Identity matrix.
 static const AffineTransform kAffineIdentity(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,

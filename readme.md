@@ -1,4 +1,4 @@
-MathFu Version 1.0.2    {#mathfu_readme}
+MathFu Version 1.1.0    {#mathfu_readme}
 ====================
 
 MathFu is a C++ math library developed primarily for games focused on
@@ -34,7 +34,7 @@ To contribute to this project see [CONTRIBUTING][].
 
 For applications on Google Play that integrate this tool, usage is tracked.
 This tracking is done automatically using the embedded version string
-(kMathFuFunVersionString), and helps us continue to optimize it. Aside from
+(kMathFuVersionString), and helps us continue to optimize it. Aside from
 consuming a few extra bytes in your application binary, it shouldn't affect
 your application at all. We use this information to let us know if MathFu
 is useful and if we should continue to invest in it. Since this is open
@@ -43,7 +43,7 @@ you would leave it in.
 
   [Android]: http://www.android.com
   [Linux]: http://en.m.wikipedia.org/wiki/Linux
-  [MathFu Google Group]: http://group.google.com/group/mathfulib
+  [MathFu Google Group]: http://groups.google.com/group/mathfulib
   [MathFu Issues Tracker]: http://github.com/google/mathfu/issues
   [OS X]: http://www.apple.com/osx/
   [OpenGL]: http://www.opengl.org/
@@ -53,6 +53,6 @@ you would leave it in.
   [landing page]: http://google.github.io/mathfu
   [matrix]: http://en.wikipedia.org/wiki/Matrix_(mathematics)
   [quaternion]: http://en.wikipedia.org/wiki/Quaternion
-  [stackoverflow.com]: http://www.stackoverflow.com
+  [stackoverflow.com]: http://stackoverflow.com/search?q=mathfu
   [vector]: http://en.wikipedia.org/wiki/Euclidean_vector
   [CONTRIBUTING]: http://github.com/google/mathfu/blob/master/CONTRIBUTING

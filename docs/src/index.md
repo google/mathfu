@@ -61,7 +61,7 @@ modification on any platform that has a C++ compiler.
   [ARM]: http://en.wikipedia.org/wiki/ARM_architecture
   [Build Configurations]: @ref mathfu_build_config
   [Linux]: http://en.m.wikipedia.org/wiki/Linux
-  [MathFu Google Group]: http://group.google.com/group/mathfulib
+  [MathFu Google Group]: http://groups.google.com/group/mathfulib
   [MathFu Issues Tracker]: http://github.com/google/mathfu/issues
   [MathFu]: @ref mathfu_overview
   [NEON]: http://www.arm.com/products/processors/technologies/neon.php
@@ -74,6 +74,6 @@ modification on any platform that has a C++ compiler.
   [linear algebra]: http://en.wikipedia.org/wiki/Linear_algebra
   [matrix]: http://en.wikipedia.org/wiki/Matrix_(mathematics)
   [quaternion]: http://en.wikipedia.org/wiki/Quaternion
-  [stackoverflow.com]: http://www.stackoverflow.com
+  [stackoverflow.com]: http://stackoverflow.com/search?q=mathfu
   [vector]: http://en.wikipedia.org/wiki/Euclidean_vector
   [x86]: http://en.wikipedia.org/wiki/X86
