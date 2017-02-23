@@ -236,7 +236,7 @@ Manual Compiler Configuration</h1>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[]) {</div>
 <div class="line">  <a class="code" href="classmathfu_1_1_vector.html">mathfu::Vector&lt;float, 3&gt;</a> v1(1.0f, 2.0f, 3.0f), v2(3.0f, 2.5f, 0.5f), v3;</div>
 <div class="line">  v3 = v1 + v2;</div>
-<div class="line">  printf(<span class="stringliteral">&quot;%.1f %.1f %.1f\n&quot;</span>, v3.<a class="code" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">x</a>(), v3.<a class="code" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">y</a>(), v3.<a class="code" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">z</a>());</div>
+<div class="line">  printf(<span class="stringliteral">&quot;%.1f %.1f %.1f\n&quot;</span>, v3.x(), v3.y(), v3.z());</div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>requires the following command line (assuming vectorial is in the <code>mathfu/dependencies</code> directory):</p>

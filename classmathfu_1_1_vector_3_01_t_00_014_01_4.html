@@ -1,0 +1,366 @@
+<!-- HTML header for doxygen 1.8.6-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>MathFu: mathfu::Vector&lt; T, 4 &gt; Class Template Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700,700italic|Roboto+Mono:400,700" rel="stylesheet">
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<script>
+  /**
+   * Check if the browser rendering this page is being run on an Android device.
+   * It checks if the string 'android' is found in the browser's `userAgent`.
+   * @return {boolean} This returns `true` if the browser's `userAgent` contains
+   * the string 'android' (indicating that the browser is on an Android device).
+   * Otherwise, it returns `false`.
+   */
+  function isAndroidDevice() {
+    if (navigator && navigator.userAgent) {
+      return navigator.userAgent.toLowerCase().indexOf('android') != -1;
+    } else {
+      return false;
+    }
+  }
+  /**
+   * Check if an HTML `class` attribute is in the browser-specific format.
+   * @param {string} An HTML `class` attribute in the format 'browser-{device}'.
+   * @return {boolean} Returns `true` if `browserClass` was in the valid format,
+   * prefixed with 'browser-'. Otherwise, it returns false.
+   */
+  function isBrowserSpecificClassName(browserClass) {
+    if (browserClass && browserClass.substring(0, 8) == 'browser-' &&
+        browserClass.length > 8) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  /**
+   * Get all the HTML Elements with browser-specific `class` attributes.
+   * @return {array} Returns an array of all the HTML Elements with a `class`
+   * attribute that is prefixed with `browser-`.
+   */
+  function getAllBrowserSpecificElements() {
+    if (document) {
+      var htmlElements = document.getElementsByTagName("*");
+      var browserSpecificElements = [];
+      for (var i = 0; i < htmlElements.length; i++) {
+        if (isBrowserSpecificClassName(htmlElements[i].className)) {
+          browserSpecificElements.push(htmlElements[i]);
+        }
+      }
+      return browserSpecificElements;
+    } else {
+      return null;
+    }
+  }
+  /**
+   * Given a browser-specific HTML `class` attribute, extract the device name.
+   * @param {string} browserClass The string name of an HTML `class` attribute,
+   * in the format `browser-{device}`.
+   * @return {string} Returns a string containing only the device portion of
+   * the class name. If the input was invalid, then it returns `null`.
+   */
+  function extractDeviceFromBrowserClass(browserClass) {
+    if (isBrowserSpecificClassName(browserClass)) {
+      return browserClass.substring(8);
+    }
+    else {
+      return null;
+    }
+  }
+  /**
+   * Hide device specific elements that do not apply to the current device.
+   */
+  function handleDeviceSpecificLoading() {
+    var browserSpecificElements = getAllBrowserSpecificElements();
+    for (var i = 0; i < browserSpecificElements.length; i++) {
+      var device = extractDeviceFromBrowserClass(browserSpecificElements[i].className);
+      if (device && !isAndroidDevice() && device == 'android') {
+        browserSpecificElements[i].innerHTML = '';
+      } else if(device && isAndroidDevice() && device == 'desktop') {
+        browserSpecificElements[i].innerHTML = '';
+      }
+    }
+  }
+  $(document).ready(handleDeviceSpecificLoading);
+</script>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="commonprojectlogo">
+    <img alt="Logo" src="fpl_logo_small.png"/>
+  </td>
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">MathFu
+   </div>
+   <div style="font-size:12px;">
+	 An open source project by
+     <a href="https://developers.google.com/games/#Tools">FPL</a>.
+  </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.8.6 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="usergroup0.html"><span>Programmer's&#160;Guide</span></a></li>
+      <li class="current"><a href="mathfu_api_reference.html"><span>API&#160;reference</span></a></li>
+      <li><a href="mathfu_readme.html"><span>readme</span></a></li>
+      <li><a href="contributing.html"><span>contributing</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classmathfu_1_1_vector_3_01_t_00_014_01_4.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="classmathfu_1_1_vector_3_01_t_00_014_01_4-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">mathfu::Vector&lt; T, 4 &gt; Class Template Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a58e0e924362044c8720b493bf771a326"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58e0e924362044c8720b493bf771a326"></a>
+typedef T&#160;</td><td class="memItemRight" valign="bottom"><b>Scalar</b></td></tr>
+<tr class="separator:a58e0e924362044c8720b493bf771a326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a898e220cef7ab6d92d6af571d7ccc462"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a898e220cef7ab6d92d6af571d7ccc462"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v)</td></tr>
+<tr class="separator:a898e220cef7ab6d92d6af571d7ccc462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d5f3a9df6d7c0201bafb80aed688338"><td class="memTemplParams" colspan="2"><a class="anchor" id="a1d5f3a9df6d7c0201bafb80aed688338"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a1d5f3a9df6d7c0201bafb80aed688338"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Vector</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; U, 4 &gt; &amp;v)</td></tr>
+<tr class="separator:a1d5f3a9df6d7c0201bafb80aed688338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7826916bc9be3619300c206b31cd58ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7826916bc9be3619300c206b31cd58ef"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const T &amp;s)</td></tr>
+<tr class="separator:a7826916bc9be3619300c206b31cd58ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab30819813aaf5adb64eab7ba1f2b6cf2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab30819813aaf5adb64eab7ba1f2b6cf2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const T *a)</td></tr>
+<tr class="separator:ab30819813aaf5adb64eab7ba1f2b6cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13c4597ef29238fbe207b0c57d0cf513"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13c4597ef29238fbe207b0c57d0cf513"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const T &amp;s1, const T &amp;s2, const T &amp;s3, const T &amp;s4)</td></tr>
+<tr class="separator:a13c4597ef29238fbe207b0c57d0cf513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc8ec6d6aa495ccb500cb2ae8c715358"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc8ec6d6aa495ccb500cb2ae8c715358"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt; &amp;vector3, const T &amp;value)</td></tr>
+<tr class="separator:afc8ec6d6aa495ccb500cb2ae8c715358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afebc3da2fb868284d2b37196d8cc2f23"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afebc3da2fb868284d2b37196d8cc2f23"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 2 &gt; &amp;v12, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 2 &gt; &amp;v34)</td></tr>
+<tr class="separator:afebc3da2fb868284d2b37196d8cc2f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa3a4b6dae61747a4ea6582210d64251"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa3a4b6dae61747a4ea6582210d64251"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Vector</b> (const <a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; T, 4 &gt; &amp;vector)</td></tr>
+<tr class="separator:aaa3a4b6dae61747a4ea6582210d64251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0f6c8300d2405204fdd0cab34d21ac8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0f6c8300d2405204fdd0cab34d21ac8"></a>
+T &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (const int i)</td></tr>
+<tr class="separator:af0f6c8300d2405204fdd0cab34d21ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a3932d2323cd5414b9bfe23c0e174af"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a3932d2323cd5414b9bfe23c0e174af"></a>
+const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (const int i) const </td></tr>
+<tr class="separator:a3a3932d2323cd5414b9bfe23c0e174af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4bf6a3b900561ca1f1df7104a12bbfb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4bf6a3b900561ca1f1df7104a12bbfb"></a>
+T &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (const int i)</td></tr>
+<tr class="separator:af4bf6a3b900561ca1f1df7104a12bbfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99eb502550f725630f27f6fa0ba0b784"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99eb502550f725630f27f6fa0ba0b784"></a>
+const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (const int i) const </td></tr>
+<tr class="separator:a99eb502550f725630f27f6fa0ba0b784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9621fc101e5aea23579a15dfd097f4d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9621fc101e5aea23579a15dfd097f4d8"></a>
+<a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>xyz</b> ()</td></tr>
+<tr class="separator:a9621fc101e5aea23579a15dfd097f4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a319ccbc5bebc51740ef0ef43adc0d36a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a319ccbc5bebc51740ef0ef43adc0d36a"></a>
+const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>xyz</b> () const </td></tr>
+<tr class="separator:a319ccbc5bebc51740ef0ef43adc0d36a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa05120152ce9aaf9ccd41edaa1dab9d9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa05120152ce9aaf9ccd41edaa1dab9d9"></a>
+<a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>xy</b> ()</td></tr>
+<tr class="separator:aa05120152ce9aaf9ccd41edaa1dab9d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e2f6838cbf3be772d1d95a69a1deb22"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e2f6838cbf3be772d1d95a69a1deb22"></a>
+const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>xy</b> () const </td></tr>
+<tr class="separator:a8e2f6838cbf3be772d1d95a69a1deb22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fe24a2bf907395db8cb99b6f6de6560"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5fe24a2bf907395db8cb99b6f6de6560"></a>
+<a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>zw</b> ()</td></tr>
+<tr class="separator:a5fe24a2bf907395db8cb99b6f6de6560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9b638ed7d56758d069b9b0b0047e607"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9b638ed7d56758d069b9b0b0047e607"></a>
+const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>zw</b> () const </td></tr>
+<tr class="separator:ac9b638ed7d56758d069b9b0b0047e607"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4023199bbe50828a6141d89c1452048"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4023199bbe50828a6141d89c1452048"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Pack</b> (<a class="el" href="structmathfu_1_1_vector_packed.html">VectorPacked</a>&lt; T, 4 &gt; *const vector) const </td></tr>
+<tr class="separator:af4023199bbe50828a6141d89c1452048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a552ce0ad813cb6954790d07d26b31ee4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a552ce0ad813cb6954790d07d26b31ee4"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>LengthSquared</b> () const </td></tr>
+<tr class="separator:a552ce0ad813cb6954790d07d26b31ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17891e4f0b50cc878fbd7c6c9f668d8b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17891e4f0b50cc878fbd7c6c9f668d8b"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>Length</b> () const </td></tr>
+<tr class="separator:a17891e4f0b50cc878fbd7c6c9f668d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef16f72df3306a53552870f713bb9167"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef16f72df3306a53552870f713bb9167"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>Normalize</b> ()</td></tr>
+<tr class="separator:aef16f72df3306a53552870f713bb9167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2576fe9fa67b57833244a41b260bba4d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2576fe9fa67b57833244a41b260bba4d"></a>
+<a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Normalized</b> () const </td></tr>
+<tr class="separator:a2576fe9fa67b57833244a41b260bba4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac69319f1c280fed1060c95f5df8146eb"><td class="memTemplParams" colspan="2"><a class="anchor" id="ac69319f1c280fed1060c95f5df8146eb"></a>
+template&lt;typename CompatibleT &gt; </td></tr>
+<tr class="memitem:ac69319f1c280fed1060c95f5df8146eb"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>FromType</b> (const CompatibleT &amp;compatible)</td></tr>
+<tr class="separator:ac69319f1c280fed1060c95f5df8146eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accd9bf61b76f87959fa798f4071aad0e"><td class="memTemplParams" colspan="2"><a class="anchor" id="accd9bf61b76f87959fa798f4071aad0e"></a>
+template&lt;typename CompatibleT &gt; </td></tr>
+<tr class="memitem:accd9bf61b76f87959fa798f4071aad0e"><td class="memTemplItemLeft" align="right" valign="top">static CompatibleT&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ToType</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v)</td></tr>
+<tr class="separator:accd9bf61b76f87959fa798f4071aad0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e13e7776a0719da333e7e2c135da5f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e13e7776a0719da333e7e2c135da5f4"></a>
+static T&#160;</td><td class="memItemRight" valign="bottom"><b>DotProduct</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v2)</td></tr>
+<tr class="separator:a3e13e7776a0719da333e7e2c135da5f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2908485a28032dd9bfcac8e67a44fc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2908485a28032dd9bfcac8e67a44fc3"></a>
+static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>HadamardProduct</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v2)</td></tr>
+<tr class="separator:af2908485a28032dd9bfcac8e67a44fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700335235b308932d90d15336b19b63a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a700335235b308932d90d15336b19b63a"></a>
+static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Lerp</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v2, const T percent)</td></tr>
+<tr class="separator:a700335235b308932d90d15336b19b63a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa84618077077d0097403451b535c450c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa84618077077d0097403451b535c450c"></a>
+static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>RandomInRange</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;min, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;max)</td></tr>
+<tr class="separator:aa84618077077d0097403451b535c450c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8adc0986e574aed4d0178463268266a1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8adc0986e574aed4d0178463268266a1"></a>
+static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Max</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v2)</td></tr>
+<tr class="separator:a8adc0986e574aed4d0178463268266a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9d8d6177f173507eac888e9e2f10cf5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af9d8d6177f173507eac888e9e2f10cf5"></a>
+static <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Min</b> (const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v1, const <a class="el" href="classmathfu_1_1_vector.html">Vector</a>&lt; T, 4 &gt; &amp;v2)</td></tr>
+<tr class="separator:af9d8d6177f173507eac888e9e2f10cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ad7f822243ec3f935cf359579b4efe1e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad7f822243ec3f935cf359579b4efe1e7"></a>
+<a class="el" href="group__mathfu__allocator.html#ga46e78edf47120bf23563f6a660fd4724">MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE</a> <br class="typebreak"/>
+union <a class="el" href="classmathfu_1_1_vector.html">mathfu::Vector</a>&lt; T, 4 &gt;:: { ... } &#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ad7f822243ec3f935cf359579b4efe1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8aaaf7a14d0fb75de580bbbcd8d3b58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae8aaaf7a14d0fb75de580bbbcd8d3b58"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>data_</b> [4]</td></tr>
+<tr class="separator:ae8aaaf7a14d0fb75de580bbbcd8d3b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43943db65d7dcb58d257351c63ead36b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43943db65d7dcb58d257351c63ead36b"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>x</b></td></tr>
+<tr class="separator:a43943db65d7dcb58d257351c63ead36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ee11608d82a0f2a0d184f949e66b20"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a53ee11608d82a0f2a0d184f949e66b20"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
+<tr class="separator:a53ee11608d82a0f2a0d184f949e66b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97c0a1050ec3dcdd610c6dd35e58d64a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97c0a1050ec3dcdd610c6dd35e58d64a"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>z</b></td></tr>
+<tr class="separator:a97c0a1050ec3dcdd610c6dd35e58d64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3affb4168fdba2bc90d3160a5baf944"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3affb4168fdba2bc90d3160a5baf944"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>w</b></td></tr>
+<tr class="separator:ad3affb4168fdba2bc90d3160a5baf944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a67d118f2a280f654b10fdb15fe335a3d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67d118f2a280f654b10fdb15fe335a3d"></a>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><b>d</b> = 4</td></tr>
+<tr class="separator:a67d118f2a280f654b10fdb15fe335a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="vector__4_8h_source.html">vector_4.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-49880327-7', 'google.github.io');
+ga('send', 'pageview');
+</script>
+</body>
+</html>

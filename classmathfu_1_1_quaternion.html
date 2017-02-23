@@ -308,6 +308,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:afedab9d5094058f445f1be76d01677fa"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html#afedab9d5094058f445f1be76d01677fa">FromMatrix</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 3 &gt; &amp;m)</td></tr>
 <tr class="memdesc:afedab9d5094058f445f1be76d01677fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a quaternion from a rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#afedab9d5094058f445f1be76d01677fa">More...</a><br/></td></tr>
 <tr class="separator:afedab9d5094058f445f1be76d01677fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af519018e3817dd5a71bc7f6afabecb4b"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html#af519018e3817dd5a71bc7f6afabecb4b">DotProduct</a> (const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;q1, const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;q2)</td></tr>
+<tr class="memdesc:af519018e3817dd5a71bc7f6afabecb4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the dot product of two Quaternions.  <a href="#af519018e3817dd5a71bc7f6afabecb4b">More...</a><br/></td></tr>
+<tr class="separator:af519018e3817dd5a71bc7f6afabecb4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f42df8e51b1e1a47d7d5c0f3fde8594"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html#a9f42df8e51b1e1a47d7d5c0f3fde8594">Slerp</a> (const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;q1, const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;q2, const T &amp;s1)</td></tr>
 <tr class="memdesc:a9f42df8e51b1e1a47d7d5c0f3fde8594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the spherical linear interpolation between two Quaternions.  <a href="#a9f42df8e51b1e1a47d7d5c0f3fde8594">More...</a><br/></td></tr>
 <tr class="separator:a9f42df8e51b1e1a47d7d5c0f3fde8594"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -477,6 +480,52 @@ template&lt;class T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af519018e3817dd5a71bc7f6afabecb4b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static T <a class="el" href="classmathfu_1_1_quaternion.html">mathfu::Quaternion</a>&lt; T &gt;::DotProduct </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>q1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>q2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the dot product of two Quaternions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">q1</td><td>First quaternion. </td></tr>
+    <tr><td class="paramname">q2</td><td>Second quaternion </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The scalar dot product of both Quaternions. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6cbfc5dde67e0d0afe15d37e6af7e27b"></a>
 <div class="memitem">
 <div class="memproto">

@@ -200,9 +200,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_t"><span>t</span></a></li>
       <li><a href="#index_u"><span>u</span></a></li>
       <li><a href="#index_v"><span>v</span></a></li>
-      <li><a href="#index_w"><span>w</span></a></li>
       <li><a href="#index_x"><span>x</span></a></li>
-      <li><a href="#index_y"><span>y</span></a></li>
       <li><a href="#index_z"><span>z</span></a></li>
       <li class="current"><a href="#index_~"><span>~</span></a></li>
     </ul>
@@ -260,11 +258,15 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>data
 : <a class="el" href="structmathfu_1_1_vector_packed.html#a2a8aff62bc11295eb6d02a3b6396fb10">mathfu::VectorPacked&lt; T, d &gt;</a>
 </li>
+<li>data_
+: <a class="el" href="classmathfu_1_1_vector.html#a9096f65a107e3877ceb42a65fb74959c">mathfu::Vector&lt; T, d &gt;</a>
+</li>
 <li>deallocate()
 : <a class="el" href="classmathfu_1_1simd__allocator.html#a019b37afeeb80f54e166d62b936d5437">mathfu::simd_allocator&lt; T &gt;</a>
 </li>
 <li>DotProduct()
-: <a class="el" href="classmathfu_1_1_vector.html#ab9446ed021acaf11fcdb87e0f79b7c81">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_quaternion.html#af519018e3817dd5a71bc7f6afabecb4b">mathfu::Quaternion&lt; T &gt;</a>
+, <a class="el" href="classmathfu_1_1_vector.html#ab9446ed021acaf11fcdb87e0f79b7c81">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 </ul>
 
@@ -386,51 +388,44 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
-<li>operator!=()
-: <a class="el" href="classmathfu_1_1_vector.html#a7bd7c31c0df25ea8c3934d535e94b230">mathfu::Vector&lt; T, d &gt;</a>
-</li>
 <li>operator()()
 : <a class="el" href="classmathfu_1_1_matrix.html#a1797bc7940939e656d11b45981bbbef0">mathfu::Matrix&lt; T, rows, columns &gt;</a>
 , <a class="el" href="classmathfu_1_1_vector.html#a243082840b765928dabdc52d2d124d0f">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator*()
 : <a class="el" href="classmathfu_1_1_matrix.html#a9ce8bafcb5c5c5b0a7105748b90f0d24">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_quaternion.html#ab258760722fb1f93eea77eb77eb89b47">mathfu::Quaternion&lt; T &gt;</a>
+, <a class="el" href="classmathfu_1_1_quaternion.html#a4484153adc4e0eee6bfc26dafece4877">mathfu::Quaternion&lt; T &gt;</a>
 , <a class="el" href="group__mathfu__vector.html#ga8b3b81801ceac6ac372ed1fea668ee27">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator*=()
 : <a class="el" href="classmathfu_1_1_matrix.html#a43f23ddc348c400e7ce8db8fe4863af5">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#a5dbf2e448c3263aa8a4be331df86953b">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator+()
 : <a class="el" href="classmathfu_1_1_matrix.html#a4b8716aa0dd95c8cca72220ee6a2c695">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#a6de4a33c2af5cda3c555bcb1dbffa237">mathfu::Vector&lt; T, d &gt;</a>
+, <a class="el" href="group__mathfu__vector.html#gaa34216cdd46e59d3a353a43279b9e02b">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator+=()
 : <a class="el" href="classmathfu_1_1_matrix.html#aa7c60f45dca4c5fdd75fb481ca57adb8">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#adbbdc97a58f1bd0b73c0dc14a7ea4a80">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator-()
-: <a class="el" href="classmathfu_1_1_matrix.html#a3a5b3e4998e51a885322b0ec816ebe62">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#a39a8d0a18de2abeaf62885a4b8d2861e">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_matrix.html#a45c2ad156abaab5665fda414f2643d76">mathfu::Matrix&lt; T, rows, columns &gt;</a>
+, <a class="el" href="group__mathfu__vector.html#gaed5e853244c99cadf65c02933b3fdced">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator-=()
 : <a class="el" href="classmathfu_1_1_matrix.html#a2095f81c95811e981b2e6851881fc73a">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#ae92c4ae6df0eb9ed7a8edf6f8ca07cc3">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator/()
 : <a class="el" href="classmathfu_1_1_matrix.html#af55313934a4472704fbf65ebfc827057">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#a27ce6265287d204baa62d6c356248707">mathfu::Vector&lt; T, d &gt;</a>
+, <a class="el" href="group__mathfu__vector.html#ga87d302f8d0fc75b6985f6425393b518b">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator/=()
 : <a class="el" href="classmathfu_1_1_matrix.html#a242ba756dfd6f6387101580070db5553">mathfu::Matrix&lt; T, rows, columns &gt;</a>
-, <a class="el" href="classmathfu_1_1_vector.html#a66f2594e81b776f5555f9a49e01e808a">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>operator=()
 : <a class="el" href="structmathfu_1_1_vector_packed.html#a8da78613ec01e63bf48b67d8dd9e16cb">mathfu::VectorPacked&lt; T, d &gt;</a>
-</li>
-<li>operator==()
-: <a class="el" href="classmathfu_1_1_vector.html#a82b1e679822f22941288b03455a97bda">mathfu::Vector&lt; T, d &gt;</a>
+, <a class="el" href="structmathfu_1_1_vector_packed_3_01_t_00_012_01_4.html#a58dea22edd52aac246a58e2a9035ab4c">mathfu::VectorPacked&lt; T, 2 &gt;</a>
+, <a class="el" href="structmathfu_1_1_vector_packed_3_01_t_00_013_01_4.html#a174835dbf84ab33414073d9aad6fda82">mathfu::VectorPacked&lt; T, 3 &gt;</a>
+, <a class="el" href="structmathfu_1_1_vector_packed_3_01_t_00_014_01_4.html#a13c1882cd6ac5499f929678f2fa88234">mathfu::VectorPacked&lt; T, 4 &gt;</a>
 </li>
 <li>operator[]()
 : <a class="el" href="classmathfu_1_1_matrix.html#aab7f8a7fbe1bf23fa112efb130496275">mathfu::Matrix&lt; T, rows, columns &gt;</a>
@@ -476,6 +471,10 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>RandomInRange()
 : <a class="el" href="classmathfu_1_1_vector.html#a3400862f46278cfcb048624b5914d884">mathfu::Vector&lt; T, d &gt;</a>
+, <a class="el" href="classmathfu_1_1_vector_3_01float_00_014_01_4.html#acec2aa6f6ff66917e95ea1c1370d2f32">mathfu::Vector&lt; float, 4 &gt;</a>
+</li>
+<li>Rect()
+: <a class="el" href="structmathfu_1_1_rect.html#a1bf5dd1f53219ba22aedff707ebbbf19">mathfu::Rect&lt; T &gt;</a>
 </li>
 <li>RotateFromTo()
 : <a class="el" href="classmathfu_1_1_quaternion.html#a68b0f7747e017f5c03826118cdc9a116">mathfu::Quaternion&lt; T &gt;</a>
@@ -509,7 +508,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="classmathfu_1_1_quaternion.html#aadf213592150cc626f65edcbadcecdb1">mathfu::Quaternion&lt; T &gt;</a>
 </li>
 <li>simd_allocator()
-: <a class="el" href="classmathfu_1_1simd__allocator.html#a3538f7c918b26ffc383f860a5e294287">mathfu::simd_allocator&lt; T &gt;</a>
+: <a class="el" href="classmathfu_1_1simd__allocator.html#aacab7145e36dc51095177108a05a29b4">mathfu::simd_allocator&lt; T &gt;</a>
 </li>
 <li>size_type
 : <a class="el" href="classmathfu_1_1simd__allocator.html#aca4483ebedf3202f339b27d3d5c54bed">mathfu::simd_allocator&lt; T &gt;</a>
@@ -564,45 +563,29 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="classmathfu_1_1_quaternion.html#a805ca6f87a5868ba99be8c591be498ce">mathfu::Quaternion&lt; T &gt;</a>
 </li>
 <li>Vector()
-: <a class="el" href="classmathfu_1_1_vector.html#a14b2e1d6a5bb7a8ae211c953b998349b">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_vector.html#abd55fb75286ef7a60e693e9fdf3c3e77">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>VectorPacked()
 : <a class="el" href="structmathfu_1_1_vector_packed.html#a0d0aa440c0ca6e9209af1aa9ea77a602">mathfu::VectorPacked&lt; T, d &gt;</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>w()
-: <a class="el" href="classmathfu_1_1_vector.html#a2d16d9e9237999515e9a21991768a459">mathfu::Vector&lt; T, d &gt;</a>
+, <a class="el" href="structmathfu_1_1_vector_packed_3_01_t_00_012_01_4.html#a065c1c3e9faf5644a836e4183b8b5e6e">mathfu::VectorPacked&lt; T, 2 &gt;</a>
+, <a class="el" href="structmathfu_1_1_vector_packed_3_01_t_00_013_01_4.html#a150f8b58c1896b96c0ac1db9364ee913">mathfu::VectorPacked&lt; T, 3 &gt;</a>
+, <a class="el" href="structmathfu_1_1_vector_packed_3_01_t_00_014_01_4.html#a55e7c7483910edf8134afb0ef418f971">mathfu::VectorPacked&lt; T, 4 &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_x"></a>- x -</h3><ul>
-<li>x()
-: <a class="el" href="classmathfu_1_1_vector.html#a30e93aa3f4b6bbc8c90697578ff93ef5">mathfu::Vector&lt; T, d &gt;</a>
-</li>
 <li>xy()
 : <a class="el" href="classmathfu_1_1_vector.html#a46f2ddeca07eeb8d883c03f83ea538c8">mathfu::Vector&lt; T, d &gt;</a>
 </li>
 <li>xyz()
-: <a class="el" href="classmathfu_1_1_vector.html#af61e8140523ca20a9577499ce4e6c7fd">mathfu::Vector&lt; T, d &gt;</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_y"></a>- y -</h3><ul>
-<li>y()
-: <a class="el" href="classmathfu_1_1_vector.html#aea6a16e973067ef98ff5aa8bbfb608a8">mathfu::Vector&lt; T, d &gt;</a>
+: <a class="el" href="classmathfu_1_1_vector.html#a83524d7bb89f2dc6b3510c9584c33190">mathfu::Vector&lt; T, d &gt;</a>
+, <a class="el" href="classmathfu_1_1_vector_3_01float_00_014_01_4.html#ae73456014cbde486155cbdd94f4a2ea1">mathfu::Vector&lt; float, 4 &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_z"></a>- z -</h3><ul>
-<li>z()
-: <a class="el" href="classmathfu_1_1_vector.html#a34c3d8b99595e7ef293f636f7ac0bb5f">mathfu::Vector&lt; T, d &gt;</a>
-</li>
 <li>zw()
 : <a class="el" href="classmathfu_1_1_vector.html#a1465454841e6bf0525156f66958bb968">mathfu::Vector&lt; T, d &gt;</a>
 </li>

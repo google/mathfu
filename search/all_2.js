@@ -8,5 +8,6 @@ var searchData=
   ['contributing',['Contributing',['../contributing.html',1,'']]],
   ['cross',['cross',['../group__mathfu__glsl.html#ga5eb9f0db8e0bfb2683aea12253683818',1,'mathfu']]],
   ['crossproduct',['CrossProduct',['../classmathfu_1_1_vector.html#a81950ebe490cef6a10a87898462e8032',1,'mathfu::Vector']]],
+  ['crossproducthelper',['CrossProductHelper',['../group__mathfu__vector.html#ga347dd983dba6a8cd110f92803b1820c5',1,'mathfu']]],
   ['constants',['Constants',['../group__mathfu__constants.html',1,'']]]
 ];

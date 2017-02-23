@@ -5,6 +5,7 @@ var group__mathfu__quaternion =
       [ "Quaternion", "classmathfu_1_1_quaternion.html#aba2c7332655f363a71f19e1662ab73a8", null ],
       [ "Quaternion", "classmathfu_1_1_quaternion.html#af947671ed47c7ac8e7fe91ebfbad3f96", null ],
       [ "Quaternion", "classmathfu_1_1_quaternion.html#ab83b3f8cdbcf6703190ebf25af1035fe", null ],
+      [ "DotProduct", "classmathfu_1_1_quaternion.html#af519018e3817dd5a71bc7f6afabecb4b", null ],
       [ "FromAngleAxis", "classmathfu_1_1_quaternion.html#a6cbfc5dde67e0d0afe15d37e6af7e27b", null ],
       [ "FromEulerAngles", "classmathfu_1_1_quaternion.html#a59928755b55306906b405db67222ee7e", null ],
       [ "FromMatrix", "classmathfu_1_1_quaternion.html#afedab9d5094058f445f1be76d01677fa", null ],
