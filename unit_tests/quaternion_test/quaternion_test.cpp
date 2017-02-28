@@ -179,7 +179,7 @@ void Conversion_Test(const T& precision) {
   EXPECT_NEAR(axis[0], convertedAxis[0], precision);
   EXPECT_NEAR(axis[1], convertedAxis[1], precision);
   EXPECT_NEAR(axis[2], convertedAxis[2], precision);
-  // This will create a Quaternion from a Matrix, convert back to a Matrix,
+  // This will create a Quaternion from a 3x3 Matrix, convert back to a Matrix,
   // and verify that they match.
   mathfu::Matrix<T, 3> rx(1, 0, 0, 0, cos(angles[0]), sin(angles[0]), 0,
                           -sin(angles[0]), cos(angles[0]));
@@ -191,6 +191,13 @@ void Conversion_Test(const T& precision) {
   mathfu::Quaternion<T> qm(mathfu::Quaternion<T>::FromMatrix(m));
   mathfu::Matrix<T, 3> convertedM(qm.ToMatrix());
   for (int i = 0; i < 9; ++i) EXPECT_NEAR(m[i], convertedM[i], precision);
+  // This will create a Quaternion from a 4x4 Matrix, convert back to a Matrix,
+  // and verify that they match.
+  // Recycling the 3x3 matrix from before.
+  mathfu::Matrix<T, 4> m4 = mathfu::Matrix<T, 4>::FromRotationMatrix(m);
+  mathfu::Quaternion<T> qm4(mathfu::Quaternion<T>::FromMatrix(m4));
+  mathfu::Matrix<T, 4> convertedM4(qm4.ToMatrix4());
+  for (int i = 0; i < 15; ++i) EXPECT_NEAR(m4[i], convertedM4[i], precision);
 }
 TEST_ALL_F(Conversion);
 

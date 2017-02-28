@@ -1052,6 +1052,21 @@ void Mat4ToAndFromAffine_Test(const T&) {
 
 TEST_SCALAR_F(Mat4ToAndFromAffine, FLOAT_PRECISION, DOUBLE_PRECISION);
 
+// Test extracting the 3x3 rotation Matrix portion from a 4x4 Matrix.
+template <class T>
+void Mat4ToRotationMatrix_Test(const T&) {
+  typedef typename mathfu::Matrix<T, 4> Mat4;
+  typedef typename mathfu::Matrix<T, 3> Mat3;
+  const Mat4 input(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+  const Mat3 expect(1, 2, 3, 5, 6, 7, 9, 10, 11);
+  Mat3 result = input.ToRotationMatrix(input);
+  for (int i = 0; i < 9; i++) {
+    EXPECT_EQ(expect[i], result[i]);
+  }
+}
+
+TEST_SCALAR_F(Mat4ToRotationMatrix, FLOAT_PRECISION, DOUBLE_PRECISION);
+
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix operations given in the sample file.
 // This will test transforming a vector with a matrix.
