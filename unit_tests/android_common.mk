@@ -40,7 +40,7 @@ include $(BUILD_SHARED_LIBRARY)
 
 $(call import-add-path,$(abspath $(MATHFU_DIR)/..))
 $(call import-add-path,$(abspath $(DEPENDENCIES_FPLUTIL_DIR)))
-$(call import-add-path,$(abspath $(DEPENDENCIES_GTEST_DIR)/..))
+$(call import-add-path,$(abspath $(DEPENDENCIES_GTEST_JNI_DIR)/..))
 
 $(call import-module,$(MATHFU_DIR_BASENAME)/jni)
 $(call import-module,libfplutil/jni)
