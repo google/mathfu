@@ -293,6 +293,36 @@ class Quaternion {
     }
   }
 
+  /// @brief Create a quaternion from the upper-left 3x3 roation Matrix of a 4x4
+  /// Matrix.
+  ///
+  /// @param m 4x4 Matrix.
+  /// @return Quaternion containing the result.
+  static Quaternion<T> FromMatrix(const Matrix<T, 4>& m) {
+    const T trace = m(0, 0) + m(1, 1) + m(2, 2);
+    if (trace > 0) {
+      const T s = sqrt(trace + 1) * 2;
+      const T oneOverS = 1 / s;
+      return Quaternion<T>(static_cast<T>(0.25) * s, (m[6] - m[9]) * oneOverS,
+                           (m[8] - m[2]) * oneOverS, (m[1] - m[4]) * oneOverS);
+    } else if (m[0] > m[5] && m[0] > m[10]) {
+      const T s = sqrt(m[0] - m[5] - m[10] + 1) * 2;
+      const T oneOverS = 1 / s;
+      return Quaternion<T>((m[6] - m[9]) * oneOverS, static_cast<T>(0.25) * s,
+                           (m[4] + m[1]) * oneOverS, (m[8] + m[2]) * oneOverS);
+    } else if (m[5] > m[10]) {
+      const T s = sqrt(m[5] - m[0] - m[10] + 1) * 2;
+      const T oneOverS = 1 / s;
+      return Quaternion<T>((m[8] - m[2]) * oneOverS, (m[4] + m[1]) * oneOverS,
+                           static_cast<T>(0.25) * s, (m[6] + m[9]) * oneOverS);
+    } else {
+      const T s = sqrt(m[10] - m[0] - m[5] + 1) * 2;
+      const T oneOverS = 1 / s;
+      return Quaternion<T>((m[1] - m[4]) * oneOverS, (m[8] + m[2]) * oneOverS,
+                           (m[6] + m[9]) * oneOverS, static_cast<T>(0.25) * s);
+    }
+  }
+
   /// @brief Calculate the dot product of two Quaternions.
   ///
   /// @param q1 First quaternion.

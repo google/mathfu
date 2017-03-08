@@ -37,7 +37,7 @@ else
   # Location of the vectorial library.
   DEPENDENCIES_VECTORIAL_DIR?=$(DEPENDENCIES_ROOT)/vectorial
   # Location of the googletest library.
-  DEPENDENCIES_GTEST_DIR?=$(DEPENDENCIES_ROOT)/fplutil/libfplutil/jni/libs/googletest
+  DEPENDENCIES_GTEST_JNI_DIR?=$(DEPENDENCIES_ROOT)/fplutil/libfplutil/jni/libs/googletest
   # Location of the fplutil library.
   DEPENDENCIES_FPLUTIL_DIR?=$(DEPENDENCIES_ROOT)/fplutil
 endif
