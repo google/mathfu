@@ -9,6 +9,7 @@ var group__mathfu__quaternion =
       [ "FromAngleAxis", "classmathfu_1_1_quaternion.html#a6cbfc5dde67e0d0afe15d37e6af7e27b", null ],
       [ "FromEulerAngles", "classmathfu_1_1_quaternion.html#a59928755b55306906b405db67222ee7e", null ],
       [ "FromMatrix", "classmathfu_1_1_quaternion.html#afedab9d5094058f445f1be76d01677fa", null ],
+      [ "FromMatrix", "classmathfu_1_1_quaternion.html#abc602b7c3e0268986ffe0451abb16589", null ],
       [ "Inverse", "classmathfu_1_1_quaternion.html#a80357a821d4fd9b1f73a786e9b2dba83", null ],
       [ "Normalize", "classmathfu_1_1_quaternion.html#ad7549fad2e276ba21ce3b762b7bd1afb", null ],
       [ "Normalized", "classmathfu_1_1_quaternion.html#ade5fcbf7f2e1396c020764fcce2e3cff", null ],

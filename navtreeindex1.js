@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"classmathfu_1_1_vector_3_01float_00_014_01_4.html":[2,1,0,0,6],
+"classmathfu_1_1_vector_3_01float_00_014_01_4.html#a04533c0c51f087038f71585f74b5a607":[2,1,0,0,6,30],
 "classmathfu_1_1_vector_3_01float_00_014_01_4.html#a0b562971d07b83e6e0913783dc0eec49":[2,1,0,0,6,34],
 "classmathfu_1_1_vector_3_01float_00_014_01_4.html#a170618bf7a98b91ad8eefa271fd520e8":[2,1,0,0,6,6],
 "classmathfu_1_1_vector_3_01float_00_014_01_4.html#a203a8564cb6e9e7765b31fee4f6544b5":[2,1,0,0,6,13],
@@ -236,18 +238,16 @@ var NAVTREEINDEX1 =
 "group__mathfu__glsl.html#gad9c3a60203b278aad94a4d0be3d36ce9":[2,0,6,7],
 "group__mathfu__glsl.html#gaf81ef5d6fc6b4fdb4e5d5aed39c95393":[2,0,6,4],
 "group__mathfu__matrix.html":[2,0,4],
+"group__mathfu__matrix.html#ga464732595073a79e9e6fc3df7715a165":[2,0,4,0,62],
 "group__mathfu__matrix.html#ga464732595073a79e9e6fc3df7715a165":[2,0,4,6],
-"group__mathfu__matrix.html#ga464732595073a79e9e6fc3df7715a165":[2,0,4,0,61],
 "group__mathfu__matrix.html#gad24db3629804f1590c99931b974a0e47":[2,0,4,3],
 "group__mathfu__matrix.html#gaef9f2936e16f4bb29b894151233c05df":[2,0,4,4],
-"group__mathfu__matrix.html#gaef9f2936e16f4bb29b894151233c05df":[2,0,4,0,59],
-"group__mathfu__matrix.html#gaf76afafe2be82d04406dfa957a516b0d":[2,0,4,0,60],
+"group__mathfu__matrix.html#gaef9f2936e16f4bb29b894151233c05df":[2,0,4,0,60],
+"group__mathfu__matrix.html#gaf76afafe2be82d04406dfa957a516b0d":[2,0,4,0,61],
 "group__mathfu__matrix.html#gaf76afafe2be82d04406dfa957a516b0d":[2,0,4,5],
 "group__mathfu__quaternion.html":[2,0,5],
-"group__mathfu__quaternion.html#gaee2cda88d8dda860e34a98a1a8179642":[2,0,5,0,31],
+"group__mathfu__quaternion.html#gaee2cda88d8dda860e34a98a1a8179642":[2,0,5,0,32],
 "group__mathfu__quaternion.html#gaee2cda88d8dda860e34a98a1a8179642":[2,0,5,2],
-"group__mathfu__quaternion.html#gaf300414d7e7c64182aa7027c9af03581":[2,0,5,0,30],
-"group__mathfu__quaternion.html#gaf300414d7e7c64182aa7027c9af03581":[2,0,5,1],
-"group__mathfu__rect.html":[2,0,9],
-"group__mathfu__utilities.html":[2,0,7]
+"group__mathfu__quaternion.html#gaf300414d7e7c64182aa7027c9af03581":[2,0,5,0,31],
+"group__mathfu__quaternion.html#gaf300414d7e7c64182aa7027c9af03581":[2,0,5,1]
 };

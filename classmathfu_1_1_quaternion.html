@@ -308,6 +308,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:afedab9d5094058f445f1be76d01677fa"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html#afedab9d5094058f445f1be76d01677fa">FromMatrix</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 3 &gt; &amp;m)</td></tr>
 <tr class="memdesc:afedab9d5094058f445f1be76d01677fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a quaternion from a rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#afedab9d5094058f445f1be76d01677fa">More...</a><br/></td></tr>
 <tr class="separator:afedab9d5094058f445f1be76d01677fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc602b7c3e0268986ffe0451abb16589"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html#abc602b7c3e0268986ffe0451abb16589">FromMatrix</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4 &gt; &amp;m)</td></tr>
+<tr class="memdesc:abc602b7c3e0268986ffe0451abb16589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a quaternion from the upper-left 3x3 roation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> of a 4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#abc602b7c3e0268986ffe0451abb16589">More...</a><br/></td></tr>
+<tr class="separator:abc602b7c3e0268986ffe0451abb16589"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af519018e3817dd5a71bc7f6afabecb4b"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_quaternion.html#af519018e3817dd5a71bc7f6afabecb4b">DotProduct</a> (const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;q1, const <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt; T &gt; &amp;q2)</td></tr>
 <tr class="memdesc:af519018e3817dd5a71bc7f6afabecb4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the dot product of two Quaternions.  <a href="#af519018e3817dd5a71bc7f6afabecb4b">More...</a><br/></td></tr>
 <tr class="separator:af519018e3817dd5a71bc7f6afabecb4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -635,6 +638,41 @@ template&lt;class T&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">m</td><td>3x3 rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classmathfu_1_1_quaternion.html" title="Stores a Quaternion of type T and provides a set of utility operations on each Quaternion. ">Quaternion</a> containing the result. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="abc602b7c3e0268986ffe0451abb16589"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classmathfu_1_1_quaternion.html">Quaternion</a>&lt;T&gt; <a class="el" href="classmathfu_1_1_quaternion.html">mathfu::Quaternion</a>&lt; T &gt;::FromMatrix </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a quaternion from the upper-left 3x3 roation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> of a 4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </td></tr>
   </table>
   </dd>
 </dl>

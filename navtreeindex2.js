@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"group__mathfu__rect.html":[2,0,9],
+"group__mathfu__utilities.html":[2,0,7],
 "group__mathfu__utilities.html#ga05cf3a54dc3caff077e77f389a69b663":[2,0,7,7],
 "group__mathfu__utilities.html#ga1155e2799e7718523a586a8357bf57ba":[2,0,7,8],
 "group__mathfu__utilities.html#ga34afef8da358155564f0720477c82802":[2,0,7,11],

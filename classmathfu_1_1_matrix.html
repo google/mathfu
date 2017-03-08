@@ -376,6 +376,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a46e9dfffc00b59d83800b03e6140a55b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a46e9dfffc00b59d83800b03e6140a55b">FromRotationMatrix</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 3 &gt; &amp;m)</td></tr>
 <tr class="memdesc:a46e9dfffc00b59d83800b03e6140a55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a 4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from a 3x3 rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#a46e9dfffc00b59d83800b03e6140a55b">More...</a><br/></td></tr>
 <tr class="separator:a46e9dfffc00b59d83800b03e6140a55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add0f1fd6d6343e4bf583c9c56483d404"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#add0f1fd6d6343e4bf583c9c56483d404">ToRotationMatrix</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4 &gt; &amp;m)</td></tr>
+<tr class="memdesc:add0f1fd6d6343e4bf583c9c56483d404"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts the 3x3 rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from a 4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.  <a href="#add0f1fd6d6343e4bf583c9c56483d404">More...</a><br/></td></tr>
+<tr class="separator:add0f1fd6d6343e4bf583c9c56483d404"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a256634cb906125d6a477416fa3e71126"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathfu_1_1_matrix.html#a256634cb906125d6a477416fa3e71126">FromAffineTransform</a> (const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4, 3 &gt; &amp;affine)</td></tr>
 <tr class="memdesc:a256634cb906125d6a477416fa3e71126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a Matrix&lt;float, 4&gt; from an AffineTransform.  <a href="#a256634cb906125d6a477416fa3e71126">More...</a><br/></td></tr>
 <tr class="separator:a256634cb906125d6a477416fa3e71126"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2689,6 +2692,42 @@ template&lt;class T, int rows, int columns&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns an AffineTransform that contains the essential transformation data from the Matrix&lt;float, 4&gt;. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="add0f1fd6d6343e4bf583c9c56483d404"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int rows, int columns&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt;T, 3&gt; <a class="el" href="classmathfu_1_1_matrix.html">mathfu::Matrix</a>&lt; T, rows, columns &gt;::ToRotationMatrix </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classmathfu_1_1_matrix.html">Matrix</a>&lt; T, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Extracts the 3x3 rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> from a 4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </p>
+<p>This resulting <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> will contain the upper-left 3x3 sub-matrix of the input <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>4x4 <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>rotation <a class="el" href="classmathfu_1_1_matrix.html" title="Matrix stores a set of &quot;rows&quot; by &quot;columns&quot; elements of type T and provides functions that operate on ...">Matrix</a> containing the result. </dd></dl>
 
 </div>
 </div>

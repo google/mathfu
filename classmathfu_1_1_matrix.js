@@ -53,6 +53,7 @@ var classmathfu_1_1_matrix =
     [ "RotationZ", "classmathfu_1_1_matrix.html#a81a6b676ab76b22faf457905b5ee919d", null ],
     [ "RotationZ", "classmathfu_1_1_matrix.html#aa921a48cbb0069a09e23f5ba529135f7", null ],
     [ "ToAffineTransform", "classmathfu_1_1_matrix.html#ad88f12c83cc80d422865f33ae19d6d63", null ],
+    [ "ToRotationMatrix", "classmathfu_1_1_matrix.html#add0f1fd6d6343e4bf583c9c56483d404", null ],
     [ "ToType", "classmathfu_1_1_matrix.html#a606f6bbb132636106d3d7b9989185f57", null ],
     [ "TranslationVector2D", "classmathfu_1_1_matrix.html#aecfb06ed6c6b67876aa78e89c74a0562", null ],
     [ "TranslationVector3D", "classmathfu_1_1_matrix.html#a25c273b652c5491d8b97007adb20b416", null ],

@@ -120,8 +120,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classmathfu_1_1_vector_3_01float_00_014_01_4.html#a0b562971d07b83e6e0913783dc0eec49",
-"group__mathfu__utilities.html#ga05cf3a54dc3caff077e77f389a69b663"
+"classmathfu_1_1_vector_3_01float_00_014_01_4.html",
+"group__mathfu__rect.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
