@@ -15,6 +15,7 @@
 */
 #include "mathfu/vector.h"
 #include "mathfu/constants.h"
+#include "mathfu/io.h"
 
 #include "gtest/gtest.h"
 
@@ -87,20 +88,6 @@ class VectorTests : public ::testing::Test {
   EXPECT_DOUBLE_EQ(mathfu::kConst##d[(index)], static_cast<double>(value)); \
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
-template <class T, int d>
-std::string FormatVector(const char* expr, const mathfu::Vector<T, d>& v) {
-  std::string ret(expr);
-  ret += "(";
-  for (int32_t i = 0; i < d; ++i) {
-    std::stringstream ss;
-    ss << v[i];
-    ret += ss.str();
-    if (i != d - 1) ret += ", ";
-  }
-  ret += ")";
-  return ret;
-}
-
 // A predicate-formatter for asserting that compares 2 vectors are equal.
 template <class T, int d>
 ::testing::AssertionResult AssertVectorEqual(const char* m_expr,
@@ -109,9 +96,8 @@ template <class T, int d>
                                              const mathfu::Vector<T, d>& v2) {
   for (int32_t i = 0; i < d; ++i) {
     if (v1[i] != v2[i]) {
-      return ::testing::AssertionFailure()
-             << FormatVector(m_expr, v1) << " and " << FormatVector(n_expr, v2)
-             << " are not same value.";
+      return ::testing::AssertionFailure() << m_expr << v1 << " and " << n_expr
+                                           << v2 << " are not same value.";
     }
   }
 
@@ -775,6 +761,41 @@ void ToType_Test(const T& precision) {
 }
 TEST_ALL_F(ToType);
 TEST_ALL_INTS_F(ToType);
+
+// Test output stream operator.
+template <class T, int d>
+void OutputStream_Test(const T&) {
+  mathfu::Vector<T, d> vector;
+  for (int i = 0; i < d; ++i) {
+    vector[i] = static_cast<T>(i);
+  }
+
+  std::stringstream ss;
+  ss << vector;
+
+  switch (d) {
+    case 1:
+      EXPECT_EQ("(0)", ss.str());
+      break;
+    case 2:
+      EXPECT_EQ("(0, 1)", ss.str());
+      break;
+    case 3:
+      EXPECT_EQ("(0, 1, 2)", ss.str());
+      break;
+    case 4:
+      EXPECT_EQ("(0, 1, 2, 3)", ss.str());
+      break;
+    case 5:
+      EXPECT_EQ("(0, 1, 2, 3, 4)", ss.str());
+      break;
+  }
+}
+TEST_ALL_F(OutputStream)
+TEST_ALL_INTS_F(OutputStream)
+TEST_F(VectorTests, OutputStream_Test_float_1) {
+  OutputStream_Test<float, 1>(0.0f);
+}
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);

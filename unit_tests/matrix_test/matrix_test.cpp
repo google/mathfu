@@ -15,6 +15,8 @@
 */
 #include "mathfu/matrix.h"
 #include "mathfu/matrix_4x4.h"
+
+#include "mathfu/io.h"
 #include "mathfu/quaternion.h"
 #include "mathfu/utilities.h"
 #include "mathfu/vector.h"
@@ -315,12 +317,7 @@ std::string MatrixToString(const mathfu::Matrix<T, rows, columns>& matrix) {
   std::stringstream ss;
   ss.flags(std::ios::fixed);
   ss.precision(4);
-  for (int col = 0; col < columns; ++col) {
-    for (int row = 0; row < rows; ++row) {
-      ss << (T)matrix(col, row) << " ";
-    }
-    ss << "\n";
-  }
+  ss << matrix;
   return ss.str();
 }
 
@@ -1154,6 +1151,37 @@ void ToType_Test(const T& precision) {
   }
 }
 TEST_ALL_F(ToType, 0.0f, 0.0);
+
+template <class T, int d>
+void OutputStream_Test(const T&) {
+  mathfu::Matrix<T, d> matrix;
+  for (int i = 0; i < d * d; ++i) {
+    matrix[i] = static_cast<T>(i);
+  }
+
+  std::stringstream ss;
+  ss << matrix;
+
+  switch (d) {
+    case 1:
+      EXPECT_EQ("(0)", ss.str());
+      break;
+    case 2:
+      EXPECT_EQ("(0, 1, 2, 3)", ss.str());
+      break;
+    case 3:
+      EXPECT_EQ("(0, 1, 2, 3, 4, 5, 6, 7, 8)", ss.str());
+      break;
+    case 4:
+      EXPECT_EQ("(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)",
+                ss.str());
+      break;
+  }
+}
+TEST_ALL_F(OutputStream, 0.0f, 0.0);
+TEST_F(MatrixTests, OutputStream_Test_float_1) {
+  OutputStream_Test<float, 1>(0.0f);
+}
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);

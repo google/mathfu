@@ -15,6 +15,7 @@
 */
 #include "mathfu/quaternion.h"
 #include "mathfu/constants.h"
+#include "mathfu/io.h"
 
 #include <math.h>
 
@@ -433,6 +434,17 @@ TEST_F(QuaternionTests, IdentityConst) {
                  mathfu::Quaternion<double>(1.0, 0.0, 0.0, 0.0));
   EXPECT_EQ(mathfu::kQuatIdentityd.ToEulerAngles(), mathfu::kZeros3d);
 }
+
+template <class T>
+void OutputStream_Test(const T&) {
+  mathfu::Quaternion<T> q =
+      mathfu::Quaternion<T>(static_cast<T>(1), static_cast<T>(2),
+                            static_cast<T>(3), static_cast<T>(4));
+  std::stringstream ss;
+  ss << q;
+  EXPECT_EQ("(1, 2, 3, 4)", ss.str());
+}
+TEST_ALL_F(OutputStream);
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
