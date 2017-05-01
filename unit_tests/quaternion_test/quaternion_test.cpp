@@ -61,7 +61,7 @@ void ConstAccessor_Test(const T& precision) {
   EXPECT_EQ(static_cast<T>(0.38), quaternion[2]);
   EXPECT_EQ(static_cast<T>(0.19), quaternion[3]);
 }
-TEST_ALL_F(ConstAccessor);
+TEST_ALL_F(ConstAccessor)
 
 // Test updating elements of the quaternion using the array accessor.
 template <class T>
@@ -78,7 +78,7 @@ void NonConstAccessor_Test(const T& precision) {
   EXPECT_EQ(static_cast<T>(0.38), quaternion[2]);
   EXPECT_EQ(static_cast<T>(0.19), quaternion[3]);
 }
-TEST_ALL_F(NonConstAccessor);
+TEST_ALL_F(NonConstAccessor)
 
 // Test accessing the scalar component of the quaternion using the scalar
 // accessor.
@@ -89,7 +89,7 @@ void ScalarAccessor_Test(const T& precision) {
                                    static_cast<T>(0.38), static_cast<T>(0.19));
   EXPECT_EQ(static_cast<T>(0.50), quaternion.scalar());
 }
-TEST_ALL_F(ScalarAccessor);
+TEST_ALL_F(ScalarAccessor)
 
 // Test accessing the scalar component of the quaternion using the const scalar
 // accessor.
@@ -101,7 +101,7 @@ void ConstScalarAccessor_Test(const T& precision) {
       static_cast<T>(0.19));
   EXPECT_EQ(static_cast<T>(0.50), quaternion.scalar());
 }
-TEST_ALL_F(ConstScalarAccessor);
+TEST_ALL_F(ConstScalarAccessor)
 
 // Test mutating the scalar component of the quaternion using the scalar
 // mutator.
@@ -112,7 +112,7 @@ void ScalarMutator_Test(const T& precision) {
   quaternion.set_scalar(static_cast<T>(0.38));
   EXPECT_EQ(static_cast<T>(0.38), quaternion[0]);
 }
-TEST_ALL_F(ScalarMutator);
+TEST_ALL_F(ScalarMutator)
 
 // Test accessing elements of the quaternion using the vector accessor.
 template <class T>
@@ -124,7 +124,7 @@ void VectorAccessor_Test(const T& precision) {
   EXPECT_EQ(static_cast<T>(0.38), quaternion.vector()[1]);
   EXPECT_EQ(static_cast<T>(0.19), quaternion.vector()[2]);
 }
-TEST_ALL_F(VectorAccessor);
+TEST_ALL_F(VectorAccessor)
 
 // Test accessing elements of the quaternion using the const vector accessor.
 template <class T>
@@ -137,7 +137,7 @@ void ConstVectorAccessor_Test(const T& precision) {
   EXPECT_EQ(static_cast<T>(0.38), quaternion.vector()[1]);
   EXPECT_EQ(static_cast<T>(0.19), quaternion.vector()[2]);
 }
-TEST_ALL_F(ConstVectorAccessor);
+TEST_ALL_F(ConstVectorAccessor)
 
 // Test mutating the vector component of the quaternion using the vector
 // mutator.
@@ -151,7 +151,7 @@ void VectorMutator_Test(const T& precision) {
   EXPECT_EQ(static_cast<T>(0.76), quaternion.vector()[1]);
   EXPECT_EQ(static_cast<T>(0.50), quaternion.vector()[2]);
 }
-TEST_ALL_F(VectorMutator);
+TEST_ALL_F(VectorMutator)
 
 // This will test converting a Quaternion to and from Angle/Axis,
 // Euler Angles, and Matrices
@@ -200,7 +200,7 @@ void Conversion_Test(const T& precision) {
   mathfu::Matrix<T, 4> convertedM4(qm4.ToMatrix4());
   for (int i = 0; i < 15; ++i) EXPECT_NEAR(m4[i], convertedM4[i], precision);
 }
-TEST_ALL_F(Conversion);
+TEST_ALL_F(Conversion)
 
 // This will test inverting a quaternion and verify that their combination
 // corresponds to a rotation of 0.
@@ -213,7 +213,7 @@ void Inverse_Test(const T& precision) {
   EXPECT_NEAR(0, v[1], precision);
   EXPECT_NEAR(0, v[2], precision);
 }
-TEST_ALL_F(Inverse);
+TEST_ALL_F(Inverse)
 
 // This will test the multiplication of quaternions.
 template <class T>
@@ -265,7 +265,7 @@ void Mult_Test(const T& precision) {
   slerp3.ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle2, convertedAngle, precision);
 }
-TEST_ALL_F(Mult);
+TEST_ALL_F(Mult)
 
 // This will test the dot product of quaternions.
 template <class T>
@@ -293,7 +293,7 @@ void Dot_Test(const T& precision) {
   EXPECT_NEAR(acos(mathfu::Quaternion<T>::DotProduct(qaa1, qaa4)) * 2.0,
               angle1 - angle4, precision);
 }
-TEST_ALL_F(Dot);
+TEST_ALL_F(Dot)
 
 // This will test normalization of quaternions.
 template <class T>
@@ -330,7 +330,7 @@ void Normalize_Test(const T& precision) {
   EXPECT_NEAR(reference_quat_2[2], normalized_quat_2[2], precision);
   EXPECT_NEAR(reference_quat_2[3], normalized_quat_2[3], precision);
 }
-TEST_ALL_F(Normalize);
+TEST_ALL_F(Normalize)
 
 // This will test normalization of quaternions.
 template <class T>
@@ -399,7 +399,7 @@ void RotateFromTo_Test(const T& precision) {
   mathfu::Vector<T, 3> arbitrary_1_reversed = reverse * arbitrary_1;
   EXPECT_NEAR_VEC3(arbitrary_1_reversed, -arbitrary_1, precision * 2.0);
 }
-TEST_ALL_F(RotateFromTo);
+TEST_ALL_F(RotateFromTo)
 
 // Test the compilation of basic quaternion operations given in the sample
 // file. This will test interpolating two rotations.
@@ -444,7 +444,7 @@ void OutputStream_Test(const T&) {
   ss << q;
   EXPECT_EQ("(1, 2, 3, 4)", ss.str());
 }
-TEST_ALL_F(OutputStream);
+TEST_ALL_F(OutputStream)
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);

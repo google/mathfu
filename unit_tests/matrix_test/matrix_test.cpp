@@ -122,7 +122,7 @@ void Initialize_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(Initialize, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(Initialize, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test initialization by specifying all values explicitly.
 template <class T>
@@ -188,7 +188,7 @@ void InitializePacked_Test(const T& precision) {
         << "Element " << i;
   }
 }
-TEST_ALL_F(InitializePacked, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(InitializePacked, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test serialization to a packed array of vectors.
 template <class T, int d>
@@ -205,7 +205,7 @@ void PackedSerialization_Test(const T& precision) {
         << "Element " << i;
   }
 }
-TEST_ALL_F(PackedSerialization, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(PackedSerialization, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test the Addition and Subtraction of matrices. The template
 // parameter d corresponds to the number of rows and columns.
@@ -244,7 +244,7 @@ void AddSub_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(AddSub, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(AddSub, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test the multiplication of matrices by matrices, vectors,
 // and scalars. The template parameter d corresponds to the number of rows and
@@ -290,7 +290,7 @@ void Mult_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(Mult, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(Mult, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test the outer product of two vectors. The template parameter d
 // corresponds to the number of rows and columns.
@@ -309,7 +309,7 @@ void OuterProduct_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(OuterProduct, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(OuterProduct, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Print the specified matrix to output_string in the form.
 template <class T, int rows, int columns>
@@ -375,7 +375,7 @@ void InverseNonInvertible_Test(const T& precision) {
     }
   }
 }
-TEST_ALL_F(InverseNonInvertible, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(InverseNonInvertible, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -416,7 +416,7 @@ void Inverse_Test(const T& precision) {
 // Due to the number of operations involved and the random numbers used to
 // generate the test matrices, the precision the inverse matrix is calculated
 // to is relatively low.
-TEST_ALL_F(Inverse, 1e-4f, 1e-8);
+TEST_ALL_F(Inverse, 1e-4f, 1e-8)
 
 // This will test converting from a translation into a matrix and back again.
 template <class T>
@@ -433,7 +433,7 @@ void TranslationVector3D_Test(const T& precision) {
     EXPECT_EQ(trans[i], trans_back[i]);
   }
 }
-TEST_SCALAR_F(TranslationVector3D, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(TranslationVector3D, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test converting from a translation into a matrix and back again.
 template <class T>
@@ -450,7 +450,7 @@ void TranslationVector2D_Test(const T& precision) {
     EXPECT_EQ(trans[i], trans_back[i]);
   }
 }
-TEST_SCALAR_F(TranslationVector2D, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(TranslationVector2D, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test converting from a scale into a matrix, then multiply by
 // a vector of 1's, which should produce the original scale again.
@@ -482,7 +482,7 @@ void FromScaleVector_Test(const T& precision) {
   }
 }
 // Precision is zero. Results must be perfect for this test.
-TEST_ALL_F(FromScaleVector, 0.0f, 0.0);
+TEST_ALL_F(FromScaleVector, 0.0f, 0.0)
 
 // Compare a set of Matrix<T, rows, columns> with expected values.
 template <class T, int rows, int columns>
@@ -567,7 +567,7 @@ void Perspective_Test(const T& precision) {
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(Perspective, FLOAT_PRECISION, DOUBLE_PRECISION * 10);
+TEST_SCALAR_F(Perspective, FLOAT_PRECISION, DOUBLE_PRECISION * 10)
 
 // Test orthographic matrix calculation.
 template <class T>
@@ -639,7 +639,7 @@ void Ortho_Test(const T& precision) {
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(Ortho, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(Ortho, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test look-at matrix calculation.
 template <class T>
@@ -767,7 +767,7 @@ void LookAt_Test(const T& precision) {
   VerifyMatrixExpectations(
       kTestCases, sizeof(kTestCases) / sizeof(kTestCases[0]), precision);
 }
-TEST_SCALAR_F(LookAt, FLOAT_PRECISION, kLookAtDoublePrecision);
+TEST_SCALAR_F(LookAt, FLOAT_PRECISION, kLookAtDoublePrecision)
 
 // Test UnProject calculation.
 template <class T>
@@ -791,7 +791,7 @@ void UnProject_Test(const T& precision) {
   EXPECT_NEAR(result.y, 3113.7409399625253, 3000.0 * precision);
   EXPECT_NEAR(result.z, 10035.303114023569, 10000.0 * precision);
 }
-TEST_SCALAR_F(UnProject, kUnProjectFloatPrecision, DOUBLE_PRECISION);
+TEST_SCALAR_F(UnProject, kUnProjectFloatPrecision, DOUBLE_PRECISION)
 
 // Test matrix transposition.
 template <class T, int d>
@@ -809,7 +809,7 @@ void Transpose_Test(const T& precision) {
   }
 }
 
-TEST_ALL_F(Transpose, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(Transpose, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Return one of the numbers:
 //   offset, offset + width/d, offset + 2*width/d, ... , offset + (d-1)*width/d
@@ -883,7 +883,7 @@ void MultiplyOperatorInverse_Test(const T& precision) {
   ExpectEqualMatrices(product, identity, precision);
 }
 
-TEST_ALL_F(MultiplyOperatorInverse, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(MultiplyOperatorInverse, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test static operator*(a, b) by multiplying an invertable matrix by its
 // inverse. Should end up with identity.
@@ -902,7 +902,7 @@ void ExternalMultiplyOperatorInverse_Test(const T& precision) {
   ExpectEqualMatrices(product, identity, precision);
 }
 
-TEST_ALL_F(ExternalMultiplyOperatorInverse, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(ExternalMultiplyOperatorInverse, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test matrix operator*() by multiplying a non-zero matrix by identity.
 // Should be no change.
@@ -920,7 +920,7 @@ void MultiplyOperatorIdentity_Test(const T& precision) {
   ExpectEqualMatrices(product, invertable, precision);
 }
 
-TEST_ALL_F(MultiplyOperatorIdentity, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(MultiplyOperatorIdentity, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test static operator*(a, b) by multiplying a non-zero matrix by identity.
 // Should be no change.
@@ -937,7 +937,7 @@ void ExternalMultiplyOperatorIdentity_Test(const T& precision) {
   ExpectEqualMatrices(product, invertable, precision);
 }
 
-TEST_ALL_F(ExternalMultiplyOperatorIdentity, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(ExternalMultiplyOperatorIdentity, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test matrix operator*() by multiplying a non-zero matrix by zero.
 // Should be no change.
@@ -955,7 +955,7 @@ void MultiplyOperatorZero_Test(const T& precision) {
   ExpectEqualMatrices(product, zero, precision);
 }
 
-TEST_ALL_F(MultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(MultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test static operator*(a, b) by multiplying a non-zero matrix by zero.
 // Should be no change.
@@ -972,7 +972,7 @@ void ExternalMultiplyOperatorZero_Test(const T& precision) {
   ExpectEqualMatrices(product, zero, precision);
 }
 
-TEST_ALL_F(ExternalMultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_ALL_F(ExternalMultiplyOperatorZero, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test Matrix<>::ToAffineTransform().
 template <class T>
@@ -990,7 +990,7 @@ void Mat4ToAffine_Test(const T&) {
   }
 }
 
-TEST_SCALAR_F(Mat4ToAffine, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(Mat4ToAffine, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test Matrix<>::FromAffineTransform().
 template <class T>
@@ -1004,7 +1004,7 @@ void Mat4FromAffine_Test(const T&) {
   ExpectEqualMatrices(to_mat4, indices4, static_cast<T>(0));
 }
 
-TEST_SCALAR_F(Mat4FromAffine, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(Mat4FromAffine, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test converting back and forth via Matrix<>::To/FromAffineTransform().
 template <class T>
@@ -1047,7 +1047,7 @@ void Mat4ToAndFromAffine_Test(const T&) {
   }
 }
 
-TEST_SCALAR_F(Mat4ToAndFromAffine, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(Mat4ToAndFromAffine, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Test extracting the 3x3 rotation Matrix portion from a 4x4 Matrix.
 template <class T>
@@ -1062,7 +1062,7 @@ void Mat4ToRotationMatrix_Test(const T&) {
   }
 }
 
-TEST_SCALAR_F(Mat4ToRotationMatrix, FLOAT_PRECISION, DOUBLE_PRECISION);
+TEST_SCALAR_F(Mat4ToRotationMatrix, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test converting from a translation into a matrix and back again.
 // Test the compilation of basic matrix operations given in the sample file.
@@ -1122,7 +1122,7 @@ void FromType_Test(const T& precision) {
     EXPECT_EQ(compatible.values[i], matrix[i]);
   }
 }
-TEST_ALL_F(FromType, 0.0f, 0.0);
+TEST_ALL_F(FromType, 0.0f, 0.0)
 
 // This will test the ToType() conversion functions.
 template <class T, int d>
@@ -1150,7 +1150,7 @@ void ToType_Test(const T& precision) {
     EXPECT_EQ(compatible.values[i], matrix[i]);
   }
 }
-TEST_ALL_F(ToType, 0.0f, 0.0);
+TEST_ALL_F(ToType, 0.0f, 0.0)
 
 template <class T, int d>
 void OutputStream_Test(const T&) {
@@ -1178,7 +1178,7 @@ void OutputStream_Test(const T&) {
       break;
   }
 }
-TEST_ALL_F(OutputStream, 0.0f, 0.0);
+TEST_ALL_F(OutputStream, 0.0f, 0.0)
 TEST_F(MatrixTests, OutputStream_Test_float_1) {
   OutputStream_Test<float, 1>(0.0f);
 }

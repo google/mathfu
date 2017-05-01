@@ -188,7 +188,7 @@ void InitializationPerDimension_Test(const T& precision) {
   EXPECT_NEAR(9.2, f4_vector[2], precision);
   EXPECT_NEAR(15.5, f4_vector[3], precision);
 }
-TEST_SCALAR_F(InitializationPerDimension);
+TEST_SCALAR_F(InitializationPerDimension)
 
 // Test initialization from a packed vector.
 template <class T, int d>
@@ -204,7 +204,7 @@ void InitializationPacked_Test(const T& precision) {
                                                                 << i;
   }
 }
-TEST_ALL_F(InitializationPacked);
+TEST_ALL_F(InitializationPacked)
 
 // Test vector packing.
 template <class T, int d>
@@ -228,7 +228,7 @@ void PackedSerialization_Test(const T& precision) {
         << "Element " << i;
   }
 }
-TEST_ALL_F(PackedSerialization);
+TEST_ALL_F(PackedSerialization)
 
 // This will test the Addition and Subtraction of vectors. The template
 // parameter d corresponds to the size of the vector.
@@ -698,8 +698,8 @@ void Equal_Test(const T& precision) {
   mathfu::Vector<T, d> close(expected - static_cast<T>(1));
   EXPECT_FALSE(expected == close);
 }
-TEST_ALL_F(Equal);
-TEST_ALL_INTS_F(Equal);
+TEST_ALL_F(Equal)
+TEST_ALL_INTS_F(Equal)
 
 // This will test the != vectors operator.
 template <class T, int d>
@@ -714,8 +714,8 @@ void NotEqual_Test(const T& precision) {
   mathfu::Vector<T, d> close(expected - static_cast<T>(1));
   EXPECT_TRUE(expected != close);
 }
-TEST_ALL_F(NotEqual);
-TEST_ALL_INTS_F(NotEqual);
+TEST_ALL_F(NotEqual)
+TEST_ALL_INTS_F(NotEqual)
 
 // Simple class that represents a possible compatible type for a vector.
 // That is, it's just an array of T of length d, so can be loaded and
@@ -739,8 +739,8 @@ void FromType_Test(const T& precision) {
     EXPECT_EQ(compatible.values[i], vector[i]);
   }
 }
-TEST_ALL_F(FromType);
-TEST_ALL_INTS_F(FromType);
+TEST_ALL_F(FromType)
+TEST_ALL_INTS_F(FromType)
 
 // This will test the ToType() conversion functions.
 template <class T, int d>
@@ -759,8 +759,8 @@ void ToType_Test(const T& precision) {
     EXPECT_EQ(compatible.values[i], vector[i]);
   }
 }
-TEST_ALL_F(ToType);
-TEST_ALL_INTS_F(ToType);
+TEST_ALL_F(ToType)
+TEST_ALL_INTS_F(ToType)
 
 // Test output stream operator.
 template <class T, int d>
