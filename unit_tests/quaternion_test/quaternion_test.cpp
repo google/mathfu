@@ -48,6 +48,11 @@ class QuaternionTests : public ::testing::Test {
     EXPECT_EQ((q1).scalar(), (q2).scalar()); \
     EXPECT_EQ((q1).vector(), (q2).vector()); \
   }
+#define EXPECT_NEAR_QUAT(q1, q2, precision)                    \
+  {                                                            \
+    EXPECT_NEAR((q1).scalar(), (q2).scalar(), precision);      \
+    EXPECT_NEAR_VEC3((q1).vector(), (q2).vector(), precision); \
+  }
 
 // Test accessing elements of the quaternion using the const array accessor.
 template <class T>
@@ -445,6 +450,18 @@ void OutputStream_Test(const T&) {
   EXPECT_EQ("(1, 2, 3, 4)", ss.str());
 }
 TEST_ALL_F(OutputStream)
+
+template <class T>
+void LookAt_Test(const T& precision) {
+  const T one = static_cast<T>(1);
+  const T zero = static_cast<T>(0);
+  EXPECT_NEAR_QUAT(mathfu::Quaternion<T>::identity,
+                   mathfu::Quaternion<T>::LookAt(
+                       mathfu::Vector<T, 3>(zero, zero, one),
+                       mathfu::Vector<T, 3>(zero, one, zero)),
+                   precision);
+}
+TEST_ALL_F(LookAt);
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
