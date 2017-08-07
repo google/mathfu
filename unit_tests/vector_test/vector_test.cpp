@@ -15,6 +15,7 @@
 */
 #include "mathfu/vector.h"
 #include "mathfu/constants.h"
+#include "mathfu/io.h"
 
 #include "gtest/gtest.h"
 
@@ -87,20 +88,6 @@ class VectorTests : public ::testing::Test {
   EXPECT_DOUBLE_EQ(mathfu::kConst##d[(index)], static_cast<double>(value)); \
   EXPECT_EQ(mathfu::kConst##i[(index)], static_cast<int>(value))
 
-template <class T, int d>
-std::string FormatVector(const char* expr, const mathfu::Vector<T, d>& v) {
-  std::string ret(expr);
-  ret += "(";
-  for (int32_t i = 0; i < d; ++i) {
-    std::stringstream ss;
-    ss << v[i];
-    ret += ss.str();
-    if (i != d - 1) ret += ", ";
-  }
-  ret += ")";
-  return ret;
-}
-
 // A predicate-formatter for asserting that compares 2 vectors are equal.
 template <class T, int d>
 ::testing::AssertionResult AssertVectorEqual(const char* m_expr,
@@ -109,9 +96,8 @@ template <class T, int d>
                                              const mathfu::Vector<T, d>& v2) {
   for (int32_t i = 0; i < d; ++i) {
     if (v1[i] != v2[i]) {
-      return ::testing::AssertionFailure()
-             << FormatVector(m_expr, v1) << " and " << FormatVector(n_expr, v2)
-             << " are not same value.";
+      return ::testing::AssertionFailure() << m_expr << v1 << " and " << n_expr
+                                           << v2 << " are not same value.";
     }
   }
 
@@ -202,7 +188,7 @@ void InitializationPerDimension_Test(const T& precision) {
   EXPECT_NEAR(9.2, f4_vector[2], precision);
   EXPECT_NEAR(15.5, f4_vector[3], precision);
 }
-TEST_SCALAR_F(InitializationPerDimension);
+TEST_SCALAR_F(InitializationPerDimension)
 
 // Test initialization from a packed vector.
 template <class T, int d>
@@ -218,7 +204,7 @@ void InitializationPacked_Test(const T& precision) {
                                                                 << i;
   }
 }
-TEST_ALL_F(InitializationPacked);
+TEST_ALL_F(InitializationPacked)
 
 // Test vector packing.
 template <class T, int d>
@@ -242,7 +228,7 @@ void PackedSerialization_Test(const T& precision) {
         << "Element " << i;
   }
 }
-TEST_ALL_F(PackedSerialization);
+TEST_ALL_F(PackedSerialization)
 
 // This will test the Addition and Subtraction of vectors. The template
 // parameter d corresponds to the size of the vector.
@@ -712,8 +698,8 @@ void Equal_Test(const T& precision) {
   mathfu::Vector<T, d> close(expected - static_cast<T>(1));
   EXPECT_FALSE(expected == close);
 }
-TEST_ALL_F(Equal);
-TEST_ALL_INTS_F(Equal);
+TEST_ALL_F(Equal)
+TEST_ALL_INTS_F(Equal)
 
 // This will test the != vectors operator.
 template <class T, int d>
@@ -728,8 +714,8 @@ void NotEqual_Test(const T& precision) {
   mathfu::Vector<T, d> close(expected - static_cast<T>(1));
   EXPECT_TRUE(expected != close);
 }
-TEST_ALL_F(NotEqual);
-TEST_ALL_INTS_F(NotEqual);
+TEST_ALL_F(NotEqual)
+TEST_ALL_INTS_F(NotEqual)
 
 // Simple class that represents a possible compatible type for a vector.
 // That is, it's just an array of T of length d, so can be loaded and
@@ -753,8 +739,8 @@ void FromType_Test(const T& precision) {
     EXPECT_EQ(compatible.values[i], vector[i]);
   }
 }
-TEST_ALL_F(FromType);
-TEST_ALL_INTS_F(FromType);
+TEST_ALL_F(FromType)
+TEST_ALL_INTS_F(FromType)
 
 // This will test the ToType() conversion functions.
 template <class T, int d>
@@ -773,8 +759,43 @@ void ToType_Test(const T& precision) {
     EXPECT_EQ(compatible.values[i], vector[i]);
   }
 }
-TEST_ALL_F(ToType);
-TEST_ALL_INTS_F(ToType);
+TEST_ALL_F(ToType)
+TEST_ALL_INTS_F(ToType)
+
+// Test output stream operator.
+template <class T, int d>
+void OutputStream_Test(const T&) {
+  mathfu::Vector<T, d> vector;
+  for (int i = 0; i < d; ++i) {
+    vector[i] = static_cast<T>(i);
+  }
+
+  std::stringstream ss;
+  ss << vector;
+
+  switch (d) {
+    case 1:
+      EXPECT_EQ("(0)", ss.str());
+      break;
+    case 2:
+      EXPECT_EQ("(0, 1)", ss.str());
+      break;
+    case 3:
+      EXPECT_EQ("(0, 1, 2)", ss.str());
+      break;
+    case 4:
+      EXPECT_EQ("(0, 1, 2, 3)", ss.str());
+      break;
+    case 5:
+      EXPECT_EQ("(0, 1, 2, 3, 4)", ss.str());
+      break;
+  }
+}
+TEST_ALL_F(OutputStream)
+TEST_ALL_INTS_F(OutputStream)
+TEST_F(VectorTests, OutputStream_Test_float_1) {
+  OutputStream_Test<float, 1>(0.0f);
+}
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);

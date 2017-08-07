@@ -520,6 +520,26 @@ class Quaternion {
         .Normalized();
   }
 
+  /// @brief Returns a quaternion looking at forward vector with an up vector.
+  ///
+  /// @param forward The forward vector (Vector to face).
+  /// @param up The up vector.
+  /// @param Forward and up do not have to be orthogonal.
+  /// @param Forward and up cannot be parallel.
+  /// @param Forward and up cannot be zero vectors.
+  ///
+  /// @return A Quaternion looking at forward vector with an up vector.
+  ///
+  /// Uses Matrix::LookAt to get the Rotation Matrix, then convert it to Quat.
+  /// Matrix::LookAt takes destination and source as first and second param.
+  /// The params can be represented with zero-vector as source and
+  /// forward-vector as destination.
+  static inline Quaternion<T> LookAt(const Vector<T, 3>& forward,
+                                     const Vector<T, 3>& up) {
+    return FromMatrix(
+        Matrix<T, 3>::LookAt(forward, Vector<T, 3>(static_cast<T>(0)), up));
+  }
+
   /// @brief Contains a quaternion doing the identity transform.
   static Quaternion<T> identity;
 
