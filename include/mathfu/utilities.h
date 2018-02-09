@@ -497,7 +497,7 @@ inline void *AllocateAligned(size_t n) {
   // Write out original buffer pointer before aligned buffer.
   // The assert will fail if the allocator granularity is less than the pointer
   // size, or if MATHFU_ALIGNMENT doesn't fit two pointers.
-  assert(static_cast<size_t>(aligned_buf - buf) > sizeof(void *));
+  assert(static_cast<size_t>(aligned_buf - buf) >= sizeof(void *));
   *(reinterpret_cast<uint8_t **>(aligned_buf) - 1) = buf;
   return aligned_buf;
 #endif  // defined(_MSC_VER) && _MSC_VER >= 1900 // MSVC 2015
