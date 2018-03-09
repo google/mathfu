@@ -1088,6 +1088,38 @@ TEST_F(MatrixTests, MatrixSample) {
   EXPECT_NEAR(4.74f, rotatedVector[2], precision);
 }
 
+// This will test the == matrices operator. The template paramter d corresponds
+// to the number of rows and columns.
+template <class T, int d>
+void Equal_Test(const T& precision) {
+  mathfu::Matrix<T, d> expected;
+  for (int i = 0; i < d * d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Matrix<T, d> copy(expected);
+  EXPECT_TRUE(expected == copy);
+
+  mathfu::Matrix<T, d> close(expected - static_cast<T>(1));
+  EXPECT_FALSE(expected == close);
+}
+TEST_ALL_F(Equal, FLOAT_PRECISION, DOUBLE_PRECISION)
+
+// This will test the != matrices operator. The template paramter d corresponds
+// to the number of rows and columns.
+template <class T, int d>
+void NotEqual_Test(const T& precision) {
+  mathfu::Matrix<T, d> expected;
+  for (int i = 0; i < d * d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Matrix<T, d> copy(expected);
+  EXPECT_FALSE(expected != copy);
+
+  mathfu::Matrix<T, d> close(expected - static_cast<T>(1));
+  EXPECT_TRUE(expected != close);
+}
+TEST_ALL_F(NotEqual, FLOAT_PRECISION, DOUBLE_PRECISION)
+
 // Simple class that represents a possible compatible type for a vector.
 // That is, it's just an array of T of length d, so can be loaded and
 // stored from mathfu::Vector<T,d> using ToType() and FromType().

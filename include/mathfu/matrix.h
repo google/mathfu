@@ -862,6 +862,44 @@ class Matrix {
 /// @addtogroup mathfu_matrix
 /// @{
 
+/// @cond MATHFU_INTERNAL
+template <int index> struct MathfuMatrixUnroller {
+  template <class T, int rows, int columns>
+  inline static bool NotEqual(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+    return lhs[index] != rhs[index] |
+           MathfuMatrixUnroller<index-1>::NotEqual(lhs, rhs);
+  }
+};
+template <> struct MathfuMatrixUnroller<0> {
+  template <class T, int rows, int columns>
+  inline static bool NotEqual(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+    return lhs[0] != rhs[0];
+  }
+};
+/// @endcond
+
+/// @brief Compare 2 Matrices of the same size for inequality.
+///
+/// @note: The likelihood of two float values being the same is very small.
+///
+/// @return true if the elements of 2 matrices differ, false otherwise.
+template <class T, int rows, int columns>
+inline bool operator!=(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+  return MathfuMatrixUnroller<rows * columns - 1>::NotEqual(lhs, rhs);
+}
+
+/// @brief Compare 2 Matrices of the same size for equality.
+///
+/// @return true if the 2 matrices contains the same values, false otherwise.
+template <class T, int rows, int columns>
+inline bool operator==(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+  return !(lhs != rhs);
+}
+
 /// @brief Multiply each element of a Matrix by a scalar.
 ///
 /// @param s Scalar to multiply by.
