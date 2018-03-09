@@ -867,7 +867,7 @@ template <int index> struct MathfuMatrixUnroller {
   template <class T, int rows, int columns>
   inline static bool NotEqual(const Matrix<T, rows, columns>& lhs,
                        const Matrix<T, rows, columns>& rhs) {
-    return lhs[index] != rhs[index] |
+    return (lhs[index] != rhs[index]) |
            MathfuMatrixUnroller<index-1>::NotEqual(lhs, rhs);
   }
 };
