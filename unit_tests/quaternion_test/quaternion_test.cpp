@@ -463,6 +463,17 @@ void LookAt_Test(const T& precision) {
 }
 TEST_ALL_F(LookAt);
 
+template <class T>
+void FromEulerAnglesSplit_Test(const T& precision) {
+  mathfu::Vector<T, 3> eulers(0.1, 0.2, 0.3);
+  EXPECT_NEAR_QUAT(mathfu::Quaternion<T>::FromEulerAngles(eulers),
+                   mathfu::Quaternion<T>::FromEulerAngles(eulers[0],
+                                                          eulers[1],
+                                                          eulers[2]),
+                   precision);
+}
+TEST_ALL_F(FromEulerAnglesSplit);
+
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   printf("%s (%s)\n", argv[0], MATHFU_BUILD_OPTIONS_STRING);

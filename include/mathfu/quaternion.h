@@ -246,7 +246,7 @@ class Quaternion {
   /// @brief Create a quaternion from 3 euler angles.
   ///
   /// @param angles 3-dimensional Vector where each element contains an
-  /// angle in radius to rotate by about the x, y and z axes.
+  /// angle in radians to rotate by about the x, y and z axes.
   /// @return Quaternion containing the result.
   static Quaternion<T> FromEulerAngles(const Vector<T, 3>& angles) {
     const Vector<T, 3> halfAngles(static_cast<T>(0.5) * angles[0],
@@ -262,6 +262,18 @@ class Quaternion {
                          sinx * cosy * cosz - cosx * siny * sinz,
                          cosx * siny * cosz + sinx * cosy * sinz,
                          cosx * cosy * sinz - sinx * siny * cosz);
+  }
+
+  /// @brief Create a quaternion from 3 euler angles.
+  ///
+  /// @param x_rotation angle in radians to rotate by about the x axis.
+  /// @param y_rotation angle in radians to rotate by about the y axis.
+  /// @param z_rotation angle in radians to rotate by about the z axis.
+  /// @return Quaternion containing the result.
+  static Quaternion<T> FromEulerAngles(T x_rotation,
+                                       T y_rotation,
+                                       T z_rotation) {
+    return FromEulerAngles(Vector<T, 3>(x_rotation, y_rotation, z_rotation));
   }
 
   /// @brief Create a quaternion from a rotation Matrix.
