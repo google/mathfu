@@ -208,10 +208,10 @@ class Matrix<float, 4> {
   }
 
   inline bool InverseWithDeterminantCheck(
-      Matrix<float, 4, 4>* const inverse) const {
-    return fabs(simd4f_get_x(simd4x4f_inverse(&data_.simd_matrix,
-                                              &inverse->data_.simd_matrix))) >=
-           Constants<float>::GetDeterminantThreshold();
+      Matrix<float, 4, 4>* const inverse,
+      float det_thresh = Constants<float>::GetDeterminantThreshold()) const {
+    return fabs(simd4f_get_x(simd4x4f_inverse(
+               &data_.simd_matrix, &inverse->data_.simd_matrix))) >= det_thresh;
   }
 
   /// Calculate the transpose of matrix.
