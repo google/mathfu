@@ -338,6 +338,21 @@ class Vector<float, 3> {
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
+  static inline float Distance(const Vector<float, 3>& v1,
+                               const Vector<float, 3>& v2) {
+    return (v1 - v2).Length();
+  }
+
+  static inline float DistanceSquared(const Vector<float, 3>& v1,
+                                      const Vector<float, 3>& v2) {
+    return (v1 - v2).LengthSquared();
+  }
+
+  static inline float Angle(const Vector<float, 3>& v1,
+                            const Vector<float, 3>& v2) {
+    return AngleHelper(v1, v2);
+  }
+
   template <class T, int rows, int cols>
   friend class Matrix;
   template <class T, int d>

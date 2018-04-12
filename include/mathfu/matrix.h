@@ -850,6 +850,18 @@ class Matrix {
     return LookAtHelper(at, eye, up, handedness);
   }
 
+  /// @brief Create a 3-dimensional transform Matrix.
+  ///
+  /// @param position The position of the object.
+  /// @param rotation The rotation of the object.
+  /// @param scale The scale of the object.
+  /// @return 3-dimensional transform Matrix.
+  static inline Matrix<T, 4, 4> Transform(const Vector<T, 3>& position,
+                                          const Matrix<T, 3, 3>& rotation,
+                                          const Vector<T, 3>& scale) {
+    return TransformHelper(position, rotation, scale);
+  }
+
   /// @brief Get the 3D position in object space from a window coordinate.
   ///
   /// @param window_coord The window coordinate. The z value is for depth.
@@ -1462,6 +1474,26 @@ static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
   const Vector<T, 4> column2(axes[0][2], axes[1][2], axes[2][2], 0);
   const Vector<T, 4> column3(axes[3], 1);
   return Matrix<T, 4, 4>(column0, column1, column2, column3);
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+/// Create a 3-dimensional transform matrix.
+template <class T>
+static inline Matrix<T, 4, 4> TransformHelper(const Vector<T, 3>& position,
+                                              const Matrix<T, 3, 3>& rotation,
+                                              const Vector<T, 3>& scale) {
+  Vector<T, 4> c0(rotation(0, 0), rotation(1, 0), rotation(2, 0), 0);
+  Vector<T, 4> c1(rotation(0, 1), rotation(1, 1), rotation(2, 1), 0);
+  Vector<T, 4> c2(rotation(0, 2), rotation(1, 2), rotation(2, 2), 0);
+  Vector<T, 4> c3(0, 0, 0, 1);
+  c0 *= scale.x;
+  c1 *= scale.y;
+  c2 *= scale.z;
+  c3[0] = position.x;
+  c3[1] = position.y;
+  c3[2] = position.z;
+  return Matrix<T, 4, 4>(c0, c1, c2, c3);
 }
 /// @endcond
 
