@@ -257,18 +257,18 @@ class Vector<float, 4> {
     return Vector<float, 4>(simd4f_min(v1.simd, v2.simd));
   }
 
-  static inline float Distance(const Vector<float, 2>& v1,
-                               const Vector<float, 2>& v2) {
+  static inline float Distance(const Vector<float, 4>& v1,
+                               const Vector<float, 4>& v2) {
     return (v1 - v2).Length();
   }
 
-  static inline float DistanceSquared(const Vector<float, 2>& v1,
-                                      const Vector<float, 2>& v2) {
+  static inline float DistanceSquared(const Vector<float, 4>& v1,
+                                      const Vector<float, 4>& v2) {
     return (v1 - v2).LengthSquared();
   }
 
-  static inline float Angle(const Vector<float, 2>& v1,
-                            const Vector<float, 2>& v2) {
+  static inline float Angle(const Vector<float, 4>& v1,
+                            const Vector<float, 4>& v2) {
     return AngleHelper(v1, v2);
   }
 
