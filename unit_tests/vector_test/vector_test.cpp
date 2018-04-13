@@ -613,6 +613,59 @@ void Min_Test(const T& precision) {
 }
 TEST_ALL_F(Min)
 
+// Test distance function for vector2.
+TEST_F(VectorTests, Distance_Vector2) {
+  using namespace mathfu;
+  const Vector<float, 2> a(0, 10);
+  const Vector<float, 2> b(15, 12);
+  const float distance = Vector<float, 2>::Distance(a, b);
+  EXPECT_NEAR(distance, sqrtf(15 * 15 + 2 * 2), FLOAT_PRECISION);
+}
+
+// Test distance function for vector3.
+TEST_F(VectorTests, Distance_Vector3) {
+  using namespace mathfu;
+  const Vector<float, 3> a(0, 10, 3);
+  const Vector<float, 3> b(15, 12, -4);
+  const float distance = Vector<float, 3>::Distance(a, b);
+  EXPECT_NEAR(distance, sqrtf(15 * 15 + 2 * 2 + 7 * 7), FLOAT_PRECISION);
+}
+
+// Test distance function for vector4.
+TEST_F(VectorTests, Distance_Vector4) {
+  using namespace mathfu;
+  const Vector<float, 4> a(9, 10, 3, 5);
+  const Vector<float, 4> b(15, 12, -4, 1);
+  const float distance = Vector<float, 4>::Distance(a, b);
+  EXPECT_NEAR(distance, sqrtf(6 * 6 + 2 * 2 + 7 * 7 + 4 * 4), FLOAT_PRECISION);
+}
+
+TEST_F(VectorTests, Angle_Vector2) {
+  using Vec2 = mathfu::Vector<float, 2>;
+  Vec2 a(0, 1);
+  Vec2 b(1, 0);
+  EXPECT_NEAR(Vec2::Angle(a, b), mathfu::kPi / 2.0f, FLOAT_PRECISION);
+
+  a = Vec2(1, 1);
+  b = Vec2(0, -1);
+  EXPECT_NEAR(Vec2::Angle(a, b), 3.0f * mathfu::kPi / 4.0f, FLOAT_PRECISION);
+}
+
+TEST_F(VectorTests, Angle_Vector3) {
+  using Vec3 = mathfu::Vector<float, 3>;
+  Vec3 a(0, 0, 1);
+  Vec3 b(0, 1, 0);
+  EXPECT_NEAR(Vec3::Angle(a, b), mathfu::kPi / 2.0f, FLOAT_PRECISION);
+
+  a = Vec3(1, 2, 3);
+  b = Vec3(-10, 3, -1);
+  EXPECT_NEAR(Vec3::Angle(a, b), 1.75013259f, FLOAT_PRECISION);
+
+  a = Vec3(1, 2, 3);
+  b = Vec3(-1, -2, -3);
+  EXPECT_NEAR(Vec3::Angle(a, b), mathfu::kPi, FLOAT_PRECISION * 1000.f);
+}
+
 // Tests the RoundUpToPowerOf2 function for vectors.
 // Given a vector, it should return a vector whose elements are rounded up to
 // the nearest power of 2.
