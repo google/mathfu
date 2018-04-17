@@ -16,9 +16,11 @@
 #ifndef MATHFU_VECTOR_H_
 #define MATHFU_VECTOR_H_
 
+#include <math.h>
+#include <cmath>
+
 #include "mathfu/utilities.h"
 
-#include <math.h>
 
 /// @file mathfu/vector.h Vector
 /// @brief Vector class and functions.
@@ -901,7 +903,7 @@ inline T AngleHelper(const Vector<T, d>& v1, const Vector<T, d>& v2) {
   }
   const T cos_val = Vector<T, d>::DotProduct(v1, v2) / divisor;
   // If floating point error makes cos_val > 1, then acos will return nan.
-  return cos_val <= T(1) ? acos(cos_val) : T(0);
+  return cos_val <= T(1) ? std::acos(cos_val) : T(0);
 }
 
 /// @brief Check if val is within [range_start..range_end), denoting a
