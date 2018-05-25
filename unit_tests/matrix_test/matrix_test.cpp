@@ -334,8 +334,12 @@ void InverseNonInvertible_Test(const T& precision) {
   const size_t matrix_size = sizeof(m) / sizeof(m[0]);
   static const T kDeterminantThreshold =
       mathfu::Constants<T>::GetDeterminantThreshold();
-  static const T kDeterminantThresholdInverse = 1 / kDeterminantThreshold;
   static const T kDeterminantThresholdSmall =
+      kDeterminantThreshold / 100;
+  static const T kDeterminantThresholdLarge =
+      kDeterminantThreshold * 100;
+  static const T kDeterminantThresholdInverse = 1 / kDeterminantThreshold;
+  static const T kDeterminantThresholdInverseSmall =
       kDeterminantThresholdInverse / 100;
   static const T kDeterminantThresholdInverseLarge =
       kDeterminantThresholdInverse * 100;
@@ -346,6 +350,10 @@ void InverseNonInvertible_Test(const T& precision) {
     mathfu::Matrix<T, d> matrix(m);
     mathfu::Matrix<T, d> inverse_matrix;
     EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdSmall));
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdLarge));
   }
   // Check a matrix with all elements at the determinant threshold.
   for (size_t i = 0; i < matrix_size; ++i) m[i] = kDeterminantThreshold;
@@ -353,6 +361,10 @@ void InverseNonInvertible_Test(const T& precision) {
     mathfu::Matrix<T, d> matrix(m);
     mathfu::Matrix<T, d> inverse_matrix;
     EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdSmall));
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdLarge));
   }
   // Check a matrix with all very large elements.
   for (size_t i = 0; i < matrix_size - 1; ++i) {
@@ -365,13 +377,17 @@ void InverseNonInvertible_Test(const T& precision) {
     // Create a matrix with all elements at the determinant threshold and one
     // large value in the matrix.
     for (size_t i = 0; i < matrix_size - 1; ++i) {
-      m[i] = kDeterminantThresholdSmall;
+      m[i] = kDeterminantThresholdInverseSmall;
     }
     m[matrix_size - 1] = kDeterminantThresholdInverseLarge;
     {
       mathfu::Matrix<T, d> matrix(m);
       mathfu::Matrix<T, d> inverse_matrix;
       EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+      EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+          &inverse_matrix, kDeterminantThresholdSmall));
+      EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+          &inverse_matrix, kDeterminantThresholdLarge));
     }
   }
 }
@@ -380,6 +396,48 @@ TEST_ALL_F(InverseNonInvertible, FLOAT_PRECISION, DOUBLE_PRECISION)
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif  // _MSC_VER
+
+// Test that matrices with small scale pass or fail the determinant check based
+// on the threshold.
+template <class T, int d>
+void InverseSmallScale_Test(const T& precision) {
+  (void)precision;
+  static const T kDeterminantThreshold =
+      mathfu::Constants<T>::GetDeterminantThreshold();
+  static const T kDeterminantThresholdSmall =
+      kDeterminantThreshold / 100;
+  static const T kDeterminantThresholdLarge =
+      kDeterminantThreshold * 100;
+
+  // The scale of the determinant grows with the square for 2x2 matrices, and
+  // with the cube for both 3x3 and 4x4 matrices.
+  static const T kDeterminantPower = static_cast<T>(1) / (d == 2 ? 2 : 3);
+  static const T kScaleMin = pow(kDeterminantThreshold, kDeterminantPower);
+
+  mathfu::Matrix<T, d> matrix = mathfu::Matrix<T, d>::Identity();
+  mathfu::Matrix<T, d> inverse_matrix;
+
+  // Scale too small - non-invertible.
+  {
+    for (int i = 0; i != d; ++i) matrix(i, i) = kScaleMin / 2;
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+    EXPECT_TRUE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdSmall));
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdLarge));
+  }
+
+  // Scale large enough - invertible.
+  {
+    for (int i = 0; i != d; ++i) matrix(i, i) = kScaleMin * 2;
+    EXPECT_TRUE(matrix.InverseWithDeterminantCheck(&inverse_matrix));
+    EXPECT_TRUE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdSmall));
+    EXPECT_FALSE(matrix.InverseWithDeterminantCheck(
+        &inverse_matrix, kDeterminantThresholdLarge));
+  }
+}
+TEST_ALL_F(InverseSmallScale, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // This will test calculating the inverse of a matrix. The template parameter d
 // corresponds to the number of rows and columns.
@@ -1087,6 +1145,38 @@ TEST_F(MatrixTests, MatrixSample) {
   EXPECT_NEAR(10.11f, rotatedVector[1], precision);
   EXPECT_NEAR(4.74f, rotatedVector[2], precision);
 }
+
+// This will test the == matrices operator. The template paramter d corresponds
+// to the number of rows and columns.
+template <class T, int d>
+void Equal_Test(const T& precision) {
+  mathfu::Matrix<T, d> expected;
+  for (int i = 0; i < d * d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Matrix<T, d> copy(expected);
+  EXPECT_TRUE(expected == copy);
+
+  mathfu::Matrix<T, d> close(expected - static_cast<T>(1));
+  EXPECT_FALSE(expected == close);
+}
+TEST_ALL_F(Equal, FLOAT_PRECISION, DOUBLE_PRECISION)
+
+// This will test the != matrices operator. The template paramter d corresponds
+// to the number of rows and columns.
+template <class T, int d>
+void NotEqual_Test(const T& precision) {
+  mathfu::Matrix<T, d> expected;
+  for (int i = 0; i < d * d; ++i) {
+    expected[i] = static_cast<T>(i * precision);
+  }
+  mathfu::Matrix<T, d> copy(expected);
+  EXPECT_FALSE(expected != copy);
+
+  mathfu::Matrix<T, d> close(expected - static_cast<T>(1));
+  EXPECT_TRUE(expected != close);
+}
+TEST_ALL_F(NotEqual, FLOAT_PRECISION, DOUBLE_PRECISION)
 
 // Simple class that represents a possible compatible type for a vector.
 // That is, it's just an array of T of length d, so can be loaded and

@@ -16,9 +16,11 @@
 #ifndef MATHFU_VECTOR_H_
 #define MATHFU_VECTOR_H_
 
+#include <math.h>
+#include <cmath>
+
 #include "mathfu/utilities.h"
 
-#include <math.h>
 
 /// @file mathfu/vector.h Vector
 /// @brief Vector class and functions.
@@ -489,6 +491,34 @@ class Vector {
     return MinHelper(v1, v2);
   }
 
+  /// @brief Returns the distance between 2 vectors.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Distance between vectors v1 and v2.
+  static inline T Distance(const Vector<T, d>& v1, const Vector<T, d>& v2) {
+    return (v1 - v2).Length();
+  }
+
+  /// @brief Returns the squared distance between 2 vectors.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Squared distance between vectors v1 and v2.
+  static inline T DistanceSquared(const Vector<T, d>& v1,
+                                  const Vector<T, d>& v2) {
+    return (v1 - v2).LengthSquared();
+  }
+
+  /// @brief Returns the angle between 2 vectors in radians.
+  ///
+  /// @param v1 First vector.
+  /// @param v2 Second vector.
+  /// @return Angle between vectors v1 and v2.
+  static inline T Angle(const Vector<T, d>& v1, const Vector<T, d>& v2) {
+    return AngleHelper(v1, v2);
+  }
+
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
   /// Elements of the vector.
@@ -856,6 +886,24 @@ inline Vector<T, d> MinHelper(const Vector<T, d>& v1, const Vector<T, d>& v2) {
   Vector<T, d> result;
   MATHFU_VECTOR_OPERATION(result[i] = std::min(v1[i], v2[i]));
   return result;
+}
+
+/// @brief Returns the angle between 2 vectors in radians.
+///
+/// @param v1 First vector.
+/// @param v2 Second vector.
+/// @return Angle between vectors v1 and v2.
+template <class T, int d>
+inline T AngleHelper(const Vector<T, d>& v1, const Vector<T, d>& v2) {
+  // Applying law of cosines.
+  // https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
+  const T divisor = v1.Length() * v2.Length();
+  if (divisor == T(0)) {
+    return T(0);
+  }
+  const T cos_val = Vector<T, d>::DotProduct(v1, v2) / divisor;
+  // If floating point error makes cos_val > 1, then acos will return nan.
+  return cos_val <= T(1) ? std::acos(cos_val) : T(0);
 }
 
 /// @brief Check if val is within [range_start..range_end), denoting a

@@ -99,8 +99,9 @@ class Matrix;
 template <class T, int rows, int columns>
 inline Matrix<T, rows, columns> IdentityHelper();
 template <bool check_invertible, class T, int rows, int columns>
-inline bool InverseHelper(const Matrix<T, rows, columns>& m,
-                          Matrix<T, rows, columns>* const inverse);
+inline bool InverseHelper(
+    const Matrix<T, rows, columns>& m, Matrix<T, rows, columns>* const inverse,
+    T det_thresh);
 template <class T, int rows, int columns>
 inline void TimesHelper(const Matrix<T, rows, columns>& m1,
                         const Matrix<T, rows, columns>& m2,
@@ -132,7 +133,44 @@ static inline Matrix<T, rows, columns> FromTypeHelper(const CompatibleT& compati
 
 template <typename T, int rows, int columns, typename CompatibleT>
 static inline CompatibleT ToTypeHelper(const Matrix<T, rows, columns>& m);
+
+/// Struct used for template specialization for functions that return constants.
+template <class T>
+class Constants {
+ public:
+  /// @brief Default determinant threshold used to detect non-invertible matrix.
+  ///
+  /// @note The determinant grows proportional to the cube of the matrix scale,
+  /// so this effectively limits the uniform scale of an invertible matrix to
+  /// t^(1/3).
+  ///
+  /// @returns Minimum absolute value of the determinant of an invertible
+  /// <code>float</code> Matrix.
+  ///
+  /// @related mathfu::Matrix::InverseWithDeterminantCheck()
+  static T GetDeterminantThreshold() {
+    // No constant defined for the general case.
+    assert(false);
+    return 0;
+  }
+};
 /// @endcond
+
+/// Functions that return constants for <code>float</code> values.
+template <>
+class Constants<float> {
+ public:
+  /// Effective uniform scale limit: ~(1/215)^3
+  static float GetDeterminantThreshold() { return 1e-7f; }
+};
+
+/// Functions that return constants for <code>double</code> values.
+template <>
+class Constants<double> {
+ public:
+  /// Effective uniform scale limit: ~(1/100000)^3
+  static double GetDeterminantThreshold() { return 1e-15; }
+};
 
 /// @addtogroup mathfu_matrix
 /// @{
@@ -510,7 +548,7 @@ class Matrix {
   /// @return Matrix containing the result.
   inline Matrix<T, rows, columns> Inverse() const {
     Matrix<T, rows, columns> inverse;
-    InverseHelper<false>(*this, &inverse);
+    InverseHelper<false>(*this, &inverse, static_cast<T>(0));
     return inverse;
   }
 
@@ -530,8 +568,9 @@ class Matrix {
   /// test.
   /// @return Whether the matrix is invertible.
   inline bool InverseWithDeterminantCheck(
-      Matrix<T, rows, columns>* const inverse) const {
-    return InverseHelper<true>(*this, inverse);
+      Matrix<T, rows, columns>* const inverse,
+      T det_thresh = Constants<T>::GetDeterminantThreshold()) const {
+    return InverseHelper<true>(*this, inverse, det_thresh);
   }
 
   /// @brief Calculate the transpose of this Matrix.
@@ -811,6 +850,18 @@ class Matrix {
     return LookAtHelper(at, eye, up, handedness);
   }
 
+  /// @brief Create a 3-dimensional transform Matrix.
+  ///
+  /// @param position The position of the object.
+  /// @param rotation The rotation of the object.
+  /// @param scale The scale of the object.
+  /// @return 3-dimensional transform Matrix.
+  static inline Matrix<T, 4, 4> Transform(const Vector<T, 3>& position,
+                                          const Matrix<T, 3, 3>& rotation,
+                                          const Vector<T, 3>& scale) {
+    return TransformHelper(position, rotation, scale);
+  }
+
   /// @brief Get the 3D position in object space from a window coordinate.
   ///
   /// @param window_coord The window coordinate. The z value is for depth.
@@ -861,6 +912,44 @@ class Matrix {
 
 /// @addtogroup mathfu_matrix
 /// @{
+
+/// @cond MATHFU_INTERNAL
+template <int index> struct MathfuMatrixUnroller {
+  template <class T, int rows, int columns>
+  inline static bool NotEqual(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+    return (lhs[index] != rhs[index]) |
+           MathfuMatrixUnroller<index-1>::NotEqual(lhs, rhs);
+  }
+};
+template <> struct MathfuMatrixUnroller<0> {
+  template <class T, int rows, int columns>
+  inline static bool NotEqual(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+    return lhs[0] != rhs[0];
+  }
+};
+/// @endcond
+
+/// @brief Compare 2 Matrices of the same size for inequality.
+///
+/// @note: The likelihood of two float values being the same is very small.
+///
+/// @return true if the elements of 2 matrices differ, false otherwise.
+template <class T, int rows, int columns>
+inline bool operator!=(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+  return MathfuMatrixUnroller<rows * columns - 1>::NotEqual(lhs, rhs);
+}
+
+/// @brief Compare 2 Matrices of the same size for equality.
+///
+/// @return true if the 2 matrices contains the same values, false otherwise.
+template <class T, int rows, int columns>
+inline bool operator==(const Matrix<T, rows, columns>& lhs,
+                       const Matrix<T, rows, columns>& rhs) {
+  return !(lhs != rhs);
+}
 
 /// @brief Multiply each element of a Matrix by a scalar.
 ///
@@ -1153,59 +1242,6 @@ static inline Matrix<T, 4, 4> OuterProductHelper(const Vector<T, 4>& v1,
 /// @endcond
 
 /// @cond MATHFU_INTERNAL
-/// Struct used for template specialization for functions that
-/// returns constants.
-template <class T>
-class Constants {
- public:
-  /// Minimum absolute value of the determinant of an invertible matrix.
-  static T GetDeterminantThreshold() {
-    // No constant defined for the general case.
-    assert(false);
-    return 0;
-  }
-};
-/// @endcond
-
-/// Functions that return constants for <code>float</code> values.
-template <>
-class Constants<float> {
- public:
-  /// @brief Minimum absolute value of the determinant of an invertible
-  /// <code>float</code> Matrix.
-  ///
-  /// <code>float</code> values have 23 bits of precision which is roughly
-  /// 1e7f, given that the final step of matrix inversion is multiplication
-  /// with the inverse of the determinant, the minimum value of the
-  /// determinant is 1e-7f before the precision too low to accurately
-  /// calculate the inverse.
-  /// @returns Minimum absolute value of the determinant of an invertible
-  /// <code>float</code> Matrix.
-  ///
-  /// @related mathfu::Matrix::InverseWithDeterminantCheck()
-  static float GetDeterminantThreshold() { return 1e-7f; }
-};
-
-/// Functions that return constants for <code>double</code> values.
-template <>
-class Constants<double> {
- public:
-  /// @brief Minimum absolute value of the determinant of an invertible
-  /// <code>double</code> Matrix.
-  ///
-  /// <code>double</code> values have 46 bits of precision which is roughly
-  /// 1e15, given that the final step of matrix inversion is multiplication
-  /// with the inverse of the determinant, the minimum value of the
-  /// determinant is 1e-15 before the precision too low to accurately
-  /// calculate the inverse.
-  /// @returns Minimum absolute value of the determinant of an invertible
-  /// <code>double</code> Matrix.
-  ///
-  /// @related mathfu::Matrix::InverseWithDeterminantCheck()
-  static double GetDeterminantThreshold() { return 1e-15; }
-};
-
-/// @cond MATHFU_INTERNAL
 /// @brief Compute the inverse of a matrix.
 ///
 /// There is template specialization  for 2x2, 3x3, and 4x4 matrices to
@@ -1216,7 +1252,8 @@ class Constants<double> {
 /// Matrix is invertible.
 template <bool check_invertible, class T, int rows, int columns>
 inline bool InverseHelper(const Matrix<T, rows, columns>& m,
-                          Matrix<T, rows, columns>* const inverse) {
+                          Matrix<T, rows, columns>* const inverse,
+                          T det_thresh) {
   assert(false);
   (void)m;
   *inverse = T::Identity();
@@ -1227,10 +1264,9 @@ inline bool InverseHelper(const Matrix<T, rows, columns>& m,
 /// @cond MATHFU_INTERNAL
 template <bool check_invertible, class T>
 inline bool InverseHelper(const Matrix<T, 2, 2>& m,
-                          Matrix<T, 2, 2>* const inverse) {
+                          Matrix<T, 2, 2>* const inverse, T det_thresh) {
   T determinant = m[0] * m[3] - m[1] * m[2];
-  if (check_invertible &&
-      fabs(determinant) < Constants<T>::GetDeterminantThreshold()) {
+  if (check_invertible && fabs(determinant) < det_thresh) {
     return false;
   }
   T inverseDeterminant = 1 / determinant;
@@ -1245,13 +1281,12 @@ inline bool InverseHelper(const Matrix<T, 2, 2>& m,
 /// @cond MATHFU_INTERNAL
 template <bool check_invertible, class T>
 inline bool InverseHelper(const Matrix<T, 3, 3>& m,
-                          Matrix<T, 3, 3>* const inverse) {
+                          Matrix<T, 3, 3>* const inverse, T det_thresh) {
   // Find determinant of matrix.
   T sub11 = m[4] * m[8] - m[5] * m[7], sub12 = -m[1] * m[8] + m[2] * m[7],
     sub13 = m[1] * m[5] - m[2] * m[4];
   T determinant = m[0] * sub11 + m[3] * sub12 + m[6] * sub13;
-  if (check_invertible &&
-      fabs(determinant) < Constants<T>::GetDeterminantThreshold()) {
+  if (check_invertible && fabs(determinant) < det_thresh) {
     return false;
   }
   // Find determinants of 2x2 submatrices for the elements of the inverse.
@@ -1296,7 +1331,8 @@ inline int FindLargestPivotElem(const Matrix<T, 4, 4>& m) {
 
 /// @cond MATHFU_INTERNAL
 template <bool check_invertible, class T>
-bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
+bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse,
+                   T det_thresh) {
   // This will find the pivot element.
   int pivot_elem = FindLargestPivotElem(m);
   // This will perform the pivot and find the row, column, and 3x3 submatrix
@@ -1334,7 +1370,7 @@ bool InverseHelper(const Matrix<T, 4, 4>& m, Matrix<T, 4, 4>* const inverse) {
   row *= inv;
   matrix += Matrix<T, 3>::OuterProduct(column, row);
   Matrix<T, 3> mat_inverse;
-  if (!InverseHelper<check_invertible>(matrix, &mat_inverse) &&
+  if (!InverseHelper<check_invertible>(matrix, &mat_inverse, det_thresh) &&
       check_invertible) {
     return false;
   }
@@ -1438,6 +1474,26 @@ static inline Matrix<T, 4, 4> LookAtHelper(const Vector<T, 3>& at,
   const Vector<T, 4> column2(axes[0][2], axes[1][2], axes[2][2], 0);
   const Vector<T, 4> column3(axes[3], 1);
   return Matrix<T, 4, 4>(column0, column1, column2, column3);
+}
+/// @endcond
+
+/// @cond MATHFU_INTERNAL
+/// Create a 3-dimensional transform matrix.
+template <class T>
+static inline Matrix<T, 4, 4> TransformHelper(const Vector<T, 3>& position,
+                                              const Matrix<T, 3, 3>& rotation,
+                                              const Vector<T, 3>& scale) {
+  Vector<T, 4> c0(rotation(0, 0), rotation(1, 0), rotation(2, 0), 0);
+  Vector<T, 4> c1(rotation(0, 1), rotation(1, 1), rotation(2, 1), 0);
+  Vector<T, 4> c2(rotation(0, 2), rotation(1, 2), rotation(2, 2), 0);
+  Vector<T, 4> c3(0, 0, 0, 1);
+  c0 *= scale.x;
+  c1 *= scale.y;
+  c2 *= scale.z;
+  c3[0] = position.x;
+  c3[1] = position.y;
+  c3[2] = position.z;
+  return Matrix<T, 4, 4>(c0, c1, c2, c3);
 }
 /// @endcond
 

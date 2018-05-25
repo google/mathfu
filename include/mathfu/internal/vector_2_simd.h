@@ -226,6 +226,21 @@ class Vector<float, 2> {
     return Vector<float, 2>(std::min(v1[0], v2[0]), std::min(v1[1], v2[1]));
   }
 
+  static inline float Distance(const Vector<float, 2>& v1,
+                               const Vector<float, 2>& v2) {
+    return (v1 - v2).Length();
+  }
+
+  static inline float DistanceSquared(const Vector<float, 2>& v1,
+                                      const Vector<float, 2>& v2) {
+    return (v1 - v2).LengthSquared();
+  }
+
+  static inline float Angle(const Vector<float, 2>& v1,
+                            const Vector<float, 2>& v2) {
+    return AngleHelper(v1, v2);
+  }
+
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
 #if defined(__clang__)

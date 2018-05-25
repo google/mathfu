@@ -115,6 +115,19 @@ class Vector<T, 2> {
     return MinHelper(v1, v2);
   }
 
+  static inline T Distance(const Vector<T, 2>& v1, const Vector<T, 2>& v2) {
+    return (v1 - v2).Length();
+  }
+
+  static inline T DistanceSquared(const Vector<T, 2>& v1,
+                                  const Vector<T, 2>& v2) {
+    return (v1 - v2).LengthSquared();
+  }
+
+  static inline T Angle(const Vector<T, 2>& v1, const Vector<T, 2>& v2) {
+    return AngleHelper(v1, v2);
+  }
+
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
 #include "mathfu/internal/disable_warnings_begin.h"
