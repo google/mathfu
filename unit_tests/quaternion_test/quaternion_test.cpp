@@ -461,7 +461,7 @@ void LookAt_Test(const T& precision) {
                        mathfu::Vector<T, 3>(zero, one, zero)),
                    precision);
 }
-TEST_ALL_F(LookAt);
+TEST_ALL_F(LookAt)
 
 template <class T>
 void FromEulerAnglesSplit_Test(const T& precision) {
