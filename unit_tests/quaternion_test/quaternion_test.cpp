@@ -461,18 +461,18 @@ void LookAt_Test(const T& precision) {
                        mathfu::Vector<T, 3>(zero, one, zero)),
                    precision);
 }
-TEST_ALL_F(LookAt);
+TEST_ALL_F(LookAt)
 
 template <class T>
 void FromEulerAnglesSplit_Test(const T& precision) {
-  mathfu::Vector<T, 3> eulers(0.1, 0.2, 0.3);
-  EXPECT_NEAR_QUAT(mathfu::Quaternion<T>::FromEulerAngles(eulers),
-                   mathfu::Quaternion<T>::FromEulerAngles(eulers[0],
-                                                          eulers[1],
-                                                          eulers[2]),
-                   precision);
+  mathfu::Vector<T, 3> eulers(static_cast<T>(0.1), static_cast<T>(0.2),
+                              static_cast<T>(0.3));
+  EXPECT_NEAR_QUAT(
+      mathfu::Quaternion<T>::FromEulerAngles(eulers),
+      mathfu::Quaternion<T>::FromEulerAngles(eulers[0], eulers[1], eulers[2]),
+      precision);
 }
-TEST_ALL_F(FromEulerAnglesSplit);
+TEST_ALL_F(FromEulerAnglesSplit)
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
