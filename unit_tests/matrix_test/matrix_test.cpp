@@ -291,6 +291,12 @@ void Mult_Test(const T& precision) {
   }
 }
 TEST_ALL_F(Mult, FLOAT_PRECISION, DOUBLE_PRECISION)
+TEST_F(MatrixTests, Mult_float_5) {
+  Mult_Test<float, 5>(FLOAT_PRECISION);
+}
+TEST_F(MatrixTests, Mult_double_5) {
+  Mult_Test<double, 5>(DOUBLE_PRECISION);
+}
 
 // This will test the outer product of two vectors. The template parameter d
 // corresponds to the number of rows and columns.

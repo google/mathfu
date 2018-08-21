@@ -102,10 +102,10 @@ template <bool check_invertible, class T, int rows, int columns>
 inline bool InverseHelper(
     const Matrix<T, rows, columns>& m, Matrix<T, rows, columns>* const inverse,
     T det_thresh);
-template <class T, int rows, int columns>
-inline void TimesHelper(const Matrix<T, rows, columns>& m1,
-                        const Matrix<T, rows, columns>& m2,
-                        Matrix<T, rows, columns>* out_m);
+template <class T, int size1, int size2, int size3>
+inline void TimesHelper(const Matrix<T, size1, size2>& m1,
+                        const Matrix<T, size2, size3>& m2,
+                        Matrix<T, size1, size3>* out_m);
 template <class T, int rows, int columns>
 static inline Matrix<T, rows, columns> OuterProductHelper(
     const Vector<T, rows>& v1, const Vector<T, columns>& v2);
@@ -981,7 +981,7 @@ inline Matrix<T, rows, columns> operator*(const T& s,
 template <class T, int rows, int columns>
 inline Vector<T, rows> operator*(const Matrix<T, rows, columns>& m,
                                  const Vector<T, columns>& v) {
-  const Vector<T, rows> result(0);
+  Vector<T, rows> result(static_cast<T>(0));
   int offset = 0;
   for (int column = 0; column < columns; column++) {
     for (int row = 0; row < rows; row++) {
@@ -1198,7 +1198,7 @@ inline Matrix<T, 4, 4> IdentityHelper() {
 template <class T, int rows, int columns>
 static inline Matrix<T, rows, columns> OuterProductHelper(
     const Vector<T, rows>& v1, const Vector<T, columns>& v2) {
-  Matrix<T, rows, columns> result(0);
+  Matrix<T, rows, columns> result(static_cast<T>(0));
   int offset = 0;
   for (int column = 0; column < columns; column++) {
     for (int row = 0; row < rows; row++) {
@@ -1247,7 +1247,7 @@ static inline Matrix<T, 4, 4> OuterProductHelper(const Vector<T, 4>& v1,
 /// There is template specialization  for 2x2, 3x3, and 4x4 matrices to
 /// increase performance. Inverse is not implemented for dense matrices that
 /// are not of size 2x2, 3x3, and 4x4.  If check_invertible is true the
-/// determine of the matrix is compared with
+/// determinate of the matrix is compared with
 /// Constants<T>::GetDeterminantThreshold() to roughly determine whether the
 /// Matrix is invertible.
 template <bool check_invertible, class T, int rows, int columns>
