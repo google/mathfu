@@ -355,9 +355,11 @@ class Quaternion {
   /// @result Quaternion containing the result.
   static inline Quaternion<T> Slerp(const Quaternion<T>& q1,
                                     const Quaternion<T>& q2, const T& s1) {
-    if (q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_) > 0.9999f)
+    if (q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_) > 0.9999f) {
       return Quaternion<T>(q1.s_ * (1 - s1) + q2.s_ * s1,
-                           q1.v_ * (1 - s1) + q2.v_ * s1);
+                           q1.v_ * (1 - s1) + q2.v_ * s1)
+          .Normalized();
+    }
     return q1 * ((q1.Inverse() * q2) * s1);
   }
 

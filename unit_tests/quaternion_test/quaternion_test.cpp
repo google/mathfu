@@ -22,6 +22,9 @@
 #include "gtest/gtest.h"
 
 #include "precision.h"
+#include "third_party/mathfu/include/mathfu/constants.h"
+
+namespace {
 
 class QuaternionTests : public ::testing::Test {
  protected:
@@ -473,6 +476,41 @@ void FromEulerAnglesSplit_Test(const T& precision) {
       precision);
 }
 TEST_ALL_F(FromEulerAnglesSplit)
+
+const float kSlerpTestAnglesInDegrees[] {
+  // Slerp algorithms commonly have trouble with angles near zero.
+  // To give a sense of what that means for common quaternion-dot cutoffs:
+  // - Quaternion dot of .99999 = .512 degrees
+  // - Quaternion dot of .9999 = 1.62 degrees
+  // - Quaternion dot of .9995 = 3.62 degrees
+  0, .5f, 1.5f, 3.5f,
+  80,
+  // 180 has no numerical problems, unless there's a bug. But worth checking.
+  179, 180, 181,
+  // Slerp is ill-defined at angles near 360.
+  359, 359.5f, 360, 360.5f, 361,
+};
+
+// Tests that Slerp returns unit-length quaternions.
+template <class T>
+void SlerpResultIsUnit_Test(const T& precision) {
+  using Quaternion = mathfu::Quaternion<T>;
+
+  const mathfu::Vector<T, 3> axis(0, 1, 0);
+  const float kLengthEpsilon = 5e-6f;
+
+  for (float angle : kSlerpTestAnglesInDegrees) {
+    const Quaternion q2 = Quaternion::FromAngleAxis(
+        angle * mathfu::kDegreesToRadians, axis);
+
+    Quaternion slerp_result = Quaternion::Slerp(Quaternion::identity, q2, .5f);
+    const T slerp_length = slerp_result.Normalize();
+    EXPECT_NEAR(1.0f, slerp_length, kLengthEpsilon) << " for angle " << angle;
+  }
+}
+TEST_ALL_F(SlerpResultIsUnit)
+
+}  // namespace
 
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
