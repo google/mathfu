@@ -26,6 +26,8 @@
 
 namespace {
 
+using ::testing::AssertionResult;
+
 class QuaternionTests : public ::testing::Test {
  protected:
   virtual void SetUp() {}
@@ -39,23 +41,94 @@ class QuaternionTests : public ::testing::Test {
     MY_TEST##_Test<double>(DOUBLE_PRECISION); \
   }
 
-// helper macro for comparing vectors
-#define EXPECT_NEAR_VEC3(v1, v2, precision)   \
-  {                                           \
-    EXPECT_NEAR((v1)[0], (v2)[0], precision); \
-    EXPECT_NEAR((v1)[1], (v2)[1], precision); \
-    EXPECT_NEAR((v1)[2], (v2)[2], precision); \
-  }
+#define EXPECT_NEAR_VEC3(v1, v2, abs_error)             \
+  EXPECT_TRUE(IsNearVector((v1), (v2), (abs_error)))    \
+      << v1 << "\n" << v2 << "\n"
+
 #define EXPECT_EQ_QUAT(q1, q2)               \
   {                                          \
     EXPECT_EQ((q1).scalar(), (q2).scalar()); \
     EXPECT_EQ((q1).vector(), (q2).vector()); \
   }
-#define EXPECT_NEAR_QUAT(q1, q2, precision)                    \
-  {                                                            \
-    EXPECT_NEAR((q1).scalar(), (q2).scalar(), precision);      \
-    EXPECT_NEAR_VEC3((q1).vector(), (q2).vector(), precision); \
+
+#define EXPECT_NEAR_QUAT(q1, q2, abs_error)             \
+  EXPECT_TRUE(IsNearQuat((q1), (q2), (abs_error)))      \
+      << q1 << "\n" << q2 << "\n"
+
+#define EXPECT_NEAR_ORIENTATION(q1, q2, abs_error)        \
+  EXPECT_TRUE(IsNearOrientation((q1), (q2), (abs_error))) \
+      << q1 << "\n" << q2 << "\n"
+
+AssertionResult IsNearDouble(double val1, double val2, double abs_error) {
+  const double diff = std::fabs(val1 - val2);
+  if (diff <= abs_error) {
+    return ::testing::AssertionSuccess();
   }
+  return ::testing::AssertionFailure()
+      << "The difference between " << val1 << " and " << val2
+      << " is " << diff << ", which exceeds " << abs_error << ".";
+}
+
+template<class T, int d>
+AssertionResult IsNearVector(
+     mathfu::Vector<T, d> v1, mathfu::Vector<T, d> v2, double abs_error) {
+  for (int i = 0; i < d; ++i) {
+    AssertionResult result = IsNearDouble(v1[i], v2[i], abs_error);
+    if (!result) {
+      return result << " at v[" << i << "]";
+    }
+  }
+  return ::testing::AssertionSuccess();
+}
+
+template<class T>
+AssertionResult IsNearQuat(
+     mathfu::Quaternion<T> q1, mathfu::Quaternion<T> q2, double abs_error) {
+  {
+    AssertionResult result = IsNearDouble(q1.scalar(), q2.scalar(), abs_error);
+    if (!result) {
+      return result << " at .scalar() " << q1 << " " << q2;
+    }
+  }
+  {
+    AssertionResult result =
+        IsNearVector(q1.vector(), q2.vector(), abs_error);
+    if (!result) {
+      return result << " at .vector() " << q1 << " " << q2;
+    }
+  }
+  return ::testing::AssertionSuccess();
+}
+
+// Unlike IsNearQuat, this test considers q and -q to be equivalent.
+// This is appropriate when treating quats as orientations (rather than
+// rotations).
+template<class T>
+AssertionResult IsNearOrientation(
+     mathfu::Quaternion<T> q1, mathfu::Quaternion<T> q2, double abs_error) {
+  // Put them both into the same hemisphere.
+  if (mathfu::Quaternion<T>::DotProduct(q1, q2) < 0) {
+    q2 = mathfu::Quaternion<T>(-q2.scalar(), -q2.vector());
+  }
+  return IsNearQuat(q1, q2, abs_error);
+}
+
+// Test our test helpers.
+template<class T>
+void TestHelpers_Test(const T& precision) {
+  using Quaternion = mathfu::Quaternion<T>;
+  const double epsilon = 1e-5;
+
+  EXPECT_NEAR_QUAT(Quaternion(1, 0, 0, 1e-6f), Quaternion::identity, epsilon);
+
+  // Test that opposing quats are !IsNearQuat and IsNearOrientation.
+  const Quaternion q2 = Quaternion(3, 4, 5, 6).Normalized();
+  const Quaternion q2_negated(-q2.scalar(), -q2.vector());
+  EXPECT_FALSE(IsNearQuat(q2, q2_negated, epsilon));
+  EXPECT_TRUE(IsNearOrientation(q2, q2_negated, epsilon));
+  EXPECT_NEAR_ORIENTATION(q2, q2_negated, epsilon);
+}
+TEST_ALL_F(TestHelpers)
 
 // Test accessing elements of the quaternion using the const array accessor.
 template <class T>
