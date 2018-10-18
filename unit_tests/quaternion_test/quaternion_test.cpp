@@ -506,6 +506,11 @@ void SlerpResultIsUnit_Test(const T& precision) {
     Quaternion slerp_result = Quaternion::Slerp(Quaternion::identity, q2, .5f);
     const T slerp_length = slerp_result.Normalize();
     EXPECT_NEAR(1.0f, slerp_length, kLengthEpsilon) << " for angle " << angle;
+
+    // Alternate spelling for Slerp
+    Quaternion mul_result = q2 * .5f;
+    const T mul_length = mul_result.Normalize();
+    EXPECT_NEAR(1.0f, mul_length, kLengthEpsilon) << " for angle " << angle;
   }
 }
 TEST_ALL_F(SlerpResultIsUnit)

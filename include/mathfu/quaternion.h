@@ -137,6 +137,10 @@ class Quaternion {
     Vector<T, 3> axis;
     ToAngleAxis(&angle, &axis);
     angle *= s1;
+    // The axis coming from ToAngleAxis() is already normalized, but
+    // ToAngleAxis may return slightly non-normal axes in unstable cases.
+    // It should arguably handle that internally, allowing us to remove
+    // the Normalized() here.
     return Quaternion<T>(cos(0.5f * angle),
                          axis.Normalized() * static_cast<T>(sin(0.5f * angle)));
   }
@@ -181,9 +185,21 @@ class Quaternion {
   ///
   /// @param angle Receives the angle.
   /// @param axis Receives the normalized axis.
-  inline void ToAngleAxis(T* angle, Vector<T, 3>* axis) const {
-    *axis = s_ > 0 ? v_ : -v_;
-    *angle = 2 * atan2(axis->Normalize(), s_ > 0 ? s_ : -s_);
+  inline void ToAngleAxis(T* out_angle, Vector<T, 3>* out_axis) const {
+    // The quat (-s, -v) represents the same orientation.
+    // If s < 0, the rotation is the "long way around" (ie, angle > 180).
+    const Quaternion<T> q = (s_ > 0) ? *this : Quaternion<T>(-s_, -v_);
+
+    Vector<T, 3> axis = q.v_;
+    const T axis_length = axis.Normalize();
+    if (axis_length == 0) {
+      // Normalize has left NaNs in axis.  This happens at angle = 0 and 360.
+      // All axes are correct, so any will do.
+      *out_axis = Vector<T, 3>(1, 0, 0);
+    } else {
+      *out_axis = axis;
+    }
+    *out_angle = 2 * atan2(axis_length, q.s_);
   }
 
   /// @brief Convert this Quaternion to 3 Euler Angles.
