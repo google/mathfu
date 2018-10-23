@@ -803,7 +803,7 @@ inline Vector<T, 3> CrossProductHelper(const Vector<T, 3>& v1,
 /// @brief Calculate the squared length of a vector.
 ///
 /// @param v Vector to get the squared length of.
-/// @return The length of the vector squared.
+/// @return The squared length of the vector.
 template <class T, int d>
 inline T LengthSquaredHelper(const Vector<T, d>& v) {
   return DotProductHelper(v, v);
@@ -811,7 +811,7 @@ inline T LengthSquaredHelper(const Vector<T, d>& v) {
 
 /// @brief Calculate the length of a vector.
 ///
-/// @param v Vector to get the squared length of.
+/// @param v Vector to get the length of.
 /// @return The length of the vector.
 template <class T, int d>
 inline T LengthHelper(const Vector<T, d>& v) {
@@ -820,7 +820,7 @@ inline T LengthHelper(const Vector<T, d>& v) {
 
 /// @brief Normalize a vector in-place.
 ///
-/// @param v Vector to get the squared length of.
+/// @param v Vector to normalize.
 /// @return The length of the vector.
 template <class T, int d>
 inline T NormalizeHelper(Vector<T, d>& v) {
@@ -831,7 +831,7 @@ inline T NormalizeHelper(Vector<T, d>& v) {
 
 /// @brief Calculate the normalized version of a vector.
 ///
-/// @param v Vector to get the squared length of.
+/// @param v Vector to get the normalized version of.
 /// @return The normalized vector.
 template <class T, int d>
 inline Vector<T, d> NormalizedHelper(const Vector<T, d>& v) {
@@ -842,8 +842,8 @@ inline Vector<T, d> NormalizedHelper(const Vector<T, d>& v) {
 ///
 /// @param v1 First vector.
 /// @param v2 Second vector.
-/// @param percent Percentage from v1 to v2 in range 0.0...1.0.
-/// @return The hadamard product of v1 and v2.
+/// @param percent Percentage from v1 to v2, usually in the range 0.0...1.0.
+/// @return The lerped mixture of v1 and v2.
 template <class T, int d>
 inline Vector<T, d> LerpHelper(const Vector<T, d>& v1, const Vector<T, d>& v2,
                                const T percent) {

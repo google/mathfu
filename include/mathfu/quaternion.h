@@ -129,7 +129,18 @@ class Quaternion {
 
   /// @brief Multiply this Quaternion by a scalar.
   ///
-  /// This multiplies the angle of the rotation by a scalar factor.
+  /// This conditions the Quaternion to be a rotation <= 180 degrees, then
+  /// multiplies the angle of the rotation by a scalar factor.
+  ///
+  /// If the scalar factor is < 1, the resulting rotation will be on the shorter
+  /// of the two paths to the identity orientation, which is often intuitive but
+  /// can trip you up if you really did want to take the longer path.
+  ///
+  /// If the scalar factor is > 1, the resulting rotation will be on the longer
+  /// of the two paths to the identity orientation, which can be unintuitive.
+  /// For example, you are not guaranteed that (q * 2) * .5 and q * (2 * .5)
+  /// are the same orientation, let alone the same quaternion.
+  ///
   /// @param s1 Scalar to multiply with.
   /// @return Quaternion containing the result.
   inline Quaternion<T> operator*(const T& s1) const {
@@ -158,7 +169,7 @@ class Quaternion {
            2 * Vector<T, 3>::DotProduct(v_, v1) * v_;
   }
 
-  /// @brief Normalize this quaterion (in-place).
+  /// @brief Normalize this quaternion (in-place).
   ///
   /// @return Length of the quaternion.
   inline T Normalize() {
@@ -178,19 +189,31 @@ class Quaternion {
     return q;
   }
 
-  /// @brief Convert this Quaternion to an Angle and axis.
+  /// @brief Convert this Quaternion to a shortest-path angle and axis.
   ///
-  /// The returned  angle is the size of the rotation in radians about the
-  /// axis represented by this Quaternion.
+  /// The resulting angle-axis is guaranteed to have have angle <= 180 and
+  /// represents the same orientation as *this, but it may not convert back to
+  /// *this.
   ///
-  /// @param angle Receives the angle.
+  /// For example, if *this represents "Rotate 350 degrees left", you will
+  /// get the angle-axis "Rotate 10 degrees right".
+  ///
+  /// @param angle Receives the angle, in the range [0, pi].
   /// @param axis Receives the normalized axis.
   inline void ToAngleAxis(T* out_angle, Vector<T, 3>* out_axis) const {
-    // The quat (-s, -v) represents the same orientation.
-    // If s < 0, the rotation is the "long way around" (ie, angle > 180).
     const Quaternion<T> q = (s_ > 0) ? *this : Quaternion<T>(-s_, -v_);
+    q.ToAngleAxisFull(out_angle, out_axis);
+  }
 
-    Vector<T, 3> axis = q.v_;
+  /// @brief Convert this Quaternion to an angle and axis.
+  ///
+  /// The resulting angle-axis uses the full range of angles supported by
+  /// quaternions, and will convert back to the original Quaternion.
+  ///
+  /// @param angle Receives the angle, in the range [0, 2pi).
+  /// @param axis Receives the normalized axis.
+  inline void ToAngleAxisFull(T* out_angle, Vector<T, 3>* out_axis) const {
+    Vector<T, 3> axis = v_;
     const T axis_length = axis.Normalize();
     if (axis_length == 0) {
       // Normalize has left NaNs in axis.  This happens at angle = 0 and 360.
@@ -199,7 +222,7 @@ class Quaternion {
     } else {
       *out_axis = axis;
     }
-    *out_angle = 2 * atan2(axis_length, q.s_);
+    *out_angle = 2 * atan2(axis_length, s_);
   }
 
   /// @brief Convert this Quaternion to 3 Euler Angles.
@@ -360,8 +383,11 @@ class Quaternion {
     return q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_);
   }
 
-  /// @brief Calculate the spherical linear interpolation between two
-  /// Quaternions.
+  /// @brief Calculate the shortest-path spherical linear interpolation between
+  /// two orientations.
+  ///
+  /// This method always gives you the "short way around" interpolation. If you
+  /// need mathematical Slerp(), use ToAngleAxisFull() and FromAngleAxis().
   ///
   /// @param q1 Start Quaternion.
   /// @param q2 End Quaternion.
@@ -438,7 +464,7 @@ class Quaternion {
     T dot_product = Vector<T, 3>::DotProduct(start, end);
     // Any rotation < 0.1 degrees is treated as no rotation
     // in order to avoid division by zero errors.
-    // So we early-out in cases where it's less then 0.1 degrees.
+    // So we early-out in cases where it's less than 0.1 degrees.
     // cos( 0.1 degrees) = 0.99999847691
     if (dot_product >= static_cast<T>(0.99999847691)) {
       return Quaternion<T>::identity;
@@ -532,7 +558,7 @@ class Quaternion {
     T dot_product = Vector<T, 3>::DotProduct(start, end);
     // Any rotation < 0.1 degrees is treated as no rotation
     // in order to avoid division by zero errors.
-    // So we early-out in cases where it's less then 0.1 degrees.
+    // So we early-out in cases where it's less than 0.1 degrees.
     // cos( 0.1 degrees) = 0.99999847691
     if (dot_product >= static_cast<T>(0.99999847691)) {
       return Quaternion<T>::identity;

@@ -316,7 +316,7 @@ void Mult_Test(const T& precision) {
   // of the rotations.
   (qaa1 * qaa2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 + angle2, convertedAngle, precision);
-  // This will verify that multiplying a quaternions with a scalar corresponds
+  // This will verify that multiplying a quaternion with a scalar corresponds
   // to scaling the rotation.
   (qaa1 * 2).ToAngleAxis(&convertedAngle, &convertedAxis);
   EXPECT_NEAR(angle1 * 2, convertedAngle, precision);
@@ -347,6 +347,41 @@ void Mult_Test(const T& precision) {
   EXPECT_NEAR(angle2, convertedAngle, precision);
 }
 TEST_ALL_F(Mult)
+
+// This tests that quat * float changes the direction of the quat to keep it
+// in the "small" hemisphere, before doing the multiplication.  This makes
+// scalar factors < 1 act intuitively, at the cost of sometimes making
+// multiplication non-associative for scale factors > 1.
+template <class T>
+void MultQuatFloatFlipsQuat_Test(const T& precision) {
+  using Quaternion = mathfu::Quaternion<T>;
+  using Vector3 = mathfu::Vector<T, 3>;
+  const Vector3 up(0, 1, 0);
+  const double epsilon = 1e-5;
+
+  // Test the flipping behavior directly.
+  const Quaternion bigQuat = Quaternion::FromAngleAxis(
+      static_cast<T>(mathfu::kPi * 1.5), up);
+  EXPECT_NEAR_QUAT(Quaternion(-bigQuat.scalar(), -bigQuat.vector()),
+                   bigQuat * 1,
+                   epsilon);
+
+  // Test the claim made in the documentation:
+  // "For example, you are not guaranteed that (q * 2) * .5 and q * (2 * .5)
+  //  are the same orientation, let alone the same quaternion."
+  const Quaternion base = Quaternion::FromAngleAxis(
+      static_cast<T>(mathfu::kPi * .75), up);
+  const Quaternion q1 = (base * 2) * .5f;
+  const Quaternion q2 = base * (2 * .5f);
+  EXPECT_NEAR_QUAT(
+      q1,
+      Quaternion::FromAngleAxis(static_cast<T>(mathfu::kPi * -.25), up),
+      epsilon);
+  EXPECT_NEAR_QUAT(q2, base, epsilon);
+  EXPECT_FALSE(IsNearOrientation(q1, q2, epsilon));
+  EXPECT_FALSE(IsNearQuat(q1, q2, epsilon));
+}
+TEST_ALL_F(MultQuatFloatFlipsQuat)
 
 // This will test the dot product of quaternions.
 template <class T>
@@ -412,6 +447,44 @@ void Normalize_Test(const T& precision) {
   EXPECT_NEAR(reference_quat_2[3], normalized_quat_2[3], precision);
 }
 TEST_ALL_F(Normalize)
+
+// This tests that ToAngleAxis returns angle <= 180 degrees, even if the
+// Quaternion had a larger angle.
+template <class T>
+void ToAngleAxisReturnsSmallQuat_Test(const T& precision) {
+  using Quaternion = mathfu::Quaternion<T>;
+  using Vector3 = mathfu::Vector<T, 3>;
+  const float epsilon = 1e-5f;
+
+  // Test the specific example called out in the documentation:
+  // "For example, if *this represents "Rotate 350 degrees left", you will
+  //  get the angle-axis "Rotate 10 degrees right"."
+  const Vector3 kUp(0, 1, 0);
+  const float k350Degrees = 350 * mathfu::kDegreesToRadians;
+  const Quaternion k350Left = Quaternion::FromAngleAxis(k350Degrees, kUp);
+
+  const Vector3 kDown(0, -1, 0);
+  const float k10Degrees = 10 * mathfu::kDegreesToRadians;
+  const Quaternion k10Right = Quaternion::FromAngleAxis(k10Degrees, kDown);
+
+  {
+    T angle;
+    Vector3 axis;
+    k350Left.ToAngleAxis(&angle, &axis);
+    EXPECT_NEAR(k10Degrees, angle, epsilon);
+    EXPECT_NEAR_VEC3(kDown, axis, epsilon);
+    EXPECT_NEAR_QUAT(k10Right, Quaternion::FromAngleAxis(angle, axis), epsilon);
+  }
+  {
+    T angle;
+    Vector3 axis;
+    k350Left.ToAngleAxisFull(&angle, &axis);
+    EXPECT_NEAR(k350Degrees, angle, epsilon);
+    EXPECT_NEAR_VEC3(kUp, axis, epsilon);
+    EXPECT_NEAR_QUAT(k350Left, Quaternion::FromAngleAxis(angle, axis), epsilon);
+  }
+}
+TEST_ALL_F(ToAngleAxisReturnsSmallQuat)
 
 // This will test normalization of quaternions.
 template <class T>
@@ -587,6 +660,76 @@ void SlerpResultIsUnit_Test(const T& precision) {
   }
 }
 TEST_ALL_F(SlerpResultIsUnit)
+
+// Checks equality of
+// - quat(<some axis>, expected_angle) vs
+// - Slerp(identity, quat(<some axis>, angle), t) vs
+// - Slerp(quat(<some axis>, angle), identity, 1-t)
+// Angles are in degrees.
+template <class T>
+void CheckSlerp(float angle, float t, float expected_angle) {
+  using Quaternion = mathfu::Quaternion<T>;
+  using Vector3 = mathfu::Vector<T, 3>;
+
+  // Transcendentals are involved, so be lenient on the epsilon.
+  const T epsilon = 1e-6f;
+  const Vector3 up(0, 1, 0);  // Could be any axis, really.
+  const Quaternion original =
+      Quaternion::FromAngleAxis(angle * mathfu::kDegreesToRadians, up);
+  const Quaternion expected =
+      Quaternion::FromAngleAxis(expected_angle * mathfu::kDegreesToRadians, up);
+
+  // These are looser EXPECT_NEAR_ORIENTATION checks because Slerp() treats
+  // quats as orientations. For checking a mathematical Slerp(), they can
+  // (and should) be tightened back to EXPECT_NEAR_QUAT.
+
+  Quaternion slerp_result =
+      Quaternion::Slerp(Quaternion::identity, original, t);
+  EXPECT_NEAR_ORIENTATION(expected, slerp_result, epsilon)
+      << " for angle " << angle << " and t " << t;
+
+  // Apply the invariant that slerp(a, b, t) == slerp(b, a, 1-t).
+  Quaternion slerp_backwards_result =
+      Quaternion::Slerp(original, Quaternion::identity, 1 - t);
+  EXPECT_NEAR_ORIENTATION(expected, slerp_backwards_result, epsilon)
+      << " for angle " << angle << " and t " << t;
+
+  Quaternion mul_result = original * t;
+  EXPECT_NEAR_ORIENTATION(expected, mul_result, epsilon)
+      << " for angle " << angle << " and t " << t;
+}
+
+// This doubles as a test of both Slerp() and operator*(quat, float),
+// since the two are pretty much the same operation with different spelling.
+template <class T>
+void Slerp_Test(const T& precision) {
+  // Easy and unambiguous cases.
+  CheckSlerp<T>(+160, 0.375f, +60);
+  CheckSlerp<T>(-160, 0.375f, -60);
+
+  // Shortening a "long way around" (> 180 degree) rotation
+  // NOTE: These results are different from the mathematical quat slerp
+  CheckSlerp<T>(+320, 0.375f, -15);  // Mathematically, should be +120
+  CheckSlerp<T>(-320, 0.375f, +15);  // Mathematically, should be -120
+
+  // Lengthening a "long way around" rotation
+  CheckSlerp<T>(320, 1.5f, -60);  // Mathematically, should be 480 (ie -240)
+
+  // Lengthening to a "long way around" (> 180 degree) rotation
+  CheckSlerp<T>(+70, 3, +210);
+  CheckSlerp<T>(-70, 3, -210);
+
+  // An edge case that often causes NaNs
+  CheckSlerp<T>(0, .5f, 0);
+
+  // This edge case is ill-defined for "intuitive" slerp and can't be tested.
+  // CheckSlerp<T>(180, .25f, 45);
+
+  // Conversely, this edge case is well-defined for "intuitive" slerp.
+  // For mathematical slerp, the axis is ill-defined and can take many values.
+  CheckSlerp<T>(360, .25f, 0);
+}
+TEST_ALL_F(Slerp)
 
 }  // namespace
 
