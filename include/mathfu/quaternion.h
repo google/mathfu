@@ -60,12 +60,12 @@ class Quaternion {
   /// element.
   ///
   /// @param s1 Scalar component.
-  /// @param s2 First element of the Vector component.
-  /// @param s3 Second element of the Vector component.
-  /// @param s4 Third element of the Vector component.
-  inline Quaternion(const T& s1, const T& s2, const T& s3, const T& s4) {
+  /// @param qs1 First element of the Vector component.
+  /// @param qs2 Second element of the Vector component.
+  /// @param qs3 Third element of the Vector component.
+  inline Quaternion(const T& s1, const T& qs1, const T& qs2, const T& qs3) {
     s_ = s1;
-    v_ = Vector<T, 3>(s2, s3, s4);
+    v_ = Vector<T, 3>(qs1, qs2, qs3);
   }
 
   /// @brief Construct a quaternion from a scalar and 3-dimensional Vector.
@@ -78,7 +78,8 @@ class Quaternion {
   }
 
   /// @brief Return the scalar component of the quaternion.
-  ///
+  /// TODO: Remove this method, which is not well-defined once
+  /// quaternions have a simd-compatible backing store.
   /// @return The scalar component
   inline T& scalar() { return s_; }
 
@@ -93,13 +94,14 @@ class Quaternion {
   inline void set_scalar(const T& s) { s_ = s; }
 
   /// @brief Return the vector component of the quaternion.
-  ///
-  /// @return The scalar component
+  /// TODO: Remove this method, which is not well-defined once
+  /// quaternions have a simd-compatible backing store.
+  /// @return The vector component
   inline Vector<T, 3>& vector() { return v_; }
 
   /// @brief Return the vector component of the quaternion.
   ///
-  /// @return The scalar component
+  /// @return The vector component
   inline const Vector<T, 3>& vector() const { return v_; }
 
   /// @brief Set the vector component of the quaternion.
@@ -406,7 +408,8 @@ class Quaternion {
   }
 
   /// @brief Access an element of the quaternion.
-  ///
+  /// TODO: Remove this method, which is not well-defined once
+  /// quaternions have a simd-compatible backing store.
   /// @param i Index of the element to access.
   /// @return A reference to the accessed data that can be modified by the
   /// caller.
