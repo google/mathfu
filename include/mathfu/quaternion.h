@@ -78,12 +78,6 @@ class Quaternion {
   }
 
   /// @brief Return the scalar component of the quaternion.
-  /// TODO: Remove this method, which is not well-defined once
-  /// quaternions have a simd-compatible backing store.
-  /// @return The scalar component
-  inline T& scalar() { return s_; }
-
-  /// @brief Return the scalar component of the quaternion.
   ///
   /// @return The scalar component
   inline const T& scalar() const { return s_; }
