@@ -88,12 +88,6 @@ class Quaternion {
   inline void set_scalar(const T& s) { s_ = s; }
 
   /// @brief Return the vector component of the quaternion.
-  /// TODO: Remove this method, which is not well-defined once
-  /// quaternions have a simd-compatible backing store.
-  /// @return The vector component
-  inline Vector<T, 3>& vector() { return v_; }
-
-  /// @brief Return the vector component of the quaternion.
   ///
   /// @return The vector component
   inline const Vector<T, 3>& vector() const { return v_; }
