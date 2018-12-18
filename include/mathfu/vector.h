@@ -1034,6 +1034,14 @@ inline Vector<T, d> RoundUpToPowerOf2(const Vector<T, d>& v) {
   MATHFU_VECTOR_OPERATION(ret(i) = RoundUpToPowerOf2(v(i)));
   return ret;
 }
+
+/// @brief Specialized version of Clamp for vector.
+template <typename T, int d>
+inline Vector<T, d> Clamp(const Vector<T, d>& x,
+                          const Vector<T, d>& lower,
+                          const Vector<T, d>& upper) {
+  return Vector<T, d>::Max(lower, Vector<T, d>::Min(x, upper));
+}
 /// @}
 
 }  // namespace mathfu
