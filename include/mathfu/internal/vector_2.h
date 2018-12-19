@@ -24,7 +24,7 @@ template <class T>
 class Vector<T, 2> {
  public:
   typedef T Scalar;
-  static const int d = 2;
+  static const int Dims = 2;
 
   inline Vector() {}
 
@@ -37,13 +37,13 @@ class Vector<T, 2> {
     MATHFU_VECTOR_OPERATION(data_[i] = static_cast<T>(v[i]));
   }
 
-  explicit inline Vector(const T& s) { MATHFU_VECTOR_OPERATION(data_[i] = s); }
+  explicit inline Vector(T s) { MATHFU_VECTOR_OPERATION(data_[i] = s); }
 
   explicit inline Vector(const T* a) {
     MATHFU_VECTOR_OPERATION(data_[i] = a[i]);
   }
 
-  inline Vector(const T& s1, const T& s2) {
+  inline Vector(T s1, T s2) {
     x = s1;
     y = s2;
   }
@@ -78,12 +78,12 @@ class Vector<T, 2> {
 
   template <typename CompatibleT>
   static inline Vector<T, 2> FromType(const CompatibleT& compatible) {
-    return FromTypeHelper<T, d, CompatibleT>(compatible);
+    return FromTypeHelper<T, Dims, CompatibleT>(compatible);
   }
 
   template <typename CompatibleT>
   static inline CompatibleT ToType(const Vector<T, 2>& v) {
-    return ToTypeHelper<T, d, CompatibleT>(v);
+    return ToTypeHelper<T, Dims, CompatibleT>(v);
   }
 
   static inline T DotProduct(const Vector<T, 2>& v1, const Vector<T, 2>& v2) {

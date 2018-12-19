@@ -63,7 +63,7 @@ class Quaternion {
   /// @param qs1 First element of the Vector component.
   /// @param qs2 Second element of the Vector component.
   /// @param qs3 Third element of the Vector component.
-  inline Quaternion(const T& s1, const T& qs1, const T& qs2, const T& qs3) {
+  inline Quaternion(T s1, T qs1, T qs2, T qs3) {
     s_ = s1;
     v_ = Vector<T, 3>(qs1, qs2, qs3);
   }
@@ -72,7 +72,7 @@ class Quaternion {
   ///
   /// @param s1 Scalar component.
   /// @param v1 Vector component.
-  inline Quaternion(const T& s1, const Vector<T, 3>& v1) {
+  inline Quaternion(T s1, const Vector<T, 3>& v1) {
     s_ = s1;
     v_ = v1;
   }
@@ -85,7 +85,7 @@ class Quaternion {
   /// @brief Set the scalar component of the quaternion.
   ///
   /// @param s Scalar component.
-  inline void set_scalar(const T& s) { s_ = s; }
+  inline void set_scalar(T s) { s_ = s; }
 
   /// @brief Return the vector component of the quaternion.
   ///
@@ -133,7 +133,7 @@ class Quaternion {
   ///
   /// @param s1 Scalar to multiply with.
   /// @return Quaternion containing the result.
-  inline Quaternion<T> operator*(const T& s1) const {
+  inline Quaternion<T> operator*(T s1) const {
     T angle;
     Vector<T, 3> axis;
     ToAngleAxis(&angle, &axis);
@@ -264,7 +264,7 @@ class Quaternion {
   /// @param angle Angle in radians to rotate by.
   /// @param axis Axis in 3D space to rotate around.
   /// @return Quaternion containing the result.
-  static Quaternion<T> FromAngleAxis(const T& angle, const Vector<T, 3>& axis) {
+  static Quaternion<T> FromAngleAxis(T angle, const Vector<T, 3>& axis) {
     const T halfAngle = static_cast<T>(0.5) * angle;
     Vector<T, 3> localAxis(axis);
     return Quaternion<T>(
@@ -386,7 +386,7 @@ class Quaternion {
   /// value of 1 corresponds to q2.
   /// @result Quaternion containing the result.
   static inline Quaternion<T> Slerp(const Quaternion<T>& q1,
-                                    const Quaternion<T>& q2, const T& s1) {
+                                    const Quaternion<T>& q2, T s1) {
     if (q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_) > 0.9999f) {
       return Quaternion<T>(q1.s_ * (1 - s1) + q2.s_ * s1,
                            q1.v_ * (1 - s1) + q2.v_ * s1)
@@ -614,7 +614,7 @@ Quaternion<T> Quaternion<T>::identity = Quaternion<T>(1, 0, 0, 0);
 ///
 /// @related Quaternion
 template <class T>
-inline Quaternion<T> operator*(const T& s, const Quaternion<T>& q) {
+inline Quaternion<T> operator*(T s, const Quaternion<T>& q) {
   return q * s;
 }
 /// @}
