@@ -587,6 +587,19 @@ inline Vector<T, d> operator/(const Vector<T, d>& v, const T& s) {
   MATHFU_VECTOR_OPERATOR(v.data_[i] / s);
 }
 
+/// @brief Divide a scalar by a Vector.
+///
+/// Divides a scalar by each component of the specified Vector.
+///
+/// @param s scalar numerator.
+/// @param v Vector denominator.
+/// @return Vector containing the result.
+/// @related Vector
+template <class T, int d>
+inline Vector<T, d> operator/(const T& s, const Vector<T, d>& v) {
+  MATHFU_VECTOR_OPERATOR(s / v.data_[i]);
+}
+
 /// @brief Add a scalar to each element of a Vector.
 ///
 /// @param s scalar to add to each element of a Vector.

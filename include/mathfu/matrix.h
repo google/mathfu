@@ -604,6 +604,16 @@ class Matrix {
     return Vector<T, 3>(data_[3][0], data_[3][1], data_[3][2]);
   }
 
+  /// @brief Get the 3-dimensional scale along each local axis.
+  ///
+  /// @return Vector with the scale along each local axis.
+  inline Vector<T, 3> ScaleVector3D() const {
+    MATHFU_STATIC_ASSERT(rows >= 3 && columns >= 3);
+    return Vector<T, 3>(data_[0].xyz().Length(),
+                        data_[1].xyz().Length(),
+                        data_[2].xyz().Length());
+  }
+
   /// @brief Load from any byte-wise compatible external matrix.
   ///
   /// Format should be `columns` vectors, each holding `rows` values of type T.
