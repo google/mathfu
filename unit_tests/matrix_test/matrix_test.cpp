@@ -178,12 +178,12 @@ void InitializePacked_Test(const T& precision) {
   mathfu::VectorPacked<T, d> packed[d];
   for (int i = 0; i < d; ++i) {
     for (int j = 0; j < d; ++j) {
-      packed[i].data[j] = static_cast<T>((i * d) + j);
+      packed[i].data_[j] = static_cast<T>((i * d) + j);
     }
   }
   mathfu::Matrix<T, d> matrix(packed);
   for (int i = 0; i < d * d; ++i) {
-    EXPECT_NEAR(packed[i / d].data[i % d], matrix[i], static_cast<T>(0))
+    EXPECT_NEAR(packed[i / d].data_[i % d], matrix[i], static_cast<T>(0))
         << "Element " << i;
   }
 }
@@ -200,7 +200,7 @@ void PackedSerialization_Test(const T& precision) {
   mathfu::VectorPacked<T, d> packed[d];
   matrix.Pack(packed);
   for (int i = 0; i < d * d; ++i) {
-    EXPECT_NEAR(matrix[i], packed[i / d].data[i % d], static_cast<T>(0))
+    EXPECT_NEAR(matrix[i], packed[i / d].data_[i % d], static_cast<T>(0))
         << "Element " << i;
   }
 }

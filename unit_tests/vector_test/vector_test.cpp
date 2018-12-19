@@ -196,11 +196,11 @@ void InitializationPacked_Test(const T& precision) {
   (void)precision;
   mathfu::VectorPacked<T, d> packed;
   for (int i = 0; i < d; ++i) {
-    packed.data[i] = static_cast<T>(i);
+    packed.data_[i] = static_cast<T>(i);
   }
   mathfu::Vector<T, d> unpacked(packed);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(packed.data[i], unpacked[i], static_cast<T>(0)) << "Element "
+    EXPECT_NEAR(packed.data_[i], unpacked[i], static_cast<T>(0)) << "Element "
                                                                 << i;
   }
 }
@@ -217,14 +217,14 @@ void PackedSerialization_Test(const T& precision) {
 
   mathfu::VectorPacked<T, d> packed_construction(unpacked);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(unpacked[i], packed_construction.data[i], static_cast<T>(0))
+    EXPECT_NEAR(unpacked[i], packed_construction.data_[i], static_cast<T>(0))
         << "Element " << i;
   }
 
   mathfu::VectorPacked<T, d> packed_assignment;
   packed_assignment = unpacked;
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(unpacked[i], packed_assignment.data[i], static_cast<T>(0))
+    EXPECT_NEAR(unpacked[i], packed_assignment.data_[i], static_cast<T>(0))
         << "Element " << i;
   }
 }

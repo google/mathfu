@@ -141,7 +141,7 @@ struct VectorPacked {
   }
 
   /// Elements of the packed vector one per dimension.
-  T data[d];
+  T data_[d];
 };
 /// @}
 
@@ -284,7 +284,7 @@ class Vector {
   ///
   /// @param vector Packed vector used to initialize an unpacked.
   explicit inline Vector(const VectorPacked<T, d>& vector) {
-    MATHFU_VECTOR_OPERATION(data_[i] = vector.data[i]);
+    MATHFU_VECTOR_OPERATION(data_[i] = vector.data_[i]);
   }
 
   /// @brief Access an element of the vector.
@@ -373,7 +373,7 @@ class Vector {
   ///
   /// @param vector Packed "d" element vector to write to.
   inline void Pack(VectorPacked<T, d>* const vector) const {
-    MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
+    MATHFU_VECTOR_OPERATION(vector->data_[i] = data_[i]);
   }
 
   /// @brief Calculate the squared length of this vector.

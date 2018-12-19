@@ -915,7 +915,6 @@ class Matrix {
 
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
- private:
   Vector<T, rows> data_[columns];
 };
 /// @}
@@ -1012,9 +1011,9 @@ inline Vector<T, 2> operator*(const Matrix<T, 2, 2>& m, const Vector<T, 2>& v) {
 /// @cond MATHFU_INTERNAL
 template <class T>
 inline Vector<T, 3> operator*(const Matrix<T, 3, 3>& m, const Vector<T, 3>& v) {
-  return Vector<T, 3>(MATHFU_MATRIX_3X3_DOT(&m[0], v, 0, 3),
-                      MATHFU_MATRIX_3X3_DOT(&m[0], v, 1, 3),
-                      MATHFU_MATRIX_3X3_DOT(&m[0], v, 2, 3));
+  return Vector<T, 3>(MATHFU_MATRIX_3X3_DOT(&m.data_[0].data_[0], v, 0, 3),
+                      MATHFU_MATRIX_3X3_DOT(&m.data_[0].data_[0], v, 1, 3),
+                      MATHFU_MATRIX_3X3_DOT(&m.data_[0].data_[0], v, 2, 3));
 }
 /// @endcond
 
@@ -1023,18 +1022,22 @@ template <>
 inline Vector<float, 3> operator*(const Matrix<float, 3, 3>& m,
                                   const Vector<float, 3>& v) {
   return Vector<float, 3>(
-      MATHFU_MATRIX_3X3_DOT(&m[0], v, 0, MATHFU_VECTOR_STRIDE_FLOATS(v)),
-      MATHFU_MATRIX_3X3_DOT(&m[0], v, 1, MATHFU_VECTOR_STRIDE_FLOATS(v)),
-      MATHFU_MATRIX_3X3_DOT(&m[0], v, 2, MATHFU_VECTOR_STRIDE_FLOATS(v)));
+      MATHFU_MATRIX_3X3_DOT(&m.data_[0].data_[0], v, 0,
+                            MATHFU_VECTOR_STRIDE_FLOATS(v)),
+      MATHFU_MATRIX_3X3_DOT(&m.data_[0].data_[0], v, 1,
+                            MATHFU_VECTOR_STRIDE_FLOATS(v)),
+      MATHFU_MATRIX_3X3_DOT(&m.data_[0].data_[0], v, 2,
+                            MATHFU_VECTOR_STRIDE_FLOATS(v)));
 }
 /// @endcond
 
 /// @cond MATHFU_INTERNAL
 template <class T>
 inline Vector<T, 4> operator*(const Matrix<T, 4, 4>& m, const Vector<T, 4>& v) {
-  return Vector<T, 4>(
-      MATHFU_MATRIX_4X4_DOT(&m[0], v, 0), MATHFU_MATRIX_4X4_DOT(&m[0], v, 1),
-      MATHFU_MATRIX_4X4_DOT(&m[0], v, 2), MATHFU_MATRIX_4X4_DOT(&m[0], v, 3));
+  return Vector<T, 4>(MATHFU_MATRIX_4X4_DOT(&m.data_[0].data_[0], v, 0),
+                      MATHFU_MATRIX_4X4_DOT(&m.data_[0].data_[0], v, 1),
+                      MATHFU_MATRIX_4X4_DOT(&m.data_[0].data_[0], v, 2),
+                      MATHFU_MATRIX_4X4_DOT(&m.data_[0].data_[0], v, 3));
 }
 /// @endcond
 

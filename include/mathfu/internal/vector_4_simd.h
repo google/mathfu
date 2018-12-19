@@ -76,7 +76,7 @@ class Vector<float, 4> {
   }
 
   explicit inline Vector(const VectorPacked<float, 4>& vector) {
-    simd = simd4f_uload4(vector.data);
+    simd = simd4f_uload4(vector.data_);
   }
 
   inline float& operator()(const int i) { return data_[i]; }
@@ -100,7 +100,7 @@ class Vector<float, 4> {
   inline const Vector<float, 2> zw() const { return Vector<float, 2>(z, w); }
 
   inline void Pack(VectorPacked<float, 4>* const vector) const {
-    simd4f_ustore4(simd, vector->data);
+    simd4f_ustore4(simd, vector->data_);
   }
 
   inline Vector<float, 4> operator-() const {

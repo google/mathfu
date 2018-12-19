@@ -66,7 +66,7 @@ class Vector<T, 4> {
   }
 
   explicit inline Vector(const VectorPacked<T, 4>& vector) {
-    MATHFU_VECTOR_OPERATION(data_[i] = vector.data[i]);
+    MATHFU_VECTOR_OPERATION(data_[i] = vector.data_[i]);
   }
 
   inline T& operator()(const int i) { return data_[i]; }
@@ -90,7 +90,7 @@ class Vector<T, 4> {
   inline const Vector<T, 2> zw() const { return Vector<T, 2>(z, w); }
 
   inline void Pack(VectorPacked<T, 4>* const vector) const {
-    MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
+    MATHFU_VECTOR_OPERATION(vector->data_[i] = data_[i]);
   }
 
   inline T LengthSquared() const { return LengthSquaredHelper(*this); }
@@ -192,7 +192,7 @@ struct VectorPacked<T, 4> {
 #include "mathfu/internal/disable_warnings_begin.h"
   /// Elements of the packed vector one per dimension.
   union {
-    T data[4];
+    T data_[4];
     struct {
       T x;
       T y;

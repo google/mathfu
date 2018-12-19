@@ -106,9 +106,10 @@ class Vector<float, 3> {
 
   explicit inline Vector(const VectorPacked<float, 3>& vector) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd = simd4f_uload3(vector.data);
+    simd = simd4f_uload3(vector.data_);
 #else
-    MATHFU_VECTOR3_INIT3(*this, vector.data[0], vector.data[1], vector.data[2]);
+    MATHFU_VECTOR3_INIT3(*this, vector.data_[0], vector.data_[1],
+                         vector.data_[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
@@ -126,11 +127,11 @@ class Vector<float, 3> {
 
   inline void Pack(VectorPacked<float, 3>* const vector) const {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd4f_ustore3(simd, vector->data);
+    simd4f_ustore3(simd, vector->data_);
 #else
-    vector->data[0] = data_[0];
-    vector->data[1] = data_[1];
-    vector->data[2] = data_[2];
+    vector->data_[0] = data_[0];
+    vector->data_[1] = data_[1];
+    vector->data_[2] = data_[2];
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 

@@ -59,7 +59,7 @@ class Vector<float, 2> {
   explicit inline Vector(const float* v) { simd = simd2f_uload2(v); }
 
   explicit inline Vector(const VectorPacked<float, 2>& vector) {
-    simd = simd2f_uload2(vector.data);
+    simd = simd2f_uload2(vector.data_);
   }
 
   inline float& operator()(const int i) { return data_[i]; }
@@ -71,7 +71,7 @@ class Vector<float, 2> {
   inline const float& operator[](const int i) const { return data_[i]; }
 
   inline void Pack(VectorPacked<float, 2>* const vector) const {
-    simd2f_ustore2(simd, vector->data);
+    simd2f_ustore2(simd, vector->data_);
   }
 
   inline Vector<float, 2> operator-() const {
