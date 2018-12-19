@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-#include "mathfu/matrix_4x4.h"
+#include "mathfu/matrix.h"
 #include "mathfu/utilities.h"
 
 #include <math.h>

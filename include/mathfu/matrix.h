@@ -1603,8 +1603,4 @@ typedef Matrix<float, 4, 3> AffineTransform;
 #pragma warning(pop)
 #endif
 
-// Include the specializations to avoid template errors.
-// See includes at bottom of vector.h for further explanation.
-#include "mathfu/matrix_4x4.h"
-
 #endif  // MATHFU_MATRIX_H_

@@ -14,7 +14,6 @@
 * limitations under the License.
 */
 #include "mathfu/matrix.h"
-#include "mathfu/matrix_4x4.h"
 
 #include "mathfu/io.h"
 #include "mathfu/quaternion.h"
