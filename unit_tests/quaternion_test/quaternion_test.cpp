@@ -144,23 +144,6 @@ void ConstAccessor_Test(const T& precision) {
 }
 TEST_ALL_F(ConstAccessor)
 
-// Test updating elements of the quaternion using the array accessor.
-template <class T>
-void NonConstAccessor_Test(const T& precision) {
-  (void)precision;
-  mathfu::Quaternion<T> quaternion(static_cast<T>(0.19), static_cast<T>(0.38),
-                                   static_cast<T>(0.76), static_cast<T>(0.50));
-  quaternion[0] = static_cast<T>(0.50);
-  quaternion[1] = static_cast<T>(0.76);
-  quaternion[2] = static_cast<T>(0.38);
-  quaternion[3] = static_cast<T>(0.19);
-  EXPECT_EQ(static_cast<T>(0.50), quaternion[0]);
-  EXPECT_EQ(static_cast<T>(0.76), quaternion[1]);
-  EXPECT_EQ(static_cast<T>(0.38), quaternion[2]);
-  EXPECT_EQ(static_cast<T>(0.19), quaternion[3]);
-}
-TEST_ALL_F(NonConstAccessor)
-
 // Test accessing the scalar component of the quaternion using the scalar
 // accessor.
 template <class T>

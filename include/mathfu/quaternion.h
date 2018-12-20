@@ -105,6 +105,24 @@ class Quaternion {
   /// @return Quaternion containing the result.
   inline Quaternion<T> Inverse() const { return Quaternion<T>(s_, -v_); }
 
+  /// @brief Add this Quaternion to another Quaternion.
+  ///
+  /// @param q Quaternion to add.
+  /// @return Quaternion containing the result.
+  inline Quaternion<T> operator+(const Quaternion<T>& q) const {
+    return Quaternion<T>(s_ + q.s_, v_ + q.v_);
+  }
+
+  /// @brief Add another Quaternion to this, and store the result.
+  ///
+  /// @param q Quaternion to add.
+  /// @return Quaternion containing the result.
+  inline Quaternion<T>& operator+=(const Quaternion<T>& q) {
+    s_ += q.s_;
+    v_ += q.v_;
+    return *this;
+  }
+
   /// @brief Multiply this Quaternion with another Quaternion.
   ///
   /// @note This is equivalent to
@@ -396,22 +414,12 @@ class Quaternion {
   }
 
   /// @brief Access an element of the quaternion.
-  /// TODO: Remove this method, which is not well-defined once
-  /// quaternions have a simd-compatible backing store.
-  /// @param i Index of the element to access.
-  /// @return A reference to the accessed data that can be modified by the
-  /// caller.
-  inline T& operator[](const int i) {
-    if (i == 0) return s_;
-    return v_[i - 1];
-  }
-
-  /// @brief Access an element of the quaternion.
-  ///
+  /// TODO: Remove this, as it gives very slow access to the soon-to-be
+  /// backing simd store.
   /// @param i Index of the element to access.
   /// @return A const reference to the accessed.
   inline const T& operator[](const int i) const {
-    return const_cast<Quaternion<T>*>(this)->operator[](i);
+    return i == 0 ? s_ : v_[i - 1];
   }
 
   /// @brief Returns a vector that is perpendicular to the supplied vector.
