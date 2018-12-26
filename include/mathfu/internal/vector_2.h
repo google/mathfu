@@ -28,29 +28,24 @@ class Vector<T, 2> {
 
   inline Vector() {}
 
-  inline Vector(const Vector<T, 2>& v) {
-    MATHFU_VECTOR_OPERATION(data_[i] = v.data_[i]);
-  }
+  inline Vector(const Vector<T, 2>& v)
+      : x(v.x), y(v.y) {}
+
+  explicit inline Vector(const VectorPacked<T, 2>& v)
+      : x(v.x), y(v.y) {}
+
+  explicit inline Vector(const T* a)
+      : x(a[0]), y(a[1]) {}
+
+  explicit inline Vector(T s)
+      : x(s), y(s) {}
+
+  inline Vector(T s1, T s2)
+      : x(s1), y(s2) {}
 
   template <typename U>
-  explicit inline Vector(const Vector<U, 2>& v) {
-    MATHFU_VECTOR_OPERATION(data_[i] = static_cast<T>(v[i]));
-  }
-
-  explicit inline Vector(T s) { MATHFU_VECTOR_OPERATION(data_[i] = s); }
-
-  explicit inline Vector(const T* a) {
-    MATHFU_VECTOR_OPERATION(data_[i] = a[i]);
-  }
-
-  inline Vector(T s1, T s2) {
-    x = s1;
-    y = s2;
-  }
-
-  explicit inline Vector(const VectorPacked<T, 2>& vector) {
-    MATHFU_VECTOR_OPERATION(data_[i] = vector.data_[i]);
-  }
+  explicit inline Vector(const Vector<U, 2>& v)
+      : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)) {}
 
   inline T& operator()(const int i) { return data_[i]; }
 
@@ -65,7 +60,8 @@ class Vector<T, 2> {
   inline const Vector<T, 2> xy() const { return Vector<T, 2>(x, y); }
 
   inline void Pack(VectorPacked<T, 2>* const vector) const {
-    MATHFU_VECTOR_OPERATION(vector->data_[i] = data_[i]);
+    vector->x = x;
+    vector->y = y;
   }
 
   inline T LengthSquared() const { return LengthSquaredHelper(*this); }
