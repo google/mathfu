@@ -598,8 +598,8 @@ class Quaternion {
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
  private:
-  T s_;
   Vector<T, 3> v_;
+  T s_;
 };
 
 template <typename T>
