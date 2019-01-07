@@ -414,13 +414,10 @@ class Quaternion {
   }
 
   /// @brief Access an element of the quaternion.
-  /// TODO: Remove this, as it gives very slow access to the soon-to-be
-  /// backing simd store.
+  ///
   /// @param i Index of the element to access.
   /// @return A const reference to the accessed.
-  inline const T& operator[](const int i) const {
-    return i == 0 ? s_ : v_[i - 1];
-  }
+  inline T operator[](const int i) const { return i == 0 ? s_ : v_[i - 1]; }
 
   /// @brief Returns a vector that is perpendicular to the supplied vector.
   ///
