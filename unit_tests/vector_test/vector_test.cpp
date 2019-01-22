@@ -230,100 +230,184 @@ void PackedSerialization_Test(const T& precision) {
 }
 TEST_ALL_F(PackedSerialization)
 
-// This will test the Addition and Subtraction of vectors. The template
-// parameter d corresponds to the size of the vector.
 template <class T, int d>
-void AddSub_Test(const T& precision) {
+void Negate_Test(const T& precision) {
+  T x[d];
+  for (int i = 0; i < d; ++i) {
+    x[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
+
+  mathfu::Vector<T, d> vector(x);
+
+  // Test negation; make sure each element is negated.
+  mathfu::Vector<T, d> neg_vector(-vector);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(-x[i], neg_vector[i], precision);
+  }
+}
+TEST_ALL_F(Negate)
+
+template <class T, int d>
+void Add_Test(const T& precision) {
   T x1[d], x2[d];
+  T scalar = rand() / static_cast<T>(RAND_MAX) * 100.f;
   for (int i = 0; i < d; ++i) {
     x1[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
   }
   for (int i = 0; i < d; ++i) {
     x2[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
   }
+
   mathfu::Vector<T, d> vector1(x1), vector2(x2);
-  // This will test the negation of a vector and make sure each element is
-  // negated.
-  mathfu::Vector<T, d> neg_vector1(-vector1);
-  for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(-x1[i], neg_vector1[i], precision);
-  }
-  // This will test the addition of vectors and make such each element is
-  // equal to the sum of the input values.
+
   mathfu::Vector<T, d> sum_vector(vector1 + vector2);
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] + x2[i], sum_vector[i], precision);
   }
-  // This will test the subtraction of vectors and make such each element is
-  // equal to the difference of the input values.
+  mathfu::Vector<T, d> sum_vector_scalar(vector1 + scalar);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] + scalar, sum_vector_scalar[i], precision);
+  }
+  mathfu::Vector<T, d> sum_scalar_vector(scalar + vector1);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(scalar + x1[i], sum_scalar_vector[i], precision);
+  }
+  mathfu::Vector<T, d> sum_assign_vector_vector(vector1);
+  sum_assign_vector_vector += vector2;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] + x2[i], sum_assign_vector_vector[i], precision);
+  }
+  mathfu::Vector<T, d> sum_assign_vector_scalar(vector1);
+  sum_assign_vector_scalar += scalar;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] + scalar, sum_assign_vector_scalar[i], precision);
+  }
+}
+TEST_ALL_F(Add)
+
+template <class T, int d>
+void Sub_Test(const T& precision) {
+  T x1[d], x2[d];
+  T scalar = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  for (int i = 0; i < d; ++i) {
+    x1[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
+  for (int i = 0; i < d; ++i) {
+    x2[i] = rand() / static_cast<T>(RAND_MAX) * 100.f;
+  }
+
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
+
   mathfu::Vector<T, d> diff_vector(vector1 - vector2);
   for (int i = 0; i < d; ++i) {
     EXPECT_NEAR(x1[i] - x2[i], diff_vector[i], precision);
   }
+  mathfu::Vector<T, d> diff_vector_scalar(vector1 - scalar);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] - scalar, diff_vector_scalar[i], precision);
+  }
+  mathfu::Vector<T, d> diff_scalar_vector(scalar - vector1);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(scalar - x1[i], diff_scalar_vector[i], precision);
+  }
+  mathfu::Vector<T, d> diff_assign_vector_vector(vector1);
+  diff_assign_vector_vector -= vector2;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] - x2[i], diff_assign_vector_vector[i], precision);
+  }
+  mathfu::Vector<T, d> diff_assign_vector_scalar(vector1);
+  diff_assign_vector_scalar -= scalar;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] - scalar, diff_assign_vector_scalar[i], precision);
+  }
 }
-TEST_ALL_F(AddSub)
+TEST_ALL_F(Sub)
 
-// This will test the multiplication of vectors by vectors and scalars. The
-// template parameter d corresponds to the size of the vector.
 template <class T, int d>
-void Mult_Test(const T& precision) {
-  T x1[d], x2[d], scalar(static_cast<T>(1.4));
-  for (int i = 0; i < d; ++i) x1[i] = rand() / static_cast<T>(RAND_MAX);
-  for (int i = 0; i < d; ++i) x2[i] = rand() / static_cast<T>(RAND_MAX);
-  mathfu::Vector<T, d> vector1(x1), vector2(x2);
-  // This will test the Hadamard Product of two vectors and verify that each
-  // element is the product of the input elements.
-  mathfu::Vector<T, d> mult_vec(
-      mathfu::Vector<T, d>::HadamardProduct(vector1, vector2));
+void Mul_Test(const T& precision) {
+  T x1[d], x2[d];
+  T scalar(static_cast<T>(1.4));
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(x1[i] * x2[i], mult_vec[i], precision);
+    x1[i] = rand() / static_cast<T>(RAND_MAX);
   }
-  // This will test multiplication by a scalar and verify that each
-  // element is the input element multiplied by the scalar.
-  mathfu::Vector<T, d> smult_vec1(vector1 * scalar);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(x1[i] * 1.4, smult_vec1[i], precision);
+    x2[i] = rand() / static_cast<T>(RAND_MAX);
   }
-  mathfu::Vector<T, d> smult_vec2(scalar * vector2);
-  for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(x2[i] * 1.4, smult_vec2[i], precision);
-  }
-  // This will test the dot product of two vectors and verify the result
-  // is mathematically correct.
-  T my_dot = 0;
-  for (int i = 0; i < d; ++i) my_dot += x1[i] * x2[i];
-  T vec_dot = mathfu::Vector<T, d>::DotProduct(vector1, vector2);
-  EXPECT_NEAR(my_dot, vec_dot, precision);
-}
-TEST_ALL_F(Mult)
 
-// This will test the division of vectors by vectors and scalars.  The template
-// parameter d coorresponds to the size of the vector.
-template <class T, int d>
-void Division_Test(const T& precision) {
-  T x1[d], x2[d], scalar(static_cast<T>(1.4));
-  for (int i = 0; i < d; ++i) x1[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
-  for (int i = 0; i < d; ++i) x2[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
   mathfu::Vector<T, d> vector1(x1), vector2(x2);
-  // Test vector division.
-  mathfu::Vector<T, d> divided_component_wise(vector1 / vector2);
+
+  mathfu::Vector<T, d> mul_vector(vector1 * vector2);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(x1[i] / x2[i], divided_component_wise[i], precision);
+    EXPECT_NEAR(x1[i] * x2[i], mul_vector[i], precision);
   }
-  // Test division by a scalar.
-  mathfu::Vector<T, d> divided_by_scalar(vector1 / scalar);
+  mathfu::Vector<T, d> mul_vector_scalar(vector1 * scalar);
   for (int i = 0; i < d; ++i) {
-    EXPECT_NEAR(x1[i] / scalar, divided_by_scalar[i], precision);
+    EXPECT_NEAR(x1[i] * scalar, mul_vector_scalar[i], precision);
+  }
+  mathfu::Vector<T, d> mul_scalar_vector(scalar * vector2);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x2[i] * scalar, mul_scalar_vector[i], precision);
+  }
+  mathfu::Vector<T, d> mul_assign_vector_vector(vector1);
+  mul_assign_vector_vector *= vector2;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] * x2[i], mul_assign_vector_vector[i], precision);
+  }
+  mathfu::Vector<T, d> mul_assign_vector_scalar(vector1);
+  mul_assign_vector_scalar *= scalar;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] * scalar, mul_assign_vector_scalar[i], precision);
   }
 }
-TEST_ALL_F(Division)
+TEST_ALL_F(Mul)
+
+template <class T, int d>
+void Div_Test(const T& precision) {
+  T x1[d], x2[d];
+  T scalar = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  for (int i = 0; i < d; ++i) {
+    x1[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  }
+  for (int i = 0; i < d; ++i) {
+    x2[i] = (rand() / static_cast<T>(RAND_MAX)) + 1;
+  }
+
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
+
+  mathfu::Vector<T, d> div_vector_vector(vector1 / vector2);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / x2[i], div_vector_vector[i], precision);
+  }
+  mathfu::Vector<T, d> div_vector_scalar(vector1 / scalar);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / scalar, div_vector_scalar[i], precision);
+  }
+  mathfu::Vector<T, d> div_scalar_vector(scalar / vector1);
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(scalar / x1[i], div_scalar_vector[i], precision);
+  }
+  mathfu::Vector<T, d> div_assign_vector_vector(vector1);
+  div_assign_vector_vector /= vector2;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / x2[i], div_assign_vector_vector[i], precision);
+  }
+  mathfu::Vector<T, d> div_assign_vector_scalar(vector1);
+  div_assign_vector_scalar /= scalar;
+  for (int i = 0; i < d; ++i) {
+    EXPECT_NEAR(x1[i] / scalar, div_assign_vector_scalar[i], precision);
+  }
+}
+TEST_ALL_F(Div)
 
 // This will test normalizing a vector. The template parameter d corresponds to
 // the size of the vector.
 template <class T, int d>
 void Norm_Test(const T& precision) {
   T x[d];
-  for (int i = 0; i < d; ++i) x[i] = rand() / static_cast<T>(RAND_MAX);
+  for (int i = 0; i < d; ++i) {
+    x[i] = rand() / static_cast<T>(RAND_MAX);
+  }
+
   mathfu::Vector<T, d> vector(x);
   vector.Normalize();
   // This will verify that the dot product is 1.
@@ -331,6 +415,32 @@ void Norm_Test(const T& precision) {
   EXPECT_NEAR(dot, 1, precision);
 }
 TEST_ALL_F(Norm)
+
+// This will test the multiplication of vectors by vectors and scalars. The
+// template parameter d corresponds to the size of the vector.
+template <class T, int d>
+void Dot_Test(const T& precision) {
+  T x1[d], x2[d];
+  for (int i = 0; i < d; ++i) {
+    x1[i] = rand() / static_cast<T>(RAND_MAX);
+  }
+  for (int i = 0; i < d; ++i) {
+    x2[i] = rand() / static_cast<T>(RAND_MAX);
+  }
+
+  mathfu::Vector<T, d> vector1(x1), vector2(x2);
+
+  // This will test the dot product of two vectors and verify the result
+  // is mathematically correct.
+  T my_dot = 0;
+  for (int i = 0; i < d; ++i) {
+    my_dot += x1[i] * x2[i];
+  }
+
+  T vec_dot = mathfu::Vector<T, d>::DotProduct(vector1, vector2);
+  EXPECT_NEAR(my_dot, vec_dot, precision);
+}
+TEST_ALL_F(Dot)
 
 // This will test the cross product of two vectors.
 template <class T>

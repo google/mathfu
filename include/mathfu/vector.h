@@ -624,7 +624,7 @@ inline Vector<T, Dims> operator+(T s, const Vector<T, Dims>& v) {
 /// @related Vector
 template <class T, int Dims>
 inline Vector<T, Dims> operator-(T s, const Vector<T, Dims>& v) {
-  MATHFU_VECTOR_OPERATOR(v.data_[i] - s);
+  MATHFU_VECTOR_OPERATOR(s - v.data_[i]);
 }
 
 /// @brief Multiply a vector by another Vector.
