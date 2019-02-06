@@ -896,8 +896,11 @@ class Matrix {
   /// @return Matrix containing the result.
   friend inline Vector<T, Cols> operator*(
       const Vector<T, Rows>& v, const Matrix<T, Rows, Cols>& m) {
-    const int Dims = Cols;
-    MATHFU_VECTOR_OPERATOR((Vector<T, Rows>::DotProduct(m.data_[i], v)));
+    using Vec = Vector<T, Cols>;
+    using RowVec = Vector<T, Rows>;
+    Vec result;
+    MATHFU_VECTOR_FOR_EACH(result.data_[i] = RowVec::DotProduct(m.data_[i], v));
+    return result;
   }
 
   // Dimensions of the matrix.
