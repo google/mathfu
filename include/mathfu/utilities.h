@@ -593,7 +593,19 @@ class simd_allocator : public std::allocator<T> {
   void *operator new(std::size_t n) { return mathfu::AllocateAligned(n); }   \
   void *operator new[](std::size_t n) { return mathfu::AllocateAligned(n); } \
   void operator delete(void *p) noexcept { mathfu::FreeAligned(p); }         \
-  void operator delete[](void *p) noexcept { mathfu::FreeAligned(p); }
+  void operator delete[](void *p) noexcept { mathfu::FreeAligned(p); }       \
+  void *operator new(std::size_t n, const std::nothrow_t&) noexcept {        \
+    return mathfu::AllocateAligned(n);                                       \
+  }                                                                          \
+  void *operator new[](std::size_t n, const std::nothrow_t&) noexcept {      \
+    return mathfu::AllocateAligned(n);                                       \
+  }                                                                          \
+  void operator delete(void *p, const std::nothrow_t&) noexcept {            \
+    mathfu::FreeAligned(p);                                                  \
+  }                                                                          \
+  void operator delete[](void *p, const std::nothrow_t&) noexcept {          \
+    mathfu::FreeAligned(p);                                                  \
+  }
 
 /// @def MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 /// @brief Macro which defines the new and delete for MathFu classes.

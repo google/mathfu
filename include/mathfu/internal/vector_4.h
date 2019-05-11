@@ -25,49 +25,37 @@ template <class T>
 class Vector<T, 4> {
  public:
   typedef T Scalar;
-  static const int d = 4;
+  static const int Dims = 4;
 
   inline Vector() {}
 
-  inline Vector(const Vector<T, 4>& v) {
-    MATHFU_VECTOR_OPERATION(data_[i] = v.data_[i]);
-  }
+  inline Vector(const Vector<T, 4>& v)
+      : x(v.x), y(v.y), z(v.z), w(v.w) {}
+
+  explicit inline Vector(const VectorPacked<T, 4>& v)
+      : x(v.x), y(v.y), z(v.z), w(v.w) {}
+
+  explicit inline Vector(const T* a)
+      : x(a[0]), y(a[1]), z(a[2]), w(a[3]) {}
+
+  explicit inline Vector(T s)
+      : x(s), y(s), z(s), w(s) {}
+
+  inline Vector(T s1, T s2, T s3, T s4)
+      : x(s1), y(s2), z(s3), w(s4) {}
+
+  inline Vector(const Vector<T, 3>& v123, T s4)
+      : x(v123.x), y(v123.y), z(v123.z), w(s4) {}
+
+  inline Vector(const Vector<T, 2>& v12, const Vector<T, 2>& v34)
+      : x(v12.x), y(v12.y), z(v34.x), w(v34.y) {}
 
   template <typename U>
-  explicit inline Vector(const Vector<U, 4>& v) {
-    MATHFU_VECTOR_OPERATION(data_[i] = static_cast<T>(v[i]));
-  }
-
-  explicit inline Vector(const T& s) { MATHFU_VECTOR_OPERATION(data_[i] = s); }
-
-  explicit inline Vector(const T* a) {
-    MATHFU_VECTOR_OPERATION(data_[i] = a[i]);
-  }
-
-  inline Vector(const T& s1, const T& s2, const T& s3, const T& s4) {
-    x = s1;
-    y = s2;
-    z = s3;
-    w = s4;
-  }
-
-  inline Vector(const Vector<T, 3>& vector3, const T& value) {
-    x = vector3[0];
-    y = vector3[1];
-    z = vector3[2];
-    w = value;
-  }
-
-  inline Vector(const Vector<T, 2>& v12, const Vector<T, 2>& v34) {
-    x = v12[0];
-    y = v12[1];
-    z = v34[0];
-    w = v34[1];
-  }
-
-  explicit inline Vector(const VectorPacked<T, 4>& vector) {
-    MATHFU_VECTOR_OPERATION(data_[i] = vector.data[i]);
-  }
+  explicit inline Vector(const Vector<U, 4>& v)
+      : x(static_cast<T>(v.x)),
+        y(static_cast<T>(v.y)),
+        z(static_cast<T>(v.z)),
+        w(static_cast<T>(v.w)) {}
 
   inline T& operator()(const int i) { return data_[i]; }
 
@@ -90,7 +78,10 @@ class Vector<T, 4> {
   inline const Vector<T, 2> zw() const { return Vector<T, 2>(z, w); }
 
   inline void Pack(VectorPacked<T, 4>* const vector) const {
-    MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
+    vector->x = x;
+    vector->y = y;
+    vector->z = z;
+    vector->w = w;
   }
 
   inline T LengthSquared() const { return LengthSquaredHelper(*this); }
@@ -103,12 +94,12 @@ class Vector<T, 4> {
 
   template <typename CompatibleT>
   static inline Vector<T, 4> FromType(const CompatibleT& compatible) {
-    return FromTypeHelper<T, d, CompatibleT>(compatible);
+    return FromTypeHelper<T, Dims, CompatibleT>(compatible);
   }
 
   template <typename CompatibleT>
   static inline CompatibleT ToType(const Vector<T, 4>& v) {
-    return ToTypeHelper<T, d, CompatibleT>(v);
+    return ToTypeHelper<T, Dims, CompatibleT>(v);
   }
 
   static inline T DotProduct(const Vector<T, 4>& v1, const Vector<T, 4>& v2) {
@@ -192,7 +183,7 @@ struct VectorPacked<T, 4> {
 #include "mathfu/internal/disable_warnings_begin.h"
   /// Elements of the packed vector one per dimension.
   union {
-    T data[4];
+    T data_[4];
     struct {
       T x;
       T y;

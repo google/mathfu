@@ -55,7 +55,7 @@ typedef Vector<int, 4> vec4i;
 typedef Matrix<float, 2, 2> mat2;
 /// 3x3 <code>float</code> Matrix.
 typedef Matrix<float, 3, 3> mat3;
-/// 3x3 <code>float</code> Matrix.
+/// 4x4 <code>float</code> Matrix.
 typedef Matrix<float, 4, 4> mat4;
 
 /// 2-dimensional <code>float</code> packed Vector (VectorPacked).

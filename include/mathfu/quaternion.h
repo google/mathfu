@@ -60,27 +60,22 @@ class Quaternion {
   /// element.
   ///
   /// @param s1 Scalar component.
-  /// @param s2 First element of the Vector component.
-  /// @param s3 Second element of the Vector component.
-  /// @param s4 Third element of the Vector component.
-  inline Quaternion(const T& s1, const T& s2, const T& s3, const T& s4) {
+  /// @param qs1 First element of the Vector component.
+  /// @param qs2 Second element of the Vector component.
+  /// @param qs3 Third element of the Vector component.
+  inline Quaternion(T s1, T qs1, T qs2, T qs3) {
     s_ = s1;
-    v_ = Vector<T, 3>(s2, s3, s4);
+    v_ = Vector<T, 3>(qs1, qs2, qs3);
   }
 
   /// @brief Construct a quaternion from a scalar and 3-dimensional Vector.
   ///
   /// @param s1 Scalar component.
   /// @param v1 Vector component.
-  inline Quaternion(const T& s1, const Vector<T, 3>& v1) {
+  inline Quaternion(T s1, const Vector<T, 3>& v1) {
     s_ = s1;
     v_ = v1;
   }
-
-  /// @brief Return the scalar component of the quaternion.
-  ///
-  /// @return The scalar component
-  inline T& scalar() { return s_; }
 
   /// @brief Return the scalar component of the quaternion.
   ///
@@ -90,16 +85,11 @@ class Quaternion {
   /// @brief Set the scalar component of the quaternion.
   ///
   /// @param s Scalar component.
-  inline void set_scalar(const T& s) { s_ = s; }
+  inline void set_scalar(T s) { s_ = s; }
 
   /// @brief Return the vector component of the quaternion.
   ///
-  /// @return The scalar component
-  inline Vector<T, 3>& vector() { return v_; }
-
-  /// @brief Return the vector component of the quaternion.
-  ///
-  /// @return The scalar component
+  /// @return The vector component
   inline const Vector<T, 3>& vector() const { return v_; }
 
   /// @brief Set the vector component of the quaternion.
@@ -115,6 +105,24 @@ class Quaternion {
   /// @return Quaternion containing the result.
   inline Quaternion<T> Inverse() const { return Quaternion<T>(s_, -v_); }
 
+  /// @brief Add this Quaternion to another Quaternion.
+  ///
+  /// @param q Quaternion to add.
+  /// @return Quaternion containing the result.
+  inline Quaternion<T> operator+(const Quaternion<T>& q) const {
+    return Quaternion<T>(s_ + q.s_, v_ + q.v_);
+  }
+
+  /// @brief Add another Quaternion to this, and store the result.
+  ///
+  /// @param q Quaternion to add.
+  /// @return Quaternion containing the result.
+  inline Quaternion<T>& operator+=(const Quaternion<T>& q) {
+    s_ += q.s_;
+    v_ += q.v_;
+    return *this;
+  }
+
   /// @brief Multiply this Quaternion with another Quaternion.
   ///
   /// @note This is equivalent to
@@ -129,14 +137,29 @@ class Quaternion {
 
   /// @brief Multiply this Quaternion by a scalar.
   ///
-  /// This multiplies the angle of the rotation by a scalar factor.
+  /// This conditions the Quaternion to be a rotation <= 180 degrees, then
+  /// multiplies the angle of the rotation by a scalar factor.
+  ///
+  /// If the scalar factor is < 1, the resulting rotation will be on the shorter
+  /// of the two paths to the identity orientation, which is often intuitive but
+  /// can trip you up if you really did want to take the longer path.
+  ///
+  /// If the scalar factor is > 1, the resulting rotation will be on the longer
+  /// of the two paths to the identity orientation, which can be unintuitive.
+  /// For example, you are not guaranteed that (q * 2) * .5 and q * (2 * .5)
+  /// are the same orientation, let alone the same quaternion.
+  ///
   /// @param s1 Scalar to multiply with.
   /// @return Quaternion containing the result.
-  inline Quaternion<T> operator*(const T& s1) const {
+  inline Quaternion<T> operator*(T s1) const {
     T angle;
     Vector<T, 3> axis;
     ToAngleAxis(&angle, &axis);
     angle *= s1;
+    // The axis coming from ToAngleAxis() is already normalized, but
+    // ToAngleAxis may return slightly non-normal axes in unstable cases.
+    // It should arguably handle that internally, allowing us to remove
+    // the Normalized() here.
     return Quaternion<T>(cos(0.5f * angle),
                          axis.Normalized() * static_cast<T>(sin(0.5f * angle)));
   }
@@ -154,7 +177,7 @@ class Quaternion {
            2 * Vector<T, 3>::DotProduct(v_, v1) * v_;
   }
 
-  /// @brief Normalize this quaterion (in-place).
+  /// @brief Normalize this quaternion (in-place).
   ///
   /// @return Length of the quaternion.
   inline T Normalize() {
@@ -174,16 +197,40 @@ class Quaternion {
     return q;
   }
 
-  /// @brief Convert this Quaternion to an Angle and axis.
+  /// @brief Convert this Quaternion to a shortest-path angle and axis.
   ///
-  /// The returned  angle is the size of the rotation in radians about the
-  /// axis represented by this Quaternion.
+  /// The resulting angle-axis is guaranteed to have have angle <= 180 and
+  /// represents the same orientation as *this, but it may not convert back to
+  /// *this.
   ///
-  /// @param angle Receives the angle.
+  /// For example, if *this represents "Rotate 350 degrees left", you will
+  /// get the angle-axis "Rotate 10 degrees right".
+  ///
+  /// @param angle Receives the angle, in the range [0, pi].
   /// @param axis Receives the normalized axis.
-  inline void ToAngleAxis(T* angle, Vector<T, 3>* axis) const {
-    *axis = s_ > 0 ? v_ : -v_;
-    *angle = 2 * atan2(axis->Normalize(), s_ > 0 ? s_ : -s_);
+  inline void ToAngleAxis(T* out_angle, Vector<T, 3>* out_axis) const {
+    const Quaternion<T> q = (s_ > 0) ? *this : Quaternion<T>(-s_, -v_);
+    q.ToAngleAxisFull(out_angle, out_axis);
+  }
+
+  /// @brief Convert this Quaternion to an angle and axis.
+  ///
+  /// The resulting angle-axis uses the full range of angles supported by
+  /// quaternions, and will convert back to the original Quaternion.
+  ///
+  /// @param angle Receives the angle, in the range [0, 2pi).
+  /// @param axis Receives the normalized axis.
+  inline void ToAngleAxisFull(T* out_angle, Vector<T, 3>* out_axis) const {
+    Vector<T, 3> axis = v_;
+    const T axis_length = axis.Normalize();
+    if (axis_length == 0) {
+      // Normalize has left NaNs in axis.  This happens at angle = 0 and 360.
+      // All axes are correct, so any will do.
+      *out_axis = Vector<T, 3>(1, 0, 0);
+    } else {
+      *out_axis = axis;
+    }
+    *out_angle = 2 * atan2(axis_length, s_);
   }
 
   /// @brief Convert this Quaternion to 3 Euler Angles.
@@ -235,7 +282,7 @@ class Quaternion {
   /// @param angle Angle in radians to rotate by.
   /// @param axis Axis in 3D space to rotate around.
   /// @return Quaternion containing the result.
-  static Quaternion<T> FromAngleAxis(const T& angle, const Vector<T, 3>& axis) {
+  static Quaternion<T> FromAngleAxis(T angle, const Vector<T, 3>& axis) {
     const T halfAngle = static_cast<T>(0.5) * angle;
     Vector<T, 3> localAxis(axis);
     return Quaternion<T>(
@@ -344,8 +391,11 @@ class Quaternion {
     return q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_);
   }
 
-  /// @brief Calculate the spherical linear interpolation between two
-  /// Quaternions.
+  /// @brief Calculate the shortest-path spherical linear interpolation between
+  /// two orientations.
+  ///
+  /// This method always gives you the "short way around" interpolation. If you
+  /// need mathematical Slerp(), use ToAngleAxisFull() and FromAngleAxis().
   ///
   /// @param q1 Start Quaternion.
   /// @param q2 End Quaternion.
@@ -354,30 +404,20 @@ class Quaternion {
   /// value of 1 corresponds to q2.
   /// @result Quaternion containing the result.
   static inline Quaternion<T> Slerp(const Quaternion<T>& q1,
-                                    const Quaternion<T>& q2, const T& s1) {
-    if (q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_) > 0.999999f)
+                                    const Quaternion<T>& q2, T s1) {
+    if (q1.s_ * q2.s_ + Vector<T, 3>::DotProduct(q1.v_, q2.v_) > 0.9999f) {
       return Quaternion<T>(q1.s_ * (1 - s1) + q2.s_ * s1,
-                           q1.v_ * (1 - s1) + q2.v_ * s1);
+                           q1.v_ * (1 - s1) + q2.v_ * s1)
+          .Normalized();
+    }
     return q1 * ((q1.Inverse() * q2) * s1);
   }
 
   /// @brief Access an element of the quaternion.
   ///
   /// @param i Index of the element to access.
-  /// @return A reference to the accessed data that can be modified by the
-  /// caller.
-  inline T& operator[](const int i) {
-    if (i == 0) return s_;
-    return v_[i - 1];
-  }
-
-  /// @brief Access an element of the quaternion.
-  ///
-  /// @param i Index of the element to access.
   /// @return A const reference to the accessed.
-  inline const T& operator[](const int i) const {
-    return const_cast<Quaternion<T>*>(this)->operator[](i);
-  }
+  inline T operator[](const int i) const { return i == 0 ? s_ : v_[i - 1]; }
 
   /// @brief Returns a vector that is perpendicular to the supplied vector.
   ///
@@ -420,7 +460,7 @@ class Quaternion {
     T dot_product = Vector<T, 3>::DotProduct(start, end);
     // Any rotation < 0.1 degrees is treated as no rotation
     // in order to avoid division by zero errors.
-    // So we early-out in cases where it's less then 0.1 degrees.
+    // So we early-out in cases where it's less than 0.1 degrees.
     // cos( 0.1 degrees) = 0.99999847691
     if (dot_product >= static_cast<T>(0.99999847691)) {
       return Quaternion<T>::identity;
@@ -514,7 +554,7 @@ class Quaternion {
     T dot_product = Vector<T, 3>::DotProduct(start, end);
     // Any rotation < 0.1 degrees is treated as no rotation
     // in order to avoid division by zero errors.
-    // So we early-out in cases where it's less then 0.1 degrees.
+    // So we early-out in cases where it's less than 0.1 degrees.
     // cos( 0.1 degrees) = 0.99999847691
     if (dot_product >= static_cast<T>(0.99999847691)) {
       return Quaternion<T>::identity;
@@ -558,8 +598,8 @@ class Quaternion {
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
  private:
-  T s_;
   Vector<T, 3> v_;
+  T s_;
 };
 
 template <typename T>
@@ -579,7 +619,7 @@ Quaternion<T> Quaternion<T>::identity = Quaternion<T>(1, 0, 0, 0);
 ///
 /// @related Quaternion
 template <class T>
-inline Quaternion<T> operator*(const T& s, const Quaternion<T>& q) {
+inline Quaternion<T> operator*(T s, const Quaternion<T>& q) {
   return q * s;
 }
 /// @}

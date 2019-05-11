@@ -40,10 +40,10 @@
 /// not.
 #ifdef MATHFU_COMPILE_WITH_PADDING
 #define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
-  { (data).simd = simd_to_store; }
-#define MATHFU_VECTOR3_LOAD3(data) (data).simd
+  { (data).simd3 = simd_to_store; }
+#define MATHFU_VECTOR3_LOAD3(data) (data).simd3
 #define MATHFU_VECTOR3_INIT3(data, v1, v2, v3) \
-  { (data).simd = simd4f_create(v1, v2, v3, 0); }
+  { (data).simd3 = simd4f_create(v1, v2, v3, 0); }
 #else
 #define MATHFU_VECTOR3_STORE3(simd_to_store, data) \
   { simd4f_ustore3(simd_to_store, (data).data_); }
@@ -71,7 +71,7 @@ class Vector<float, 3> {
 
   inline Vector(const Vector<float, 3>& v) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd = v.simd;
+    simd3 = v.simd3;
 #else
     MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
@@ -98,7 +98,7 @@ class Vector<float, 3> {
 
   explicit inline Vector(const float* v) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd = simd4f_uload3(v);
+    simd3 = simd4f_uload3(v);
 #else
     MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
@@ -106,9 +106,10 @@ class Vector<float, 3> {
 
   explicit inline Vector(const VectorPacked<float, 3>& vector) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd = simd4f_uload3(vector.data);
+    simd3 = simd4f_uload3(vector.data_);
 #else
-    MATHFU_VECTOR3_INIT3(*this, vector.data[0], vector.data[1], vector.data[2]);
+    MATHFU_VECTOR3_INIT3(*this, vector.data_[0], vector.data_[1],
+                         vector.data_[2]);
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
@@ -126,11 +127,11 @@ class Vector<float, 3> {
 
   inline void Pack(VectorPacked<float, 3>* const vector) const {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd4f_ustore3(simd, vector->data);
+    simd4f_ustore3(simd3, vector->data_);
 #else
-    vector->data[0] = data_[0];
-    vector->data[1] = data_[1];
-    vector->data[2] = data_[2];
+    vector->data_[0] = data_[0];
+    vector->data_[1] = data_[1];
+    vector->data_[2] = data_[2];
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
@@ -353,17 +354,12 @@ class Vector<float, 3> {
     return AngleHelper(v1, v2);
   }
 
-  template <class T, int rows, int cols>
-  friend class Matrix;
-  template <class T, int d>
-  friend class Vector;
-
   MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
 #include "mathfu/internal/disable_warnings_begin.h"
   union {
 #ifdef MATHFU_COMPILE_WITH_PADDING
-    simd4f simd;
+    simd4f simd3;
     float data_[4];
 #else
     float data_[3];

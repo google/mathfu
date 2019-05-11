@@ -24,33 +24,28 @@ template <class T>
 class Vector<T, 2> {
  public:
   typedef T Scalar;
-  static const int d = 2;
+  static const int Dims = 2;
 
   inline Vector() {}
 
-  inline Vector(const Vector<T, 2>& v) {
-    MATHFU_VECTOR_OPERATION(data_[i] = v.data_[i]);
-  }
+  inline Vector(const Vector<T, 2>& v)
+      : x(v.x), y(v.y) {}
+
+  explicit inline Vector(const VectorPacked<T, 2>& v)
+      : x(v.x), y(v.y) {}
+
+  explicit inline Vector(const T* a)
+      : x(a[0]), y(a[1]) {}
+
+  explicit inline Vector(T s)
+      : x(s), y(s) {}
+
+  inline Vector(T s1, T s2)
+      : x(s1), y(s2) {}
 
   template <typename U>
-  explicit inline Vector(const Vector<U, 2>& v) {
-    MATHFU_VECTOR_OPERATION(data_[i] = static_cast<T>(v[i]));
-  }
-
-  explicit inline Vector(const T& s) { MATHFU_VECTOR_OPERATION(data_[i] = s); }
-
-  explicit inline Vector(const T* a) {
-    MATHFU_VECTOR_OPERATION(data_[i] = a[i]);
-  }
-
-  inline Vector(const T& s1, const T& s2) {
-    x = s1;
-    y = s2;
-  }
-
-  explicit inline Vector(const VectorPacked<T, 2>& vector) {
-    MATHFU_VECTOR_OPERATION(data_[i] = vector.data[i]);
-  }
+  explicit inline Vector(const Vector<U, 2>& v)
+      : x(static_cast<T>(v.x)), y(static_cast<T>(v.y)) {}
 
   inline T& operator()(const int i) { return data_[i]; }
 
@@ -65,7 +60,8 @@ class Vector<T, 2> {
   inline const Vector<T, 2> xy() const { return Vector<T, 2>(x, y); }
 
   inline void Pack(VectorPacked<T, 2>* const vector) const {
-    MATHFU_VECTOR_OPERATION(vector->data[i] = data_[i]);
+    vector->x = x;
+    vector->y = y;
   }
 
   inline T LengthSquared() const { return LengthSquaredHelper(*this); }
@@ -78,12 +74,12 @@ class Vector<T, 2> {
 
   template <typename CompatibleT>
   static inline Vector<T, 2> FromType(const CompatibleT& compatible) {
-    return FromTypeHelper<T, d, CompatibleT>(compatible);
+    return FromTypeHelper<T, Dims, CompatibleT>(compatible);
   }
 
   template <typename CompatibleT>
   static inline CompatibleT ToType(const Vector<T, 2>& v) {
-    return ToTypeHelper<T, d, CompatibleT>(v);
+    return ToTypeHelper<T, Dims, CompatibleT>(v);
   }
 
   static inline T DotProduct(const Vector<T, 2>& v1, const Vector<T, 2>& v2) {
@@ -165,7 +161,7 @@ struct VectorPacked<T, 2> {
 #include "mathfu/internal/disable_warnings_begin.h"
   /// Elements of the packed vector one per dimension.
   union {
-    T data[2];
+    T data_[2];
     struct {
       T x;
       T y;

@@ -14,7 +14,6 @@
 * limitations under the License.
 */
 #include "mathfu/matrix.h"
-#include "mathfu/matrix_4x4.h"
 
 #include "mathfu/io.h"
 #include "mathfu/quaternion.h"
@@ -179,12 +178,12 @@ void InitializePacked_Test(const T& precision) {
   mathfu::VectorPacked<T, d> packed[d];
   for (int i = 0; i < d; ++i) {
     for (int j = 0; j < d; ++j) {
-      packed[i].data[j] = static_cast<T>((i * d) + j);
+      packed[i].data_[j] = static_cast<T>((i * d) + j);
     }
   }
   mathfu::Matrix<T, d> matrix(packed);
   for (int i = 0; i < d * d; ++i) {
-    EXPECT_NEAR(packed[i / d].data[i % d], matrix[i], static_cast<T>(0))
+    EXPECT_NEAR(packed[i / d].data_[i % d], matrix[i], static_cast<T>(0))
         << "Element " << i;
   }
 }
@@ -201,7 +200,7 @@ void PackedSerialization_Test(const T& precision) {
   mathfu::VectorPacked<T, d> packed[d];
   matrix.Pack(packed);
   for (int i = 0; i < d * d; ++i) {
-    EXPECT_NEAR(matrix[i], packed[i / d].data[i % d], static_cast<T>(0))
+    EXPECT_NEAR(matrix[i], packed[i / d].data_[i % d], static_cast<T>(0))
         << "Element " << i;
   }
 }
@@ -291,6 +290,12 @@ void Mult_Test(const T& precision) {
   }
 }
 TEST_ALL_F(Mult, FLOAT_PRECISION, DOUBLE_PRECISION)
+TEST_F(MatrixTests, Mult_float_5) {
+  Mult_Test<float, 5>(FLOAT_PRECISION);
+}
+TEST_F(MatrixTests, Mult_double_5) {
+  Mult_Test<double, 5>(DOUBLE_PRECISION);
+}
 
 // This will test the outer product of two vectors. The template parameter d
 // corresponds to the number of rows and columns.
