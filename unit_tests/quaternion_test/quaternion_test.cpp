@@ -22,7 +22,6 @@
 #include "gtest/gtest.h"
 
 #include "precision.h"
-#include "third_party/mathfu/include/mathfu/constants.h"
 
 namespace {
 
