@@ -539,7 +539,7 @@ class Matrix {
   /// @brief Calculate the inverse of this Matrix.
   ///
   /// This calculates the inverse Matrix such that
-  /// <code>(m * m).Inverse()</code> is the identity.
+  /// <code>m * m.Inverse()</code> is the identity.
   /// @return Matrix containing the result.
   inline Matrix<T, Rows, Cols> Inverse() const {
     Matrix<T, Rows, Cols> inverse;
@@ -550,7 +550,7 @@ class Matrix {
   /// @brief Calculate the inverse of this Matrix.
   ///
   /// This calculates the inverse Matrix such that
-  /// <code>(m * m).Inverse()</code> is the identity.
+  /// <code>m * m.Inverse()</code> is the identity.
   /// By contrast to Inverse() this returns whether the matrix is invertible.
   ///
   /// The invertible check simply compares the calculated determinant with
