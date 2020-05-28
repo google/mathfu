@@ -33,3 +33,8 @@
 #pragma clang diagnostic ignored "-Wpedantic"
 #pragma clang diagnostic ignored "-Wignored-qualifiers"
 #endif  // defined(__clang__)
+
+#if defined(_MSC_VER)
+#pragma warning( push )
+#pragma warning( disable : 4201 )
+#endif // defined(_MSC_VER)
