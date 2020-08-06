@@ -33,9 +33,11 @@
 #if _MSC_VER >= 1900             // MSVC 2015
 #pragma warning(disable : 4456)  // allow shadowing in unrolled loops
 #endif                           // _MSC_VER >= 1900
-#elif defined(__clang__)
+#endif
+#if defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warray-bounds"
+#pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
 
 /// @cond MATHFU_INTERNAL

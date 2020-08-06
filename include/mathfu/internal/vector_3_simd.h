@@ -73,34 +73,34 @@ class Vector<float, 3> {
 #ifdef MATHFU_COMPILE_WITH_PADDING
     simd3 = v.simd3;
 #else
-    MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2]);
+    MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2])
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
   explicit inline Vector(const Vector<int, 3>& v) {
     MATHFU_VECTOR3_INIT3(*this, static_cast<float>(v[0]),
-                         static_cast<float>(v[1]), static_cast<float>(v[2]));
+                         static_cast<float>(v[1]), static_cast<float>(v[2]))
   }
 
-  inline Vector(const simd4f& v) { MATHFU_VECTOR3_STORE3(v, *this); }
+  inline Vector(const simd4f& v) { MATHFU_VECTOR3_STORE3(v, *this) }
 
   explicit inline Vector(const float& s) {
-    MATHFU_VECTOR3_INIT3(*this, s, s, s);
+    MATHFU_VECTOR3_INIT3(*this, s, s, s)
   }
 
   inline Vector(const float& v1, const float& v2, const float& v3) {
-    MATHFU_VECTOR3_INIT3(*this, v1, v2, v3);
+    MATHFU_VECTOR3_INIT3(*this, v1, v2, v3)
   }
 
   inline Vector(const Vector<float, 2>& v12, const float& v3) {
-    MATHFU_VECTOR3_INIT3(*this, v12[0], v12[1], v3);
+    MATHFU_VECTOR3_INIT3(*this, v12[0], v12[1], v3)
   }
 
   explicit inline Vector(const float* v) {
 #ifdef MATHFU_COMPILE_WITH_PADDING
     simd3 = simd4f_uload3(v);
 #else
-    MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2]);
+    MATHFU_VECTOR3_INIT3(*this, v[0], v[1], v[2])
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
@@ -109,7 +109,7 @@ class Vector<float, 3> {
     simd3 = simd4f_uload3(vector.data_);
 #else
     MATHFU_VECTOR3_INIT3(*this, vector.data_[0], vector.data_[1],
-                         vector.data_[2]);
+                         vector.data_[2])
 #endif  // MATHFU_COMPILE_WITH_PADDING
   }
 
