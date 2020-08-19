@@ -32,6 +32,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpedantic"
 #pragma clang diagnostic ignored "-Wignored-qualifiers"
+#pragma clang diagnostic ignored "-Wfloat-equal"
 #endif  // defined(__clang__)
 
 #if defined(_MSC_VER)
