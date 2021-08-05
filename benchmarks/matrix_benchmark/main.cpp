@@ -34,7 +34,7 @@ using mathfu::Random;
 
 typedef float T;
 typedef float T1;
-
+typedef float T2;
 typedef Matrix<T, MATRIX_DIMENSIONS> TestMatrix;
 
 // This test creates a number of matrices and performs some mathematical
