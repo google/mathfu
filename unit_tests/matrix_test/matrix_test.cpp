@@ -34,6 +34,7 @@ class MatrixTests : public ::testing::Test {
   virtual void SetUp() {}
   virtual void TearDown() {}
   virtual void TearDown1() {}
+ virtual void TearDown2() {}
 };
 
 template <class T, int rows, int columns>
