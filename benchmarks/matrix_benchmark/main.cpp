@@ -33,6 +33,7 @@ using mathfu::Random;
 #define MATRIX_DIMENSIONS 4
 
 typedef float T;
+typedef float T1;
 
 typedef Matrix<T, MATRIX_DIMENSIONS> TestMatrix;
 
