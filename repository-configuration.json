@@ -20,7 +20,23 @@
             "settings": {
                 "additionalOptions": [],
                 "includePaths": []
-            },
+            },            "modules": {
+                "codeissues": [
+                    {
+                        "name": "gamma_generic",
+                        "enabled": false,
+                        "config": {
+                            "rules": [],
+                            "options": [
+                                {
+                                    "name": "reportDir",
+                                    "type": "upload",
+                                    "value": "",
+                                    "required": true
+                                }
+                            ]
+                        }
+                    },
                     {
                         "name": "cppcheck",
                         "enabled": true,
