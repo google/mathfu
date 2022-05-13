@@ -572,24 +572,41 @@ class Quaternion {
         .Normalized();
   }
 
-  /// @brief Returns a quaternion looking at forward vector with an up vector.
+  /// @cond MATHFU_INTERNAL
+  /// Create a 3-dimensional look-at matrix.
+  static inline Matrix<T, 3, 3> LookAtHelper(const Vector<T, 3>& forward,
+                                          const Vector<T, 3>& up,
+                                          T handedness) {
+    Matrix<T, 3, 3> m;
+    m.GetColumn(2) = -handedness * forward;
+    const Vector<T, 3>& right = Vector<T, 3>::CrossProduct(up, m.GetColumn(2));
+    
+    // avoid division by zero errors.
+    T inverse = 1 / sqrt(std::max<T>(static_cast<T>(0.00001), Vector<T, 3>::DotProduct(right, right)));
+    m.GetColumn(0) = right * inverse;
+    m.GetColumn(1) = Vector<T, 3>::CrossProduct(m.GetColumn(2), m.GetColumn(0));
+    return m;
+  }
+  /// @endcond
+
+  /// @brief Returns a quaternion looking at forward vector with an up vector based on the default handedness.
   ///
   /// @param forward The forward vector (Vector to face).
   /// @param up The up vector.
   /// @param Forward and up do not have to be orthogonal.
   /// @param Forward and up cannot be parallel.
   /// @param Forward and up cannot be zero vectors.
-  ///
+  /// @param handedness 1.0f for RH, -1.0f for LH(default).
   /// @return A Quaternion looking at forward vector with an up vector.
   ///
-  /// Uses Matrix::LookAt to get the Rotation Matrix, then convert it to Quat.
-  /// Matrix::LookAt takes destination and source as first and second param.
-  /// The params can be represented with zero-vector as source and
-  /// forward-vector as destination.
+  /// Uses Quaternion::LookAtHelper to get the Rotation Matrix, then convert it to Quat.
+  /// Quaternion::LookAtHelper takes forward direction and Up vector as first and second param.
+  /// The forward vector needs to be normalized.
+  /// Up vector, how the camera is oriented. Typically (0, 1, 0).
   static inline Quaternion<T> LookAt(const Vector<T, 3>& forward,
-                                     const Vector<T, 3>& up) {
-    return FromMatrix(
-        Matrix<T, 3>::LookAt(forward, Vector<T, 3>(static_cast<T>(0)), up));
+                                     const Vector<T, 3>& up,
+                                     T handedness = -1) {
+    return FromMatrix(LookAtHelper(forward, up, handedness));
   }
 
   /// @brief Contains a quaternion doing the identity transform.
