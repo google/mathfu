@@ -55,4 +55,4 @@ you would leave it in.
   [quaternion]: http://en.wikipedia.org/wiki/Quaternion
   [stackoverflow.com]: http://stackoverflow.com/search?q=mathfu
   [vector]: http://en.wikipedia.org/wiki/Euclidean_vector
-  [CONTRIBUTING]: http://github.com/google/mathfu/blob/master/CONTRIBUTING
+  [CONTRIBUTING]: https://github.com/google/mathfu/blob/master/CONTRIBUTING.md
