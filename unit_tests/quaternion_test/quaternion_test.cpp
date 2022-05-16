@@ -115,6 +115,7 @@ AssertionResult IsNearOrientation(
 // Test our test helpers.
 template<class T>
 void TestHelpers_Test(const T& precision) {
+  (void)precision;
   using Quaternion = mathfu::Quaternion<T>;
   const double epsilon = 1e-5;
 
@@ -336,6 +337,7 @@ TEST_ALL_F(Mult)
 // multiplication non-associative for scale factors > 1.
 template <class T>
 void MultQuatFloatFlipsQuat_Test(const T& precision) {
+  (void)precision;
   using Quaternion = mathfu::Quaternion<T>;
   using Vector3 = mathfu::Vector<T, 3>;
   const Vector3 up(0, 1, 0);
@@ -434,6 +436,7 @@ TEST_ALL_F(Normalize)
 // Quaternion had a larger angle.
 template <class T>
 void ToAngleAxisReturnsSmallQuat_Test(const T& precision) {
+  (void)precision;
   using Quaternion = mathfu::Quaternion<T>;
   using Vector3 = mathfu::Vector<T, 3>;
   const float epsilon = 1e-5f;
@@ -622,6 +625,7 @@ const float kSlerpTestAnglesInDegrees[] {
 // Tests that Slerp returns unit-length quaternions.
 template <class T>
 void SlerpResultIsUnit_Test(const T& precision) {
+  (void)precision;
   using Quaternion = mathfu::Quaternion<T>;
 
   const mathfu::Vector<T, 3> axis(0, 1, 0);
@@ -685,6 +689,7 @@ void CheckSlerp(float angle, float t, float expected_angle) {
 // since the two are pretty much the same operation with different spelling.
 template <class T>
 void Slerp_Test(const T& precision) {
+  (void)precision;
   // Easy and unambiguous cases.
   CheckSlerp<T>(+160, 0.375f, +60);
   CheckSlerp<T>(-160, 0.375f, -60);
