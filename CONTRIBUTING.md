@@ -1,6 +1,6 @@
 Contributing    
 ============
-
+- All contributions, bug reports, bug fixes, documentation improvements, enhancements, and ideas are welcome.
 - Want to contribute? Great! First, read this page (including the small print at
 the end).
 
@@ -14,3 +14,35 @@ Before we can use your code, you must sign the
 
 # The small print
 - Contributions made by corporations are covered by a different agreement than the one above, the Software Grant and Corporate Contributor License Agreement.
+
+# Forking
+You will need your own fork to work on the code. Go to the [mathfu](https://github.com/google/mathfu) project page and hit the ***Fork*** button. You will want to clone your fork to your machine:
+```
+git clone https://github.com/<your-username>/mathfu.git <your-new-branch-name>
+cd <your-new-branch-name>
+git remote add upstream https://github.com/google/mathfu.git
+```
+
+# Creating a Branch
+You want your master branch to reflect only production-ready code, so create a feature branch for making your changes. For example:
+```
+git branch <your-new-branch-name>
+git checkout <your-new-branch-name>
+```
+This changes your working directory to the <your-new-branch-name> branch. Keep any changes in this branch specific to one bug or feature so it is clear what the branch brings to mathfu.
+
+# Committing your code
+Once you’ve made changes, you can see them by typing:
+```
+git status
+```
+If you have created a new file and it is not being tracked by git. Add it by typing:
+```
+git add path/to/file-to-be-added
+```
+
+# Pushing your changes
+When you want your changes to appear publicly on your GitHub page, push your forked feature branch’s commits:
+```
+git push origin <your-new-branch-name>
+```
