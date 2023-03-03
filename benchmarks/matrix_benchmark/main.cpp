@@ -26,7 +26,7 @@
 static const size_t kMatrixSize = 1000;
 // Number of iterations of each operation.
 static const size_t kIterations = 50;
-
+static
 using mathfu::Matrix;
 using mathfu::Random;
 
