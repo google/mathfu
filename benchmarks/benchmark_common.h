@@ -38,7 +38,7 @@ class Timer {
   Timer() {
     InitializeTickPeriod();
     Reset();
-  }
+]  }
 
   // Save the current number of counter ticks.
   void Reset() {
